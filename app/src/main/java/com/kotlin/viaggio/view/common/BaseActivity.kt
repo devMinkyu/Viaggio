@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
