@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Viaggio</string>
+    <string name="tutorial_skip">Skip</string>
+    <string name="tutorial_login">Login</string>
 </resources>

@@ -4,4 +4,8 @@
     <item name="recordTravel" type="id"/>
     <item name="content_frame" type="id"/>
     <item name="tutorialPager" type="id"/>
+    <item name="skipBtn" type="id"/>
+    <item name="loginBtn" type="id"/>
+    <item name="tutorialTitle" type="id"/>
+    <item name="tutorialContents" type="id"/>
 </resources>

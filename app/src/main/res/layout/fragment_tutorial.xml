@@ -21,7 +21,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/skipBtn"
+        />
+        <Button
+                android:id="@id/skipBtn"
+                android:layout_width="130dp"
+                android:layout_height="60dp"
+                android:layout_marginBottom="30dp"
+                android:text="@string/tutorial_skip"
+                android:onClick="@{() -> viewHandler.skip()}"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/loginBtn"
+        />
+        <Button
+                android:id="@id/loginBtn"
+                android:layout_width="130dp"
+                android:layout_height="60dp"
+                android:text="@string/tutorial_login"
+                android:onClick="@{() -> viewHandler.login()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/skipBtn"
+                app:layout_constraintBottom_toBottomOf="@id/skipBtn"
+                app:layout_constraintStart_toEndOf="@id/skipBtn"
         />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -12,6 +12,7 @@ import dagger.android.ContributesAndroidInjector
     ]
 )
 
+@Suppress("unused")
 interface AppInjectorModule {
     @ContributesAndroidInjector(modules = [
         MainActivityInjectorModule::class
