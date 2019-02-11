@@ -21,7 +21,7 @@ abstract class BaseFragment<E:ViewModel>:Fragment(), HasAndroidXFragmentInjector
 
     override fun androidXFragmentInjector() = fragmentInjector
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidXInjection.inject(this)
         super.onAttach(context)
     }

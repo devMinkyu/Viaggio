@@ -13,7 +13,7 @@
         <meta-data
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"
                 android:value="ocr" />
-        <activity android:name=".view.main.MainActivity">
+        <activity android:name=".view.main_activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

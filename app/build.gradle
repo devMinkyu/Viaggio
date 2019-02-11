@@ -42,7 +42,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    def work_version = "1.0.0-beta02"
+    // workmanager
+    def work_version = "1.0.0-beta05"
     implementation "android.arch.work:work-runtime-ktx:$work_version" // use -ktx for Kotlin+Coroutines
     implementation "android.arch.work:work-rxjava2:$work_version"
 
@@ -71,10 +72,18 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+//
+//    // navigation
+//    def nav_version = "1.0.0-beta01"
+//    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
+//    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
     //firebase
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.google.firebase:firebase-ml-vision:19.0.2'
-}
 
+    // viewPager2
+    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha01'
+}
+//apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'
