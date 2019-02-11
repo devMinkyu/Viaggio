@@ -23,12 +23,23 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/skipBtn"
         />
-        <Button
+        <com.kotlin.viaggio.widget.PageIndicatorView
+                android:id="@id/tutorialPagerIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="@id/tutorialPager"
+                app:layout_constraintEnd_toEndOf="@id/tutorialPager"
+                app:layout_constraintBottom_toBottomOf="@id/tutorialPager"
+                android:layout_marginBottom="50dp"
+        />
+        <TextView
                 android:id="@id/skipBtn"
                 android:layout_width="130dp"
                 android:layout_height="60dp"
                 android:layout_marginBottom="30dp"
                 android:text="@string/tutorial_skip"
+                android:gravity="center"
                 android:background="@drawable/tutorial_skip_btn_bg"
                 android:textColor="@color/pinkish_grey"
                 android:onClick="@{() -> viewHandler.skip()}"
@@ -36,11 +47,12 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/loginBtn"
         />
-        <Button
+        <TextView
                 android:id="@id/loginBtn"
                 android:layout_width="130dp"
                 android:layout_height="60dp"
                 android:text="@string/tutorial_login"
+                android:gravity="center"
                 android:background="@drawable/tutorial_login_btn_bg"
                 android:textColor="@android:color/white"
                 android:onClick="@{() -> viewHandler.login()}"

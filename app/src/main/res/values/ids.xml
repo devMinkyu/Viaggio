@@ -8,4 +8,5 @@
     <item name="loginBtn" type="id"/>
     <item name="tutorialTitle" type="id"/>
     <item name="tutorialContents" type="id"/>
+    <item name="tutorialPagerIndicator" type="id"/>
 </resources>
