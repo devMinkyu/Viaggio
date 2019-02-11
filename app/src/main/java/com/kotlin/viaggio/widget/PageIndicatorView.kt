@@ -98,7 +98,7 @@ class PageIndicatorView : LinearLayout {
         if (mTotalPageCount <= 1) return
 
         if (currPageNumber >= mCurrPage) {
-            if (mTotalPageCount < 5 || currPageNumber < 3 || !viewSparseArray.get(5).isSelected) {
+            if (mTotalPageCount <= 5 || currPageNumber < 3) {
                 selectCurrPageNumber(currPageNumber, isPositive = true, fromAnim = false)
             }  else {
                 var currentView: ImageView

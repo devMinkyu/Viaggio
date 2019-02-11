@@ -1,26 +1,29 @@
 package com.kotlin.viaggio.view.tutorial
 
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
 import com.kotlin.viaggio.data.model.Tutorial
+import com.kotlin.viaggio.data.model.TutorialList
 import com.kotlin.viaggio.view.common.BaseViewModel
+import java.io.InputStreamReader
 import javax.inject.Inject
 
 class TutorialFragmentViewModel @Inject constructor():BaseViewModel() {
+    @Inject
+    lateinit var gson: Gson
+
     val tutorialList:MutableLiveData<List<Tutorial>> = MutableLiveData()
 
     override fun initialize() {
         super.initialize()
 
-        val list:MutableList<Tutorial> = mutableListOf()
+        val inputStream = InputStreamReader(appCtx.get().assets.open("tutorial.json"))
+        val tutorials:TutorialList = gson.fromJson(inputStream, TutorialList::class.java)
 
-        val item = Tutorial("One", "good viewPager")
-        list.add(item)
-        val item1 = Tutorial("Two", "good viewPager1")
-        list.add(item1)
-        val item2 = Tutorial("Three", "good viewPager2")
-        list.add(item2)
-        val item3 = Tutorial("Four", "good viewPager3")
-        list.add(item3)
+        val list:MutableList<Tutorial> = mutableListOf()
+        for (datum in tutorials.data) {
+            list.add(datum)
+        }
 
         tutorialList.value = list
     }

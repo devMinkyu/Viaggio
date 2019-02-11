@@ -12,6 +12,20 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+        <com.airbnb.lottie.LottieAnimationView
+                android:id="@id/tutorialAnim"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="150dp"
+                tools:ignore="ContentDescription"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tutorialTitle"
+                app:lottie_fileName="lottie/tutorial_second.json"
+                app:lottie_enableMergePathsForKitKatAndAbove="true"
+                app:lottie_loop="false"
+                app:lottie_autoPlay="true"/>
         <TextView
                 android:id="@id/tutorialTitle"
                 android:layout_width="wrap_content"
@@ -19,6 +33,7 @@
                 tools:text="Title"
                 android:textSize="30sp"
                 android:text="@{data.title}"
+                app:layout_constraintTop_toBottomOf="@id/tutorialAnim"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/tutorialContents"
