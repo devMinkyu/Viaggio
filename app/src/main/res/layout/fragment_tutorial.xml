@@ -41,7 +41,7 @@
                 android:layout_width="130dp"
                 android:layout_height="60dp"
                 android:text="@string/tutorial_login"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/tutorial_login_btn_bg"
                 android:textColor="@android:color/white"
                 android:onClick="@{() -> viewHandler.login()}"
                 app:layout_constraintEnd_toEndOf="parent"
