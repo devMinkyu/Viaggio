@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: android.arch.work:work-runtime-ktx:1.0.0-beta05@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-work-runtime-ktx-1.0.0-beta05.aar/51dc5bcc33f15f9957de2f0b61384cbf/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/jetified-work-runtime-ktx-1.0.0-beta05.aar/51dc5bcc33f15f9957de2f0b61384cbf/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/android.arch.work/work-runtime-ktx/1.0.0-beta05/c59ba6cdd11e6340bc8dbd809efa7a28e0383cb8/work-runtime-ktx-1.0.0-beta05-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
