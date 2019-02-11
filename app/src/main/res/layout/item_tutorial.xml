@@ -22,7 +22,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/tutorialTitle"
-                app:lottie_fileName="lottie/tutorial_second.json"
                 app:lottie_enableMergePathsForKitKatAndAbove="true"
                 app:lottie_loop="false"
                 app:lottie_autoPlay="true"/>
