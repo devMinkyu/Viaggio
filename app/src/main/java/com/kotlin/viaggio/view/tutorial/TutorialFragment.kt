@@ -22,7 +22,6 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         getViewModel().tutorialList.observe(this, Observer {
             tutorialPager.adapter = object: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                 override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -33,7 +32,6 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
                     holder.binding?.data = it[position]
                 }
             }
-
         })
     }
 
