@@ -50,8 +50,10 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
 
     inner class ViewHolder{
         fun skip(){
+            baseIntent("http://viaggio.kotlin.com/home/main/")
         }
         fun login(){
+            baseIntent("http://viaggio.kotlin.com/home/login/")
         }
     }
 

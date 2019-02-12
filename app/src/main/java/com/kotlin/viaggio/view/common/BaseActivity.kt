@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.kotlin.viaggio.R
 import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
@@ -49,6 +50,18 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
         })
         viewModelProvider = WeakReference(nonNullViewModelProviderVal)
         return nonNullViewModelProviderVal
+    }
+
+    fun baseShowFragment(fragment:BaseFragment<*>){
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.content_frame, fragment, null)
+            .commit()
+    }
+    fun baseShowAddBackFragment(fragment:BaseFragment<*>){
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .replace(R.id.content_frame, fragment, null)
+            .commit()
     }
 
     fun showLoading() {
