@@ -1,33 +1,36 @@
 package com.kotlin.viaggio.view.common
 
+import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.kotlin.viaggio.ioc.module.common.AndroidXInjection
 import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
-import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFragmentInjector {
-    @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(), HasAndroidXFragmentInjector {
     @Inject
     internal lateinit var viewModel: E
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
-    var loadingDialogFragment: LoadingDialogFragment? = null
+
+    override fun androidXFragmentInjector() = fragmentInjector
+
+    override fun onAttach(context: Context) {
+        AndroidXInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
 
         (getViewModel() as BaseViewModel).initialize()
     }
-
-    override fun androidXFragmentInjector() = fragmentInjector
 
     fun getViewModel(): E =
         viewModelProvider.let { vmpRef ->
@@ -50,23 +53,15 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
         viewModelProvider = WeakReference(nonNullViewModelProviderVal)
         return nonNullViewModelProviderVal
     }
-
     fun showLoading() {
-        val loadingDialogFragment1Val = loadingDialogFragment?.run {
-            return
-        }?:supportFragmentManager.findFragmentByTag(LoadingDialogFragment.TAG)
-        val loadingDialogFragmentVal = loadingDialogFragment1Val?.run {
-            return
-        }?:LoadingDialogFragment()
-        loadingDialogFragment = loadingDialogFragmentVal
-        loadingDialogFragmentVal.show(supportFragmentManager, LoadingDialogFragment.TAG)
+        activity?.let {
+            (it as BaseActivity<*>).showLoading()
+        }
     }
 
     fun stopLoading() {
-        loadingDialogFragment = null
-        val loadingDialogFragment1Val = supportFragmentManager.findFragmentByTag(LoadingDialogFragment.TAG)
-        loadingDialogFragment1Val?.let {
-            (it as LoadingDialogFragment).dismiss()
+        activity?.let {
+            (it as BaseActivity<*>).stopLoading()
         }
     }
 }

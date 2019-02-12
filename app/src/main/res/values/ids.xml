@@ -10,4 +10,6 @@
     <item name="tutorialContents" type="id"/>
     <item name="tutorialPagerIndicator" type="id"/>
     <item name="tutorialAnim" type="id"/>
+
+    <item name="loading_anim" type="id"/>
 </resources>

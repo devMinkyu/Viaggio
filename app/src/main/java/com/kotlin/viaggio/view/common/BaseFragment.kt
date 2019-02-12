@@ -11,12 +11,12 @@ import dagger.android.DispatchingAndroidInjector
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-abstract class BaseFragment<E:ViewModel>:Fragment(), HasAndroidXFragmentInjector {
-
+abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInjector {
     @Inject
     internal lateinit var viewModel: E
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
 
     override fun androidXFragmentInjector() = fragmentInjector
@@ -40,7 +40,7 @@ abstract class BaseFragment<E:ViewModel>:Fragment(), HasAndroidXFragmentInjector
         }.get(viewModel::class.java)
 
     private fun getNewViewModelProvider(): ViewModelProvider {
-        val nonNullViewModelProviderVal =  ViewModelProvider(viewModelStore, object: ViewModelProvider.Factory {
+        val nonNullViewModelProviderVal = ViewModelProvider(viewModelStore, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 try {
                     @Suppress("UNCHECKED_CAST")
@@ -53,5 +53,15 @@ abstract class BaseFragment<E:ViewModel>:Fragment(), HasAndroidXFragmentInjector
         viewModelProvider = WeakReference(nonNullViewModelProviderVal)
         return nonNullViewModelProviderVal
     }
+    fun showLoading() {
+        activity?.let {
+            (it as BaseActivity<*>).showLoading()
+        }
+    }
 
+    fun stopLoading() {
+        activity?.let {
+            (it as BaseActivity<*>).stopLoading()
+        }
+    }
 }

@@ -13,4 +13,20 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="Base.MinV.ViaggioAppTheme.Dialog" parent="Theme.AppCompat.Dialog">
+        <!-- hides status bar on top with clock and wifi status -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+    <style name="Base.ViaggioAppTheme.Dialog" parent="Base.MinV.ViaggioAppTheme.Dialog"/>
+
+    <style name="ViaggioAppTheme.Dialog" parent="Base.ViaggioAppTheme.Dialog"/>
+
+    <style name="ViaggioAppTheme.Dialog.Opaque">
+        <!--뒷 배경 어둡게 만드는것-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
 </resources>
