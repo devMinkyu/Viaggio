@@ -14,9 +14,9 @@
             android:layout_height="match_parent">
         <com.airbnb.lottie.LottieAnimationView
                 android:id="@id/tutorialAnim"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="150dp"
+                android:layout_width="@dimen/tutorial_lottie_size"
+                android:layout_height="@dimen/tutorial_lottie_size"
+                android:layout_marginTop="100dp"
                 tools:ignore="ContentDescription"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -42,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{data.contents}"
+                android:textColor="@color/pinkish_grey"
                 tools:text="Contents"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

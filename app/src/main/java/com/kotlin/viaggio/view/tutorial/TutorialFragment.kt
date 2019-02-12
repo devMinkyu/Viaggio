@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.tutorial
 
+import android.animation.Animator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,7 +34,17 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
                     holder as TutorialViewHolder
                     holder.binding?.data = it[position]
 
-                    holder.itemView.tutorialAnim.setAnimation(it[position].animRes)
+                    holder.itemView.tutorialAnim.apply {
+                        setAnimation(it[position].animRes)
+                        addAnimatorListener(object : Animator.AnimatorListener{
+                            override fun onAnimationRepeat(animation: Animator?) {}
+                            override fun onAnimationCancel(animation: Animator?) {}
+                            override fun onAnimationStart(animation: Animator?) {}
+                            override fun onAnimationEnd(animation: Animator?) {
+                                tutorialPager.currentItem = if(position < it.size-1) position + 1 else 0
+                            }
+                        })
+                    }
                 }
             }
             tutorialPagerIndicator.setCurrPageNumber(0)
@@ -53,7 +64,8 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
             baseIntent("http://viaggio.kotlin.com/home/main/")
         }
         fun login(){
-            baseIntent("http://viaggio.kotlin.com/home/login/")
+            showLoading()
+//            baseIntent("http://viaggio.kotlin.com/home/login/")
         }
     }
 
