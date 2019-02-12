@@ -31,7 +31,7 @@
                 app:layout_constraintStart_toStartOf="@id/tutorialPager"
                 app:layout_constraintEnd_toEndOf="@id/tutorialPager"
                 app:layout_constraintBottom_toBottomOf="@id/tutorialPager"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="30dp"
         />
         <TextView
                 android:id="@id/skipBtn"
