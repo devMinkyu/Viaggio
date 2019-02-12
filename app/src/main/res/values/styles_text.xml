@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.MinV.TextAppearance.Viaggio"
+           parent="TextAppearance.AppCompat">
+    </style>
+
+    <style name="Base.TextAppearance.Viaggio"
+           parent="Base.MinV.TextAppearance.Viaggio">
+    </style>
+
+    <style name="TextAppearance.Viaggio"
+           parent="Base.TextAppearance.Viaggio">
+    </style>
+
+</resources>

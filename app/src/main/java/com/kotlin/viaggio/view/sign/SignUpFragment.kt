@@ -10,12 +10,12 @@ import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
 import jp.wasabeef.glide.transformations.BlurTransformation
-import kotlinx.android.synthetic.main.fragment_sign_in.*
+import kotlinx.android.synthetic.main.fragment_sign_up.*
 
-class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
-    lateinit var binding: com.kotlin.viaggio.databinding.FragmentSignInBinding
+class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
+    lateinit var binding: com.kotlin.viaggio.databinding.FragmentSignUpBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
         return binding.root
@@ -28,7 +28,7 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
             Glide.with(context)
                 .load(R.drawable.background)
                 .apply(bitmapTransform(BlurTransformation(15, 3)))
-                .into(signInContainer)
+                .into(signUpContainer)
         }
     }
 

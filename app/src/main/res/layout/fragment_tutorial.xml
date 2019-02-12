@@ -35,8 +35,8 @@
         />
         <TextView
                 android:id="@id/skipBtn"
-                android:layout_width="130dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
                 android:text="@string/tutorial_skip"
                 android:gravity="center"
@@ -49,8 +49,8 @@
         />
         <TextView
                 android:id="@id/loginBtn"
-                android:layout_width="130dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/tutorial_login"
                 android:gravity="center"
                 android:background="@drawable/tutorial_login_btn_bg"

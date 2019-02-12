@@ -2,4 +2,6 @@
 <resources>
     <dimen name="indicator_space">3dp</dimen>
     <dimen name="tutorial_lottie_size">200dp</dimen>
+    <dimen name="sign_margin_side">35dp</dimen>
+    <dimen name="sign_height">35dp</dimen>
 </resources>

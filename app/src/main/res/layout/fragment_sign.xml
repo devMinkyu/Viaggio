@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.sign.SignFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.sign.SignFragmentViewModel"/>
+
+        <variable name="viewModel" type="SignFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <ImageView
+                android:id="@id/signContainer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+        <TextView
+                android:id="@id/signNormalBtn"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/sign_height"
+                android:background="@drawable/sign_normal_btn_bg"
+                android:layout_marginStart="@dimen/sign_margin_side"
+                android:layout_marginEnd="@dimen/sign_margin_side"
+
+                android:text="@string/normal_sign"
+                android:gravity="center"
+                android:onClick="@{() -> viewHandler.normalSign()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+        />
+        <TextView
+                android:id="@id/signCreateAccountBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/sign_sign_up"
+                android:onClick="@{() -> viewHandler.createAccount()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

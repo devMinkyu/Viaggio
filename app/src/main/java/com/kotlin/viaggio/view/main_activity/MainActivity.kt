@@ -5,9 +5,10 @@ import android.net.Uri
 import android.os.Bundle
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseActivity
-import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.home.HomeFragment
+import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
+import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
@@ -34,14 +35,23 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         val appLinkData: Uri? = intent.data
         if (Intent.ACTION_VIEW == appLinkAction) {
             val firstPath = appLinkData?.pathSegments?.get(0)
-            when(firstPath) {
-                "home" ->{
-                    when(appLinkData.pathSegments?.last()){
-                        "main" ->{ showHome() }
-                        "login" ->{ showSignIn() }
+            when (firstPath) {
+                "home" -> {
+                    when (appLinkData.pathSegments?.last()) {
+                        "main" -> showHome()
+                        "login" -> showSign()
+
                     }
                 }
-                else -> {}
+                "login" -> {
+                    when (appLinkData.pathSegments?.last()) {
+                        "normal" -> showSignNormalIn()
+                        "create" -> showSignCreate()
+
+                    }
+                }
+                else -> {
+                }
             }
         }
     }
@@ -49,11 +59,21 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     private fun showTutorial() {
         baseShowFragment(TutorialFragment())
     }
+
     private fun showHome() {
         baseShowFragment(HomeFragment())
     }
-    private fun showSignIn() {
+
+    private fun showSign() {
+        baseShowAddBackFragment(SignFragment())
+    }
+
+    private fun showSignNormalIn() {
         baseShowAddBackFragment(SignInFragment())
+    }
+
+    private fun showSignCreate() {
+        baseShowAddBackFragment(SignUpFragment())
     }
 
     // 데이터 넘기는 예시

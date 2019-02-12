@@ -12,5 +12,17 @@
     <item name="tutorialAnim" type="id"/>
 
     <item name="loading_anim" type="id"/>
+    <item name="signContainer" type="id"/>
+    <item name="signNormalBtn" type="id"/>
+    <item name="signCreateAccountBtn" type="id"/>
     <item name="signInContainer" type="id"/>
+    <item name="signInEmailEdit" type="id"/>
+    <item name="signInPasswordEdit" type="id"/>
+    <item name="signInBtn" type="id"/>
+    <item name="signUpNameEdit" type="id"/>
+    <item name="signUpEmailEdit" type="id"/>
+    <item name="signUpPasswordEdit" type="id"/>
+    <item name="signUpConfirmPasswordEdit" type="id"/>
+    <item name="signUpBtn" type="id"/>
+    <item name="signUpContainer" type="id"/>
 </resources>

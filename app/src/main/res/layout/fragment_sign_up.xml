@@ -2,10 +2,10 @@
 <layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
-        <import type="com.kotlin.viaggio.view.sign.SignInFragment.ViewHandler"/>
-        <import type="com.kotlin.viaggio.view.sign.SignInFragmentViewModel"/>
+        <import type="com.kotlin.viaggio.view.sign.SignUpFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.sign.SignUpFragmentViewModel"/>
 
-        <variable name="viewModel" type="SignInFragmentViewModel"/>
+        <variable name="viewModel" type="SignUpFragmentViewModel"/>
         <variable name="viewHandler" type="ViewHandler"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <ImageView
-                android:id="@id/signInContainer"
+                android:id="@id/signUpContainer"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
@@ -24,7 +24,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
         />
         <EditText
-                android:id="@id/signInEmailEdit"
+                android:id="@id/signUpNameEdit"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/sign_height"
                 android:layout_marginStart="@dimen/sign_margin_side"
@@ -32,8 +32,8 @@
                 android:textColorHint="@android:color/white"
 
                 android:textColor="@android:color/white"
-                android:hint="@string/sign_in_email"
-                android:inputType="textWebEmailAddress"
+                android:hint="@string/sign_up_name"
+                android:inputType="text"
                 android:background="@drawable/sign_edit_txt_bg"
                 android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,38 +42,74 @@
                 app:layout_constraintBottom_toBottomOf="parent"
         />
         <EditText
-                android:id="@id/signInPasswordEdit"
+                android:id="@id/signUpEmailEdit"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/sign_height"
                 android:layout_marginStart="@dimen/sign_margin_side"
                 android:layout_marginEnd="@dimen/sign_margin_side"
                 android:textColorHint="@android:color/white"
+                android:layout_marginTop="15dp"
 
                 android:textColor="@android:color/white"
+                android:hint="@string/sign_in_email"
+                android:inputType="textWebEmailAddress"
+                android:background="@drawable/sign_edit_txt_bg"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signUpNameEdit"
+        />
+        <EditText
+                android:id="@id/signUpPasswordEdit"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/sign_height"
+                android:layout_marginStart="@dimen/sign_margin_side"
+                android:layout_marginEnd="@dimen/sign_margin_side"
+                android:textColorHint="@android:color/white"
                 android:layout_marginTop="15dp"
+
+                android:textColor="@android:color/white"
                 android:hint="@string/sign_in_password"
                 android:inputType="textWebPassword"
                 android:background="@drawable/sign_edit_txt_bg"
                 android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/signInEmailEdit"
+                app:layout_constraintTop_toBottomOf="@id/signUpEmailEdit"
         />
-        <TextView
-                android:id="@id/signInBtn"
+        <EditText
+                android:id="@id/signUpConfirmPasswordEdit"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/sign_height"
                 android:layout_marginStart="@dimen/sign_margin_side"
                 android:layout_marginEnd="@dimen/sign_margin_side"
                 android:textColorHint="@android:color/white"
-
                 android:layout_marginTop="15dp"
-                android:hint="@string/sign_in_sign"
+
+                android:textColor="@android:color/white"
+                android:hint="@string/sign_up_confirm_password"
+                android:inputType="textWebPassword"
+                android:background="@drawable/sign_edit_txt_bg"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/signUpPasswordEdit"
+        />
+        <TextView
+                android:id="@id/signUpBtn"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/sign_height"
+                android:layout_marginStart="@dimen/sign_margin_side"
+                android:layout_marginEnd="@dimen/sign_margin_side"
+                android:textColorHint="@android:color/white"
+                android:layout_marginTop="15dp"
+
+                android:hint="@string/sign_up"
                 android:background="@drawable/sign_normal_btn_bg"
                 android:gravity="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/signInPasswordEdit"
+                app:layout_constraintTop_toBottomOf="@id/signUpConfirmPasswordEdit"
         />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
