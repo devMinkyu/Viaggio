@@ -7,6 +7,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.home.HomeFragment
+import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
@@ -37,7 +38,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 "home" ->{
                     when(appLinkData.pathSegments?.last()){
                         "main" ->{ showHome() }
-                        "login" ->{}
+                        "login" ->{ showSignIn() }
                     }
                 }
                 else -> {}
@@ -50,6 +51,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
     private fun showHome() {
         baseShowFragment(HomeFragment())
+    }
+    private fun showSignIn() {
+        baseShowAddBackFragment(SignInFragment())
     }
 
     // 데이터 넘기는 예시

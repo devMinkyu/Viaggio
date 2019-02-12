@@ -19,7 +19,7 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tutorial, container, false)
         binding.viewModel = getViewModel()
-        binding.viewHandler = ViewHolder()
+        binding.viewHandler = ViewHandler()
         return binding.root
     }
 
@@ -42,7 +42,9 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
                                 override fun onAnimationCancel(animation: Animator?) {}
                                 override fun onAnimationStart(animation: Animator?) {}
                                 override fun onAnimationEnd(animation: Animator?) {
-                                    tutorialPager.currentItem = if(position < it.size-1) position + 1 else 0
+                                    tutorialPager?.let {tutorialPagerVal ->
+                                        tutorialPagerVal.currentItem = if(position < it.size-1) position + 1 else 0
+                                    }
                                 }
                             })
                         }
@@ -58,20 +60,19 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
                         super.onPageSelected(position)
                         tutorialPagerIndicator.setCurrPageNumber(position)
                     }else{
-                        tutorialPager.currentItem = 0
+                        tutorialPager.setCurrentItem(0, false)
                     }
                 }
             })
         })
     }
 
-    inner class ViewHolder{
+    inner class ViewHandler{
         fun skip(){
             baseIntent("http://viaggio.kotlin.com/home/main/")
         }
         fun login(){
-            showLoading()
-//            baseIntent("http://viaggio.kotlin.com/home/login/")
+            baseIntent("http://viaggio.kotlin.com/home/login/")
         }
     }
 

@@ -13,7 +13,7 @@ class HomeFragment:BaseFragment<HomeFragmentViewModel>() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         binding.viewModel = getViewModel()
-        binding.viewHandler = ViewHolder()
+        binding.viewHandler = ViewHandler()
         return binding.root
     }
 
@@ -22,5 +22,5 @@ class HomeFragment:BaseFragment<HomeFragmentViewModel>() {
 
     }
 
-    inner class ViewHolder
+    inner class ViewHandler
 }

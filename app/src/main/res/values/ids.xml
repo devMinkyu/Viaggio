@@ -12,4 +12,5 @@
     <item name="tutorialAnim" type="id"/>
 
     <item name="loading_anim" type="id"/>
+    <item name="signInContainer" type="id"/>
 </resources>
