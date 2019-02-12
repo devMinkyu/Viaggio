@@ -23,6 +23,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
         />
+
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/left_arrow"
+                android:padding="30dp"
+                android:onClick="@{() ->viewHandler.back()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+        />
         <EditText
                 android:id="@id/signUpNameEdit"
                 android:layout_width="0dp"

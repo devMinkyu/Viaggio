@@ -33,8 +33,11 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
     }
 
     inner class ViewHandler {
-        fun signIn() {
+        fun signUp() {
 
+        }
+        fun back(){
+            fragmentPopStack()
         }
     }
 }

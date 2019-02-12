@@ -36,5 +36,8 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
         fun signIn() {
 
         }
+        fun back(){
+            fragmentPopStack()
+        }
     }
 }

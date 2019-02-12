@@ -66,6 +66,9 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
         startActivity(intent)
     }
 
+    fun fragmentPopStack(){
+        fragmentManager?.popBackStack()
+    }
     fun showLoading() {
         activity?.let {
             (it as BaseActivity<*>).showLoading()

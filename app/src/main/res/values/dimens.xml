@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="indicator_space">3dp</dimen>
-    <dimen name="tutorial_lottie_size">200dp</dimen>
+    <dimen name="tutorial_lottie_size">250dp</dimen>
     <dimen name="sign_margin_side">35dp</dimen>
     <dimen name="sign_height">35dp</dimen>
 </resources>

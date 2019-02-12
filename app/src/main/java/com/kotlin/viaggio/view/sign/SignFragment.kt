@@ -40,5 +40,8 @@ class SignFragment : BaseFragment<SignFragmentViewModel>() {
         fun createAccount(){
             baseIntent("http://viaggio.kotlin.com/login/create/")
         }
+        fun back(){
+            fragmentPopStack()
+        }
     }
 }
