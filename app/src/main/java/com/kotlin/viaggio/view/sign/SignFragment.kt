@@ -24,15 +24,13 @@ class SignFragment : BaseFragment<SignFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         context?.let { context ->
             Glide.with(context)
                 .load(R.drawable.background)
-                .apply(bitmapTransform(BlurTransformation(15, 3)))
+                .apply(bitmapTransform(BlurTransformation(20, 3)))
                 .into(signContainer)
         }
     }
-
     inner class ViewHandler{
         fun normalSign(){
             baseIntent("http://viaggio.kotlin.com/login/normal/")

@@ -46,6 +46,7 @@
                 android:inputType="text"
                 android:background="@drawable/sign_edit_txt_bg"
                 android:gravity="center"
+                android:text="@={viewModel.name}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -65,6 +66,7 @@
                 android:inputType="textWebEmailAddress"
                 android:background="@drawable/sign_edit_txt_bg"
                 android:gravity="center"
+                android:text="@={viewModel.email}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/signUpNameEdit"
@@ -83,6 +85,7 @@
                 android:inputType="textWebPassword"
                 android:background="@drawable/sign_edit_txt_bg"
                 android:gravity="center"
+                android:text="@={viewModel.password}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/signUpEmailEdit"
@@ -101,6 +104,7 @@
                 android:inputType="textWebPassword"
                 android:background="@drawable/sign_edit_txt_bg"
                 android:gravity="center"
+                android:text="@={viewModel.confirmPassword}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/signUpPasswordEdit"
@@ -117,9 +121,39 @@
                 android:hint="@string/sign_up"
                 android:background="@drawable/sign_normal_btn_bg"
                 android:gravity="center"
+                android:onClick="@{() -> viewHandler.signUp()}"
+                android:backgroundTint="@{viewModel.isFormValid ? @color/colorPrimary:@color/white_two}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/signUpConfirmPasswordEdit"
         />
+
+        <ImageView
+                android:id="@id/errorIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_login_error"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="@id/signUpBtn"
+                app:layout_constraintTop_toBottomOf="@id/signUpBtn"
+                tools:ignore="ContentDescription"/>
+        <TextView
+                android:id="@id/errTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/errorIcon"
+                app:layout_constraintBottom_toBottomOf="@id/errorIcon"
+                android:layout_marginStart="3dp"
+                android:text="@{viewModel.errorMsg}"
+                android:textSize="10sp"
+                tools:text="error msg"
+                android:textColor="#fd4148"
+                app:layout_constraintStart_toEndOf="@id/errorIcon"/>
+        <androidx.constraintlayout.widget.Group
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{viewModel.errorMsg == null ? View.GONE:View.VISIBLE}"
+                app:constraint_referenced_ids="errorIcon, errTxt"
+                tools:ignore="NotSibling"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

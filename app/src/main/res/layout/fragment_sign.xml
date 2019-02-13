@@ -53,7 +53,7 @@
                 android:id="@id/signCreateAccountBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:padding="10dp"
                 android:text="@string/sign_sign_up"
                 android:onClick="@{() -> viewHandler.createAccount()}"
                 app:layout_constraintStart_toStartOf="parent"

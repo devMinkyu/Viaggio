@@ -13,7 +13,12 @@ import dagger.Provides
 import javax.inject.Named
 import javax.inject.Singleton
 
-@Module
+@Module(
+    includes =
+    [
+        NetworkProviderModule::class
+    ]
+)
 class AppProviderModule {
     @Provides
     @Singleton
@@ -31,6 +36,7 @@ class AppProviderModule {
     internal fun provideRes(@Named("Application") context: Context): Resources {
         return context.resources
     }
+
     @Provides
     @Singleton
     internal fun provideGson(): Gson {

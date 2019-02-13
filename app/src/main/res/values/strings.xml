@@ -10,4 +10,14 @@
     <string name="sign_up">Create Account</string>
     <string name="sign_up_name">Name</string>
     <string name="sign_up_confirm_password">Confirm Password</string>
+
+
+    <string name="err_pw_mismatch">Password Mismatch</string>
+    <string name="err_pw_same">Same Password</string>
+    <string name="err_email_format">It is not an email form</string>
+    <string name="err_wrong_pw">Wrong Password</string>
+    <string name="err_email_not_found">User with the entered email doesn\'t exist</string>
+    <string name="err_exist_email">User with the entered email already exist</string>
+    <string name="err_delete_id">The deleted Email</string>
+
 </resources>

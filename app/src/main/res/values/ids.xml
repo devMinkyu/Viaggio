@@ -25,4 +25,6 @@
     <item name="signUpConfirmPasswordEdit" type="id"/>
     <item name="signUpBtn" type="id"/>
     <item name="signUpContainer" type="id"/>
+    <item name="errorIcon" type="id"/>
+    <item name="errTxt" type="id"/>
 </resources>
