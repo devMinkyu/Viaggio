@@ -1,11 +1,13 @@
 package com.kotlin.viaggio.view.sign
 
 import android.text.TextUtils
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.model.SignError
 import com.kotlin.viaggio.view.common.BaseViewModel
+import com.kotlin.viaggio.view.sign.common.Encryption
 import com.tag_hive.saathi.saathi.error.InvalidFormException
 import io.reactivex.Maybe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,12 +46,11 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
         validateFormDisposable?.dispose()
         validateFormDisposable = Maybe
             .create<Any> {
-                if(TextUtils.isEmpty(email.get())){
-                    throw InvalidFormException()
-                }else if(TextUtils.isEmpty(password.get())){
-                    throw InvalidFormException()
+                when {
+                    TextUtils.isEmpty(email.get()) -> throw InvalidFormException()
+                    TextUtils.isEmpty(password.get()) -> throw InvalidFormException()
+                    else -> it.onSuccess(Any())
                 }
-                it.onSuccess(Any())
             }.map {
                 isFormValid.set(true)
             }
@@ -62,5 +63,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
         }
     }
     fun validateSignIn() {
+        val encryptionPassword = Encryption().encryptionMD5(password.get()!!)
+        Log.d("hoho", encryptionPassword)
     }
 }

@@ -1,12 +1,14 @@
 package com.kotlin.viaggio.view.sign
 
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.model.SignError
 import com.kotlin.viaggio.view.common.BaseViewModel
+import com.kotlin.viaggio.view.sign.common.Encryption
 import com.tag_hive.saathi.saathi.error.InvalidFormException
 import io.reactivex.Maybe
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -89,7 +91,7 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
         }
         error.value = null
-
+        val encryptionPassword = Encryption().encryptionMD5(password.get()!!)
 
         return true
     }
