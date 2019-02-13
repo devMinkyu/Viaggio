@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.common
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -69,6 +70,13 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
     fun fragmentPopStack(){
         fragmentManager?.popBackStack()
     }
+
+    fun checkInternet():Boolean{
+        val cm = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        return activeNetwork != null
+    }
+
     fun showLoading() {
         activity?.let {
             (it as BaseActivity<*>).showLoading()

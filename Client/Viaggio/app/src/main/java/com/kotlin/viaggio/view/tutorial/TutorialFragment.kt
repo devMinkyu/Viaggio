@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.tutorial
 
 import android.animation.Animator
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
+import io.reactivex.Single
 import kotlinx.android.synthetic.main.fragment_tutorial.*
 import kotlinx.android.synthetic.main.item_tutorial.view.*
+import java.util.concurrent.TimeUnit
 
 class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
     private lateinit var binding:com.kotlin.viaggio.databinding.FragmentTutorialBinding
@@ -42,9 +45,10 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
                                 override fun onAnimationCancel(animation: Animator?) {}
                                 override fun onAnimationStart(animation: Animator?) {}
                                 override fun onAnimationEnd(animation: Animator?) {
-                                    tutorialPager?.let {tutorialPagerVal ->
-                                        tutorialPagerVal.currentItem = if(position < it.size-1) position + 1 else 0
+                                    tutorialPager?.let { tutorialPagerVal ->
+                                        tutorialPagerVal.currentItem = if (position < it.size - 1) position + 1 else 0
                                     }
+
                                 }
                             })
                         }
