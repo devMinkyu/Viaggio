@@ -185,7 +185,7 @@ class PageIndicatorView : LinearLayout {
                 val moveToLast = viewSparseArray.get(0).x
                 for (i in 0..8) {
                     if (i != 8) {
-                        previousView = viewSparseArray.get(i + 1) as ImageView
+                        previousView = if(viewSparseArray.get(i + 1) != null ) viewSparseArray.get(i + 1) as ImageView else ImageView(context)
                         moveTo = previousView.x
                         currentView = viewSparseArray.get(i) as ImageView
                         animator = currentView.animate()

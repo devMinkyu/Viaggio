@@ -5,9 +5,8 @@ import com.google.gson.Gson
 import com.kotlin.viaggio.data.model.Tutorial
 import com.kotlin.viaggio.data.model.TutorialList
 import com.kotlin.viaggio.view.common.BaseViewModel
+import io.reactivex.Observable
 import io.reactivex.Scheduler
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.io.InputStreamReader
 import java.util.concurrent.TimeUnit
@@ -31,4 +30,14 @@ class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
         }
         tutorialList.value = list
     }
+
+    val autoPageNotice:MutableLiveData<Any> = MutableLiveData()
+    fun autoPager(){
+        val disposable = Observable.interval(8, TimeUnit.SECONDS)
+            .subscribe {
+                autoPageNotice.postValue(Any())
+            }
+        addDisposable(disposable)
+    }
+
 }

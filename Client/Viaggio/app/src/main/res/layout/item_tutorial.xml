@@ -22,7 +22,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:lottie_enableMergePathsForKitKatAndAbove="true"
-                app:lottie_loop="false"
+                app:lottie_loop="true"
                 app:lottie_autoPlay="true"/>
         <TextView
                 android:id="@id/tutorialTitle"

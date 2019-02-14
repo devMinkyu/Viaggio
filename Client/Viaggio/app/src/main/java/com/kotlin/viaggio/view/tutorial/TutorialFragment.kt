@@ -1,8 +1,6 @@
 package com.kotlin.viaggio.view.tutorial
 
-import android.animation.Animator
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
-import io.reactivex.Single
 import kotlinx.android.synthetic.main.fragment_tutorial.*
 import kotlinx.android.synthetic.main.item_tutorial.view.*
-import java.util.concurrent.TimeUnit
 
 class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
     private lateinit var binding:com.kotlin.viaggio.databinding.FragmentTutorialBinding
@@ -29,6 +25,7 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewModel().tutorialList.observe(this, Observer {
+            getViewModel().autoPager()
             tutorialPager.adapter = object: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                 override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
                     TutorialViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_tutorial, parent, false))
@@ -37,21 +34,7 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
                     holder as TutorialViewHolder
                     if(position < it.size){
                         holder.binding?.data = it[position]
-
-                        holder.itemView.tutorialAnim.apply {
-                            setAnimation(it[position].animRes)
-                            addAnimatorListener(object : Animator.AnimatorListener{
-                                override fun onAnimationRepeat(animation: Animator?) {}
-                                override fun onAnimationCancel(animation: Animator?) {}
-                                override fun onAnimationStart(animation: Animator?) {}
-                                override fun onAnimationEnd(animation: Animator?) {
-                                    tutorialPager?.let { tutorialPagerVal ->
-                                        tutorialPagerVal.currentItem = if (position < it.size - 1) position + 1 else 0
-                                    }
-
-                                }
-                            })
-                        }
+                        holder.itemView.tutorialAnim.setAnimation(it[position].animRes)
                     }
                 }
             }
@@ -68,6 +51,11 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
                     }
                 }
             })
+        })
+        getViewModel().autoPageNotice.observe(this, Observer {
+            getViewModel().tutorialList.value?.let { list ->
+                tutorialPager.currentItem = if (tutorialPager.currentItem < list.size - 1) tutorialPager.currentItem + 1 else 0
+            }
         })
     }
 

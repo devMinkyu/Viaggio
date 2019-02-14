@@ -37,9 +37,4 @@ class AppProviderModule {
         return context.resources
     }
 
-    @Provides
-    @Singleton
-    internal fun provideGson(): Gson {
-        return Gson()
-    }
 }
