@@ -8,12 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.view.common.BaseFragment
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.ScaleType
 import io.fotoapparat.selector.*
+import kotlinx.android.synthetic.main.fragment_camera.*
 import org.jetbrains.anko.support.v4.toast
 
 class CameraFragment:BaseFragment<CameraFragmentViewModel>() {
@@ -42,6 +44,12 @@ class CameraFragment:BaseFragment<CameraFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        context?.let { contextVal ->
+            Glide.with(contextVal)
+                .load(resources.getDrawable(R.drawable.empty_gallery, null))
+                .into(cameraViewImage)
+        }
+
         getViewModel().permissionRequestMsg.observe(this, Observer {
             when(it){
                 PermissionError.STORAGE_PERMISSION->toast(resources.getString(R.string.storage_permission))
