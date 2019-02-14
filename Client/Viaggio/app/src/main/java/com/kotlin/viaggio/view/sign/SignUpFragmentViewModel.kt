@@ -16,8 +16,8 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
-    @Inject
-    lateinit var userModel: UserModel
+//    @Inject
+//    lateinit var userModel: UserModel
     val name = ObservableField<String>().apply {
         addOnPropertyChangedCallback(object : androidx.databinding.Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: androidx.databinding.Observable?, propertyId: Int) {
@@ -92,18 +92,18 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
         }
         error.value = null
         val encryptionPassword = Encryption().encryptionValue(password.get()!!)
-
-        val disposable = userModel.signUp(name = name.get()!!, email = email.get()!!, password = encryptionPassword)
-            .subscribe { t1, t2 ->
-                if (t1.isSuccessful){
-                    complete.value = Any()
-                }else{
-                    when(t1.code()){
-                        HttpURLConnection.HTTP_CONFLICT -> error.value = SignError.EXIST_EMAIL
-                    }
-                }
-            }
-        addDisposable(disposable)
+//
+//        val disposable = userModel.signUp(name = name.get()!!, email = email.get()!!, password = encryptionPassword)
+//            .subscribe { t1, t2 ->
+//                if (t1.isSuccessful){
+//                    complete.value = Any()
+//                }else{
+//                    when(t1.code()){
+//                        HttpURLConnection.HTTP_CONFLICT -> error.value = SignError.EXIST_EMAIL
+//                    }
+//                }
+//            }
+//        addDisposable(disposable)
         return true
     }
 }

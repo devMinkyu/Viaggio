@@ -7,6 +7,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.home.HomeFragment
+import com.kotlin.viaggio.view.ocr.OcrImageFragment
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
@@ -46,6 +47,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "main" -> showHome()
                         "login" -> showSign()
                         "camera" -> showCamera()
+                        "image" -> showOcrImage()
                     }
                 }
                 "login" -> {
@@ -59,6 +61,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showOcrImage() {
+        baseShowAddBackFragment(OcrImageFragment())
     }
 
     private fun showCamera() {

@@ -16,8 +16,8 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
-    @Inject
-    lateinit var userModel: UserModel
+//    @Inject
+//    lateinit var userModel: UserModel
 
     val email = ObservableField<String>().apply {
         addOnPropertyChangedCallback(object :androidx.databinding.Observable.OnPropertyChangedCallback(){
@@ -65,18 +65,18 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
         }
     }
     fun validateSignIn() {
-        val encryptionPassword = Encryption().encryptionValue(password.get()!!)
-        error.value = null
-        val disposable = userModel.signIn(email.get()!!, encryptionPassword)
-            .subscribe { t1, t2 ->
-                if(t1.isSuccessful){
-                    complete.value = Any()
-                }else{
-                    when(t1.code()){
-                        HttpURLConnection.HTTP_NOT_FOUND -> error.value = SignError.EMAIL_NOT_FOUND
-                    }
-                }
-            }
-        addDisposable(disposable)
+//        val encryptionPassword = Encryption().encryptionValue(password.get()!!)
+//        error.value = null
+//        val disposable = userModel.signIn(email.get()!!, encryptionPassword)
+//            .subscribe { t1, t2 ->
+//                if(t1.isSuccessful){
+//                    complete.value = Any()
+//                }else{
+//                    when(t1.code()){
+//                        HttpURLConnection.HTTP_NOT_FOUND -> error.value = SignError.EMAIL_NOT_FOUND
+//                    }
+//                }
+//            }
+//        addDisposable(disposable)
     }
 }

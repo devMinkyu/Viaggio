@@ -54,7 +54,7 @@
                 android:text="@string/tutorial_login"
                 android:gravity="center"
                 android:background="@drawable/tutorial_login_btn_bg"
-                android:textColor="@android:color/white"
+                android:textColor="@color/sign_click_color"
                 android:onClick="@{() -> viewHandler.login()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/skipBtn"

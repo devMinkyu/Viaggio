@@ -33,4 +33,9 @@
     <item name="cameraViewClose" type="id"/>
     <item name="cameraViewImage" type="id"/>
     <item name="shutterBtn" type="id"/>
+    <item name="ocrLottie" type="id"/>
+    <item name="ocrImage" type="id"/>
+    <item name="ocrController" type="id"/>
+    <item name="ocrUpload" type="id"/>
+    <item name="ocrRetake" type="id"/>
 </resources>

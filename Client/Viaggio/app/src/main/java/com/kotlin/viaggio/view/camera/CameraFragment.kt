@@ -16,6 +16,7 @@ import com.kotlin.viaggio.view.common.BaseFragment
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.ScaleType
 import io.fotoapparat.selector.*
+import io.reactivex.rxkotlin.toCompletable
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.jetbrains.anko.support.v4.toast
 
@@ -61,16 +62,20 @@ class CameraFragment:BaseFragment<CameraFragmentViewModel>() {
 
     inner class ViewHandler{
         fun shutter(){
-            val scale = ScaleAnimation(0.8f,1f, 0.8f,1f)
+            val scale = ScaleAnimation(0.95f,1f, 0.95f,1f)
             scale.duration = 200
-            cameraViewShutter.animate()
             cameraViewShutter.startAnimation(scale)
 
             val photoResult = fotoapparat.takePicture()
             Log.d("hoho", "$photoResult")
 //            getViewModel().savePicture(photoResult)
+
+            baseIntent("http://viaggio.kotlin.com/home/main/camera/image/")
         }
         fun close(){
+            val scale = ScaleAnimation(0.95f,1f, 0.95f,1f)
+            scale.duration = 200
+            cameraViewClose.startAnimation(scale)
             fragmentPopStack()
         }
         fun imageOpen(){
