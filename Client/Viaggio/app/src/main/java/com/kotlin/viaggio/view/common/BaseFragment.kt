@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.ioc.module.common.AndroidXInjection
 import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
+import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.android.DispatchingAndroidInjector
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -20,7 +21,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
     internal lateinit var viewModel: E
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-
+    lateinit var rxPermission: RxPermissions
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
 
     override fun androidXFragmentInjector() = fragmentInjector
@@ -33,6 +34,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        rxPermission = RxPermissions(this)
         (getViewModel() as BaseViewModel).initialize()
     }
 

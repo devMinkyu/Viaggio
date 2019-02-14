@@ -35,7 +35,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/camera_shutter_bg"
-                android:onClick="@{() -> viewHandler.close()}"
                 app:layout_constraintTop_toTopOf="@id/cameraViewController"
                 app:layout_constraintBottom_toBottomOf="@id/cameraViewController"
                 app:layout_constraintStart_toStartOf="@id/cameraViewController"
@@ -49,6 +48,7 @@
                 android:layout_marginEnd="23dp"
                 android:src="@drawable/btn_cancel"
                 android:scaleType="center"
+                android:onClick="@{() -> viewHandler.close()}"
                 app:layout_constraintTop_toTopOf="@id/cameraViewController"
                 app:layout_constraintBottom_toBottomOf="@id/cameraViewController"
                 app:layout_constraintEnd_toEndOf="@id/cameraViewController"/>
@@ -59,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="23dp"
                 android:background="@drawable/album"
+                android:onClick="@{() -> viewHandler.imageOpen()}"
                 app:layout_constraintTop_toTopOf="@id/cameraViewController"
                 app:layout_constraintBottom_toBottomOf="@id/cameraViewController"
                 app:layout_constraintStart_toStartOf="@id/cameraViewController"/>

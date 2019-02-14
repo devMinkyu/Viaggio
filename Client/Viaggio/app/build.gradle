@@ -58,6 +58,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
     implementation "org.jetbrains.anko:anko-appcompat-v7-commons:$anko_version"
     implementation "org.jetbrains.anko:anko-support-v4-commons:$anko_version"
+    implementation "org.jetbrains.anko:anko-design:$anko_version"
 
     // lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$android_arch_lifecycle"

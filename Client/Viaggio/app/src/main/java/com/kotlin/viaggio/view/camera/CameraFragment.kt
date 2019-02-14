@@ -1,16 +1,19 @@
 package com.kotlin.viaggio.view.camera
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.view.common.BaseFragment
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.ScaleType
 import io.fotoapparat.selector.*
-import kotlinx.android.synthetic.main.fragment_camera.*
+import org.jetbrains.anko.support.v4.toast
 
 class CameraFragment:BaseFragment<CameraFragmentViewModel>() {
     private lateinit var fotoapparat: Fotoapparat
@@ -20,9 +23,9 @@ class CameraFragment:BaseFragment<CameraFragmentViewModel>() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_camera, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
-        Fotoapparat
+        fotoapparat = Fotoapparat
             .with(context!!)
-            .into(cameraView)           // view which will draw the camera preview
+            .into(binding.cameraView)           // view which will draw the camera preview
             .previewScaleType(ScaleType.CenterCrop)  // we want the preview to fill the view
             .photoResolution(highestResolution())   // we want to have the biggest photo possible
             .lensPosition(back())       // we want back camera
@@ -38,11 +41,20 @@ class CameraFragment:BaseFragment<CameraFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        getViewModel().permissionRequestMsg.observe(this, Observer {
+            when(it){
+                PermissionError.STORAGE_PERMISSION->toast(resources.getString(R.string.storage_permission))
+                else -> {}
+            }
+        })
     }
 
     inner class ViewHandler{
         fun close(){
-            fragmentPopStack()
+            baseIntent("http://viaggio.kotlin.com/home/main/")
+        }
+        fun imageOpen(){
+            getViewModel().permissionCheck(rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE))
         }
     }
 
