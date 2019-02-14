@@ -62,9 +62,11 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
     inner class ViewHandler{
         fun skip(){
             baseIntent("http://viaggio.kotlin.com/home/main/")
+            getViewModel().tutorialEnd()
         }
         fun login(){
             baseIntent("http://viaggio.kotlin.com/home/login/")
+            getViewModel().tutorialEnd()
         }
     }
 

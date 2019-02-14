@@ -25,13 +25,18 @@ class HomeFragment:BaseFragment<HomeFragmentViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         getViewModel().goToCamera.observe(this, Observer {
-            baseIntent("http://viaggio.kotlin.com/home/main/camera/")
+            it?.let {
+                baseIntent("http://viaggio.kotlin.com/home/main/camera/")
+                getViewModel().goToCamera.value = null
+            }
+
         })
         getViewModel().permissionRequestMsg.observe(this, Observer {
             when(it){
                 PermissionError.CAMERA_PERMISSION->toast(resources.getString(R.string.camera_permission))
                 else -> {}
             }
+            getViewModel().permissionRequestMsg.value = null
         })
     }
 

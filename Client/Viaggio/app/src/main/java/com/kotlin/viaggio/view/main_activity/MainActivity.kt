@@ -20,7 +20,11 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+//        if(getViewModel().checkTutorial()){
+//            showHome()
+//        }else{
+//            showTutorial()
+//        }
         showTutorial()
 
         handleIntent(intent)
@@ -58,7 +62,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showCamera() {
-        baseShowFragment(CameraFragment())
+        baseShowAddBackFragment(CameraFragment())
     }
 
     private fun showTutorial() {

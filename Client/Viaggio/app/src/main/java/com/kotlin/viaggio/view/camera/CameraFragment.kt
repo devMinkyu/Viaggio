@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.camera
 
 import android.Manifest
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,8 +51,13 @@ class CameraFragment:BaseFragment<CameraFragmentViewModel>() {
     }
 
     inner class ViewHandler{
+        fun shutter(){
+            val photoResult = fotoapparat.takePicture()
+            Log.d("hoho", "$photoResult")
+//            getViewModel().savePicture(photoResult)
+        }
         fun close(){
-            baseIntent("http://viaggio.kotlin.com/home/main/")
+            fragmentPopStack()
         }
         fun imageOpen(){
             getViewModel().permissionCheck(rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE))

@@ -9,8 +9,8 @@ import io.reactivex.Observable
 import javax.inject.Inject
 
 class HomeFragmentViewModel @Inject constructor() : BaseViewModel() {
-    val goToCamera: MutableLiveData<Any> = MutableLiveData()
-    val permissionRequestMsg: MutableLiveData<PermissionError> = MutableLiveData()
+    val goToCamera: MutableLiveData<Any?> = MutableLiveData()
+    val permissionRequestMsg: MutableLiveData<PermissionError?> = MutableLiveData()
 
     override fun initialize() {
         super.initialize()

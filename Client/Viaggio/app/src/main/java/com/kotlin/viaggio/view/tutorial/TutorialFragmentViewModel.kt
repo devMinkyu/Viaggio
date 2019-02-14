@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.kotlin.viaggio.data.`object`.Tutorial
 import com.kotlin.viaggio.data.`object`.TutorialList
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Observable
 import java.io.InputStreamReader
@@ -13,6 +14,8 @@ import javax.inject.Inject
 class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var gson: Gson
+    @Inject
+    lateinit var prefUtilService: AndroidPrefUtilService
 
     val tutorialList: MutableLiveData<List<Tutorial>> = MutableLiveData()
 
@@ -38,4 +41,7 @@ class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(disposable)
     }
 
+    fun tutorialEnd() {
+        prefUtilService.putBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK, true).subscribe()
+    }
 }

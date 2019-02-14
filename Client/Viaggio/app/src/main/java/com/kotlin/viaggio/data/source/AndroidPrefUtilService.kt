@@ -66,6 +66,6 @@ class AndroidPrefUtilService @Inject constructor() {
     }
 
     enum class Key {
-        USER_ID, TOKEN_ID, TUTORIAL_CHECK
+        USER_ID, TOKEN_ID, TUTORIAL_CHECK, TRAVELING
     }
 }
