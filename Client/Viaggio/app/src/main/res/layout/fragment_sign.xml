@@ -41,6 +41,7 @@
                 android:layout_marginStart="@dimen/sign_margin_side"
                 android:layout_marginEnd="@dimen/sign_margin_side"
 
+                android:textColor="@color/sign_click_color"
                 android:text="@string/normal_sign"
                 android:gravity="center"
                 android:onClick="@{() -> viewHandler.normalSign()}"

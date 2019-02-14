@@ -115,9 +115,9 @@
                 android:layout_height="@dimen/sign_height"
                 android:layout_marginStart="@dimen/sign_margin_side"
                 android:layout_marginEnd="@dimen/sign_margin_side"
-                android:textColorHint="@android:color/white"
                 android:layout_marginTop="15dp"
 
+                android:textColor="@color/sign_click_color"
                 android:hint="@string/sign_up"
                 android:background="@drawable/sign_normal_btn_bg"
                 android:gravity="center"

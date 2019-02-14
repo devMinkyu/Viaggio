@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.ScaleAnimation
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -60,6 +61,11 @@ class CameraFragment:BaseFragment<CameraFragmentViewModel>() {
 
     inner class ViewHandler{
         fun shutter(){
+            val scale = ScaleAnimation(0.8f,1f, 0.8f,1f)
+            scale.duration = 200
+            cameraViewShutter.animate()
+            cameraViewShutter.startAnimation(scale)
+
             val photoResult = fotoapparat.takePicture()
             Log.d("hoho", "$photoResult")
 //            getViewModel().savePicture(photoResult)
