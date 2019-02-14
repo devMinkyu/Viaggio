@@ -2,6 +2,7 @@
 
 package com.kotlin.viaggio.ioc.module.injector.activity
 
+import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.home.HomeFragment
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
@@ -26,4 +27,7 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun signUpFragment(): SignUpFragment
+
+    @ContributesAndroidInjector
+    fun cameraFragment(): CameraFragment
 }

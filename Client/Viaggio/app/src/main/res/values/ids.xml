@@ -27,4 +27,9 @@
     <item name="signUpContainer" type="id"/>
     <item name="errorIcon" type="id"/>
     <item name="errTxt" type="id"/>
+    <item name="cameraView" type="id"/>
+    <item name="cameraViewController" type="id"/>
+    <item name="cameraViewShutter" type="id"/>
+    <item name="cameraViewClose" type="id"/>
+    <item name="cameraViewImage" type="id"/>
 </resources>

@@ -22,5 +22,9 @@ class HomeFragment:BaseFragment<HomeFragmentViewModel>() {
 
     }
 
-    inner class ViewHandler
+    inner class ViewHandler{
+        fun camera(){
+            baseIntent("http://viaggio.kotlin.com/home/main/camera/")
+        }
+    }
 }

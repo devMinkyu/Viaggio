@@ -1,0 +1,26 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- The background color, preferably the same as your normal theme -->
+    <item>
+        <shape android:shape="oval">
+            <size android:width="50.8dp"
+                  android:height="50.8dp"/>
+            <stroke
+                    android:color="#77FFFFFF"
+                    android:width="3dp"/>
+        </shape>
+    </item>
+
+    <item>
+        <shape
+        android:shape="oval">
+            <size android:width="37.8dp"
+                  android:height="37.8dp"/>
+            <stroke
+                    android:color="@android:color/transparent"
+                    android:width="13dp"/>
+            <solid android:color="@android:color/white"/>
+        </shape>
+    </item>
+
+</layer-list>

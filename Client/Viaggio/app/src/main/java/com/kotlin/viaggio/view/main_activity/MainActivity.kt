@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.home.HomeFragment
 import com.kotlin.viaggio.view.sign.SignFragment
@@ -40,7 +41,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                     when (appLinkData.pathSegments?.last()) {
                         "main" -> showHome()
                         "login" -> showSign()
-
+                        "camera" -> showCamera()
                     }
                 }
                 "login" -> {
@@ -54,6 +55,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showCamera() {
+        baseShowAddBackFragment(CameraFragment())
     }
 
     private fun showTutorial() {
