@@ -38,4 +38,6 @@
     <item name="ocrController" type="id"/>
     <item name="ocrUpload" type="id"/>
     <item name="ocrRetake" type="id"/>
+    <item name="ocrImageActionContainer" type="id"/>
+    <item name="ocrImageActionPop" type="id"/>
 </resources>

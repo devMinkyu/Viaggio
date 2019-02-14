@@ -2,7 +2,6 @@ package com.kotlin.viaggio.view.camera
 
 import android.Manifest
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +15,13 @@ import com.kotlin.viaggio.view.common.BaseFragment
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.ScaleType
 import io.fotoapparat.selector.*
-import io.reactivex.rxkotlin.toCompletable
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.jetbrains.anko.support.v4.toast
+import java.io.File
 
-class CameraFragment:BaseFragment<CameraFragmentViewModel>() {
+class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
     private lateinit var fotoapparat: Fotoapparat
-    lateinit var binding:com.kotlin.viaggio.databinding.FragmentCameraBinding
+    lateinit var binding: com.kotlin.viaggio.databinding.FragmentCameraBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_camera, container, false)
@@ -53,33 +52,40 @@ class CameraFragment:BaseFragment<CameraFragmentViewModel>() {
         }
 
         getViewModel().permissionRequestMsg.observe(this, Observer {
-            when(it){
-                PermissionError.STORAGE_PERMISSION->toast(resources.getString(R.string.storage_permission))
-                else -> {}
+            when (it) {
+                PermissionError.STORAGE_PERMISSION -> toast(resources.getString(R.string.storage_permission))
+                else -> {
+                }
             }
         })
     }
 
-    inner class ViewHandler{
-        fun shutter(){
-            val scale = ScaleAnimation(0.95f,1f, 0.95f,1f)
+    inner class ViewHandler {
+        fun shutter() {
+            val scale = ScaleAnimation(0.95f, 1f, 0.95f, 1f)
             scale.duration = 200
             cameraViewShutter.startAnimation(scale)
 
-            val photoResult = fotoapparat.takePicture()
-            Log.d("hoho", "$photoResult")
-//            getViewModel().savePicture(photoResult)
+            val photoResult = fotoapparat.autoFocus().takePicture()
+            getViewModel().savePicture(photoResult)
 
             baseIntent("http://viaggio.kotlin.com/home/main/camera/image/")
         }
-        fun close(){
-            val scale = ScaleAnimation(0.95f,1f, 0.95f,1f)
+
+        fun close() {
+            val scale = ScaleAnimation(0.95f, 1f, 0.95f, 1f)
             scale.duration = 200
             cameraViewClose.startAnimation(scale)
             fragmentPopStack()
         }
-        fun imageOpen(){
-            getViewModel().permissionCheck(rxPermission.requestEach(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE))
+
+        fun imageOpen() {
+            getViewModel().permissionCheck(
+                rxPermission.requestEach(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            )
         }
     }
 

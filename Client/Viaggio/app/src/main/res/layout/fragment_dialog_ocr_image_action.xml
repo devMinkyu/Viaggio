@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <import type="com.kotlin.viaggio.view.ocr.OcrImageActionDiaglogFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.ocr.OcrImageActionDialogFragmentViewModel"/>
+        <import type="android.view.View"/>
+
+        <variable name="viewModel" type="OcrImageActionDialogFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@id/ocrImageActionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/dialogBg">
+        <View
+                android:id="@id/ocrImageActionPop"
+                android:layout_width="272dp"
+                android:layout_height="146.5dp"
+                android:background="@android:color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
