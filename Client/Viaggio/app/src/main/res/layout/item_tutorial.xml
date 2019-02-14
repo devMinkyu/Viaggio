@@ -2,7 +2,7 @@
 <layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="com.kotlin.viaggio.view.tutorial.TutorialFragmentViewModel"/>
-        <import type="com.kotlin.viaggio.data.model.Tutorial"/>
+        <import type="com.kotlin.viaggio.data.object.Tutorial"/>
         <import type="android.view.View"/>
 
         <variable name="data" type="Tutorial"/>

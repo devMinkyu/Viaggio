@@ -2,12 +2,10 @@ package com.kotlin.viaggio.view.tutorial
 
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.kotlin.viaggio.data.model.Tutorial
-import com.kotlin.viaggio.data.model.TutorialList
+import com.kotlin.viaggio.data.`object`.Tutorial
+import com.kotlin.viaggio.data.`object`.TutorialList
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.schedulers.Schedulers
 import java.io.InputStreamReader
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

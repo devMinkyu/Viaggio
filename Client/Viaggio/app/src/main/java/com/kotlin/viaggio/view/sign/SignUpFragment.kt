@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.model.SignError
+import com.kotlin.viaggio.data.`object`.SignError
 import com.kotlin.viaggio.view.common.BaseFragment
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.fragment_sign_up.*
