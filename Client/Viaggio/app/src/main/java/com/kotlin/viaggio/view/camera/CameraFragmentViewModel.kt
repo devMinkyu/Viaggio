@@ -15,9 +15,6 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     lateinit var travelModel: TravelModel
     val photoUri:MutableLiveData<Uri?> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<PermissionError> = MutableLiveData()
-    override fun initialize() {
-        super.initialize()
-    }
 
     fun savePicture(photoResult: PhotoResult) {
         val disposable = travelModel.savePicture(photoResult).subscribe { t1 ->

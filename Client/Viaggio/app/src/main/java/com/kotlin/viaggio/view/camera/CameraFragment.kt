@@ -49,11 +49,6 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context?.let { contextVal ->
-            Glide.with(contextVal)
-                .load(resources.getDrawable(R.drawable.empty_gallery, null))
-                .into(cameraViewImage)
-        }
 
         getViewModel().permissionRequestMsg.observe(this, Observer {
             when (it) {

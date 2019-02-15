@@ -16,7 +16,7 @@
                 android:id="@id/cameraView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/cameraViewController"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -24,9 +24,8 @@
         <View
                 android:id="@id/cameraViewController"
                 android:layout_width="0dp"
-                android:layout_height="79dp"
-                android:alpha="0.6"
-                android:background="@color/dark_indigo"
+                android:layout_height="65dp"
+                android:background="@android:color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -56,10 +55,11 @@
 
         <ImageView
                 android:id="@id/cameraViewImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="40.5dp"
+                android:layout_height="40.5dp"
                 android:layout_marginStart="23dp"
                 android:background="@drawable/album"
+                android:src="@drawable/empty_gallery"
                 android:scaleType="centerCrop"
                 android:onClick="@{() -> viewHandler.imageOpen()}"
                 app:layout_constraintTop_toTopOf="@id/cameraViewController"
