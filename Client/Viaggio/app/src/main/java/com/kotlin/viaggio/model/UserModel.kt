@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserModel @Inject constructor() {
+class UserModel @Inject constructor() :BaseModel(){
     @Inject
     lateinit var api: ViaggioApiService
     @Inject

@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.camera
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.model.TravelModel
@@ -12,13 +13,17 @@ import javax.inject.Inject
 class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     @Inject
     lateinit var travelModel: TravelModel
+    val photoUri:MutableLiveData<Uri?> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<PermissionError> = MutableLiveData()
     override fun initialize() {
         super.initialize()
     }
 
-    internal fun savePicture(photoResult: PhotoResult) {
-        travelModel.cameraResult.onNext(photoResult)
+    fun savePicture(photoResult: PhotoResult) {
+        val disposable = travelModel.savePicture(photoResult).subscribe { t1 ->
+            photoUri.value = t1
+        }
+        addDisposable(disposable)
     }
     override fun permissionCheck(request: Observable<Permission>?) {
         super.permissionCheck(request)

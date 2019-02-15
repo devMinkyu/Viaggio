@@ -1,10 +1,10 @@
 package com.kotlin.viaggio.view.ocr
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
-import io.fotoapparat.result.PhotoResult
 import javax.inject.Inject
 
 class OcrImageFragmentViewModel @Inject constructor() : BaseViewModel() {
@@ -13,12 +13,10 @@ class OcrImageFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var firebaseVision: FirebaseVisionTextRecognizer
 
-    val photoResult:MutableLiveData<PhotoResult> = MutableLiveData()
+    lateinit var uriString:String
+    val photoUri:MutableLiveData<Uri> = MutableLiveData()
     override fun initialize() {
         super.initialize()
-        val disposable = travelModel.cameraResult.subscribe {
-            photoResult.value = it
-        }
-        addDisposable(disposable)
+        photoUri.value = Uri.parse(uriString)
     }
 }

@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
+import com.kotlin.viaggio.android.IntentName
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.home.HomeFragment
@@ -47,7 +49,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "main" -> showHome()
                         "login" -> showSign()
                         "camera" -> showCamera()
-                        "image" -> showOcrImage()
+                        "image" -> {
+                            showOcrImage(intent.getStringExtra(IntentName.OCR_IMAGE_URI_INTENT.name))
+                        }
                     }
                 }
                 "login" -> {
@@ -63,8 +67,14 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         }
     }
 
-    private fun showOcrImage() {
-        baseShowAddBackFragment(OcrImageFragment())
+    private fun showOcrImage(uri:String?) {
+        uri?.let { uriVal ->
+            val frag = OcrImageFragment()
+            val arg = Bundle()
+            arg.putString(ArgName.OCR_IMAGE_URI.name, uriVal)
+            frag.arguments = arg
+            baseShowAddBackFragment(frag)
+        }
     }
 
     private fun showCamera() {
@@ -90,11 +100,4 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     private fun showSignCreate() {
         baseShowAddBackFragment(SignUpFragment())
     }
-
-    // 데이터 넘기는 예시
-//    val frag = HomeFragment()
-//    val arg = Bundle()
-//    arg.putString(ArgName.MODE.name, mode)
-//    frag.arguments = arg
-
 }
