@@ -1,7 +1,10 @@
 package com.kotlin.viaggio.data.source
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import android.provider.MediaStore
+import android.text.TextUtils
 import androidx.core.content.FileProvider
 import dagger.Lazy
 import io.fotoapparat.result.PhotoResult
@@ -97,5 +100,31 @@ class LocalDataSource @Inject constructor(){
             FILE_PROVIDER_AUTHORITY,
             file
         )
+    }
+
+    @SuppressLint("Recycle")
+    fun imageAllPath():MutableList<String>{
+        val list:MutableList<String> = mutableListOf()
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME)
+
+        val cursor = appCtx.get().contentResolver?.query(uri, projection,null,null, MediaStore.MediaColumns.DATE_ADDED + " desc")
+        var lastIndex :Int
+        cursor?.let {
+            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+            val columnDisplayName = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
+            while (cursor.moveToNext()){
+                val absolutePathOfImage = cursor.getString(columnIndex)
+                val nameOfFile = cursor.getString(columnDisplayName)
+                lastIndex = absolutePathOfImage.lastIndexOf(nameOfFile)
+                lastIndex = if(lastIndex >= 0) lastIndex else nameOfFile.length - 1
+
+                if(TextUtils.isEmpty(absolutePathOfImage).not()){
+                    list.add(absolutePathOfImage)
+                }
+            }
+        }
+        cursor?.close()
+        return list
     }
 }

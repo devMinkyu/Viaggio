@@ -2,7 +2,7 @@ package com.kotlin.viaggio.data.`object`
 
 
 enum class PermissionError {
-    CAMERA_PERMISSION, STORAGE_PERMISSION
+    CAMERA_PERMISSION, STORAGE_PERMISSION, NECESSARY_PERMISSION
 }
 enum class SignError {
     EMAIL_NOT_FOUND, WRONG_PW, DELETE_ID, EMAIL_MISMATCH,

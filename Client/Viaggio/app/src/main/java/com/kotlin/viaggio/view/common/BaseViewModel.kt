@@ -25,5 +25,4 @@ abstract class BaseViewModel:ViewModel() {
         disposables.add(disposable)
     }
     open fun initialize() {}
-    open fun permissionCheck(request: Observable<Permission>?) {}
 }

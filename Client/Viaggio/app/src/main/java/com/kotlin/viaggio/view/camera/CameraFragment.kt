@@ -4,13 +4,13 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.system.Os
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.ScaleAnimation
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
@@ -54,6 +54,13 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         val bottomSheetBehavior = BottomSheetBehavior.from(cameraViewImageBottomSheet)
         bottomSheetBehavior.state = STATE_HIDDEN
+
+        context?.let {context ->
+            Glide.with(context)
+                .load(getViewModel().imagePathList[0])
+                .into(cameraViewImage)
+        }
+
         getViewModel().permissionRequestMsg.observe(this, Observer {
             when (it) {
                 PermissionError.STORAGE_PERMISSION -> toast(resources.getString(R.string.storage_permission))
@@ -73,10 +80,10 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                 getViewModel().photoUri.value = null
             }
         })
-        getViewModel().imageViewComplete.observe(this, Observer {
+        getViewModel().imageViewShow.observe(this, Observer {
             it?.let {
                 bottomSheetBehavior.state = STATE_COLLAPSED
-                getViewModel().imageViewComplete.value = null
+                getViewModel().imageViewShow.value = null
             }
         })
     }
@@ -100,7 +107,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
         fun imageOpen() {
             getViewModel().permissionCheck(
-                rxPermission.requestEach(
+                rxPermission.request(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )

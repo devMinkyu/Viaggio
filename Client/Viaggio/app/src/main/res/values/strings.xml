@@ -1,6 +1,7 @@
 <resources>
     <string name="camera_permission">You have to allow camera access in Settings.</string>
     <string name="storage_permission">You have to allow storage access in Settings.</string>
+    <string name="necessary_permission">You have to allow camera, storage access in Settings.</string>
 
     <string name="app_name">Viaggio</string>
     <string name="tutorial_skip">Skip</string>
