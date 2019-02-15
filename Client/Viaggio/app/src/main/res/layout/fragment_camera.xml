@@ -8,63 +8,131 @@
         <variable name="viewModel" type="CameraFragmentViewModel"/>
         <variable name="viewHandler" type="ViewHandler"/>
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <io.fotoapparat.view.CameraView
-                android:id="@id/cameraView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@id/cameraViewController"
-                app:layout_constraintTop_toTopOf="parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+    >
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <io.fotoapparat.view.CameraView
+                    android:id="@id/cameraView"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/cameraViewController"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+            />
+            <View
+                    android:id="@id/cameraViewController"
+                    android:layout_width="0dp"
+                    android:layout_height="65dp"
+                    android:background="@android:color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            <ImageView
+                    android:id="@id/cameraViewShutter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/camera_shutter_bg"
+                    android:onClick="@{() -> viewHandler.shutter()}"
+                    app:layout_constraintTop_toTopOf="@id/cameraViewController"
+                    app:layout_constraintBottom_toBottomOf="@id/cameraViewController"
+                    app:layout_constraintStart_toStartOf="@id/cameraViewController"
+                    app:layout_constraintEnd_toEndOf="@id/cameraViewController"/>
+
+            <ImageView
+                    android:id="@id/cameraViewClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/camera_close_bg"
+                    android:layout_marginEnd="23dp"
+                    android:src="@drawable/btn_cancel"
+                    android:scaleType="center"
+                    android:onClick="@{() -> viewHandler.close()}"
+                    app:layout_constraintTop_toTopOf="@id/cameraViewController"
+                    app:layout_constraintBottom_toBottomOf="@id/cameraViewController"
+                    app:layout_constraintEnd_toEndOf="@id/cameraViewController"/>
+
+            <ImageView
+                    android:id="@id/cameraViewImage"
+                    android:layout_width="40.5dp"
+                    android:layout_height="40.5dp"
+                    android:layout_marginStart="23dp"
+                    android:background="@drawable/album"
+                    android:src="@drawable/empty_gallery"
+                    android:scaleType="centerCrop"
+                    android:onClick="@{() -> viewHandler.imageOpen()}"
+                    app:layout_constraintTop_toTopOf="@id/cameraViewController"
+                    app:layout_constraintBottom_toBottomOf="@id/cameraViewController"
+                    app:layout_constraintStart_toStartOf="@id/cameraViewController"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@id/cameraViewImageBottomSheet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="1dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:behavior_hideable="true"
+                app:behavior_peekHeight="200dp"
+                app:layout_behavior="@string/bottom_sheet_behavior"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-        />
-        <View
-                android:id="@id/cameraViewController"
-                android:layout_width="0dp"
-                android:layout_height="65dp"
-                android:background="@android:color/black"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-        <ImageView
-                android:id="@id/cameraViewShutter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/camera_shutter_bg"
-                android:onClick="@{() -> viewHandler.shutter()}"
-                app:layout_constraintTop_toTopOf="@id/cameraViewController"
-                app:layout_constraintBottom_toBottomOf="@id/cameraViewController"
-                app:layout_constraintStart_toStartOf="@id/cameraViewController"
-                app:layout_constraintEnd_toEndOf="@id/cameraViewController"/>
-
-        <ImageView
-                android:id="@id/cameraViewClose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/camera_close_bg"
-                android:layout_marginEnd="23dp"
-                android:src="@drawable/btn_cancel"
-                android:scaleType="center"
-                android:onClick="@{() -> viewHandler.close()}"
-                app:layout_constraintTop_toTopOf="@id/cameraViewController"
-                app:layout_constraintBottom_toBottomOf="@id/cameraViewController"
-                app:layout_constraintEnd_toEndOf="@id/cameraViewController"/>
-
-        <ImageView
-                android:id="@id/cameraViewImage"
-                android:layout_width="40.5dp"
-                android:layout_height="40.5dp"
-                android:layout_marginStart="23dp"
-                android:background="@drawable/album"
-                android:src="@drawable/empty_gallery"
-                android:scaleType="centerCrop"
-                android:onClick="@{() -> viewHandler.imageOpen()}"
-                app:layout_constraintTop_toTopOf="@id/cameraViewController"
-                app:layout_constraintBottom_toBottomOf="@id/cameraViewController"
-                app:layout_constraintStart_toStartOf="@id/cameraViewController"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintBottom_toBottomOf="parent">
+            <ImageView
+                    android:id="@+id/test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/empty_gallery"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="HardcodedText"/>
+            <ImageView
+                    android:id="@+id/test1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/album"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test"
+                    tools:ignore="HardcodedText"/>
+            <ImageView
+                    android:id="@+id/test2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/album"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test1"
+                    tools:ignore="HardcodedText"/>
+            <ImageView
+                    android:id="@+id/test3"
+                    android:layout_width="300dp"
+                    android:layout_height="680dp"
+                    android:background="@drawable/sign_normal_btn_bg"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test2"
+                    tools:ignore="HardcodedText"/>
+            <ImageView
+                    android:id="@+id/test4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/album"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test3"
+                    tools:ignore="HardcodedText"/>
+            <ImageView
+                    android:id="@+id/test5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/album"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/test4"
+                    tools:ignore="HardcodedText"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

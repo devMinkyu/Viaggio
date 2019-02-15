@@ -40,4 +40,5 @@
     <item name="ocrRetake" type="id"/>
     <item name="ocrImageActionContainer" type="id"/>
     <item name="ocrImageActionPop" type="id"/>
+    <item name="cameraViewImageBottomSheet" type="id"/>
 </resources>

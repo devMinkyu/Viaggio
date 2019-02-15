@@ -4,13 +4,16 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.system.Os
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.ScaleAnimation
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
+import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.IntentName
@@ -21,7 +24,7 @@ import io.fotoapparat.parameter.ScaleType
 import io.fotoapparat.selector.*
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.jetbrains.anko.support.v4.toast
-import java.io.File
+
 
 class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
     private lateinit var fotoapparat: Fotoapparat
@@ -49,7 +52,8 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        val bottomSheetBehavior = BottomSheetBehavior.from(cameraViewImageBottomSheet)
+        bottomSheetBehavior.state = STATE_HIDDEN
         getViewModel().permissionRequestMsg.observe(this, Observer {
             when (it) {
                 PermissionError.STORAGE_PERMISSION -> toast(resources.getString(R.string.storage_permission))
@@ -67,6 +71,12 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                 intent.setPackage(BuildConfig.APPLICATION_ID)
                 startActivity(intent)
                 getViewModel().photoUri.value = null
+            }
+        })
+        getViewModel().imageViewComplete.observe(this, Observer {
+            it?.let {
+                bottomSheetBehavior.state = STATE_COLLAPSED
+                getViewModel().imageViewComplete.value = null
             }
         })
     }

@@ -15,6 +15,7 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     lateinit var travelModel: TravelModel
     val photoUri:MutableLiveData<Uri?> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<PermissionError> = MutableLiveData()
+    val imageViewComplete:MutableLiveData<Any?> = MutableLiveData()
 
     fun savePicture(photoResult: PhotoResult) {
         val disposable = travelModel.savePicture(photoResult).subscribe { t1 ->
@@ -26,7 +27,7 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
         super.permissionCheck(request)
         val disposable = request?.subscribe { t ->
             when {
-                t.granted -> when(t.name){}
+                t.granted -> imageViewComplete.value = Any()
                 !t.shouldShowRequestPermissionRationale -> { }
                 else -> permissionRequestMsg.value = PermissionError.STORAGE_PERMISSION
 
