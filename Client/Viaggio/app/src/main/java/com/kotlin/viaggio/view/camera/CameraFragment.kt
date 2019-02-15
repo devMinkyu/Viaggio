@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.ScaleAnimation
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
@@ -56,6 +57,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         bottomSheetBehavior.state = STATE_HIDDEN
 
         context?.let {context ->
+            cameraViewImageAllList.layoutManager = GridLayoutManager(context, 3)
             Glide.with(context)
                 .load(getViewModel().imagePathList[0])
                 .into(cameraViewImage)
@@ -90,22 +92,18 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
     inner class ViewHandler {
         fun shutter() {
-            val scale = ScaleAnimation(0.95f, 1f, 0.95f, 1f)
-            scale.duration = 200
-            cameraViewShutter.startAnimation(scale)
-
+            cameraViewShutter.startAnimation(scaleAnimation())
             val photoResult = fotoapparat.autoFocus().takePicture()
             getViewModel().savePicture(photoResult)
         }
 
         fun close() {
-            val scale = ScaleAnimation(0.95f, 1f, 0.95f, 1f)
-            scale.duration = 200
-            cameraViewClose.startAnimation(scale)
+            cameraViewClose.startAnimation(scaleAnimation())
             fragmentPopStack()
         }
 
         fun imageOpen() {
+            cameraViewImage.startAnimation(scaleAnimation())
             getViewModel().permissionCheck(
                 rxPermission.request(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -113,6 +111,12 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                 )
             )
         }
+    }
+
+    fun scaleAnimation():ScaleAnimation{
+        val scale = ScaleAnimation(0.95f, 1f, 0.95f, 1f)
+        scale.duration = 200
+        return scale
     }
 
     override fun onStart() {

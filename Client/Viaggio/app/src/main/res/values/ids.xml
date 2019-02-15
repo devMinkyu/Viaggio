@@ -41,4 +41,5 @@
     <item name="ocrImageActionContainer" type="id"/>
     <item name="ocrImageActionPop" type="id"/>
     <item name="cameraViewImageBottomSheet" type="id"/>
+    <item name="cameraViewImageAllList" type="id"/>
 </resources>
