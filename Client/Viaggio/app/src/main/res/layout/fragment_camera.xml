@@ -78,6 +78,7 @@
                 android:elevation="1dp"
                 android:clickable="true"
                 android:focusable="true"
+                android:background="@android:color/white"
                 app:behavior_hideable="true"
                 app:behavior_peekHeight="200dp"
                 app:layout_behavior="@string/bottom_sheet_behavior"

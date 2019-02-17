@@ -118,15 +118,14 @@
                 android:layout_marginTop="15dp"
 
                 android:textColor="@color/sign_click_color"
-                android:hint="@string/sign_up"
+                android:text="@string/sign_up"
                 android:background="@drawable/sign_normal_btn_bg"
                 android:gravity="center"
                 android:onClick="@{() -> viewHandler.signUp()}"
                 android:backgroundTint="@{viewModel.isFormValid ? @color/colorPrimary:@color/white_two}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/signUpConfirmPasswordEdit"
-        />
+                app:layout_constraintTop_toBottomOf="@id/signUpConfirmPasswordEdit"/>
 
         <ImageView
                 android:id="@id/errorIcon"

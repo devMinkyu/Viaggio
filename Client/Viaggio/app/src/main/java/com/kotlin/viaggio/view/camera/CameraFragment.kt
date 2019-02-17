@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.view.animation.ScaleAnimation
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
@@ -24,6 +26,7 @@ import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.ScaleType
 import io.fotoapparat.selector.*
 import kotlinx.android.synthetic.main.fragment_camera.*
+import kotlinx.android.synthetic.main.item_camera_image.view.*
 import org.jetbrains.anko.support.v4.toast
 
 
@@ -85,6 +88,16 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         getViewModel().imageViewShow.observe(this, Observer {
             it?.let {
                 bottomSheetBehavior.state = STATE_COLLAPSED
+                cameraViewImageAllList.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=
+                        CameraViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_camera_image, parent, false))
+                    override fun getItemCount() = getViewModel().imagePathList.size
+                    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                        holder as CameraViewHolder
+                        holder.binding?.viewHandler = holder.ViewHandler()
+                        holder.imageBinding(getViewModel().imagePathList[position])
+                    }
+                }
                 getViewModel().imageViewShow.value = null
             }
         })
@@ -127,5 +140,24 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
     override fun onStop() {
         super.onStop()
         fotoapparat.stop()
+    }
+}
+
+class CameraViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
+    val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemCameraImageBinding>(itemView)
+    private lateinit var fileNamePath:String
+    fun imageBinding(string: String){
+        fileNamePath = string
+        binding?.let {
+            Glide.with(itemView)
+                .load(string)
+                .into(itemView.cameraViewListImage)
+        }
+    }
+
+    inner class ViewHandler{
+        fun imagePicker(){
+            Log.d("hoho", "$fileNamePath")
+        }
     }
 }
