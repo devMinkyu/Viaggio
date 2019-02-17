@@ -24,9 +24,6 @@ class HomeFragment:BaseFragment<HomeFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        childFragmentManager.beginTransaction()
-            .replace(R.id.homeContentFrame, HomeMainFragment())
-            .commit()
 
         getViewModel().goToCamera.observe(this, Observer {
             it?.let {
