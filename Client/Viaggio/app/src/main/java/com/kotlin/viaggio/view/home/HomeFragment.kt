@@ -24,13 +24,15 @@ class HomeFragment:BaseFragment<HomeFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        childFragmentManager.beginTransaction()
+            .replace(R.id.homeContentFrame, HomeMainFragment())
+            .commit()
 
         getViewModel().goToCamera.observe(this, Observer {
             it?.let {
                 baseIntent("http://viaggio.kotlin.com/home/main/camera/")
                 getViewModel().goToCamera.value = null
             }
-
         })
         getViewModel().permissionRequestMsg.observe(this, Observer {
             when(it){
@@ -43,8 +45,12 @@ class HomeFragment:BaseFragment<HomeFragmentViewModel>() {
 
     inner class ViewHandler{
         fun camera(){
-            getViewModel().permissionCheck(rxPermission.request(Manifest.permission.CAMERA,
-                Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            if(getViewModel().traveling){
+
+            }else{
+                getViewModel().permissionCheck(rxPermission.request(Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            }
         }
     }
 }

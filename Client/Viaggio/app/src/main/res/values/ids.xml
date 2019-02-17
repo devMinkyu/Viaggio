@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="startTravel" type="id"/>
-    <item name="recordTravel" type="id"/>
     <item name="content_frame" type="id"/>
     <item name="tutorialPager" type="id"/>
     <item name="skipBtn" type="id"/>
@@ -43,4 +41,8 @@
     <item name="cameraViewImageBottomSheet" type="id"/>
     <item name="cameraViewImageAllList" type="id"/>
     <item name="cameraViewListImage" type="id"/>
+    <item name="homeController" type="id"/>
+    <item name="homeTravelIngListNav" type="id"/>
+    <item name="homeTravelListNav" type="id"/>
+    <item name="homeContentFrame" type="id"/>
 </resources>

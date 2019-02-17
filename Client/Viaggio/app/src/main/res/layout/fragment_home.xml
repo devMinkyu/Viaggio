@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
         <import type="com.kotlin.viaggio.view.home.HomeFragment.ViewHandler"/>
@@ -13,28 +13,53 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <Button
-                android:id="@id/startTravel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> viewHandler.camera()}"
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@id/homeContentFrame"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/recordTravel"
-                android:text="start"
-                tools:ignore="HardcodedText"/>
-
-        <Button
-                android:id="@id/recordTravel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@id/homeController"
+        />
+        <View
+                android:id="@id/homeController"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@android:color/white"
+                android:elevation="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeContentFrame"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/startTravel"
-                android:text="record"
-                tools:ignore="HardcodedText"/>
+        />
+        <TextView
+                android:id="@id/homeTravelIngListNav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/icon_upload_empty"
+                android:elevation="5dp"
+                android:text="@string/home_traveling"
+                android:textColor="@android:color/black"
+                android:layout_marginStart="20dp"
+                android:onClick="@{() -> viewHandler.camera()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/homeController"
+                app:layout_constraintTop_toTopOf="@id/homeController"
+        />
+        <TextView
+                android:id="@id/homeTravelListNav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/icon_upload_empty"
+                android:elevation="5dp"
+                android:text="@string/home_travel"
+                android:textColor="@android:color/black"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/homeController"
+                app:layout_constraintTop_toTopOf="@id/homeController"
+        />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -78,7 +78,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showCamera() {
-        baseShowLeftAddBackFragment(CameraFragment())
+        baseShowRightAddBackFragment(CameraFragment())
     }
 
     private fun showTutorial() {

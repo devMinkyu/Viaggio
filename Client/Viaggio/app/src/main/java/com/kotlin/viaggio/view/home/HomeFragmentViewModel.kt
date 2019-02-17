@@ -2,16 +2,20 @@ package com.kotlin.viaggio.view.home
 
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.`object`.PermissionError
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Observable
 import javax.inject.Inject
 
 class HomeFragmentViewModel @Inject constructor() : BaseViewModel() {
+    @Inject
+    lateinit var prefUtilService: AndroidPrefUtilService
     val goToCamera: MutableLiveData<Any?> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<PermissionError?> = MutableLiveData()
-
+    var traveling = false
     override fun initialize() {
         super.initialize()
+        traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING, false).blockingGet()
     }
 
     fun permissionCheck(request: Observable<Boolean>?) {
