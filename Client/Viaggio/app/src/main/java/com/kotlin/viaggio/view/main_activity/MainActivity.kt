@@ -73,31 +73,31 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             val arg = Bundle()
             arg.putString(ArgName.OCR_IMAGE_URI.name, uriVal)
             frag.arguments = arg
-            baseShowAddBackFragment(frag)
+            baseShowLeftAddBackFragment(frag)
         }
     }
 
     private fun showCamera() {
-        baseShowAddBackFragment(CameraFragment())
+        baseShowLeftAddBackFragment(CameraFragment())
     }
 
     private fun showTutorial() {
-        baseShowFragment(TutorialFragment())
+        baseShowLeftFragment(TutorialFragment())
     }
 
     private fun showHome() {
-        baseShowFragment(HomeFragment())
+        baseShowLeftFragment(HomeFragment())
     }
 
     private fun showSign() {
-        baseShowAddBackFragment(SignFragment())
+        baseShowLeftAddBackFragment(SignFragment())
     }
 
     private fun showSignNormalIn() {
-        baseShowAddBackFragment(SignInFragment())
+        baseShowLeftAddBackFragment(SignInFragment())
     }
 
     private fun showSignCreate() {
-        baseShowAddBackFragment(SignUpFragment())
+        baseShowLeftAddBackFragment(SignUpFragment())
     }
 }

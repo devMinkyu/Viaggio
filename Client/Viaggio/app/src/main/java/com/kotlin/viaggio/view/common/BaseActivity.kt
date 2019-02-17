@@ -52,16 +52,42 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
         return nonNullViewModelProviderVal
     }
 
-    fun baseShowFragment(fragment:BaseFragment<*>){
+    fun baseShowLeftFragment(fragment:BaseFragment<*>){
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.layout_left_in, R.anim.layout_left_out)
             .replace(R.id.content_frame, fragment, null)
             .commit()
     }
-    fun baseShowAddBackFragment(fragment:BaseFragment<*>){
+    fun baseShowLeftAddBackFragment(fragment:BaseFragment<*>){
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .setCustomAnimations(R.anim.layout_left_in, R.anim.layout_left_out,R.anim.layout_pop_left_in, R.anim.layout_pop_left_out)
+            .replace(R.id.content_frame, fragment, null)
+            .commit()
+    }
+    fun baseShowRightFragment(fragment:BaseFragment<*>){
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.layout_right_in, R.anim.layout_right_out)
+            .replace(R.id.content_frame, fragment, null)
+            .commit()
+    }
+    fun baseShowRightAddBackFragment(fragment:BaseFragment<*>){
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .setCustomAnimations(R.anim.layout_right_in, R.anim.layout_right_out,R.anim.layout_pop_right_in, R.anim.layout_pop_right_out)
+            .replace(R.id.content_frame, fragment, null)
+            .commit()
+    }
+    fun baseShowTopFragment(fragment:BaseFragment<*>){
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.anim.layout_top_in, R.anim.layout_top_out)
+            .replace(R.id.content_frame, fragment, null)
+            .commit()
+    }
+    fun baseShowTopAddBackFragment(fragment:BaseFragment<*>){
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .setCustomAnimations(R.anim.layout_top_in, R.anim.layout_top_out,R.anim.layout_pop_right_in, R.anim.layout_pop_right_out)
             .replace(R.id.content_frame, fragment, null)
             .commit()
     }
