@@ -25,35 +25,37 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewModel().tutorialList.observe(this, Observer {
-            getViewModel().autoPager()
-            tutorialPager.adapter = object: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                    TutorialViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_tutorial, parent, false))
-                override fun getItemCount() = it.size + 1
-                override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                    holder as TutorialViewHolder
-                    if(position < it.size){
-                        holder.binding?.data = it[position]
-                        holder.itemView.tutorialAnim.setAnimation(it[position].animRes)
+            it.getContentIfNotHandled()?.let {list ->
+                getViewModel().autoPager()
+                tutorialPager.adapter = object: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                        TutorialViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_tutorial, parent, false))
+                    override fun getItemCount() = list.size + 1
+                    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                        holder as TutorialViewHolder
+                        if(position < list.size){
+                            holder.binding?.data = list[position]
+                            holder.itemView.tutorialAnim.setAnimation(list[position].animRes)
+                        }
                     }
                 }
-            }
-            tutorialPagerIndicator.setCurrPageNumber(0)
-            tutorialPagerIndicator.setTotalPageNumber(it.size)
+                tutorialPagerIndicator.setCurrPageNumber(0)
+                tutorialPagerIndicator.setTotalPageNumber(list.size)
 
-            tutorialPager.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
-                override fun onPageSelected(position: Int) {
-                    if(position < it.size) {
-                        super.onPageSelected(position)
-                        tutorialPagerIndicator.setCurrPageNumber(position)
-                    }else{
-                        tutorialPager.setCurrentItem(0, false)
+                tutorialPager.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
+                    override fun onPageSelected(position: Int) {
+                        if(position < list.size) {
+                            super.onPageSelected(position)
+                            tutorialPagerIndicator.setCurrPageNumber(position)
+                        }else{
+                            tutorialPager.setCurrentItem(0, false)
+                        }
                     }
-                }
-            })
+                })
+            }
         })
         getViewModel().autoPageNotice.observe(this, Observer {
-            getViewModel().tutorialList.value?.let { list ->
+            getViewModel().tutorialList.value?.getContentIfNotHandled()?.let { list ->
                 tutorialPager.currentItem = if (tutorialPager.currentItem < list.size - 1) tutorialPager.currentItem + 1 else 0
             }
         })

@@ -6,6 +6,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.`object`.SignError
+import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.view.sign.common.Encryption
@@ -37,8 +38,8 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
     val errorMsg = ObservableField<String?>()
 
     private var validateFormDisposable: Disposable? = null
-    val error: MutableLiveData<SignError> = MutableLiveData()
-    var complete: MutableLiveData<Any> = MutableLiveData()
+    val error: MutableLiveData<Event<SignError>> = MutableLiveData()
+    var complete: MutableLiveData<Event<Any>> = MutableLiveData()
 
     override fun initialize() {
         super.initialize()
@@ -70,7 +71,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
 //        val disposable = userModel.signIn(email.get()!!, encryptionPassword)
 //            .subscribe { t1, t2 ->
 //                if(t1.isSuccessful){
-//                    complete.value = Any()
+//                    complete.value = Event(Any())
 //                }else{
 //                    when(t1.code()){
 //                        HttpURLConnection.HTTP_NOT_FOUND -> error.value = SignError.EMAIL_NOT_FOUND

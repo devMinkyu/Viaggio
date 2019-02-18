@@ -46,9 +46,9 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
         })
         getViewModel().error.observe(this, Observer {
             stopLoading()
-            getViewModel().errorMsg.set(
-                if (it != null) {
-                    when (it) {
+            it.getContentIfNotHandled()?.let {signError ->
+                getViewModel().errorMsg.set(
+                    when (signError) {
                         SignError.EMAIL_NOT_FOUND -> {
                             getString(R.string.err_email_not_found)
                         }
@@ -60,8 +60,8 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
                         }
                         else -> { null }
                     }
-                } else { null }
-            )
+                )
+            }?:getViewModel().errorMsg.set(null)
         })
     }
 

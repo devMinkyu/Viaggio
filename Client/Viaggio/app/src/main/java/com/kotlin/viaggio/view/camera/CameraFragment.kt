@@ -62,23 +62,25 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         }
 
         getViewModel().permissionRequestMsg.observe(this, Observer {
-            when (it) {
-                PermissionError.STORAGE_PERMISSION -> toast(resources.getString(R.string.storage_permission))
-                else -> {
+            it.getContentIfNotHandled()?.let {permissionError ->
+                when (permissionError) {
+                    PermissionError.STORAGE_PERMISSION -> toast(resources.getString(R.string.storage_permission))
+                    else -> {
+                    }
                 }
             }
         })
         getViewModel().photoUri.observe(this, Observer {
-            it?.let { uri ->
+            it?.getContentIfNotHandled()?.let { uri ->
                 context?.let {contextVal ->
                     Glide.with(contextVal)
-                        .load(it)
+                        .load(uri)
                         .into(ocrImage)
                 }
             }
         })
         getViewModel().imageViewShow.observe(this, Observer {
-            it?.let {
+            it?.getContentIfNotHandled()?.let {
                 BottomSheetBehavior.from(cameraViewImageBottomSheet).state = STATE_COLLAPSED
                 cameraViewImageAllList.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=

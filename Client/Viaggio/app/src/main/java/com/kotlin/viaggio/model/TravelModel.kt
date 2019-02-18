@@ -8,8 +8,6 @@ import javax.inject.Singleton
 class TravelModel @Inject constructor():BaseModel(){
     fun savePicture(photoResult: PhotoResult)=
         localDataSource.savePhotoResult(photoResult)
-
-
     fun imageAllPath() =
         localDataSource.imageAllPath()
 

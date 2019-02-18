@@ -6,6 +6,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.`object`.SignError
+import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.view.sign.common.Encryption
@@ -50,8 +51,8 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
     val errorMsg = ObservableField<String?>()
 
     private var validateFormDisposable: Disposable? = null
-    val error: MutableLiveData<SignError> = MutableLiveData()
-    var complete: MutableLiveData<Any> = MutableLiveData()
+    val error: MutableLiveData<Event<SignError>> = MutableLiveData()
+    var complete: MutableLiveData<Event<Any>> = MutableLiveData()
     override fun initialize() {
         super.initialize()
     }
@@ -80,13 +81,13 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
     }
     fun validateSignUp(): Boolean {
         if (password.get() != confirmPassword.get()) {
-            error.value = SignError.PW_MISMATCH
+            error.value = Event(SignError.PW_MISMATCH)
             return false
         }
         val isValidAlphaNumericUnderscoreId = Patterns.EMAIL_ADDRESS.matcher(email.get()).matches()
         isValidAlphaNumericUnderscoreId.let {
             if (!it) {
-                error.value = SignError.INVALID_EMAIL_FORMAT
+                error.value = Event(SignError.INVALID_EMAIL_FORMAT)
                 return false
             }
         }
@@ -96,7 +97,7 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
 //        val disposable = userModel.signUp(name = name.get()!!, email = email.get()!!, password = encryptionPassword)
 //            .subscribe { t1, t2 ->
 //                if (t1.isSuccessful){
-//                    complete.value = Any()
+//                    complete.value = Event(Any())
 //                }else{
 //                    when(t1.code()){
 //                        HttpURLConnection.HTTP_CONFLICT -> error.value = SignError.EXIST_EMAIL

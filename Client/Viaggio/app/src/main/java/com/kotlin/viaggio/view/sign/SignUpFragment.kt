@@ -46,20 +46,22 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
         })
         getViewModel().error.observe(this, Observer {
             stopLoading()
-            getViewModel().errorMsg.set(if (it != null) {
-                when (it) {
-                    SignError.PW_MISMATCH -> {
-                        getString(R.string.err_pw_mismatch)
+            it.getContentIfNotHandled()?.let {signError ->
+                getViewModel().errorMsg.set(
+                    when (signError) {
+                        SignError.PW_MISMATCH -> {
+                            getString(R.string.err_pw_mismatch)
+                        }
+                        SignError.INVALID_EMAIL_FORMAT -> {
+                            getString(R.string.err_email_format)
+                        }
+                        SignError.EXIST_EMAIL -> {
+                            getString(R.string.err_exist_email)
+                        }
+                        else -> {null}
                     }
-                    SignError.INVALID_EMAIL_FORMAT -> {
-                        getString(R.string.err_email_format)
-                    }
-                    SignError.EXIST_EMAIL -> {
-                        getString(R.string.err_exist_email)
-                    }
-                    else -> {null}
-                }
-            } else { null })
+                )
+            }?: getViewModel().errorMsg.set(null)
         })
     }
 

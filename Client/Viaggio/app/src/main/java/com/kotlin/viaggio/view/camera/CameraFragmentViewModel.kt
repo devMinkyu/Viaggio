@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
 import com.kotlin.viaggio.data.`object`.PermissionError
+import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.tbruyelle.rxpermissions2.Permission
@@ -19,9 +20,9 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     @Inject
     lateinit var firebaseVision: FirebaseVisionTextRecognizer
 
-    val photoUri:MutableLiveData<Uri?> = MutableLiveData()
-    val permissionRequestMsg: MutableLiveData<PermissionError> = MutableLiveData()
-    val imageViewShow:MutableLiveData<Any?> = MutableLiveData()
+    val photoUri:MutableLiveData<Event<Uri?>> = MutableLiveData()
+    val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
+    val imageViewShow:MutableLiveData<Event<Any?>> = MutableLiveData()
 
     val isImageMake:ObservableBoolean = ObservableBoolean(false)
     lateinit var imagePathList: MutableList<String>
@@ -34,7 +35,7 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     fun savePicture(photoResult: PhotoResult) {
         isImageMake.set(true)
         val disposable = travelModel.savePicture(photoResult).subscribe { t1 ->
-            photoUri.value = t1
+            photoUri.value = Event(t1)
             visionTextRecognizer(t1)
         }
         addDisposable(disposable)
@@ -42,9 +43,9 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     fun permissionCheck(request: Observable<Boolean>?) {
         val disposable = request?.subscribe { t ->
             if(t){
-                imageViewShow.value = Any()
+                imageViewShow.value = Event(Any())
             }else{
-                permissionRequestMsg.value = PermissionError.STORAGE_PERMISSION
+                permissionRequestMsg.value = Event(PermissionError.STORAGE_PERMISSION)
             }
         }
         disposable?.let { addDisposable(it) }

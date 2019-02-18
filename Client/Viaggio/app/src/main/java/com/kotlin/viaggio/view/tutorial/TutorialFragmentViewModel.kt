@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.kotlin.viaggio.data.`object`.Tutorial
 import com.kotlin.viaggio.data.`object`.TutorialList
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
+import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Observable
 import java.io.InputStreamReader
@@ -17,7 +18,7 @@ class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var prefUtilService: AndroidPrefUtilService
 
-    val tutorialList: MutableLiveData<List<Tutorial>> = MutableLiveData()
+    val tutorialList: MutableLiveData<Event<List<Tutorial>>> = MutableLiveData()
 
     override fun initialize() {
         super.initialize()
@@ -29,7 +30,7 @@ class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
         for (datum in tutorials.data) {
             list.add(datum)
         }
-        tutorialList.value = list
+        tutorialList.value = Event(list)
     }
 
     val autoPageNotice:MutableLiveData<Any> = MutableLiveData()

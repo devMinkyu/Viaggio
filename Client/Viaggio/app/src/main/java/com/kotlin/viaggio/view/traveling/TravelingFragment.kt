@@ -37,17 +37,23 @@ class TravelingFragment:BaseFragment<TravelingFragmentViewModel>() {
         }
 
         getViewModel().goToCamera.observe(this, Observer {
-            it?.let {
-                baseIntent("http://viaggio.kotlin.com/home/main/camera/")
-                getViewModel().goToCamera.value = null
+            it?.let {event ->
+                event.getContentIfNotHandled()?.let {
+                    baseIntent("http://viaggio.kotlin.com/home/main/camera/")
+                    getViewModel().goToCamera.value = null
+                }
             }
         })
         getViewModel().permissionRequestMsg.observe(this, Observer {
-            when(it){
-                PermissionError.NECESSARY_PERMISSION->toast(resources.getString(R.string.camera_permission))
-                else -> {}
+            it?.let {event ->
+                event.getContentIfNotHandled()?.let {permissionError ->
+                    when(permissionError){
+                        PermissionError.NECESSARY_PERMISSION->toast(resources.getString(R.string.camera_permission))
+                        else -> {}
+                    }
+                    getViewModel().permissionRequestMsg.value = null
+                }
             }
-            getViewModel().permissionRequestMsg.value = null
         })
     }
 
