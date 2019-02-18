@@ -47,4 +47,9 @@
     <item name="homeMain" type="id"/>
     <item name="homeTravelingListView" type="id"/>
     <item name="homeTraveledListView" type="id"/>
+    <item name="traveledList" type="id"/>
+    <item name="traveledBackground" type="id"/>
+    <item name="traveledThemeTitle" type="id"/>
+    <item name="traveledCountries" type="id"/>
+    <item name="traveledDays" type="id"/>
 </resources>

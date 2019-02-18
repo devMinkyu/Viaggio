@@ -20,9 +20,9 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     @Inject
     lateinit var firebaseVision: FirebaseVisionTextRecognizer
 
-    val photoUri:MutableLiveData<Event<Uri?>> = MutableLiveData()
+    val photoUri:MutableLiveData<Event<Uri>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
-    val imageViewShow:MutableLiveData<Event<Any?>> = MutableLiveData()
+    val imageViewShow:MutableLiveData<Event<Any>> = MutableLiveData()
 
     val isImageMake:ObservableBoolean = ObservableBoolean(false)
     lateinit var imagePathList: MutableList<String>

@@ -92,7 +92,6 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                         holder.imageBinding(getViewModel().imagePathList[position])
                     }
                 }
-                getViewModel().imageViewShow.value = null
             }
         })
     }

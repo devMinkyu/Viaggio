@@ -18,7 +18,7 @@ class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var prefUtilService: AndroidPrefUtilService
 
-    val tutorialList: MutableLiveData<Event<List<Tutorial>>> = MutableLiveData()
+    val tutorialList: MutableLiveData<List<Tutorial>> = MutableLiveData()
 
     override fun initialize() {
         super.initialize()
@@ -30,7 +30,7 @@ class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
         for (datum in tutorials.data) {
             list.add(datum)
         }
-        tutorialList.value = Event(list)
+        tutorialList.value = list
     }
 
     val autoPageNotice:MutableLiveData<Any> = MutableLiveData()

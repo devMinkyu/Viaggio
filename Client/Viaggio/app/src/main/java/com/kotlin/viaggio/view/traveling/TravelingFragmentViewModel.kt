@@ -12,8 +12,8 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var prefUtilService:AndroidPrefUtilService
 
-    val goToCamera: MutableLiveData<Event<Any?>> = MutableLiveData()
-    val permissionRequestMsg: MutableLiveData<Event<PermissionError?>> = MutableLiveData()
+    val goToCamera: MutableLiveData<Event<Any>> = MutableLiveData()
+    val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
     var traveling = false
     override fun initialize() {
         super.initialize()

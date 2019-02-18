@@ -35,12 +35,14 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
 
         getViewModel().complete.observe(this, Observer {
             stopLoading()
-            baseIntent("http://viaggio.kotlin.com/home/main/")
+            it.getContentIfNotHandled()?.let {
+                baseIntent("http://viaggio.kotlin.com/home/main/")
 
-            fragmentManager?.let {
-                val cnt = it.backStackEntryCount
-                for(i in 0 until cnt){
-                    it.popBackStackImmediate()
+                fragmentManager?.let {fm->
+                    val cnt = fm.backStackEntryCount
+                    for(i in 0 until cnt){
+                        fm.popBackStackImmediate()
+                    }
                 }
             }
         })
