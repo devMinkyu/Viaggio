@@ -52,8 +52,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val bottomSheetBehavior = BottomSheetBehavior.from(cameraViewImageBottomSheet)
-        bottomSheetBehavior.state = STATE_HIDDEN
+        BottomSheetBehavior.from(cameraViewImageBottomSheet).state = STATE_HIDDEN
 
         context?.let {context ->
             cameraViewImageAllList.layoutManager = GridLayoutManager(context, 3)
@@ -80,14 +79,14 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         })
         getViewModel().imageViewShow.observe(this, Observer {
             it?.let {
-                bottomSheetBehavior.state = STATE_COLLAPSED
+                BottomSheetBehavior.from(cameraViewImageBottomSheet).state = STATE_COLLAPSED
                 cameraViewImageAllList.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=
                         CameraViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_camera_image, parent, false))
                     override fun getItemCount() = getViewModel().imagePathList.size
                     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
                         holder as CameraViewHolder
-                        holder.binding?.viewHandler = holder.ViewHandler()
+                        holder.binding?.viewHandler = holder.CameraViewHandler()
                         holder.imageBinding(getViewModel().imagePathList[position])
                     }
                 }
@@ -121,6 +120,9 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         fun retake(){
             ocrLottie.cancelAnimation()
             getViewModel().isImageMake.set(false)
+
+            // 임의로 한 사진
+            ocrImage.setImageDrawable(resources.getDrawable(R.drawable.empty_gallery, null))
         }
     }
 
@@ -139,23 +141,31 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         super.onStop()
         fotoapparat.stop()
     }
-}
+    inner class CameraViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
+        val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemCameraImageBinding>(itemView)
+        private lateinit var fileNamePath:String
+        fun imageBinding(string: String){
+            fileNamePath = string
+            binding?.let {
+                Glide.with(itemView)
+                    .load(string)
+                    .into(itemView.cameraViewListImage)
+            }
+        }
 
-class CameraViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
-    val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemCameraImageBinding>(itemView)
-    private lateinit var fileNamePath:String
-    fun imageBinding(string: String){
-        fileNamePath = string
-        binding?.let {
-            Glide.with(itemView)
-                .load(string)
-                .into(itemView.cameraViewListImage)
+        inner class CameraViewHandler{
+            fun imagePicker(){
+                ocrLottie.playAnimation()
+                getViewModel().isImageMake.set(true)
+                BottomSheetBehavior.from(cameraViewImageBottomSheet).state = STATE_HIDDEN
+                context?.let {contextVal ->
+                    Glide.with(contextVal)
+                        .load(fileNamePath)
+                        .into(ocrImage)
+                }
+            }
         }
     }
-
-    inner class ViewHandler{
-        fun imagePicker(){
-            Log.d("hoho", "$fileNamePath")
-        }
-    }
 }
+
+

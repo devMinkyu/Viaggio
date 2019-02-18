@@ -2,10 +2,10 @@
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="com.kotlin.viaggio.view.camera.CameraViewHolder.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.camera.CameraFragment.CameraViewHolder.CameraViewHandler"/>
         <import type="android.view.View"/>
 
-        <variable name="viewHandler" type="ViewHandler"/>
+        <variable name="viewHandler" type="CameraViewHandler"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
