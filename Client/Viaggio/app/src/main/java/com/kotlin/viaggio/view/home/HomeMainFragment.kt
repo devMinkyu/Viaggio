@@ -22,5 +22,9 @@ class HomeMainFragment:BaseFragment<HomeMainFragmentViewModel>() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    inner class ViewHandler
+    inner class ViewHandler{
+        fun userProfile(){
+            baseIntent("http://viaggio.kotlin.com/setting/main/")
+        }
+    }
 }

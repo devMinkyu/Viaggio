@@ -7,6 +7,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.home.HomeFragment
+import com.kotlin.viaggio.view.setting.SettingFragment
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
@@ -52,13 +53,21 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                     when (appLinkData.pathSegments?.last()) {
                         "normal" -> showSignNormalIn()
                         "create" -> showSignCreate()
-
+                    }
+                }
+                "setting" ->{
+                    when (appLinkData.pathSegments?.last()) {
+                        "main" -> showSetting()
                     }
                 }
                 else -> {
                 }
             }
         }
+    }
+
+    private fun showSetting() {
+        baseShowTopAddBackFragment(SettingFragment())
     }
 
     private fun showCamera() {

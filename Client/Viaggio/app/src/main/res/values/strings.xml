@@ -25,5 +25,6 @@
     <string name="err_delete_id">The deleted Email</string>
     <string name="home_traveling">Traveling</string>
     <string name="home_travel">Traveled</string>
+    <string name="setting_Non_members">Non Members</string>
 
 </resources>

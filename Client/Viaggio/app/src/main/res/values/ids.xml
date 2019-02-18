@@ -52,4 +52,10 @@
     <item name="traveledThemeTitle" type="id"/>
     <item name="traveledCountries" type="id"/>
     <item name="traveledDays" type="id"/>
+    <item name="settingUserProfile" type="id"/>
+    <item name="homeMainUserSetting" type="id"/>
+    <item name="homeMainTgl" type="id"/>
+    <item name="settingUserProfileClose" type="id"/>
+    <item name="settingTgl" type="id"/>
+    <item name="settingUserName" type="id"/>
 </resources>
