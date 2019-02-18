@@ -3,6 +3,8 @@ package com.kotlin.viaggio.view.camera
 import android.net.Uri
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -14,6 +16,9 @@ import javax.inject.Inject
 class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     @Inject
     lateinit var travelModel: TravelModel
+    @Inject
+    lateinit var firebaseVision: FirebaseVisionTextRecognizer
+
     val photoUri:MutableLiveData<Uri?> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<PermissionError> = MutableLiveData()
     val imageViewShow:MutableLiveData<Any?> = MutableLiveData()
@@ -30,6 +35,7 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
         isImageMake.set(true)
         val disposable = travelModel.savePicture(photoResult).subscribe { t1 ->
             photoUri.value = t1
+            visionTextRecognizer(t1)
         }
         addDisposable(disposable)
     }
@@ -42,5 +48,12 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
             }
         }
         disposable?.let { addDisposable(it) }
+    }
+    private fun visionTextRecognizer(uri: Uri){
+        firebaseVision.processImage(FirebaseVisionImage.fromFilePath(appCtx.get(), uri))
+            .addOnSuccessListener {
+            }
+            .addOnFailureListener {
+            }
     }
 }

@@ -1,8 +1,6 @@
 package com.kotlin.viaggio.view.camera
 
 import android.Manifest
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,9 +15,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
-import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.android.IntentName
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.view.common.BaseFragment
 import io.fotoapparat.Fotoapparat
@@ -75,14 +71,11 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         })
         getViewModel().photoUri.observe(this, Observer {
             it?.let { uri ->
-                val intent = Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("http://viaggio.kotlin.com/home/main/camera/image/")
-                )
-                intent.putExtra(IntentName.OCR_IMAGE_URI_INTENT.name, uri.toString())
-                intent.setPackage(BuildConfig.APPLICATION_ID)
-                startActivity(intent)
-                getViewModel().photoUri.value = null
+                context?.let {contextVal ->
+                    Glide.with(contextVal)
+                        .load(it)
+                        .into(ocrImage)
+                }
             }
         })
         getViewModel().imageViewShow.observe(this, Observer {
@@ -105,6 +98,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
     inner class ViewHandler {
         fun shutter() {
+            ocrLottie.playAnimation()
             cameraViewShutter.startAnimation(scaleAnimation())
             val photoResult = fotoapparat.autoFocus().takePicture()
             getViewModel().savePicture(photoResult)
@@ -123,6 +117,10 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )
             )
+        }
+        fun retake(){
+            ocrLottie.cancelAnimation()
+            getViewModel().isImageMake.set(false)
         }
     }
 

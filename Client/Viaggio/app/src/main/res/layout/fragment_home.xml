@@ -22,18 +22,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/homeController">
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/test1"
+                    android:id="@id/homeMain"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/test2"
+                    android:id="@id/homeTravelingListView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="start"
                     android:layout_marginStart="-65dp"
             />
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/test3"
+                    android:id="@id/homeTraveledListView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
@@ -52,7 +52,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
         />
         <TextView
-                android:id="@id/homeTravelIngListNav"
+                android:id="@id/homeTravelingListNav"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableTop="@drawable/icon_upload_empty"
@@ -60,7 +60,7 @@
                 android:text="@string/home_traveling"
                 android:textColor="@android:color/black"
                 android:layout_marginStart="20dp"
-                android:onClick="@{() -> viewHandler.camera()}"
+                android:onClick="@{() -> viewHandler.traveling()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/homeController"
                 app:layout_constraintTop_toTopOf="@id/homeController"
@@ -74,6 +74,7 @@
                 android:text="@string/home_travel"
                 android:textColor="@android:color/black"
                 android:layout_marginEnd="20dp"
+                android:onClick="@{() -> viewHandler.traveled()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/homeController"
                 app:layout_constraintTop_toTopOf="@id/homeController"

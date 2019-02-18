@@ -26,7 +26,6 @@
     <item name="errorIcon" type="id"/>
     <item name="errTxt" type="id"/>
     <item name="cameraView" type="id"/>
-    <item name="cameraViewController" type="id"/>
     <item name="cameraViewShutter" type="id"/>
     <item name="cameraViewClose" type="id"/>
     <item name="cameraViewImage" type="id"/>
@@ -42,7 +41,10 @@
     <item name="cameraViewImageAllList" type="id"/>
     <item name="cameraViewListImage" type="id"/>
     <item name="homeController" type="id"/>
-    <item name="homeTravelIngListNav" type="id"/>
+    <item name="homeTravelingListNav" type="id"/>
     <item name="homeTravelListNav" type="id"/>
     <item name="homeContentFrame" type="id"/>
+    <item name="homeMain" type="id"/>
+    <item name="homeTravelingListView" type="id"/>
+    <item name="homeTraveledListView" type="id"/>
 </resources>

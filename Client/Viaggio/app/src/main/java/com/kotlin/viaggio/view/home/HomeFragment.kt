@@ -1,16 +1,17 @@
 package com.kotlin.viaggio.view.home
 
-import android.Manifest
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.view.common.BaseFragment
-import org.jetbrains.anko.support.v4.toast
+import com.kotlin.viaggio.view.traveled.TraveledFragment
+import com.kotlin.viaggio.view.traveling.TravelingFragment
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment:BaseFragment<HomeFragmentViewModel>() {
@@ -24,29 +25,34 @@ class HomeFragment:BaseFragment<HomeFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        childFragmentManager.beginTransaction()
+            .replace(R.id.homeMain, HomeMainFragment())
+            .commit()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.homeTraveledListView, TraveledFragment())
+            .commit()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.homeTravelingListView, TravelingFragment())
+            .commit()
 
-        getViewModel().goToCamera.observe(this, Observer {
-            it?.let {
-                baseIntent("http://viaggio.kotlin.com/home/main/camera/")
-                getViewModel().goToCamera.value = null
-            }
-        })
-        getViewModel().permissionRequestMsg.observe(this, Observer {
-            when(it){
-                PermissionError.NECESSARY_PERMISSION->toast(resources.getString(R.string.camera_permission))
-                else -> {}
-            }
-            getViewModel().permissionRequestMsg.value = null
-        })
     }
 
+    @SuppressLint("WrongConstant")
     inner class ViewHandler{
-        fun camera(){
-            if(getViewModel().traveling){
-
-            }else{
-                getViewModel().permissionCheck(rxPermission.request(Manifest.permission.CAMERA,
-                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        fun traveling(){
+            if(homeContentFrame.isDrawerOpen(Gravity.END)){
+                homeContentFrame.closeDrawer(Gravity.END)
+            }
+            if(!homeContentFrame.isDrawerOpen(Gravity.START)){
+                homeContentFrame.openDrawer(Gravity.START)
+            }
+        }
+        fun traveled(){
+            if(homeContentFrame.isDrawerOpen(Gravity.START)){
+                homeContentFrame.closeDrawer(Gravity.START)
+            }
+            if(!homeContentFrame.isDrawerOpen(Gravity.END)){
+                homeContentFrame.openDrawer(Gravity.END)
             }
         }
     }

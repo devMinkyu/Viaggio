@@ -4,12 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.android.ArgName
-import com.kotlin.viaggio.android.IntentName
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.home.HomeFragment
-import com.kotlin.viaggio.view.ocr.OcrImageFragment
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
@@ -49,9 +46,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "main" -> showHome()
                         "login" -> showSign()
                         "camera" -> showCamera()
-                        "image" -> {
-                            showOcrImage(intent.getStringExtra(IntentName.OCR_IMAGE_URI_INTENT.name))
-                        }
                     }
                 }
                 "login" -> {
@@ -67,18 +61,8 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         }
     }
 
-    private fun showOcrImage(uri:String?) {
-        uri?.let { uriVal ->
-            val frag = OcrImageFragment()
-            val arg = Bundle()
-            arg.putString(ArgName.OCR_IMAGE_URI.name, uriVal)
-            frag.arguments = arg
-            baseShowLeftAddBackFragment(frag)
-        }
-    }
-
     private fun showCamera() {
-        baseShowRightAddBackFragment(CameraFragment())
+        baseShowTopAddBackFragment(CameraFragment())
     }
 
     private fun showTutorial() {
