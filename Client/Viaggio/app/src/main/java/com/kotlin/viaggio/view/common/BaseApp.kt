@@ -5,11 +5,13 @@ import android.app.Service
 import android.content.BroadcastReceiver
 import android.content.ContentProvider
 import androidx.multidex.MultiDexApplication
+import androidx.work.Worker
+import com.kotlin.viaggio.ioc.module.common.AndroidWorkerInjection
 import dagger.android.*
 import javax.inject.Inject
 
 abstract class BaseApp : MultiDexApplication(), HasActivityInjector, HasServiceInjector,
-    HasBroadcastReceiverInjector, HasContentProviderInjector {
+    HasBroadcastReceiverInjector, HasContentProviderInjector, AndroidWorkerInjection.HasWorkerInjector {
     @Inject
     lateinit var activityInjector: DispatchingAndroidInjector<Activity>
     @Inject
@@ -18,6 +20,8 @@ abstract class BaseApp : MultiDexApplication(), HasActivityInjector, HasServiceI
     lateinit var broadcastReceiverInjector: DispatchingAndroidInjector<BroadcastReceiver>
     @Inject
     lateinit var contentProviderInjector: DispatchingAndroidInjector<ContentProvider>
+    @Inject
+    lateinit var workerInjector: DispatchingAndroidInjector<Worker>
 
     private var needToInject: Boolean = true
 
@@ -50,4 +54,5 @@ abstract class BaseApp : MultiDexApplication(), HasActivityInjector, HasServiceI
     override fun serviceInjector() = serviceInjector
     override fun broadcastReceiverInjector() = broadcastReceiverInjector
     override fun contentProviderInjector() = contentProviderInjector
+    override fun workerInjector() = workerInjector
 }
