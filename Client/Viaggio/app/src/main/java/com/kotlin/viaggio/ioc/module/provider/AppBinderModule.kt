@@ -4,6 +4,7 @@ import androidx.work.Worker
 import com.kotlin.viaggio.ioc.component.DataFetchWorkerSubComponent
 import com.kotlin.viaggio.ioc.module.mapkey.WorkerKey
 import com.kotlin.viaggio.worker.BaseWorker
+import com.kotlin.viaggio.worker.TimeCheckWorker
 import dagger.Binds
 import dagger.Module
 import dagger.android.AndroidInjector
@@ -12,7 +13,7 @@ import dagger.multibindings.Multibinds
 
 @Suppress("unused")
 @Module(
-    includes = [
+    subcomponents = [
         DataFetchWorkerSubComponent::class
     ]
 )
@@ -28,4 +29,9 @@ abstract class AppBinderModule {
     @IntoMap
     @WorkerKey(BaseWorker::class)
     abstract fun bindMyWorkerFactory(builder: DataFetchWorkerSubComponent.Builder): AndroidInjector.Factory<out Worker>
+
+    @Binds
+    @IntoMap
+    @WorkerKey(TimeCheckWorker::class)
+    abstract fun bindTimeCheckWorkerFactory(builder: DataFetchWorkerSubComponent.Builder): AndroidInjector.Factory<out Worker>
 }

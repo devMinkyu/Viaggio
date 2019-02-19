@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import com.kotlin.viaggio.view.App
 import dagger.Module
 import dagger.Provides
+import dagger.android.ContributesAndroidInjector
 import java.util.*
 import javax.inject.Named
 import javax.inject.Singleton

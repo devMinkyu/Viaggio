@@ -6,6 +6,6 @@ enum class ArgName {
     OCR_IMAGE_URI
 }
 
-enum class IntentName {
-    OCR_IMAGE_URI_INTENT
+enum class WorkerName {
+    TRAVELING_OF_DAY_CHECK
 }
