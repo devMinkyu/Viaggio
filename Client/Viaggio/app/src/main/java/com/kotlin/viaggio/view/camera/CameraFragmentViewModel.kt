@@ -20,6 +20,8 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     lateinit var travelModel: TravelModel
     @Inject
     lateinit var firebaseVision: FirebaseVisionTextRecognizer
+    @Inject
+    lateinit var rxEventBus: RxEventBus
 
     val photoUri:MutableLiveData<Event<Uri>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
@@ -56,7 +58,7 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
         firebaseVision.processImage(FirebaseVisionImage.fromFilePath(appCtx.get(), uri))
             .addOnSuccessListener {
                 complete.value = Event(Any())
-                RxEventBus().send(it.text)
+                rxEventBus.bus.onNext(it.text)
             }
             .addOnFailureListener {
             }

@@ -98,6 +98,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         getViewModel().complete.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 fragmentManager?.let {fragmentManager->
+                    ocrLottie.cancelAnimation()
                     OcrImageActionDialogFragment().show(fragmentManager, OcrImageActionDialogFragment.TAG)
                 }
             }
