@@ -23,12 +23,11 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        if(getViewModel().checkTutorial()){
-//            showHome()
-//        }else{
-//            showTutorial()
-//        }
-        showTutorial()
+        if(getViewModel().checkTutorial()){
+            showHome()
+        }else{
+            showTutorial()
+        }
 
         handleIntent(intent)
 

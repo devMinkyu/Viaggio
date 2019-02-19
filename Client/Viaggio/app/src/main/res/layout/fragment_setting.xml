@@ -34,20 +34,20 @@
         />
         <ImageView
                 android:id="@id/settingUserProfile"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="60dp"
                 tools:src="@drawable/empty_gallery"
-                android:layout_marginTop="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/settingUserProfileClose"
+                app:layout_constraintTop_toBottomOf="@id/settingTgl"
         />
-        <TextView
-                android:id="@id/settingUserName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/setting_non_members"
-                android:textSize="30sp"
+        <Button
+                android:id="@id/settingSignBtn"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:text="@string/setting_sign"
+                android:onClick="@{()->viewHandler.sign()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/settingUserProfile"

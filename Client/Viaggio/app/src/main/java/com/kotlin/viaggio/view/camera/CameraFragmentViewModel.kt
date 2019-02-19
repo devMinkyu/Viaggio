@@ -47,7 +47,7 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     }
 
     fun savePicture(photoResult: PhotoResult) {
-//        isImageMake.set(true)
+        isImageMake.set(true)
         val disposable = travelModel.savePicture(photoResult).subscribe { t1 ->
             photoUri.value = Event(t1)
             visionTextRecognizer(t1)

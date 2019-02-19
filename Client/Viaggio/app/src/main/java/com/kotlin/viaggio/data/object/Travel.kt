@@ -1,7 +1,9 @@
 package com.kotlin.viaggio.data.`object`
 
+import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+@Entity(tableName = "travels")
 data class Travel(
     @PrimaryKey var id:String = "",
     @Suppress("ArrayInDataClass") var travelOfDayIds:MutableList<String> = mutableListOf(),
@@ -13,6 +15,8 @@ data class Travel(
     var themeImgUri:String=""
 )
 
+
+@Entity(tableName = "travelOfDays")
 data class TravelOfDay(
     @PrimaryKey var id:String = "",
     @Suppress("ArrayInDataClass") var travelCardIds:MutableList<String> = mutableListOf(),
@@ -23,6 +27,7 @@ data class TravelOfDay(
     var themeImgUri: String = ""
 )
 
+@Entity(tableName = "travelCards")
 data class TravelCard(
     @PrimaryKey var id:String = "",
     @Suppress("ArrayInDataClass") var imageUris:MutableList<String> = mutableListOf(),

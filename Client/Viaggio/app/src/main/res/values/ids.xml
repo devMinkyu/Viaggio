@@ -58,4 +58,5 @@
     <item name="settingUserProfileClose" type="id"/>
     <item name="settingTgl" type="id"/>
     <item name="settingUserName" type="id"/>
+    <item name="settingSignBtn" type="id"/>
 </resources>

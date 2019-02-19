@@ -33,6 +33,9 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         fun close(){
             fragmentPopStack()
         }
+        fun sign(){
+            baseIntent("http://viaggio.kotlin.com/home/login/")
+        }
     }
 }
 
