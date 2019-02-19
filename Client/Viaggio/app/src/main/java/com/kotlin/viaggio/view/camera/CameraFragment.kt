@@ -94,6 +94,14 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                 }
             }
         })
+
+        getViewModel().complete.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                fragmentManager?.let {fragmentManager->
+                    OcrImageActionDialogFragment().show(fragmentManager, OcrImageActionDialogFragment.TAG)
+                }
+            }
+        })
     }
 
     inner class ViewHandler {

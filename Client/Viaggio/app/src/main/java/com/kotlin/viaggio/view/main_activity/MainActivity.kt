@@ -3,6 +3,8 @@ package com.kotlin.viaggio.view.main_activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
@@ -12,6 +14,7 @@ import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
+import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
     companion object {
@@ -29,6 +32,25 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         showTutorial()
 
         handleIntent(intent)
+
+        getViewModel().finishActivity.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                finish()
+            }
+        })
+        getViewModel().showToast.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                toast(resources.getString(R.string.finish_of_msg))
+            }
+        })
+    }
+
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount == 0){
+            getViewModel().backButtonSubject.onNext(System.currentTimeMillis())
+        }else{
+            super.onBackPressed()
+        }
     }
 
     override fun onNewIntent(intent: Intent) {

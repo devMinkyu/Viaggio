@@ -7,6 +7,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.event.Event
+import com.kotlin.viaggio.event.RxEventBus
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.tbruyelle.rxpermissions2.Permission
@@ -23,6 +24,7 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     val photoUri:MutableLiveData<Event<Uri>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
     val imageViewShow:MutableLiveData<Event<Any>> = MutableLiveData()
+    val complete:MutableLiveData<Event<Any>> = MutableLiveData()
 
     val isImageMake:ObservableBoolean = ObservableBoolean(false)
     lateinit var imagePathList: MutableList<String>
@@ -53,6 +55,8 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     private fun visionTextRecognizer(uri: Uri){
         firebaseVision.processImage(FirebaseVisionImage.fromFilePath(appCtx.get(), uri))
             .addOnSuccessListener {
+                complete.value = Event(Any())
+                RxEventBus().send(it.text)
             }
             .addOnFailureListener {
             }

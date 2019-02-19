@@ -25,6 +25,7 @@
     <string name="err_delete_id">The deleted Email</string>
     <string name="home_traveling">Traveling</string>
     <string name="home_travel">Traveled</string>
-    <string name="setting_Non_members">Non Members</string>
+    <string name="setting_non_members">Non Members</string>
+    <string name="finish_of_msg">Please press back button one more time to exit the app</string>
 
 </resources>
