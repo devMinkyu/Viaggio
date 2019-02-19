@@ -103,6 +103,12 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                 }
             }
         })
+
+        getViewModel().travelingStart.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                fragmentPopStack()
+            }
+        })
     }
 
     inner class ViewHandler {

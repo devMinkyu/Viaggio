@@ -3,7 +3,6 @@ package com.kotlin.viaggio.view.main_activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.camera.CameraFragment

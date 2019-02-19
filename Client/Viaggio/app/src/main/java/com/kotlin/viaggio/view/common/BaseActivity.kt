@@ -48,7 +48,7 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
             WorkManager.getInstance().enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name, ExistingPeriodicWorkPolicy.REPLACE, timeCheckWork)
         }
     }
-
+    
     override fun androidXFragmentInjector() = fragmentInjector
 
     fun getViewModel(): E =

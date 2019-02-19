@@ -15,8 +15,6 @@ import javax.inject.Inject
 class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var gson: Gson
-    @Inject
-    lateinit var prefUtilService: AndroidPrefUtilService
 
     val tutorialList: MutableLiveData<List<Tutorial>> = MutableLiveData()
 

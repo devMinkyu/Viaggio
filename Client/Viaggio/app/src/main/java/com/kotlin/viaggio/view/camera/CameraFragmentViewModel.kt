@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
 import com.kotlin.viaggio.data.`object`.PermissionError
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.event.RxEventBus
 import com.kotlin.viaggio.model.TravelModel
@@ -26,6 +27,7 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     val photoUri:MutableLiveData<Event<Uri>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
     val imageViewShow:MutableLiveData<Event<Any>> = MutableLiveData()
+    val travelingStart:MutableLiveData<Event<Any>> = MutableLiveData()
     val complete:MutableLiveData<Event<Any>> = MutableLiveData()
 
     val isImageMake:ObservableBoolean = ObservableBoolean(false)
@@ -34,10 +36,18 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     override fun initialize() {
         super.initialize()
         imagePathList = travelModel.imageAllPath()
+
+        val disposable = rxEventBus.travelOfGo.subscribe {
+            val traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
+            if(traveling){
+                travelingStart.value = Event(Any())
+            }
+        }
+        addDisposable(disposable)
     }
 
     fun savePicture(photoResult: PhotoResult) {
-        isImageMake.set(true)
+//        isImageMake.set(true)
         val disposable = travelModel.savePicture(photoResult).subscribe { t1 ->
             photoUri.value = Event(t1)
             visionTextRecognizer(t1)
@@ -58,7 +68,7 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
         firebaseVision.processImage(FirebaseVisionImage.fromFilePath(appCtx.get(), uri))
             .addOnSuccessListener {
                 complete.value = Event(Any())
-                rxEventBus.bus.onNext(it.text)
+                rxEventBus.travelOfCountry.onNext("미국")
             }
             .addOnFailureListener {
             }

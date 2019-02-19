@@ -15,8 +15,6 @@ import javax.inject.Inject
 
 class MainActivityViewModel @Inject constructor() : BaseViewModel() {
     @Inject
-    lateinit var prefUtilService: AndroidPrefUtilService
-    @Inject
     lateinit var timeHelper: TimeHelper
 
     val finishActivity:MutableLiveData<Event<Any>> = MutableLiveData()
@@ -24,6 +22,11 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
 
     override fun initialize() {
         super.initialize()
+        // test
+        var test = prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, false).subscribe()
+        addDisposable(test)
+
+
         val traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
         if (traveling) {
             timeHelper.timeCheckOfDay()

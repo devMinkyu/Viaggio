@@ -9,5 +9,6 @@ import javax.inject.Singleton
 
 @Singleton
 class RxEventBus @Inject constructor() {
-    val bus:BehaviorSubject<Any> = BehaviorSubject.create()
+    val travelOfCountry:BehaviorSubject<String> = BehaviorSubject.create()
+    val travelOfGo:BehaviorSubject<Any> = BehaviorSubject.create()
 }

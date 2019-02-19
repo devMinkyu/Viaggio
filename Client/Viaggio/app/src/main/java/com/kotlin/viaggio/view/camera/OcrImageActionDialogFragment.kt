@@ -18,11 +18,19 @@ class OcrImageActionDialogFragment: BaseDialogFragment<OcrImageActionDialogFragm
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dialog_ocr_image_action, container, false)
         binding.viewModel = getViewModel()
+        binding.viewHandler = ViewHandler()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    inner class ViewHandler{
+        fun startTravel(){
+            getViewModel().startTravel()
+            dismiss()
+        }
     }
 
 }
