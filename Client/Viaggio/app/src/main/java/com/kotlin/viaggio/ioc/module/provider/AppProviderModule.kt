@@ -6,9 +6,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.preference.PreferenceManager
+import androidx.room.Room
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.text.FirebaseVisionCloudTextRecognizerOptions
 import com.google.gson.Gson
+import com.kotlin.viaggio.data.source.AppDatabase
 import com.kotlin.viaggio.view.App
 import dagger.Module
 import dagger.Provides
@@ -39,6 +41,16 @@ class AppProviderModule {
     @Provides
     internal fun provideRes(@Named("Application") context: Context): Resources {
         return context.resources
+    }
+
+    @Provides @Singleton
+    internal fun provideAppDataBase(
+        @Named("Application") context: Context
+    ): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java, "viaggio-android-db"
+        ).build()
     }
 
     @Provides
