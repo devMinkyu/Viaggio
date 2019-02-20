@@ -12,7 +12,7 @@ data class Travel(
     var startOfDay:String = "",
     var endOfDay:String = "",
     var themeTitle:String ="",
-    var themeImgUri:String=""
+    var themeImageName:String=""
 )
 
 
@@ -24,13 +24,13 @@ data class TravelOfDay(
     var userId:String = "",
     var daily:String = "",
     var transportation:MutableList<String> = mutableListOf(),
-    var themeImgUri: String = ""
+    var themeImageName: String = ""
 )
 
 @Entity(tableName = "travelCards")
 data class TravelCard(
     @PrimaryKey var id:String = "",
-    @Suppress("ArrayInDataClass") var imageUris:MutableList<String> = mutableListOf(),
+    @Suppress("ArrayInDataClass") var imageNames:MutableList<String> = mutableListOf(),
     @Suppress("ArrayInDataClass") var countries:MutableList<String> = mutableListOf(),
     var userId:String = "",
     var contents:String = "",

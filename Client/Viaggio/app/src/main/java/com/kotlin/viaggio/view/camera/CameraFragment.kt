@@ -1,7 +1,11 @@
 package com.kotlin.viaggio.view.camera
 
 import android.Manifest
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +28,8 @@ import io.fotoapparat.selector.*
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.item_camera_image.view.*
 import org.jetbrains.anko.support.v4.toast
+import java.io.File
+import java.io.FileOutputStream
 
 
 class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
@@ -72,11 +78,23 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         })
         getViewModel().photoUri.observe(this, Observer {
             it?.getContentIfNotHandled()?.let { uri ->
-                context?.let {contextVal ->
+                context?.let { contextVal ->
                     Glide.with(contextVal)
                         .load(uri)
                         .into(ocrImage)
                 }
+
+//                val test = MediaStore.Images.Media.getBitmap(activity?.contentResolver, uri)
+//                val imageDir = File(context?.filesDir, "images")
+//                imageDir.mkdirs()
+//                val localFile = File(imageDir, uri.lastPathSegment)
+//                localFile.createNewFile()
+//
+//                val out = FileOutputStream(localFile)
+//                if(test.compress(Bitmap.CompressFormat.JPEG, 100, out)){
+//                    out.flush()
+//                    out.close()
+//                }
             }
         })
         getViewModel().imageViewShow.observe(this, Observer {
@@ -167,6 +185,8 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                     .load(string)
                     .into(itemView.cameraViewListImage)
             }
+
+
         }
 
         inner class CameraViewHandler{
@@ -179,6 +199,8 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                         .load(fileNamePath)
                         .into(ocrImage)
                 }
+
+//                val test = (ocrImage.drawable as BitmapDrawable).bitmap
             }
         }
     }
