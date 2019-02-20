@@ -11,7 +11,6 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.event.RxEventBus
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
-import com.tbruyelle.rxpermissions2.Permission
 import io.fotoapparat.result.PhotoResult
 import io.reactivex.Observable
 import javax.inject.Inject

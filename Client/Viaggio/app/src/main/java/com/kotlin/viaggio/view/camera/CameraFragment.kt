@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.camera
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -15,13 +16,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.Data
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.kotlin.viaggio.worker.CompressWorker
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.ScaleType
 import io.fotoapparat.selector.*
@@ -56,6 +63,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         return binding.root
     }
 
+    @SuppressLint("EnqueueWork")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BottomSheetBehavior.from(cameraViewImageBottomSheet).state = STATE_HIDDEN
@@ -124,6 +132,11 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
         getViewModel().travelingStart.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
+                val inputData = Data.Builder().putAll(mapOf(WorkerName.COMPRESS_IMAGE.name to listOf((ocrImage.drawable as BitmapDrawable).bitmap))).build()
+                val compressWork = OneTimeWorkRequestBuilder<CompressWorker>()
+                    .setInputData(inputData)
+                    .build()
+                WorkManager.getInstance().beginUniqueWork(WorkerName.COMPRESS_IMAGE.name, ExistingWorkPolicy.APPEND, compressWork)
                 fragmentPopStack()
             }
         })

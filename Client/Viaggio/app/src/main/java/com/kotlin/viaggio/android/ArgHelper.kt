@@ -7,5 +7,5 @@ enum class ArgName {
 }
 
 enum class WorkerName {
-    TRAVELING_OF_DAY_CHECK
+    TRAVELING_OF_DAY_CHECK, COMPRESS_IMAGE
 }

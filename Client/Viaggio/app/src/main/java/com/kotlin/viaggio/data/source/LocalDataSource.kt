@@ -25,7 +25,6 @@ class LocalDataSource @Inject constructor(){
         const val FILE_PROVIDER_AUTHORITY = "com.kotlin.viaggio.fileprovider"
     }
 
-
     fun savePhotoResult(photoResult: PhotoResult): Single<Uri>{
         return Single.create {emitter ->
             val file:File
