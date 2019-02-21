@@ -2,7 +2,10 @@ package com.kotlin.viaggio.view.camera
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +21,13 @@ import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.DrawableImageViewTarget
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
@@ -202,8 +212,6 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                     .load(string)
                     .into(itemView.cameraViewListImage)
             }
-
-
         }
 
         inner class CameraViewHandler{
@@ -216,8 +224,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                         .load(fileNamePath)
                         .into(ocrImage)
                 }
-
-//                val test = (ocrImage.drawable as BitmapDrawable).bitmap
+                getViewModel().visionTextRecognizer(BitmapFactory.decodeFile(fileNamePath))
             }
         }
     }

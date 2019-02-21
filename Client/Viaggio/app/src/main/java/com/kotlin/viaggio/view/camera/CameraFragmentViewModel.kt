@@ -72,13 +72,20 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
         }
         addDisposable(disposable)
     }
-    private fun visionTextRecognizer(uri: Uri){
-        firebaseVision.processImage(FirebaseVisionImage.fromFilePath(appCtx.get(), uri))
-            .addOnSuccessListener {
-                complete.value = Event(Any())
-                rxEventBus.travelOfCountry.onNext("미국")
+    fun visionTextRecognizer(any: Any){
+        when(any){
+            is Bitmap ->{
+                firebaseVision.processImage(FirebaseVisionImage.fromBitmap(any))
             }
-            .addOnFailureListener {
+            is Uri ->{
+                firebaseVision.processImage(FirebaseVisionImage.fromFilePath(appCtx.get(), any))
             }
+            else ->{
+                firebaseVision.processImage(FirebaseVisionImage.fromFilePath(appCtx.get(), any as Uri))
+            }
+        }.addOnCompleteListener {
+            complete.value = Event(Any())
+            rxEventBus.travelOfCountry.onNext("미국")
+        }.addOnFailureListener {}
     }
 }
