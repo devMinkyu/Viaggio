@@ -3,7 +3,9 @@ package com.kotlin.viaggio.view.camera
 import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +15,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.work.Data
-import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.bumptech.glide.Glide
@@ -123,8 +124,23 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                 val compressWork = OneTimeWorkRequestBuilder<CompressWorker>()
                     .setInputData(inputData)
                     .build()
-                WorkManager.getInstance().enqueue(compressWork)
-                fragmentPopStack()
+                WorkManager.getInstance().let { work ->
+                    work.enqueue(compressWork)
+
+                    work.getWorkInfoByIdLiveData(compressWork.id).observe(this, Observer { workInfo ->
+                        if (workInfo != null && workInfo.state.isFinished) {
+                            val images = workInfo.outputData.getStringArray(WorkerName.COMPRESS_IMAGE.name)
+                            val uris = mutableListOf<Uri>()
+                            images?.let {
+                                for (image in images) {
+                                    uris.add(Uri.parse(image))
+                                    Log.d("hoho", image)
+                                    fragmentPopStack()
+                                }
+                            }
+                        }
+                    })
+                }
             }
         })
     }
