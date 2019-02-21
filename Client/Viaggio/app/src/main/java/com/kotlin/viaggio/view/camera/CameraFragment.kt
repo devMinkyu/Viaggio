@@ -2,12 +2,8 @@ package com.kotlin.viaggio.view.camera
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,8 +31,6 @@ import io.fotoapparat.selector.*
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.item_camera_image.view.*
 import org.jetbrains.anko.support.v4.toast
-import java.io.File
-import java.io.FileOutputStream
 
 
 class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
@@ -91,18 +85,6 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                         .load(uri)
                         .into(ocrImage)
                 }
-
-//                val test = MediaStore.Images.Media.getBitmap(activity?.contentResolver, uri)
-//                val imageDir = File(context?.filesDir, "images")
-//                imageDir.mkdirs()
-//                val localFile = File(imageDir, uri.lastPathSegment)
-//                localFile.createNewFile()
-//
-//                val out = FileOutputStream(localFile)
-//                if(test.compress(Bitmap.CompressFormat.JPEG, 100, out)){
-//                    out.flush()
-//                    out.close()
-//                }
             }
         })
         getViewModel().imageViewShow.observe(this, Observer {
@@ -132,14 +114,36 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
         getViewModel().travelingStart.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                val inputData = Data.Builder().putAll(mapOf(WorkerName.COMPRESS_IMAGE.name to listOf((ocrImage.drawable as BitmapDrawable).bitmap))).build()
+                getViewModel().cacheImage((ocrImage.drawable as BitmapDrawable).bitmap)
+            }
+        })
+        getViewModel().compressFile.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {file ->
+                val inputData = Data.Builder().putStringArray(WorkerName.COMPRESS_IMAGE.name, arrayOf(file.absolutePath)).build()
                 val compressWork = OneTimeWorkRequestBuilder<CompressWorker>()
                     .setInputData(inputData)
                     .build()
-                WorkManager.getInstance().beginUniqueWork(WorkerName.COMPRESS_IMAGE.name, ExistingWorkPolicy.APPEND, compressWork)
+                WorkManager.getInstance().enqueue(compressWork)
                 fragmentPopStack()
             }
         })
+    }
+
+
+    fun scaleAnimation():ScaleAnimation{
+        val scale = ScaleAnimation(0.95f, 1f, 0.95f, 1f)
+        scale.duration = 200
+        return scale
+    }
+
+    override fun onStart() {
+        super.onStart()
+        fotoapparat.start()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        fotoapparat.stop()
     }
 
     inner class ViewHandler {
@@ -171,22 +175,6 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
             // 임의로 한 사진
             ocrImage.setImageDrawable(resources.getDrawable(R.drawable.empty_gallery, null))
         }
-    }
-
-    fun scaleAnimation():ScaleAnimation{
-        val scale = ScaleAnimation(0.95f, 1f, 0.95f, 1f)
-        scale.duration = 200
-        return scale
-    }
-
-    override fun onStart() {
-        super.onStart()
-        fotoapparat.start()
-    }
-
-    override fun onStop() {
-        super.onStop()
-        fotoapparat.stop()
     }
     inner class CameraViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemCameraImageBinding>(itemView)

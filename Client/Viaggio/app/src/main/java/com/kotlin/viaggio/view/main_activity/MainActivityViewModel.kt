@@ -23,7 +23,7 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
     override fun initialize() {
         super.initialize()
         // test
-        var test = prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, false).subscribe()
+        val test = prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, false).subscribe()
         addDisposable(test)
 
 

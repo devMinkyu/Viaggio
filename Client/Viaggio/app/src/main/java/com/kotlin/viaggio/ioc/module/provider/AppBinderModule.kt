@@ -24,7 +24,6 @@ abstract class AppBinderModule {
     @Multibinds
     abstract fun supportWorkerInjectorFactoriesWithStringKeys(): Map<String, AndroidInjector.Factory<out Worker>>
 
-
     @Binds
     @IntoMap
     @WorkerKey(BaseWorker::class)

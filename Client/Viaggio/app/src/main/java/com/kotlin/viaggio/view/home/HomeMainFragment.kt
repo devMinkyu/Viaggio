@@ -25,9 +25,9 @@ class HomeMainFragment:BaseFragment<HomeMainFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val imgDir = File(context?.filesDir, "images")
+        val imgDir = File(context?.filesDir, "images/")
         if (imgDir.exists()) {
-            val imgFile = File(imgDir, "test1.jpg")
+            val imgFile = File(imgDir, "ttttt.jpg")
             if (imgFile.exists()) {
                 test.visibility = View.VISIBLE
                 Uri.fromFile(imgFile).let { uri ->

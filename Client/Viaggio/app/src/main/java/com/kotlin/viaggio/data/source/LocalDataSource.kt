@@ -2,6 +2,7 @@ package com.kotlin.viaggio.data.source
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -10,7 +11,11 @@ import dagger.Lazy
 import io.fotoapparat.result.PhotoResult
 import io.fotoapparat.result.WhenDoneListener
 import io.reactivex.Single
+import io.reactivex.SingleOnSubscribe
+import io.reactivex.schedulers.Schedulers
 import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
@@ -126,4 +131,17 @@ class LocalDataSource @Inject constructor(){
         cursor?.close()
         return list
     }
+
+    fun cacheFile(bitmap: Bitmap):Single<File>{
+        return Single.create(SingleOnSubscribe<File> {emmiter ->
+            val cacheFile = createTempFile()
+            val out = FileOutputStream(cacheFile)
+            if(bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)){
+                out.flush()
+                out.close()
+                emmiter.onSuccess(cacheFile)
+            }
+        }).subscribeOn(Schedulers.io())
+    }
+
 }
