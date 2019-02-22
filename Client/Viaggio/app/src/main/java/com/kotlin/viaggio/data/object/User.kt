@@ -5,8 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
 data class User(
-    @PrimaryKey
-    var id:String = "",
+    @PrimaryKey(autoGenerate = true) var id:Int,
     var name:String = "",
     var email:String ="",
     var profileImageName:String = ""

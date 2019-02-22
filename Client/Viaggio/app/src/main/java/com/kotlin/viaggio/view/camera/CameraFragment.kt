@@ -2,13 +2,8 @@ package com.kotlin.viaggio.view.camera
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,25 +12,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.RequestBuilder
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.DrawableImageViewTarget
-import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_COLLAPSED
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.view.common.BaseFragment
-import com.kotlin.viaggio.worker.CompressWorker
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.ScaleType
 import io.fotoapparat.selector.*
@@ -116,41 +99,8 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
         getViewModel().complete.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                fragmentManager?.let {fragmentManager->
-                    ocrLottie.cancelAnimation()
-                    OcrImageActionDialogFragment().show(fragmentManager, OcrImageActionDialogFragment.TAG)
-                }
-            }
-        })
-
-        getViewModel().travelingStart.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {
-                getViewModel().cacheImage((ocrImage.drawable as BitmapDrawable).bitmap)
-            }
-        })
-        getViewModel().compressFile.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {file ->
-                val inputData = Data.Builder().putStringArray(WorkerName.COMPRESS_IMAGE.name, arrayOf(file.absolutePath)).build()
-                val compressWork = OneTimeWorkRequestBuilder<CompressWorker>()
-                    .setInputData(inputData)
-                    .build()
-                WorkManager.getInstance().let { work ->
-                    work.enqueue(compressWork)
-
-                    work.getWorkInfoByIdLiveData(compressWork.id).observe(this, Observer { workInfo ->
-                        if (workInfo != null && workInfo.state.isFinished) {
-                            val images = workInfo.outputData.getStringArray(WorkerName.COMPRESS_IMAGE.name)
-                            val uris = mutableListOf<Uri>()
-                            images?.let {
-                                for (image in images) {
-                                    uris.add(Uri.parse(image))
-                                    Log.d("hoho", image)
-                                    fragmentPopStack()
-                                }
-                            }
-                        }
-                    })
-                }
+                ocrLottie.cancelAnimation()
+                ocrLottie.visibility = View.GONE
             }
         })
     }

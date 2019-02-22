@@ -4,7 +4,6 @@ package com.kotlin.viaggio.ioc.module.injector.activity
 
 import com.kotlin.viaggio.ioc.module.injector.activity.fragment.HomeFragmentInjectorModule
 import com.kotlin.viaggio.view.camera.CameraFragment
-import com.kotlin.viaggio.view.camera.OcrImageActionDialogFragment
 import com.kotlin.viaggio.view.home.HomeFragment
 import com.kotlin.viaggio.view.setting.SettingFragment
 import com.kotlin.viaggio.view.sign.SignFragment
@@ -40,7 +39,4 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun settingFragment(): SettingFragment
-
-    @ContributesAndroidInjector
-    fun ocrImageActionDialogFragment(): OcrImageActionDialogFragment
 }

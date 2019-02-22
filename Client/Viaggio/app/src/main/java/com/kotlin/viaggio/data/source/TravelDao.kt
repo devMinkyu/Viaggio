@@ -7,18 +7,21 @@ import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface TravelDao {
     @Insert
-    fun insertTravel(vararg travel: Travel)
+    fun insertTravel(travel: Travel):Single<Long>
+    @Insert
+    fun insertAllTravel(vararg travel: Travel)
 
     @Query("SELECT * FROM travels")
     fun getTravels(): Flowable<List<Travel>>
 
     @Insert
-    fun insertTravelOfDay(vararg travel: TravelOfDay)
+    fun insertTravelOfDay(travel: TravelOfDay):Single<Long>
 
     @Insert
-    fun insertTravelCard(vararg travel: TravelCard)
+    fun insertTravelCard(travel: TravelCard):Single<Long>
 }

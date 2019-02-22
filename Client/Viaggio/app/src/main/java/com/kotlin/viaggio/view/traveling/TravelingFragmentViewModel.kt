@@ -1,20 +1,41 @@
 package com.kotlin.viaggio.view.traveling
 
+import android.graphics.Bitmap
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
+import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
+import java.io.File
 import javax.inject.Inject
 
 class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
+    @Inject
+    lateinit var travelModel: TravelModel
     val goToCamera: MutableLiveData<Event<Any>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
-    var traveling = false
+    val compressFile: MutableLiveData<Event<File>> = MutableLiveData()
+
+    var ticketImage:Bitmap? = null
+
+    var traveling = ObservableBoolean(false)
+
     override fun initialize() {
         super.initialize()
-        traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING, false).blockingGet()
+        traveling.set(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING, false).blockingGet())
+
+        val disposable= rxEventBus.travelOfFirstImage
+            .observeOn(Schedulers.io())
+            .subscribe {
+                if(!traveling.get()){
+                    ticketImage = it
+                }
+            }
+        addDisposable(disposable)
     }
     fun permissionCheck(request: Observable<Boolean>?) {
         val disposable = request?.subscribe { t ->
@@ -25,5 +46,13 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
         }
         disposable?.let { addDisposable(it) }
+    }
+    fun cacheImage(){
+        ticketImage?.let {ticketImage ->
+            val disposable = travelModel.cacheImage(ticketImage).subscribe { t1 ->
+                compressFile.postValue(Event(t1))
+            }
+            addDisposable(disposable)
+        }
     }
 }

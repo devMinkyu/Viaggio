@@ -59,4 +59,8 @@
     <item name="settingTgl" type="id"/>
     <item name="settingUserName" type="id"/>
     <item name="settingSignBtn" type="id"/>
+    <item name="travelingCountry" type="id"/>
+    <item name="travelingDay" type="id"/>
+    <item name="travelingTheme" type="id"/>
+    <item name="travelingCamera" type="id"/>
 </resources>

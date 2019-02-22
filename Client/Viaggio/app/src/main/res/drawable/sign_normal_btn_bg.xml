@@ -9,6 +9,11 @@
     <corners
             android:radius="20dp"
     />
+    <!--<gradient-->
+            <!--android:startColor="#ef295d"-->
+            <!--android:endColor="#ef3c73"-->
+            <!--android:angle="0"/>-->
+
     <solid
     android:color="@color/colorPrimary"/>
 

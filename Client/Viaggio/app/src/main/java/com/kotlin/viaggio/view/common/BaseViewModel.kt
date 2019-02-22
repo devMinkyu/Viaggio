@@ -3,6 +3,7 @@ package com.kotlin.viaggio.view.common
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
+import com.kotlin.viaggio.event.RxEventBus
 import com.tbruyelle.rxpermissions2.Permission
 import dagger.Lazy
 import io.reactivex.Observable
@@ -15,6 +16,8 @@ abstract class BaseViewModel:ViewModel() {
     lateinit var appCtx: Lazy<Context>
     @Inject
     lateinit var prefUtilService: AndroidPrefUtilService
+    @Inject
+    lateinit var rxEventBus: RxEventBus
 
     private val disposables = mutableListOf<Disposable?>()
 

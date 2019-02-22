@@ -34,7 +34,10 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
         return Single.create(SingleOnSubscribe<List<String>> {
             val imageListUri:MutableList<String> = mutableListOf()
             for ((index, fileName) in fileNames.withIndex()) {
+
                 val compressImage = Compressor(applicationContext).compressToBitmap(File(fileName))
+
+
 
                 val imageDir = File(applicationContext.filesDir, IMG_FOLDER)
                 if(!imageDir.exists()){
@@ -49,7 +52,7 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
                         localFile.createNewFile()
 
                         val out = FileOutputStream(localFile)
-                        if (compressImage.compress(Bitmap.CompressFormat.JPEG, 100, out)) {
+                        if (compressImage.compress(Bitmap.CompressFormat.JPEG, 80, out)) {
                             out.flush()
                             out.close()
                             imageListUri.add(localFile.absolutePath)
