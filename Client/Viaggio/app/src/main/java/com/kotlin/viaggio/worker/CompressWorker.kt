@@ -34,33 +34,34 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
         return Single.create(SingleOnSubscribe<List<String>> {
             val imageListUri:MutableList<String> = mutableListOf()
             for ((index, fileName) in fileNames.withIndex()) {
+                if(File(fileName).exists()){
+                    val cameraImg = BitmapFactory.decodeFile(fileName)
+                    val sampleSize = normalQualitySizeCalculation(fileName)
+                    val compressImg = Bitmap.createScaledBitmap(cameraImg, (cameraImg.width/sampleSize).toInt(),(cameraImg.height/sampleSize).toInt(),true )
 
-                val cameraImg = BitmapFactory.decodeFile(fileName)
-                val sampleSize = normalQualitySizeCalculation(fileName)
-                val compressImg = Bitmap.createScaledBitmap(cameraImg, (cameraImg.width/sampleSize).toInt(),(cameraImg.height/sampleSize).toInt(),true )
-
-                val imageDir = File(applicationContext.filesDir, IMG_FOLDER)
-                if(!imageDir.exists()){
-                    imageDir.mkdirs()
-                }
-                try {
-                    if(imageDir.exists()){
-                        val imgName = String.format(
+                    val imageDir = File(applicationContext.filesDir, IMG_FOLDER)
+                    if(!imageDir.exists()){
+                        imageDir.mkdirs()
+                    }
+                    try {
+                        if(imageDir.exists()){
+                            val imgName = String.format(
                                 Locale.getDefault(),
                                 IMG_NAME_FORMAT, System.currentTimeMillis(), index, "jpg")
-                        val localFile = File(imageDir, imgName)
-                        localFile.createNewFile()
+                            val localFile = File(imageDir, imgName)
+                            localFile.createNewFile()
 
-                        val out = FileOutputStream(localFile)
-                        if (compressImg.compress(Bitmap.CompressFormat.JPEG, 80, out)) {
-                            out.flush()
-                            out.close()
-                            imageListUri.add(localFile.absolutePath)
+                            val out = FileOutputStream(localFile)
+                            if (compressImg.compress(Bitmap.CompressFormat.JPEG, 80, out)) {
+                                out.flush()
+                                out.close()
+                                imageListUri.add(localFile.absolutePath)
+                            }
                         }
+                    }catch (e:FileNotFoundException){
+                        it.onError(e)
+                        throw IOException("dir doesn't exit")
                     }
-                }catch (e:FileNotFoundException){
-                    it.onError(e)
-                    throw IOException("dir doesn't exit")
                 }
             }
             ClearCache().deleteCache(applicationContext)
