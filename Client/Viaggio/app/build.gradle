@@ -97,8 +97,6 @@ dependencies {
 
     // camera
     implementation 'io.fotoapparat:fotoapparat:2.6.1'
-    // compress
-    implementation 'id.zelory:compressor:2.1.0'
 }
 //apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'

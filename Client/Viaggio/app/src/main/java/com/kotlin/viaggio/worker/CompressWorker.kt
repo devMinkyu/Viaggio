@@ -2,11 +2,10 @@ package com.kotlin.viaggio.worker
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.net.Uri
+import android.graphics.BitmapFactory
 import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.kotlin.viaggio.android.WorkerName
-import id.zelory.compressor.Compressor
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers
@@ -35,9 +34,9 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
             val imageListUri:MutableList<String> = mutableListOf()
             for ((index, fileName) in fileNames.withIndex()) {
 
-                val compressImage = Compressor(applicationContext).compressToBitmap(File(fileName))
-
-
+                val cameraImg = BitmapFactory.decodeFile(fileName)
+                val sampleSize = normalQualitySizeCalculation(fileName)
+                val compressImg = Bitmap.createScaledBitmap(cameraImg, (cameraImg.width/sampleSize).toInt(),(cameraImg.height/sampleSize).toInt(),true )
 
                 val imageDir = File(applicationContext.filesDir, IMG_FOLDER)
                 if(!imageDir.exists()){
@@ -52,7 +51,7 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
                         localFile.createNewFile()
 
                         val out = FileOutputStream(localFile)
-                        if (compressImage.compress(Bitmap.CompressFormat.JPEG, 80, out)) {
+                        if (compressImg.compress(Bitmap.CompressFormat.JPEG, 80, out)) {
                             out.flush()
                             out.close()
                             imageListUri.add(localFile.absolutePath)
@@ -65,5 +64,21 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
             }
             it.onSuccess(imageListUri)
         }).subscribeOn(Schedulers.io())
+    }
+
+
+    private fun normalQualitySizeCalculation(fileName: String):Double{
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(fileName, options)
+        val imageHeight = options.outHeight.toDouble()
+        return imageHeight/960
+    }
+    private fun highQualitySizeCalculation(fileName: String):Double{
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(fileName, options)
+        val imageHeight = options.outHeight.toDouble()
+        return imageHeight/1440
     }
 }
