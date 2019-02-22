@@ -30,9 +30,10 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
         val disposable= rxEventBus.travelOfFirstImage
             .observeOn(Schedulers.io())
-            .subscribe {
+            .subscribe { t->
                 if(!traveling.get()){
-                    ticketImage = it
+                    ticketImage = t
+                    cacheImage()
                 }
             }
         addDisposable(disposable)

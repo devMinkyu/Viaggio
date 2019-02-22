@@ -27,7 +27,7 @@ class HomeMainFragment:BaseFragment<HomeMainFragmentViewModel>() {
 
         val imgDir = File(context?.filesDir, "images/")
         if (imgDir.exists()) {
-            val imgFile = File(imgDir, "ttttt.jpg")
+            val imgFile = File(imgDir, "rrr.jpg")
             if (imgFile.exists()) {
                 test.visibility = View.VISIBLE
                 Uri.fromFile(imgFile).let { uri ->

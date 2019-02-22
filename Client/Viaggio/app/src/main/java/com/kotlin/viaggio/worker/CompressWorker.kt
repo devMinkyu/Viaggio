@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.work.Data
 import androidx.work.WorkerParameters
+import com.kotlin.viaggio.android.ClearCache
 import com.kotlin.viaggio.android.WorkerName
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
@@ -62,6 +63,7 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
                     throw IOException("dir doesn't exit")
                 }
             }
+            ClearCache().deleteCache(applicationContext)
             it.onSuccess(imageListUri)
         }).subscribeOn(Schedulers.io())
     }
@@ -72,13 +74,24 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(fileName, options)
         val imageHeight = options.outHeight.toDouble()
-        return imageHeight/960
+        val imageWidth = options.outWidth.toDouble()
+        return if (imageWidth > imageHeight) {
+            imageWidth / 960
+        } else {
+            imageHeight / 960
+        }
     }
-    private fun highQualitySizeCalculation(fileName: String):Double{
+
+    private fun highQualitySizeCalculation(fileName: String): Double {
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeFile(fileName, options)
         val imageHeight = options.outHeight.toDouble()
-        return imageHeight/1440
+        val imageWidth = options.outWidth.toDouble()
+        return if (imageWidth > imageHeight) {
+            imageWidth / 1440
+        } else {
+            imageHeight / 1440
+        }
     }
 }
