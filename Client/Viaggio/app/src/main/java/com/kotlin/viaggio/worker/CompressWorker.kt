@@ -3,6 +3,9 @@ package com.kotlin.viaggio.worker
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.util.Log
+import androidx.exifinterface.media.ExifInterface
 import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.kotlin.viaggio.android.ClearCache
@@ -37,7 +40,12 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
                 if(File(fileName).exists()){
                     val cameraImg = BitmapFactory.decodeFile(fileName)
                     val sampleSize = normalQualitySizeCalculation(fileName)
-                    val compressImg = Bitmap.createScaledBitmap(cameraImg, (cameraImg.width/sampleSize).toInt(),(cameraImg.height/sampleSize).toInt(),true )
+
+                    val matrix = Matrix()
+                    matrix.postRotate(90.toFloat())
+                    val resizedBitmap = Bitmap.createBitmap(cameraImg, 0, 0, cameraImg.width, cameraImg.height, matrix, true)
+
+                    val compressImg = Bitmap.createScaledBitmap(resizedBitmap, (resizedBitmap.width/sampleSize).toInt(),(resizedBitmap.height/sampleSize).toInt(),true )
 
                     val imageDir = File(applicationContext.filesDir, IMG_FOLDER)
                     if(!imageDir.exists()){
@@ -48,7 +56,7 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
                             val imgName = String.format(
                                 Locale.getDefault(),
                                 IMG_NAME_FORMAT, System.currentTimeMillis(), index, "jpg")
-                            val localFile = File(imageDir, imgName)
+                            val localFile = File(imageDir, "uu.jpg")
                             localFile.createNewFile()
 
                             val out = FileOutputStream(localFile)
