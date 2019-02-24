@@ -10,6 +10,7 @@ import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.kotlin.viaggio.android.ClearCache
 import com.kotlin.viaggio.android.WorkerName
+import com.kotlin.viaggio.event.RxEventBus
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers
@@ -41,11 +42,7 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
                     val cameraImg = BitmapFactory.decodeFile(fileName)
                     val sampleSize = normalQualitySizeCalculation(fileName)
 
-                    val matrix = Matrix()
-                    matrix.postRotate(90.toFloat())
-                    val resizedBitmap = Bitmap.createBitmap(cameraImg, 0, 0, cameraImg.width, cameraImg.height, matrix, true)
-
-                    val compressImg = Bitmap.createScaledBitmap(resizedBitmap, (resizedBitmap.width/sampleSize).toInt(),(resizedBitmap.height/sampleSize).toInt(),true )
+                    val compressImg = Bitmap.createScaledBitmap(cameraImg, (cameraImg.width/sampleSize).toInt(),(cameraImg.height/sampleSize).toInt(),true )
 
                     val imageDir = File(applicationContext.filesDir, IMG_FOLDER)
                     if(!imageDir.exists()){
@@ -56,7 +53,7 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
                             val imgName = String.format(
                                 Locale.getDefault(),
                                 IMG_NAME_FORMAT, System.currentTimeMillis(), index, "jpg")
-                            val localFile = File(imageDir, "uu.jpg")
+                            val localFile = File(imageDir, "pp.jpg")
                             localFile.createNewFile()
 
                             val out = FileOutputStream(localFile)

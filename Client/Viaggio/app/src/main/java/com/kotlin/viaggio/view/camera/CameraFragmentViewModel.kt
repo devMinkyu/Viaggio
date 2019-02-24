@@ -36,11 +36,8 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     fun savePicture(photoResult: PhotoResult) {
         isImageMake.set(true)
         val disposable = travelModel.savePicture(photoResult).subscribe { t1 ->
-            appCtx.get().contentResolver.openFileDescriptor(t1,"r")?.let {
-                val filePath = BitmapFactory.decodeFileDescriptor(it.fileDescriptor)
-                photoUri.value = Event(t1)
-                visionTextRecognizer(filePath)
-            }
+            photoUri.value = Event(t1)
+            visionTextRecognizer(t1)
         }
         addDisposable(disposable)
     }
@@ -55,12 +52,24 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
         disposable?.let { addDisposable(it) }
     }
 
-    fun visionTextRecognizer(bitmap: Bitmap) {
-        firebaseVision.processImage(FirebaseVisionImage.fromBitmap(bitmap))
-            .addOnCompleteListener {
+    fun visionTextRecognizer(any: Any) {
+        when(any){
+            is Bitmap ->{
+                firebaseVision.processImage(FirebaseVisionImage.fromBitmap(any))
+            }
+            is Uri ->{
+                firebaseVision.processImage(FirebaseVisionImage.fromFilePath(appCtx.get(), any))
+            }
+            else ->{
+                firebaseVision.processImage(FirebaseVisionImage.fromBitmap(any as Bitmap))
+            }
+        }.addOnCompleteListener {
                 complete.value = Event(Any())
-                rxEventBus.travelOfFirstImage.onNext(bitmap)
                 rxEventBus.travelOfCountry.onNext("미국")
             }.addOnFailureListener {}
+    }
+
+    fun imageBitmapConfirm(bitmap: Bitmap) {
+        rxEventBus.travelOfFirstImage.onNext(bitmap)
     }
 }

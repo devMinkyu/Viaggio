@@ -3,6 +3,7 @@ package com.kotlin.viaggio.view.camera
 import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -99,6 +100,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
         getViewModel().complete.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
+                getViewModel().imageBitmapConfirm((ocrImage.drawable as BitmapDrawable).bitmap)
                 ocrLottie.cancelAnimation()
                 ocrLottie.visibility = View.GONE
             }
@@ -134,7 +136,6 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
             cameraViewClose.startAnimation(scaleAnimation())
             fragmentPopStack()
         }
-
         fun imageOpen() {
             cameraViewImage.startAnimation(scaleAnimation())
             getViewModel().permissionCheck(
@@ -174,7 +175,8 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                         .load(fileNamePath)
                         .into(ocrImage)
                 }
-                getViewModel().visionTextRecognizer(BitmapFactory.decodeFile(fileNamePath))
+                val bitmap =BitmapFactory.decodeFile(fileNamePath)
+                getViewModel().visionTextRecognizer(bitmap)
             }
         }
     }

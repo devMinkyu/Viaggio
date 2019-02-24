@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.traveling
 
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.`object`.PermissionError
@@ -27,7 +28,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     override fun initialize() {
         super.initialize()
         traveling.set(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING, false).blockingGet())
-
         val disposable= rxEventBus.travelOfFirstImage
             .observeOn(Schedulers.io())
             .subscribe { t->

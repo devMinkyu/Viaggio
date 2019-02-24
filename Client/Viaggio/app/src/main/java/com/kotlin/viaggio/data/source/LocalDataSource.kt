@@ -14,25 +14,25 @@ import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
-class LocalDataSource @Inject constructor(){
+class LocalDataSource @Inject constructor() {
     @field:[Inject Named("Application")]
     lateinit var appCtx: Lazy<Context>
+
     companion object {
         const val CACHE_IMG_FOLDER = "images/"
         const val IMG_NAME_FORMAT = "viaggio_%d%d.%s"
         const val FILE_PROVIDER_AUTHORITY = "com.kotlin.viaggio.fileprovider"
     }
 
-    fun savePhotoResult(photoResult: PhotoResult): Single<Uri>{
-        return Single.create {emitter ->
-            val file:File
+    fun savePhotoResult(photoResult: PhotoResult): Single<Uri> {
+        return Single.create { emitter ->
+            val file: File
             try {
                 file = createTempFile()
             } catch (err: Exception) {
@@ -40,13 +40,13 @@ class LocalDataSource @Inject constructor(){
                 return@create
             }
             photoResult.saveToFile(file)
-                .whenDone(object :WhenDoneListener<Any>{
+                .whenDone(object : WhenDoneListener<Any> {
                     override fun whenDone(it: Any?) {
-                        val fileUri:Uri
+                        val fileUri: Uri
                         try {
                             fileUri = getFileUri(file)
                             emitter.onSuccess(fileUri)
-                        }catch (err:IllegalAccessException){
+                        } catch (err: IllegalAccessException) {
                             emitter.onError(err)
                         }
                     }
@@ -107,23 +107,29 @@ class LocalDataSource @Inject constructor(){
     }
 
     @SuppressLint("Recycle")
-    fun imageAllPath():MutableList<String>{
-        val list:MutableList<String> = mutableListOf()
+    fun imageAllPath(): MutableList<String> {
+        val list: MutableList<String> = mutableListOf()
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME)
 
-        val cursor = appCtx.get().contentResolver?.query(uri, projection,null,null, MediaStore.MediaColumns.DATE_ADDED + " desc")
-        var lastIndex :Int
+        val cursor = appCtx.get().contentResolver?.query(
+            uri,
+            projection,
+            null,
+            null,
+            MediaStore.MediaColumns.DATE_ADDED + " desc"
+        )
+        var lastIndex: Int
         cursor?.let {
             val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
             val columnDisplayName = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 val absolutePathOfImage = cursor.getString(columnIndex)
                 val nameOfFile = cursor.getString(columnDisplayName)
                 lastIndex = absolutePathOfImage.lastIndexOf(nameOfFile)
-                lastIndex = if(lastIndex >= 0) lastIndex else nameOfFile.length - 1
+                lastIndex = if (lastIndex >= 0) lastIndex else nameOfFile.length - 1
 
-                if(TextUtils.isEmpty(absolutePathOfImage).not()){
+                if (TextUtils.isEmpty(absolutePathOfImage).not()) {
                     list.add(absolutePathOfImage)
                 }
             }
@@ -132,11 +138,11 @@ class LocalDataSource @Inject constructor(){
         return list
     }
 
-    fun cacheFile(bitmap: Bitmap):Single<File>{
-        return Single.create(SingleOnSubscribe<File> {emmiter ->
+    fun cacheFile(bitmap: Bitmap): Single<File> {
+        return Single.create(SingleOnSubscribe<File> { emmiter ->
             val cacheFile = createTempFile()
             val out = FileOutputStream(cacheFile)
-            if(bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)){
+            if (bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)) {
                 out.flush()
                 out.close()
                 emmiter.onSuccess(cacheFile)
