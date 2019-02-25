@@ -9,6 +9,7 @@ import com.kotlin.viaggio.view.setting.SettingFragment
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
+import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -39,4 +40,7 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun settingFragment(): SettingFragment
+
+    @ContributesAndroidInjector
+    fun themeFragment(): ThemeFragment
 }

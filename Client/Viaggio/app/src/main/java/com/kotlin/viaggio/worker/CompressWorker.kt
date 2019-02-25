@@ -26,6 +26,7 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
         const val IMG_NAME_FORMAT = "viaggio_%d%d.%s"
     }
     override fun doWork(): Result {
+        super.doWork()
         val fileNames = inputData.getStringArray(WorkerName.COMPRESS_IMAGE.name)
         return fileNames?.let {
             val outputData = Data.Builder().putStringArray(WorkerName.COMPRESS_IMAGE.name, recordImage(fileNames).blockingGet().toTypedArray())
@@ -53,7 +54,7 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
                             val imgName = String.format(
                                 Locale.getDefault(),
                                 IMG_NAME_FORMAT, System.currentTimeMillis(), index, "jpg")
-                            val localFile = File(imageDir, "pp.jpg")
+                            val localFile = File(imageDir, imgName)
                             localFile.createNewFile()
 
                             val out = FileOutputStream(localFile)
@@ -69,7 +70,7 @@ class CompressWorker(context: Context, params:WorkerParameters):BaseWorker(conte
                     }
                 }
             }
-            ClearCache().deleteCache(applicationContext)
+            clearCache.deleteCache(applicationContext)
             it.onSuccess(imageListUri)
         }).subscribeOn(Schedulers.io())
     }

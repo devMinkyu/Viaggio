@@ -63,4 +63,10 @@
     <item name="travelingDay" type="id"/>
     <item name="travelingTheme" type="id"/>
     <item name="travelingCamera" type="id"/>
+    <item name="themeSelectedList" type="id"/>
+    <item name="themeList" type="id"/>
+    <item name="themeName" type="id"/>
+    <item name="themeCancel" type="id"/>
+    <item name="themeSelectName" type="id"/>
+    <item name="themeTgl" type="id"/>
 </resources>

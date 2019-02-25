@@ -97,6 +97,9 @@ dependencies {
 
     // camera
     implementation 'io.fotoapparat:fotoapparat:2.6.1'
+
+    // flex
+    implementation 'com.google.android:flexbox:1.1.0'
 }
 //apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'

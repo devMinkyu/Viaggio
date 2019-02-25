@@ -2,10 +2,11 @@ package com.kotlin.viaggio.android
 
 import android.content.Context
 import java.io.File
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ClearCache{
+class ClearCache @Inject constructor(){
     fun deleteCache(context: Context) {
         try {
             val dir = context.cacheDir

@@ -38,3 +38,5 @@ data class TravelCard(
     var favorite:Int = 0,
     @Suppress("ArrayInDataClass") var previousTransportation:MutableList<String> = mutableListOf()
 )
+
+data class Theme(var themes:MutableList<String>)

@@ -12,6 +12,7 @@ import com.kotlin.viaggio.view.setting.SettingFragment
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
+import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import org.jetbrains.anko.toast
 
@@ -67,6 +68,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "main" -> showHome()
                         "login" -> showSign()
                         "camera" -> showCamera()
+                        "theme" -> showTheme()
                     }
                 }
                 "login" -> {
@@ -84,6 +86,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTheme() {
+        baseShowLeftAddBackFragment(ThemeFragment())
     }
 
     private fun showSetting() {

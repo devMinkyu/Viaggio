@@ -66,6 +66,10 @@
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
                         android:pathPattern="/setting/main/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/home/main/theme/"/>
             </intent-filter>
         </activity>
     </application>

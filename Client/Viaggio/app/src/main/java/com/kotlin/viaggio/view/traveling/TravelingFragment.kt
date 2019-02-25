@@ -83,5 +83,8 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 )
             )
         }
+        fun addTheme(){
+            baseIntent("http://viaggio.kotlin.com/home/main/theme/")
+        }
     }
 }
