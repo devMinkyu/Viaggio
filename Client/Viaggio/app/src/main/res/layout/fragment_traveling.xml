@@ -15,13 +15,30 @@
             android:background="@android:color/white">
 
         <TextView
+                android:id="@id/travelingStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="@android:color/black"
+                android:layout_margin="10dp"
+                android:visibility="@{viewModel.isFormValid ? View.VISIBLE:View.GONE}"
+                android:onClick="@{() -> viewHandler.travelStart()}"
+                android:text="확인"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText"/>
+        <TextView
                 android:id="@id/travelingCountry"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/sign_edit_txt_bg"
                 android:layout_margin="30dp"
+                android:gravity="center"
+                android:text="@{viewModel.travelingStartOfCountry}"
+                android:textSize="30sp"
+                android:textColor="@android:color/black"
                 app:layout_constraintHorizontal_chainStyle="spread"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelingStart"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/travelingDay"
@@ -38,18 +55,39 @@
                 app:layout_constraintBottom_toBottomOf="@id/travelingCountry"
                 app:layout_constraintEnd_toEndOf="@id/travelingCountry"
         />
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@id/travelingDay"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/sign_edit_txt_bg"
                 android:layout_margin="30dp"
-                android:gravity="center"
                 app:layout_constraintTop_toBottomOf="@id/travelingCountry"
                 app:layout_constraintBottom_toTopOf="@id/travelingTheme"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-        />
+        >
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_margin="10dp"
+                    android:text="여행 시작 날"
+                    android:textColor="@android:color/black"
+                    tools:ignore="HardcodedText"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.travelingStartOfDay}"
+                    android:onClick="@{() -> viewHandler.changeDate()}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="30sp"
+                    tools:text="2019/03/11"
+                    android:textColor="@android:color/black"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@id/travelingTheme"
                 android:layout_width="0dp"
@@ -61,11 +99,25 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
+            <TextView
+                    android:id="@+id/test"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:visibility="@{viewModel.themeExist ? View.VISIBLE:View.GONE}"
+                    android:layout_margin="10dp"
+                    android:text="나의 테마는"
+                    android:textColor="@android:color/black"
+                    tools:ignore="HardcodedText"/>
+
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@id/travelingThemes"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:visibility="@{viewModel.themeExist ? View.VISIBLE:View.GONE}"
+                    app:layout_constraintTop_toBottomOf="@+id/test"
+                    app:layout_constraintBottom_toBottomOf="parent"
             />
             <TextView
                     android:layout_width="wrap_content"

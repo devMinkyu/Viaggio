@@ -14,8 +14,6 @@ abstract class BaseWorker(context: Context, params: WorkerParameters):Worker(con
     lateinit var timeHelper: TimeHelper
     @Inject
     lateinit var travelModel: TravelModel
-    @Inject
-    lateinit var clearCache: ClearCache
 
     override fun doWork(): Result {
         AndroidWorkerInjection.inject(this)

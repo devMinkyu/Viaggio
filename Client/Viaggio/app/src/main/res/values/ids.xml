@@ -71,4 +71,5 @@
     <item name="themeTgl" type="id"/>
     <item name="themeTitle" type="id"/>
     <item name="travelingThemes" type="id"/>
+    <item name="travelingStart" type="id"/>
 </resources>

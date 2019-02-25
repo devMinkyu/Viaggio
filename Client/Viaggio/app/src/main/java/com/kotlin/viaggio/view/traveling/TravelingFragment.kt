@@ -1,27 +1,26 @@
 package com.kotlin.viaggio.view.traveling
 
 import android.Manifest
-import android.net.Uri
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.view.common.BaseFragment
-import com.kotlin.viaggio.worker.CompressWorker
 import kotlinx.android.synthetic.main.fragment_traveling.*
+import org.jetbrains.anko.*
+import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
@@ -30,6 +29,9 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
+        val layoutManager = FlexboxLayoutManager(context)
+        layoutManager.flexWrap = FlexWrap.WRAP
+        binding.travelingThemes.layoutManager = layoutManager
         return binding.root
     }
 
@@ -50,35 +52,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 }
             }
         })
-        getViewModel().compressFile.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {file ->
-                val inputData = Data.Builder().putStringArray(WorkerName.COMPRESS_IMAGE.name, arrayOf(file.absolutePath)).build()
-                val compressWork = OneTimeWorkRequestBuilder<CompressWorker>()
-                    .setInputData(inputData)
-                    .build()
-                WorkManager.getInstance().let { work ->
-                    work.enqueue(compressWork)
 
-                    work.getWorkInfoByIdLiveData(compressWork.id).observe(this, Observer { workInfo ->
-                        if (workInfo != null && workInfo.state.isFinished) {
-                            stopLoading()
-                            val images = workInfo.outputData.getStringArray(WorkerName.COMPRESS_IMAGE.name)
-                            val uris = mutableListOf<Uri>()
-                            images?.let {
-                                for (image in images) {
-                                    uris.add(Uri.parse(image))
-                                    Log.d("hoho", image)
-                                }
-                            }
-                        }
-                    })
-                }
-            }
-        })
-
-        val layoutManager = FlexboxLayoutManager(context)
-        layoutManager.flexWrap = FlexWrap.WRAP
-        travelingThemes.layoutManager = layoutManager
         getViewModel().travelThemeListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { list ->
                 travelingThemes.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -106,6 +80,32 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         }
         fun addTheme(){
             baseIntent("http://viaggio.kotlin.com/home/main/theme/")
+        }
+        @SuppressLint("SimpleDateFormat")
+        fun changeDate(){
+            alert {
+                lateinit var datePicker: DatePicker
+                customView {
+                    verticalLayout {
+                        datePicker = datePicker {
+                            this.maxDate = System.currentTimeMillis()
+                        }
+                    }
+                    okButton {
+                        val cal = Calendar.getInstance()
+                        cal.set(Calendar.YEAR, datePicker.year)
+                        cal.set(Calendar.MONTH, datePicker.month)
+                        cal.set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
+                        getViewModel().travelingStartOfDay.set(SimpleDateFormat(resources.getString(R.string.dateFormat)).format(cal.time))
+                    }
+                    cancelButton {
+                        it.dismiss()
+                    }
+                }
+            }.show()
+        }
+        fun travelStart(){
+            getViewModel().travelStart()
         }
     }
     inner class ThemeTravelingSelectedViewHolder(view:View): RecyclerView.ViewHolder(view){
