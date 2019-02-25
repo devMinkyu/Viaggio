@@ -72,4 +72,7 @@
     <item name="themeTitle" type="id"/>
     <item name="travelingThemes" type="id"/>
     <item name="travelingStart" type="id"/>
+    <item name="travelingList" type="id"/>
+    <item name="travelingDayOfCount" type="id"/>
+    <item name="travelingCountries" type="id"/>
 </resources>

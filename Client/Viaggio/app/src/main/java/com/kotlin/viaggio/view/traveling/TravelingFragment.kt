@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
@@ -32,6 +33,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         val layoutManager = FlexboxLayoutManager(context)
         layoutManager.flexWrap = FlexWrap.WRAP
         binding.travelingThemes.layoutManager = layoutManager
+        binding.travelingList.layoutManager = LinearLayoutManager(context!!)
         return binding.root
     }
 
@@ -63,6 +65,20 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                         holder as ThemeTravelingSelectedViewHolder
                         holder.binding?.data = list[position]
                         holder.binding?.viewHandler = ViewHandler()
+                    }
+                }
+            }
+        })
+
+        getViewModel().travelOfDayList.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {list ->
+                travelingList.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+                            = TravelOfDayViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling, parent, false))
+                    override fun getItemCount() = list.size
+                    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                        holder as TravelOfDayViewHolder
+                        holder.binding?.data = list[position]
                     }
                 }
             }
@@ -110,5 +126,8 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
     }
     inner class ThemeTravelingSelectedViewHolder(view:View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingSelectedThemeBinding>(view)
+    }
+    inner class TravelOfDayViewHolder(view:View): RecyclerView.ViewHolder(view){
+        val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingBinding>(view)
     }
 }

@@ -28,5 +28,6 @@
     <string name="finish_of_msg">Please press back button one more time to exit the app</string>
     <string name="setting_sign">Sign</string>
     <string name="dateFormat">EE, MMM d, yyyy</string>
-
+    <string name="travel_count">%d Day</string>
+    <string name="format">%1$tY/%1$tm/%1$td</string>
 </resources>

@@ -6,22 +6,25 @@ import androidx.room.Query
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelOfDay
-import io.reactivex.Flowable
 import io.reactivex.Single
 
 @Dao
 interface TravelDao {
     @Insert
-    fun insertTravel(travel: Travel):Single<Long>
+    fun insertTravel(travel: Travel): Single<Long>
+
     @Insert
     fun insertAllTravel(vararg travel: Travel)
 
     @Query("SELECT * FROM travels")
-    fun getTravels(): Flowable<List<Travel>>
+    fun getTravels(): Single<List<Travel>>
 
     @Insert
-    fun insertTravelOfDay(travel: TravelOfDay):Single<Long>
+    fun insertTravelOfDay(travelOfDay: TravelOfDay): Single<Long>
+
+    @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY day DESC")
+    fun getTravelOfDays(travelId: Long): Single<List<TravelOfDay>>
 
     @Insert
-    fun insertTravelCard(travel: TravelCard):Single<Long>
+    fun insertTravelCard(travelCard: TravelCard): Single<Long>
 }

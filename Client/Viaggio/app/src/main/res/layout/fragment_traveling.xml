@@ -21,7 +21,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@android:color/black"
-                android:layout_margin="10dp"
+                android:padding="10dp"
                 android:visibility="@{viewModel.isFormValid ? View.VISIBLE:View.GONE}"
                 android:onClick="@{() -> viewHandler.travelStart()}"
                 android:text="확인"
@@ -133,7 +133,20 @@
                     android:textColor="@android:color/black"
                     android:text="테마 추가하기"
                     tools:ignore="HardcodedText"/>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.Group
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{viewModel.traveling ? View.GONE:View.VISIBLE}"
+                app:constraint_referenced_ids="travelingTheme, travelingDay, travelingStart
+                , travelingCountry, travelingCamera"
+                tools:ignore="NotSibling"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@id/travelingList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{viewModel.traveling ? View.VISIBLE:View.GONE}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
