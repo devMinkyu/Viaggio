@@ -7,10 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_theme.*
@@ -22,6 +20,7 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_theme, container, false)
         binding.viewModel = getViewModel()
+        binding.viewHandler = ViewHandler()
         return binding.root
     }
 
@@ -60,9 +59,19 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
             }
         }
         themeSelectedList.adapter = adapter
+
+        getViewModel().showSelectTheme.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                adapter.notifyDataSetChanged()
+            }
+        })
     }
 
     inner class ViewHandler{
+        fun confirm(){
+            getViewModel().sendTheme()
+            fragmentPopStack()
+        }
         fun chooseTheme(theme:String){
             if(getViewModel().themes.themes.contains(theme).not()){
                 getViewModel().chooseTheme(theme)

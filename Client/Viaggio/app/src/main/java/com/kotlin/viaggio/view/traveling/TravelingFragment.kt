@@ -9,9 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.`object`.PermissionError
@@ -72,6 +75,24 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 }
             }
         })
+
+        val layoutManager = FlexboxLayoutManager(context)
+        layoutManager.flexWrap = FlexWrap.WRAP
+        travelingThemes.layoutManager = layoutManager
+        getViewModel().travelThemeListLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { list ->
+                travelingThemes.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+                            = ThemeTravelingSelectedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_selected_theme, parent, false))
+                    override fun getItemCount() = list.size
+                    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                        holder as ThemeTravelingSelectedViewHolder
+                        holder.binding?.data = list[position]
+                        holder.binding?.viewHandler = ViewHandler()
+                    }
+                }
+            }
+        })
     }
 
     inner class ViewHandler{
@@ -86,5 +107,8 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         fun addTheme(){
             baseIntent("http://viaggio.kotlin.com/home/main/theme/")
         }
+    }
+    inner class ThemeTravelingSelectedViewHolder(view:View): RecyclerView.ViewHolder(view){
+        val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingSelectedThemeBinding>(view)
     }
 }

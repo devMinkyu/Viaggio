@@ -69,4 +69,6 @@
     <item name="themeCancel" type="id"/>
     <item name="themeSelectName" type="id"/>
     <item name="themeTgl" type="id"/>
+    <item name="themeTitle" type="id"/>
+    <item name="travelingThemes" type="id"/>
 </resources>

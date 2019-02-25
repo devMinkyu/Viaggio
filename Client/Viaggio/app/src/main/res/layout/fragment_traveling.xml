@@ -62,9 +62,10 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
             <androidx.recyclerview.widget.RecyclerView
+                    android:id="@id/travelingThemes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{viewModel.travelThemeList.size == 0 ? View.GONE:View.VISIBLE}"
+                    android:visibility="@{viewModel.themeExist ? View.VISIBLE:View.GONE}"
             />
             <TextView
                     android:layout_width="wrap_content"
@@ -75,6 +76,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:onClick="@{() -> viewHandler.addTheme()}"
+                    android:visibility="@{viewModel.themeExist ? View.GONE:View.VISIBLE}"
                     android:gravity="center"
                     android:textColor="@android:color/black"
                     android:text="테마 추가하기"

@@ -12,7 +12,8 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var gson: Gson
 
-    val themesList:MutableLiveData<Event<Theme>> = MutableLiveData()
+    val themesList: MutableLiveData<Event<Theme>> = MutableLiveData()
+    val showSelectTheme:MutableLiveData<Event<Any>> = MutableLiveData()
 
     val themes = Theme(mutableListOf())
     override fun initialize() {
@@ -20,12 +21,23 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
         val inputStream = InputStreamReader(appCtx.get().assets.open("theme.json"))
         val themes: Theme = gson.fromJson(inputStream, Theme::class.java)
         themesList.value = Event(themes)
+
+        val disposable = rxEventBus.travelOfTheme.subscribe { t ->
+            this.themes.themes = t.toMutableList()
+            showSelectTheme.value = Event(Any())
+        }
+        addDisposable(disposable)
     }
 
-    fun chooseTheme(theme: String){
+    fun chooseTheme(theme: String) {
         themes.themes.add(theme)
     }
-    fun cancelTheme(theme: String){
+
+    fun cancelTheme(theme: String) {
         themes.themes.remove(theme)
+    }
+
+    fun sendTheme() {
+        rxEventBus.travelOfTheme.onNext(themes.themes)
     }
 }

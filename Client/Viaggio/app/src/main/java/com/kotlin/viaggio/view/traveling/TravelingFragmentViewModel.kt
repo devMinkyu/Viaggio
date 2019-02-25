@@ -1,14 +1,10 @@
 package com.kotlin.viaggio.view.traveling
 
 import android.graphics.Bitmap
-import android.util.Log
-import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.kotlin.viaggio.data.`object`.PermissionError
-import com.kotlin.viaggio.data.`object`.Theme
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
@@ -16,7 +12,6 @@ import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import java.io.InputStreamReader
 import javax.inject.Inject
 
 class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
@@ -27,11 +22,12 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     val goToCamera: MutableLiveData<Event<Any>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
     val compressFile: MutableLiveData<Event<File>> = MutableLiveData()
+    val travelThemeListLiveData = MutableLiveData<Event<List<String>>>()
 
     var ticketImage:Bitmap? = null
 
     var traveling = ObservableBoolean(false)
-    val travelThemeList = ObservableArrayList<String>()
+    var themeExist = ObservableBoolean(false)
 
     override fun initialize() {
         super.initialize()
@@ -46,6 +42,14 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
         addDisposable(disposable)
 
+        val themeDisposable = rxEventBus.travelOfTheme
+            .subscribe { t ->
+                travelThemeListLiveData.value = Event(t)
+                if(t.isNotEmpty()){
+                    themeExist.set(true)
+                }
+            }
+        addDisposable(themeDisposable)
     }
     fun permissionCheck(request: Observable<Boolean>?) {
         val disposable = request?.subscribe { t ->
