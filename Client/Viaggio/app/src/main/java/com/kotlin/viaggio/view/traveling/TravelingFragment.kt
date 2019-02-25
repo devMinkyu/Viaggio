@@ -70,7 +70,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             }
         })
 
-        getViewModel().travelOfDayList.observe(this, Observer {
+        getViewModel().travelOfDayListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {list ->
                 travelingList.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)

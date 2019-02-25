@@ -3,6 +3,7 @@
 package com.kotlin.viaggio.event
 
 import android.graphics.Bitmap
+import com.kotlin.viaggio.data.`object`.TravelOfDay
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
@@ -14,4 +15,5 @@ class RxEventBus @Inject constructor() {
     val travelOfGo:BehaviorSubject<Any> = BehaviorSubject.create()
     val travelOfFirstImage: BehaviorSubject<Bitmap> = BehaviorSubject.create()
     val travelOfTheme: BehaviorSubject<List<String>> = BehaviorSubject.create()
+    val travelOfDayChange: BehaviorSubject<TravelOfDay> = BehaviorSubject.create()
 }

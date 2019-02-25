@@ -27,4 +27,7 @@ interface TravelDao {
 
     @Insert
     fun insertTravelCard(travelCard: TravelCard): Single<Long>
+
+    @Query("SELECT * FROM travelOfDays")
+    fun test(): Single<List<TravelOfDay>>
 }

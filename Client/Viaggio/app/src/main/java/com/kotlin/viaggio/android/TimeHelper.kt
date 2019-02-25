@@ -1,14 +1,32 @@
 package com.kotlin.viaggio.android
 
+import android.annotation.SuppressLint
+import android.content.Context
+import com.kotlin.viaggio.R
+import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
+import com.kotlin.viaggio.event.RxEventBus
+import com.kotlin.viaggio.model.TravelModel
+import dagger.Lazy
+import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
 class TimeHelper @Inject constructor(){
     @Inject
     lateinit var prefUtilService: AndroidPrefUtilService
+    @Inject
+    lateinit var travelModel: TravelModel
+    @field:[Inject Named("Application")]
+    lateinit var appCtx: Lazy<Context>
+    @Inject
+    lateinit var rxEventBus: RxEventBus
+
+    @SuppressLint("SimpleDateFormat")
     fun timeCheckOfDay(){
         val cal = Calendar.getInstance()
         val lastConnectOfDay = prefUtilService.getInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY).blockingGet()
@@ -19,7 +37,18 @@ class TimeHelper @Inject constructor(){
             var travelingOfDayOfCount =
                 prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet()
             travelingOfDayOfCount += 1
-            prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, travelingOfDayOfCount).subscribe()
+            prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, travelingOfDayOfCount).blockingAwait()
+
+
+            val day = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).format(cal.time)
+            val travelOfDay = TravelOfDay(countries = arrayListOf(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
+            ,dayCount = travelingOfDayOfCount, travelId = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
+            ,day = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(day))
+
+            val travelOfDayId = travelModel.createTravelOfDay(travelOfDay).subscribeOn(Schedulers.io()).blockingGet()
+            prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, travelOfDayId).blockingAwait()
+            travelOfDay.id = travelOfDayId
+            rxEventBus.travelOfDayChange.onNext(travelOfDay)
         }
     }
 }

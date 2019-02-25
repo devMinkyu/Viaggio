@@ -46,4 +46,8 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun getTravelOfDays(): Single<List<TravelOfDay>>{
         return db.get().travelDao().getTravelOfDays(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet())
     }
+
+    fun getTest(): Single<List<TravelOfDay>> {
+        return db.get().travelDao().test()
+    }
 }

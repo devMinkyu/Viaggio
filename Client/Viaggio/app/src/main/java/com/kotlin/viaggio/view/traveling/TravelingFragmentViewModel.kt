@@ -33,9 +33,10 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     val goToCamera: MutableLiveData<Event<Any>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
     val travelThemeListLiveData = MutableLiveData<Event<List<String>>>()
-    val travelOfDayList = MutableLiveData<Event<List<TravelOfDay>>>()
+    val travelOfDayListLiveData = MutableLiveData<Event<List<TravelOfDay>>>()
 
     var travelThemeList:List<String> = listOf()
+    var travelOfDayList:MutableList<TravelOfDay> = mutableListOf()
 
     val traveling = ObservableBoolean(false)
     val themeExist = ObservableBoolean(false)
@@ -85,9 +86,24 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             val disposable = travelModel.getTravelOfDays()
                 .subscribeOn(Schedulers.io())
                 .subscribe { t ->
-                    travelOfDayList.postValue(Event(t))
+                    travelOfDayListLiveData.postValue(Event(t))
+                    travelOfDayList = t.toMutableList()
                 }
             addDisposable(disposable)
+            val changeDisposable = rxEventBus.travelOfDayChange
+                .subscribeOn(Schedulers.io())
+                .subscribe { t ->
+                    for (travelOfDay in travelOfDayList) {
+                        if(travelOfDay.id == t.id){
+                            travelOfDayList.remove(travelOfDay)
+                            break
+                        }
+                    }
+                    travelOfDayList.add(t)
+                    travelOfDayList.sortByDescending { it.dayCount }
+                    travelOfDayListLiveData.postValue(Event(travelOfDayList))
+                }
+            addDisposable(changeDisposable)
         }else{
             val themeDisposable = rxEventBus.travelOfTheme
                 .subscribe { t ->
@@ -123,10 +139,10 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     fun travelStart() {
         traveling.set(true)
         val cal = Calendar.getInstance()
-        prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).subscribe()
-        prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 1).subscribe()
+        prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).blockingAwait()
+        prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 1).blockingAwait()
         val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
-        prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).subscribe()
+        prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).blockingAwait()
 
         val travel = Travel(
             countries = arrayListOf(travelingStartOfCountry.get()!!),
@@ -136,15 +152,16 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         )
         val travelOfDay = TravelOfDay(countries = arrayListOf(travelingStartOfCountry.get()!!),
             day = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(travelingStartOfDay.get()!!))
+        prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!).blockingAwait()
         val disposable = travelModel.createTravel(travel)
             .flatMap {
                 travelOfDay.travelId = it
-                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, it).subscribe()
+                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, it).blockingAwait()
                 travelModel.createTravelOfDay(travelOfDay)
             }
             .subscribe { t ->
-                travelOfDayList.postValue(Event(listOf(travelOfDay)))
-                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t).subscribe()
+                travelOfDayListLiveData.postValue(Event(listOf(travelOfDay)))
+                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t).blockingAwait()
                 travelOfDay.travelId = t
             }
         addDisposable(disposable)
