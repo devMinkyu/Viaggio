@@ -2,6 +2,7 @@ package com.kotlin.viaggio.model
 
 import android.graphics.Bitmap
 import android.net.Uri
+import androidx.paging.DataSource
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
@@ -43,11 +44,7 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun createTravelOfDay(travelOfDay: TravelOfDay): Single<Long> {
         return db.get().travelDao().insertTravelOfDay(travelOfDay)
     }
-    fun getTravelOfDays(): Single<List<TravelOfDay>>{
-        return db.get().travelDao().getTravelOfDays(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet())
-    }
-
-    fun getTest(): Single<List<TravelOfDay>> {
-        return db.get().travelDao().test()
+    fun getTravelOfDays(): DataSource.Factory<Int, TravelOfDay> {
+        return db.get().travelDao().getTravelOfDaysPaged(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet())
     }
 }

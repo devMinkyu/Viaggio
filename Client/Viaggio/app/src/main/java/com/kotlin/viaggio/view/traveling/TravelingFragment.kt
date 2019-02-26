@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.PermissionError
+import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling.*
 import org.jetbrains.anko.*
@@ -70,19 +73,9 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             }
         })
 
-        getViewModel().travelOfDayListLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {list ->
-                travelingList.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-                            = TravelOfDayViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling, parent, false))
-                    override fun getItemCount() = list.size
-                    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                        holder as TravelOfDayViewHolder
-                        holder.binding?.data = list[position]
-                    }
-                }
-            }
-        })
+        val adapter = TravelOfDayAdapter()
+        travelingList.adapter = adapter
+        getViewModel().travelOfDayPagedLiveData.observe(this, Observer(adapter::submitList))
     }
 
     inner class ViewHandler{
@@ -127,7 +120,26 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
     inner class ThemeTravelingSelectedViewHolder(view:View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingSelectedThemeBinding>(view)
     }
-    inner class TravelOfDayViewHolder(view:View): RecyclerView.ViewHolder(view){
-        val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingBinding>(view)
+
+    inner class TravelOfDayAdapter:PagedListAdapter<TravelOfDay, TravelOfDayViewHolder>(object :DiffUtil.ItemCallback<TravelOfDay>(){
+        override fun areItemsTheSame(oldItem: TravelOfDay, newItem: TravelOfDay) = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: TravelOfDay, newItem: TravelOfDay) = oldItem == newItem
+    }){
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
+                = TravelOfDayViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling, parent, false))
+
+        override fun onBindViewHolder(holder: TravelOfDayViewHolder, position: Int) {
+            holder.binding?.data = getItem(position)
+            holder.binding?.viewHandler = holder.ViewHandler()
+        }
+    }
+}
+class TravelOfDayViewHolder(view:View): RecyclerView.ViewHolder(view){
+    val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingBinding>(view)
+
+    inner class ViewHandler{
+        fun selectedTravelOfDay(){
+            binding?.data?.id
+        }
     }
 }

@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="com.kotlin.viaggio.data.object.TravelOfDay"/>
+        <import type="com.kotlin.viaggio.view.traveling.TravelOfDayViewHolder.ViewHandler"/>
         <import type="android.view.View"/>
-        <import type="java.text.SimpleDateFormat"/>
+
 
         <variable name="data" type="TravelOfDay"/>
+        <variable name="viewHandler" type="ViewHandler"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="200dp"
+            android:onClick="@{()->viewHandler.selectedTravelOfDay()}">
         <ImageView
                 android:id="@id/traveledBackground"
                 android:layout_width="0dp"

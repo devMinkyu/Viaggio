@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.data.source
 
+import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -25,9 +26,9 @@ interface TravelDao {
     @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY day DESC")
     fun getTravelOfDays(travelId: Long): Single<List<TravelOfDay>>
 
+    @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY day DESC")
+    fun getTravelOfDaysPaged(travelId: Long): DataSource.Factory<Int, TravelOfDay>
+
     @Insert
     fun insertTravelCard(travelCard: TravelCard): Single<Long>
-
-    @Query("SELECT * FROM travelOfDays")
-    fun test(): Single<List<TravelOfDay>>
 }

@@ -4,17 +4,23 @@ import android.annotation.SuppressLint
 import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.google.gson.Gson
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
+import com.kotlin.viaggio.data.source.AppDatabase
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.tag_hive.saathi.saathi.error.InvalidFormException
+import dagger.Lazy
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -30,13 +36,14 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     lateinit var travelModel: TravelModel
     @Inject
     lateinit var gson: Gson
+
     val goToCamera: MutableLiveData<Event<Any>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
     val travelThemeListLiveData = MutableLiveData<Event<List<String>>>()
-    val travelOfDayListLiveData = MutableLiveData<Event<List<TravelOfDay>>>()
 
     var travelThemeList:List<String> = listOf()
-    var travelOfDayList:MutableList<TravelOfDay> = mutableListOf()
+
+    lateinit var travelOfDayPagedLiveData: LiveData<PagedList<TravelOfDay>>
 
     val traveling = ObservableBoolean(false)
     val themeExist = ObservableBoolean(false)
@@ -78,33 +85,15 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             addDisposable(it)
         }
     }
-
     override fun initialize() {
         super.initialize()
         traveling.set(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet())
-        if(traveling.get()){
-            val disposable = travelModel.getTravelOfDays()
-                .subscribeOn(Schedulers.io())
-                .subscribe { t ->
-                    travelOfDayListLiveData.postValue(Event(t))
-                    travelOfDayList = t.toMutableList()
-                }
-            addDisposable(disposable)
-            val changeDisposable = rxEventBus.travelOfDayChange
-                .subscribeOn(Schedulers.io())
-                .subscribe { t ->
-                    for (travelOfDay in travelOfDayList) {
-                        if(travelOfDay.id == t.id){
-                            travelOfDayList.remove(travelOfDay)
-                            break
-                        }
-                    }
-                    travelOfDayList.add(t)
-                    travelOfDayList.sortByDescending { it.dayCount }
-                    travelOfDayListLiveData.postValue(Event(travelOfDayList))
-                }
-            addDisposable(changeDisposable)
-        }else{
+        val factory: DataSource.Factory<Int, TravelOfDay>
+                = travelModel.getTravelOfDays()
+        val pagedListBuilder: LivePagedListBuilder<Int, TravelOfDay> = LivePagedListBuilder<Int, TravelOfDay>(factory,
+            20)
+        travelOfDayPagedLiveData = pagedListBuilder.build()
+        if(!traveling.get()){
             val themeDisposable = rxEventBus.travelOfTheme
                 .subscribe { t ->
                     travelThemeList = t
@@ -160,7 +149,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
                 travelModel.createTravelOfDay(travelOfDay)
             }
             .subscribe { t ->
-                travelOfDayListLiveData.postValue(Event(listOf(travelOfDay)))
+//                travelOfDayListLiveData.postValue(Event(listOf(travelOfDay)))
                 prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t).blockingAwait()
                 travelOfDay.travelId = t
             }
