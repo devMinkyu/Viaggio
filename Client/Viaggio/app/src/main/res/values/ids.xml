@@ -73,4 +73,9 @@
     <item name="travelingList" type="id"/>
     <item name="travelingDayOfCount" type="id"/>
     <item name="travelingCountries" type="id"/>
+    <item name="travelingDetailDayCount" type="id"/>
+    <item name="travelingDetailDayImg" type="id"/>
+    <item name="travelingDetailDayTarvelCard" type="id"/>
+    <item name="travelingDetailDay" type="id"/>
+    <item name="travelingDetailDayTheme" type="id"/>
 </resources>

@@ -22,5 +22,12 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
         super.onViewCreated(view, savedInstanceState)
     }
 
-    inner class ViewHandler
+    inner class ViewHandler{
+        fun back(){
+            fragmentPopStack()
+        }
+        fun add(){
+
+        }
+    }
 }
