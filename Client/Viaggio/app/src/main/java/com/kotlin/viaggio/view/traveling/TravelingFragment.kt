@@ -117,6 +117,12 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             getViewModel().travelStart()
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+
+    }
+
     inner class ThemeTravelingSelectedViewHolder(view:View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingSelectedThemeBinding>(view)
     }

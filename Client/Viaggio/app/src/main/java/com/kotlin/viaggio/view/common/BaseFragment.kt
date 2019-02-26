@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.kotlin.viaggio.BuildConfig
+import com.kotlin.viaggio.android.TimeHelper
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.ioc.module.common.AndroidXInjection
 import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -21,6 +23,10 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
     internal lateinit var viewModel: E
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    @Inject
+    lateinit var timeHelper: TimeHelper
+    @Inject
+    lateinit var prefUtilService: AndroidPrefUtilService
     lateinit var rxPermission: RxPermissions
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
 
@@ -36,6 +42,14 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
 
         rxPermission = RxPermissions(this)
         (getViewModel() as BaseViewModel).initialize()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
+        if (traveling) {
+            timeHelper.timeCheckOfDay()
+        }
     }
 
     fun getViewModel(): E =

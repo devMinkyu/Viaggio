@@ -41,7 +41,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
     val travelThemeListLiveData = MutableLiveData<Event<List<String>>>()
 
-    var travelThemeList:List<String> = listOf()
+    private var travelThemeList:List<String> = listOf()
 
     lateinit var travelOfDayPagedLiveData: LiveData<PagedList<TravelOfDay>>
 
@@ -88,11 +88,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     override fun initialize() {
         super.initialize()
         traveling.set(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet())
-        val factory: DataSource.Factory<Int, TravelOfDay>
-                = travelModel.getTravelOfDays()
-        val pagedListBuilder: LivePagedListBuilder<Int, TravelOfDay> = LivePagedListBuilder<Int, TravelOfDay>(factory,
-            20)
-        travelOfDayPagedLiveData = pagedListBuilder.build()
+        loadTravelingOfDay()
         if(!traveling.get()){
             val themeDisposable = rxEventBus.travelOfTheme
                 .subscribe { t ->
@@ -113,6 +109,25 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             val cal = Calendar.getInstance()
             travelingStartOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).format(cal.time))
         }
+
+        val disposable = rxEventBus.travelOfDayChange
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                if(it){
+                    loadTravelingOfDay()
+                    rxEventBus.travelOfDayChange.onNext(false)
+                }
+            }){
+
+            }
+        addDisposable(disposable)
+    }
+    private fun loadTravelingOfDay(){
+        val factory: DataSource.Factory<Int, TravelOfDay>
+                = travelModel.getTravelOfDays()
+        val pagedListBuilder: LivePagedListBuilder<Int, TravelOfDay> = LivePagedListBuilder<Int, TravelOfDay>(factory,
+            20)
+        travelOfDayPagedLiveData = pagedListBuilder.build()
     }
     fun permissionCheck(request: Observable<Boolean>?) {
         val disposable = request?.subscribe { t ->
@@ -128,10 +143,10 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     fun travelStart() {
         traveling.set(true)
         val cal = Calendar.getInstance()
-        prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).blockingAwait()
-        prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 1).blockingAwait()
+        val d1 = prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).observeOn(Schedulers.io()).subscribe()
+        val d2 = prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 1).observeOn(Schedulers.io()).subscribe()
         val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
-        prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).blockingAwait()
+        val d3 = prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).observeOn(Schedulers.io()).subscribe()
 
         val travel = Travel(
             countries = arrayListOf(travelingStartOfCountry.get()!!),
@@ -141,18 +156,23 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         )
         val travelOfDay = TravelOfDay(countries = arrayListOf(travelingStartOfCountry.get()!!),
             day = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(travelingStartOfDay.get()!!))
-        prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!).blockingAwait()
+        val d4= prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!).observeOn(Schedulers.io()).subscribe()
         val disposable = travelModel.createTravel(travel)
             .flatMap {
                 travelOfDay.travelId = it
-                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, it).blockingAwait()
+                val d5= prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, it).observeOn(Schedulers.io()).subscribe()
+                addDisposable(d5)
                 travelModel.createTravelOfDay(travelOfDay)
             }
             .subscribe { t ->
-//                travelOfDayListLiveData.postValue(Event(listOf(travelOfDay)))
-                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t).blockingAwait()
+                val d6 = prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t).observeOn(Schedulers.io()).subscribe()
+                addDisposable(d6)
                 travelOfDay.travelId = t
             }
         addDisposable(disposable)
+        addDisposable(d1)
+        addDisposable(d2)
+        addDisposable(d3)
+        addDisposable(d4)
     }
 }

@@ -14,20 +14,12 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainActivityViewModel @Inject constructor() : BaseViewModel() {
-    @Inject
-    lateinit var timeHelper: TimeHelper
 
     val finishActivity:MutableLiveData<Event<Any>> = MutableLiveData()
     val showToast:MutableLiveData<Event<Any>> = MutableLiveData()
 
     override fun initialize() {
         super.initialize()
-
-        val traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
-        if (traveling) {
-            timeHelper.timeCheckOfDay()
-        }
-
         val disposable = backButtonSubject.toFlowable(BackpressureStrategy.BUFFER)
             .observeOn(AndroidSchedulers.mainThread())
             .buffer(2, 1) // List<Long>
