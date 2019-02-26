@@ -149,13 +149,13 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         val d3 = prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).observeOn(Schedulers.io()).subscribe()
 
         val travel = Travel(
-            countries = arrayListOf(travelingStartOfCountry.get()!!),
-            startOfDay = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(travelingStartOfDay.get()!!),
-            userId = prefUtilService.getString(AndroidPrefUtilService.Key.USER_ID).blockingGet(),
+            entireCountries = arrayListOf(travelingStartOfCountry.get()!!),
+            startDate = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(travelingStartOfDay.get()!!),
+            userId = prefUtilService.getInt(AndroidPrefUtilService.Key.USER_ID).blockingGet(),
             theme = travelThemeList.toMutableList() as ArrayList<String>
         )
-        val travelOfDay = TravelOfDay(countries = arrayListOf(travelingStartOfCountry.get()!!),
-            day = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(travelingStartOfDay.get()!!))
+        val travelOfDay = TravelOfDay(dayCountries = arrayListOf(travelingStartOfCountry.get()!!),
+            date = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(travelingStartOfDay.get()!!))
         val d4= prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!).observeOn(Schedulers.io()).subscribe()
         val disposable = travelModel.createTravel(travel)
             .flatMap {

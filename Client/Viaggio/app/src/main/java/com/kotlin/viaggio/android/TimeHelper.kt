@@ -41,9 +41,9 @@ class TimeHelper @Inject constructor(){
 
 
             val day = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).format(cal.time)
-            val travelOfDay = TravelOfDay(countries = arrayListOf(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
-            ,dayCount = travelingOfDayOfCount, travelId = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
-            ,day = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(day))
+            val travelOfDay = TravelOfDay(dayCountries = arrayListOf(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
+            ,travelOfDay = travelingOfDayOfCount, travelId = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
+            ,date = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(day))
 
             val travelOfDayId = travelModel.createTravelOfDay(travelOfDay).subscribeOn(Schedulers.io()).blockingGet()
             prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, travelOfDayId).observeOn(Schedulers.io()).subscribe()

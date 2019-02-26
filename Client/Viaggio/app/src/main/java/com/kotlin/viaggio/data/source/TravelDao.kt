@@ -27,7 +27,7 @@ interface TravelDao {
     @Insert
     fun insertTravelOfDay(travelOfDay: TravelOfDay): Single<Long>
 
-    @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY day DESC")
+    @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY date DESC")
     fun getTravelOfDaysPaged(travelId: Long): DataSource.Factory<Int, TravelOfDay>
 
     @Query("SELECT * FROM travelOfDays WHERE id = :id")

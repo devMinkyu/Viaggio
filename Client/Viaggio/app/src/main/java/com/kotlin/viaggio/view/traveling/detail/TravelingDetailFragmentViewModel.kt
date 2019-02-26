@@ -9,6 +9,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.ArrayList
@@ -29,38 +30,34 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
     override fun initialize() {
         super.initialize()
         val disposable = travelModel.getTravelOfDay()
+            .observeOn(Schedulers.io())
             .subscribeOn(Schedulers.io())
-            .subscribe ({
+            .flatMap {
                 travelOfDay = it
-                travelingOfDayCount.set(it.dayCount)
-                travelingOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).format(it.day))
-                if(it.theme.isNotEmpty()){
-                    isTheme.set(true)
-                    for (s in it.theme) {
-                        travelingOfDayTheme.set("${travelingOfDayTheme.get()} $s")
-                        travelingOfDayTheme.set(travelingOfDayTheme.get()?.trim())
+                travelingOfDayCount.set(it.travelOfDay)
+                travelingOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).format(it.date))
+                Single.just(travelOfDay)
+            }
+            .subscribe ({travelOfDay ->
+                val disposable = rxEventBus.travelOfDayTheme
+                    .observeOn(Schedulers.io())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe{
+                        travelOfDay.theme = it as ArrayList<String>
+                        if(travelOfDay.theme.isNotEmpty()){
+                            isTheme.set(true)
+                            travelingOfDayTheme.set("")
+                            for (s in travelOfDay.theme) {
+                                travelingOfDayTheme.set("${travelingOfDayTheme.get()} $s")
+                                travelingOfDayTheme.set(travelingOfDayTheme.get()?.trim())
+                            }
+                            travelModel.updateTravelOfDay(travelOfDay)
+                        }
                     }
-                }
+                addDisposable(disposable)
             }){
 
             }
         addDisposable(disposable)
-
-        val themeDisposable = rxEventBus.travelOfDayTheme
-            .observeOn(Schedulers.io())
-            .subscribeOn(Schedulers.io())
-            .subscribe{
-                if(it.isNotEmpty()){
-                    isTheme.set(true)
-                    travelingOfDayTheme.set("")
-                    for (s in it) {
-                        travelingOfDayTheme.set("${travelingOfDayTheme.get()} $s")
-                        travelingOfDayTheme.set(travelingOfDayTheme.get()?.trim())
-                    }
-                    travelOfDay.theme = it as ArrayList<String>
-                    travelModel.updateTravelOfDay(travelOfDay)
-                }
-            }
-        addDisposable(themeDisposable)
     }
 }
