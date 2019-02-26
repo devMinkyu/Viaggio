@@ -6,7 +6,9 @@ import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.BackpressureStrategy
+import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import io.reactivex.subscribers.DefaultSubscriber
@@ -40,4 +42,12 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
             .toSerialized()
 
     fun checkTutorial() = prefUtilService.getBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK).blockingGet() ?: false
+    fun setSelectedTravelingOfDay(travelOfDayId: String?) {
+        travelOfDayId?.let {
+            val disposable
+                    = prefUtilService.putLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID, it.toLong())
+                .observeOn(Schedulers.io()).subscribe()
+            addDisposable(disposable)
+        }
+    }
 }

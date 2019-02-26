@@ -118,11 +118,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-
-    }
-
     inner class ThemeTravelingSelectedViewHolder(view:View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingSelectedThemeBinding>(view)
     }
@@ -139,13 +134,14 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             holder.binding?.viewHandler = holder.ViewHandler()
         }
     }
-}
-class TravelOfDayViewHolder(view:View): RecyclerView.ViewHolder(view){
-    val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingBinding>(view)
+    inner class TravelOfDayViewHolder(view:View): RecyclerView.ViewHolder(view){
+        val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingBinding>(view)
 
-    inner class ViewHandler{
-        fun selectedTravelOfDay(){
-            binding?.data?.id
+        inner class ViewHandler{
+            fun selectedTravelOfDay(){
+                val id = binding?.data?.id?:0
+                baseIntent("http://viaggio.kotlin.com/home/main/traveling/$id/detail/")
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.paging.DataSource
 import com.kotlin.viaggio.data.`object`.Travel
+import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.RxEventBus
@@ -46,5 +47,12 @@ class TravelModel @Inject constructor() : BaseModel() {
     }
     fun getTravelOfDays(): DataSource.Factory<Int, TravelOfDay> {
         return db.get().travelDao().getTravelOfDaysPaged(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet())
+    }
+
+    fun getTravelOfDay(): Single<TravelOfDay> {
+        return db.get().travelDao().getTravelOfDay(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
+    }
+    fun getTravelCards(): DataSource.Factory<Int, TravelCard> {
+        return db.get().travelDao().getTravelCardsPaged(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
     }
 }

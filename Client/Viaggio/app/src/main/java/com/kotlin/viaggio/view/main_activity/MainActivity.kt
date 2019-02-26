@@ -13,6 +13,7 @@ import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
+import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import org.jetbrains.anko.toast
 
@@ -69,6 +70,15 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "login" -> showSign()
                         "camera" -> showCamera()
                         "theme" -> showTheme()
+                        "detail" -> {
+                            when(appLinkData.pathSegments?.get(2)){
+                                "traveling" -> {
+                                    getViewModel().setSelectedTravelingOfDay(appLinkData.pathSegments?.get(3))
+                                    showTravelingDetail()
+                                }
+                                "traveled" -> {}
+                            }
+                        }
                     }
                 }
                 "login" -> {
@@ -86,6 +96,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTravelingDetail() {
+        baseShowTopAddBackFragment(TravelingDetailFragment())
     }
 
     private fun showTheme() {
