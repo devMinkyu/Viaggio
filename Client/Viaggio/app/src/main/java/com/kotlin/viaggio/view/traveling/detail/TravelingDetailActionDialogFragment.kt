@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.view.common.BaseFragment
+import com.kotlin.viaggio.view.common.BaseDialogFragment
 
-
-class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
-    lateinit var binding:com.kotlin.viaggio.databinding.FragmentTravelingDetailBinding
+class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActionDialogFragmentViewModel>(){
+    companion object {
+        val TAG: String = TravelingDetailActionDialogFragment::class.java.simpleName
+    }
+    lateinit var binding:com.kotlin.viaggio.databinding.FragmentActionDialogTravelingDetailBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_detail, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_action_dialog_traveling_detail, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
         return binding.root
@@ -23,14 +25,8 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
     }
 
     inner class ViewHandler{
-        fun back(){
-            fragmentPopStack()
-        }
-        fun add(){
-            TravelingDetailActionDialogFragment().show(fragmentManager!!,TravelingDetailActionDialogFragment.TAG)
-        }
-        fun chooseTheme(){
-            baseIntent("http://viaggio.kotlin.com/traveling/theme/")
+        fun close(){
+            dismiss()
         }
     }
 }

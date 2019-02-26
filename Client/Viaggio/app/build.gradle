@@ -114,6 +114,7 @@ dependencies {
     implementation "androidx.paging:paging-runtime-ktx:$paging_version" // For Kotlin use paging-runtime-ktx
     testImplementation "androidx.paging:paging-common-ktx:$paging_version" // For Kotlin use paging-common-ktx
     implementation "androidx.paging:paging-rxjava2-ktx:$paging_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.3.21"
 }
 //apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'

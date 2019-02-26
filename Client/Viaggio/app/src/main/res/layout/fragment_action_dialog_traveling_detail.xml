@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragmentViewModel"/>
+
+        <variable name="viewModel" type="TravelingDetailActionDialogFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EE000000">
+
+        <ImageView
+                android:id="@id/detailDialogClose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_clear_white_24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{()->viewHandler.close()}"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

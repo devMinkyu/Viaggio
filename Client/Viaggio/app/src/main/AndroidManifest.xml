@@ -73,11 +73,15 @@
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
-                        android:pathPattern="/home/main/traveling/..*\\/detail/"/>
+                        android:pathPattern="/traveling/theme/"/>
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
-                        android:pathPattern="/home/main/traveled/detail/"/>
+                        android:pathPattern="/traveling/..*\\/detail/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/traveled/detail/"/>
             </intent-filter>
         </activity>
     </application>

@@ -22,6 +22,7 @@ data class TravelOfDay(
     @PrimaryKey(autoGenerate = true) var id:Long = 0,
     var travelId:Long = 0,
     @Suppress("ArrayInDataClass") var countries:ArrayList<String> = arrayListOf(),
+    @Suppress("ArrayInDataClass") var theme:ArrayList<String> = arrayListOf(),
     var day:Date? = null,
     var dayCount:Int = 1,
     var transportation:ArrayList<String> = arrayListOf(),

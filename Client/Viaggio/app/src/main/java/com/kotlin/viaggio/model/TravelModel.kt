@@ -2,6 +2,7 @@ package com.kotlin.viaggio.model
 
 import android.graphics.Bitmap
 import android.net.Uri
+import android.text.TextUtils
 import androidx.paging.DataSource
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelCard
@@ -9,6 +10,7 @@ import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.RxEventBus
 import io.fotoapparat.result.PhotoResult
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import javax.inject.Inject
@@ -54,5 +56,9 @@ class TravelModel @Inject constructor() : BaseModel() {
     }
     fun getTravelCards(): DataSource.Factory<Int, TravelCard> {
         return db.get().travelDao().getTravelCardsPaged(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
+    }
+
+    fun updateTravelOfDay(travelOfDay: TravelOfDay) {
+        db.get().travelDao().updateTravelOfDay(travelOfDay)
     }
 }

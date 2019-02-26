@@ -78,4 +78,6 @@
     <item name="travelingDetailDayTarvelCard" type="id"/>
     <item name="travelingDetailDay" type="id"/>
     <item name="travelingDetailDayTheme" type="id"/>
+    <item name="detailDialogClose" type="id"/>
+    <item name="travelingDetailDayThemeBtn" type="id"/>
 </resources>

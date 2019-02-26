@@ -36,7 +36,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         val layoutManager = FlexboxLayoutManager(context)
         layoutManager.flexWrap = FlexWrap.WRAP
         binding.travelingThemes.layoutManager = layoutManager
-        binding.travelingList.layoutManager = LinearLayoutManager(context!!)
         return binding.root
     }
 
@@ -73,6 +72,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             }
         })
 
+        travelingList.layoutManager = LinearLayoutManager(context!!)
         val adapter = TravelOfDayAdapter()
         travelingList.adapter = adapter
         getViewModel().travelOfDayPagedLiveData.observe(this, Observer(adapter::submitList))
@@ -140,7 +140,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         inner class ViewHandler{
             fun selectedTravelOfDay(){
                 val id = binding?.data?.id?:0
-                baseIntent("http://viaggio.kotlin.com/home/main/traveling/$id/detail/")
+                baseIntent("http://viaggio.kotlin.com/traveling/$id/detail/")
             }
         }
     }

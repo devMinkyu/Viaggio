@@ -10,6 +10,8 @@ import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
+import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
+import com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import dagger.Module
@@ -46,5 +48,11 @@ interface MainActivityInjectorModule {
     fun themeFragment(): ThemeFragment
 
     @ContributesAndroidInjector
+    fun travelingOfDayThemeFragment(): TravelingOfDayThemeFragment
+
+    @ContributesAndroidInjector
     fun travelingDetailFragment(): TravelingDetailFragment
+
+    @ContributesAndroidInjector
+    fun travelingDetailActionDialogFragment(): TravelingDetailActionDialogFragment
 }

@@ -168,6 +168,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
                 val d6 = prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t).observeOn(Schedulers.io()).subscribe()
                 addDisposable(d6)
                 travelOfDay.travelId = t
+                loadTravelingOfDay()
             }
         addDisposable(disposable)
         addDisposable(d1)

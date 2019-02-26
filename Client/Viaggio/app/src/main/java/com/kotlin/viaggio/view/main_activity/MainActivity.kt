@@ -13,6 +13,7 @@ import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
+import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import org.jetbrains.anko.toast
@@ -70,15 +71,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "login" -> showSign()
                         "camera" -> showCamera()
                         "theme" -> showTheme()
-                        "detail" -> {
-                            when(appLinkData.pathSegments?.get(2)){
-                                "traveling" -> {
-                                    getViewModel().setSelectedTravelingOfDay(appLinkData.pathSegments?.get(3))
-                                    showTravelingDetail()
-                                }
-                                "traveled" -> {}
-                            }
-                        }
                     }
                 }
                 "login" -> {
@@ -87,6 +79,15 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "create" -> showSignCreate()
                     }
                 }
+
+                "traveling" ->
+                    when(appLinkData.pathSegments?.last()){
+                        "detail" -> {
+                            getViewModel().setSelectedTravelingOfDay(appLinkData.pathSegments?.get(1))
+                            showTravelingDetail()
+                        }
+                        "theme" -> showTravelingTheme()
+                    }
                 "setting" ->{
                     when (appLinkData.pathSegments?.last()) {
                         "main" -> showSetting()
@@ -96,6 +97,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTravelingTheme() {
+        baseShowLeftAddBackFragment(TravelingOfDayThemeFragment())
     }
 
     private fun showTravelingDetail() {
