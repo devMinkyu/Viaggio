@@ -25,5 +25,44 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:onClick="@{()->viewHandler.close()}"
         />
+
+        <TextView
+                android:id="@id/detailDialogAddTravelCard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/detailDialogChangeCountry"
+                android:onClick="@{() -> viewHandler.add()}"
+                android:text="add"
+                android:padding="10dp"
+        />
+
+        <TextView
+                android:id="@id/detailDialogChangeCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/detailDialogAddTravelCard"
+                app:layout_constraintEnd_toStartOf="@id/detailDialogTravelFinish"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:onClick="@{() -> viewHandler.changeCountry()}"
+                android:text="change"
+                android:padding="10dp"
+        />
+
+        <TextView
+                android:id="@id/detailDialogTravelFinish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/detailDialogChangeCountry"
+                android:onClick="@{() -> viewHandler.travelFinish()}"
+                android:text="finish"
+                android:padding="10dp"
+        />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

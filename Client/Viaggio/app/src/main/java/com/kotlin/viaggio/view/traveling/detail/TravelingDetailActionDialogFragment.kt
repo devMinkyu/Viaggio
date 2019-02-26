@@ -20,12 +20,19 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     inner class ViewHandler{
         fun close(){
+            dismiss()
+        }
+        fun add(){
+            baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
+            dismiss()
+        }
+        fun changeCountry(){
+
+            dismiss()
+        }
+        fun travelFinish(){
             dismiss()
         }
     }

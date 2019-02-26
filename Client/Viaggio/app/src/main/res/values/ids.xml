@@ -80,4 +80,11 @@
     <item name="travelingDetailDayTheme" type="id"/>
     <item name="detailDialogClose" type="id"/>
     <item name="travelingDetailDayThemeBtn" type="id"/>
+    <item name="detailDialogAddTravelCard" type="id"/>
+    <item name="detailDialogChangeCountry" type="id"/>
+    <item name="detailDialogTravelFinish" type="id"/>
+    <item name="travelCardEnrollBottomSheet" type="id"/>
+    <item name="travelCardEnrollImageAllList" type="id"/>
+    <item name="travelCardEnrollConfirm" type="id"/>
+    <item name="travelCardEnrollLastImg" type="id"/>
 </resources>

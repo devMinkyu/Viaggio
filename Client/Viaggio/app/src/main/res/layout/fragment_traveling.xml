@@ -153,7 +153,7 @@
                 android:id="@id/travelingList"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:visibility="@{viewModel.traveling ? View.VISIBLE:View.GONE}"
+                android:visibility="@{viewModel.traveling ? View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -36,6 +36,15 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
                 travelOfDay = it
                 travelingOfDayCount.set(it.travelOfDay)
                 travelingOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).format(it.date))
+                if(travelOfDay.theme.isNotEmpty()){
+                    isTheme.set(true)
+                    travelingOfDayTheme.set("")
+                    for (s in travelOfDay.theme) {
+                        travelingOfDayTheme.set("${travelingOfDayTheme.get()} $s")
+                        travelingOfDayTheme.set(travelingOfDayTheme.get()?.trim())
+                    }
+                    travelModel.updateTravelOfDay(travelOfDay)
+                }
                 Single.just(travelOfDay)
             }
             .subscribe ({travelOfDay ->

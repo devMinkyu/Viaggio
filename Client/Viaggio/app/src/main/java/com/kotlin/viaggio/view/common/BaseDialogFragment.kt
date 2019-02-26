@@ -1,10 +1,13 @@
 package com.kotlin.viaggio.view.common
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.ioc.module.common.AndroidXInjection
 import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
 import dagger.android.DispatchingAndroidInjector
@@ -53,6 +56,16 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
         viewModelProvider = WeakReference(nonNullViewModelProviderVal)
         return nonNullViewModelProviderVal
     }
+
+    fun baseIntent(uri:String){
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(uri)
+        )
+        intent.setPackage(BuildConfig.APPLICATION_ID)
+        startActivity(intent)
+    }
+
     fun showLoading() {
         activity?.let {
             (it as BaseActivity<*>).showLoading()

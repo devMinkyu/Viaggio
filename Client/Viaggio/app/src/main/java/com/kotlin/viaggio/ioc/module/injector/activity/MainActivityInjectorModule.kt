@@ -13,6 +13,7 @@ import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
+import com.kotlin.viaggio.view.traveling.traveling_card.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -55,4 +56,7 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun travelingDetailActionDialogFragment(): TravelingDetailActionDialogFragment
+
+    @ContributesAndroidInjector
+    fun travelingCardEnrollFragment(): TravelingCardEnrollFragment
 }

@@ -15,6 +15,7 @@ import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
+import com.kotlin.viaggio.view.traveling.traveling_card.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import org.jetbrains.anko.toast
 
@@ -87,6 +88,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                             showTravelingDetail()
                         }
                         "theme" -> showTravelingTheme()
+                        "enroll" -> showTravelingCardEnroll()
                     }
                 "setting" ->{
                     when (appLinkData.pathSegments?.last()) {
@@ -97,6 +99,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTravelingCardEnroll() {
+        baseShowLeftAddBackFragment(TravelingCardEnrollFragment())
     }
 
     private fun showTravelingTheme() {
