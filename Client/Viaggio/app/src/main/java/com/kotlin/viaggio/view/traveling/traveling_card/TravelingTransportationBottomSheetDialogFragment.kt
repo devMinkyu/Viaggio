@@ -21,11 +21,6 @@ class TravelingTransportationBottomSheetDialogFragment : BaseBottomDialogFragmen
         binding.viewHandler = ViewHandler()
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     inner class ViewHandler{
         fun selectedTransportation(string: String){
             getViewModel().selectedTransportation(string)

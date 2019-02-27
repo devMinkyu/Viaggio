@@ -13,6 +13,7 @@ import io.fotoapparat.result.PhotoResult
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
+import java.util.ArrayList
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -42,6 +43,18 @@ class TravelModel @Inject constructor() : BaseModel() {
                     db.get().travelDao().insertTravel(travel)
                 }
         }
+    }
+
+    fun createTravelCard(travelCard: TravelCard, filePath: MutableList<String>):Completable{
+        return localDataSource.recordImage(filePath.toTypedArray())
+            .flatMapCompletable {
+                val imageNames:MutableList<String> = mutableListOf()
+                for (s in it) {
+                    imageNames.add(Uri.parse(s).lastPathSegment!!)
+                }
+                travelCard.imageNames = imageNames as ArrayList<String>
+                db.get().travelDao().insertTravelCard(travelCard)
+            }
     }
 
     fun createTravelOfDay(travelOfDay: TravelOfDay): Single<Long> {

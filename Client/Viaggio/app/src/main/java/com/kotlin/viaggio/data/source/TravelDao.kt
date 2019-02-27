@@ -38,7 +38,7 @@ interface TravelDao {
 
     // travelCard
     @Insert
-    fun insertTravelCard(travelCard: TravelCard): Single<Long>
+    fun insertTravelCard(travelCard: TravelCard): Completable
 
     @Query("SELECT * FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) ORDER BY enrollOfTime DESC")
     fun getTravelCardsPaged(travelOfDayId: Long): DataSource.Factory<Int, TravelCard>

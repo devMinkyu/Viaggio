@@ -37,4 +37,5 @@
     <string name="back">Back</string>
     <string name="traveling_of_day_theme">Theme Choose</string>
     <string name="traveling_card_contents_hint">Enter description..</string>
+    <string name="enterTravelCardNotice">Please enter place, time, and transportation of travel.</string>
 </resources>

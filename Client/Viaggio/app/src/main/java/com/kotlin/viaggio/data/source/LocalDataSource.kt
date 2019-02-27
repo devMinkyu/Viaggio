@@ -158,8 +158,7 @@ class LocalDataSource @Inject constructor() {
                 recordImage(arrayOf(it.absolutePath))
             }
     }
-
-    private fun recordImage(fileNames: Array<String>):Single<List<String>> {
+    fun recordImage(fileNames: Array<String>):Single<List<String>> {
         return Single.create(SingleOnSubscribe<List<String>> {
             val imageListUri:MutableList<String> = mutableListOf()
             for ((index, fileName) in fileNames.withIndex()) {

@@ -18,6 +18,7 @@ import com.kotlin.viaggio.databinding.ItemTravelingCardImageBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_card_image.view.*
+import org.jetbrains.anko.support.v4.toast
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -98,7 +99,12 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
             BottomSheetBehavior.from(travelCardEnrollBottomSheet).state = BottomSheetBehavior.STATE_COLLAPSED
         }
         fun save() {
-
+            if(getViewModel().checkAdditional()){
+                showLoading()
+                getViewModel().saveTravelCard()
+            }else{
+                toast(resources.getString(R.string.enterTravelCardNotice))
+            }
         }
         @SuppressLint("SimpleDateFormat")
         fun enrollOfTime(){
