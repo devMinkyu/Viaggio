@@ -91,4 +91,15 @@
     <item name="travelingCardListImage" type="id"/>
     <item name="travelingCardSelectedBtn" type="id"/>
     <item name="travelCardEnrollCard" type="id"/>
+    <item name="travelCardEnrollAdditionalConfirm" type="id"/>
+    <item name="travelCardEnrollAdditionalImage" type="id"/>
+    <item name="travelCardEnrollAdditionalContents" type="id"/>
+    <item name="travelCardEnrollAdditionalPlace" type="id"/>
+    <item name="travelCardEnrollAdditionalPlaceTgl" type="id"/>
+    <item name="travelCardEnrollAdditionalTime" type="id"/>
+    <item name="travelCardEnrollAdditionalTimeTgl" type="id"/>
+    <item name="travelCardEnrollAdditionalTransportation" type="id"/>
+    <item name="travelCardEnrollAdditionalTransportationTgl" type="id"/>
+    <item name="travelCardEnrollAdditionalTransportationBgl" type="id"/>
+    <item name="travelCardEnrollAdditionalTitle" type="id"/>
 </resources>

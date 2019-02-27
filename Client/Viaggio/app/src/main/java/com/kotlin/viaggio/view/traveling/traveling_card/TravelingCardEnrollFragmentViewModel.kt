@@ -1,5 +1,7 @@
 package com.kotlin.viaggio.view.traveling.traveling_card
 
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.event.Event
@@ -17,6 +19,10 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     var entireChooseCount:Int = 1
     val imageAllList:MutableList<String> = mutableListOf()
     val imageChooseList:MutableList<String> = mutableListOf()
+
+    val contents = ObservableField<String>()
+    val additional = ObservableBoolean(false)
+
     override fun initialize() {
         super.initialize()
         for (s in travelModel.imageAllPath()) {

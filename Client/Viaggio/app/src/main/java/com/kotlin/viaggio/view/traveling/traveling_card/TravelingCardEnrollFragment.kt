@@ -78,12 +78,33 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
             if (BottomSheetBehavior.from(travelCardEnrollBottomSheet).state == BottomSheetBehavior.STATE_COLLAPSED) {
                 BottomSheetBehavior.from(travelCardEnrollBottomSheet).state = BottomSheetBehavior.STATE_HIDDEN
             } else {
-
+                getViewModel().additional.set(true)
+                Glide.with(context!!)
+                    .load(getViewModel().imageChooseList[0])
+                    .into(travelCardEnrollAdditionalImage)
             }
         }
-
+        fun back(){
+            if(getViewModel().additional.get()){
+                getViewModel().additional.set(getViewModel().additional.get().not())
+            }else{
+                fragmentPopStack()
+            }
+        }
         fun openImgList() {
             BottomSheetBehavior.from(travelCardEnrollBottomSheet).state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+        fun save(){
+
+        }
+        fun place(){
+
+        }
+        fun enrollOfTime(){
+
+        }
+        fun transportation(){
+            
         }
     }
 
@@ -112,17 +133,19 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                             .into(travelCardEnrollLastImg)
                     }
                 } else {
-                    getViewModel().imageChooseList.remove(fileNamePath)
-                    getViewModel().entireChooseCount -= 1
-                    binding?.chooseCount?.set(0)
-                    for ((i, s) in getViewModel().imageChooseList.withIndex()) {
-                        val index = getViewModel().imageAllList.indexOf(s)
-                        getViewModel().chooseCountList[index].set(i + 1)
-                    }
-                    if (getViewModel().imageChooseList.isNotEmpty()) {
-                        Glide.with(context!!)
-                            .load(getViewModel().imageChooseList.last())
-                            .into(travelCardEnrollLastImg)
+                    if(getViewModel().entireChooseCount != 1){
+                        getViewModel().imageChooseList.remove(fileNamePath)
+                        getViewModel().entireChooseCount -= 1
+                        binding?.chooseCount?.set(0)
+                        for ((i, s) in getViewModel().imageChooseList.withIndex()) {
+                            val index = getViewModel().imageAllList.indexOf(s)
+                            getViewModel().chooseCountList[index].set(i + 1)
+                        }
+                        if (getViewModel().imageChooseList.isNotEmpty()) {
+                            Glide.with(context!!)
+                                .load(getViewModel().imageChooseList.last())
+                                .into(travelCardEnrollLastImg)
+                        }
                     }
                 }
             }

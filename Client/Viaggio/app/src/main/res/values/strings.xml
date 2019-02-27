@@ -35,4 +35,5 @@
     <string name="format">%1$tY/%1$tm/%1$td</string>
     <string name="back">Back</string>
     <string name="traveling_of_day_theme">Theme Choose</string>
+    <string name="traveling_card_contents_hint">Enter description..</string>
 </resources>
