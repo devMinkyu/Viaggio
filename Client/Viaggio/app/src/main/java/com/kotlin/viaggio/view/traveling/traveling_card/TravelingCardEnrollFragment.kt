@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.traveling.traveling_card
 
 import android.annotation.SuppressLint
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,8 @@ import com.kotlin.viaggio.databinding.ItemTravelingCardImageBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_card_image.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentViewModel>() {
@@ -94,17 +97,20 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         fun openImgList() {
             BottomSheetBehavior.from(travelCardEnrollBottomSheet).state = BottomSheetBehavior.STATE_COLLAPSED
         }
-        fun save(){
+        fun save() {
 
         }
-        fun place(){
-
-        }
+        @SuppressLint("SimpleDateFormat")
         fun enrollOfTime(){
-
+            val cal = Calendar.getInstance()
+            TimePickerDialog(context!!, TimePickerDialog.OnTimeSetListener { timePicker, i, i1 ->
+                cal.set(Calendar.HOUR_OF_DAY, timePicker.hour)
+                cal.set(Calendar.MINUTE, timePicker.minute)
+                getViewModel().time.set(SimpleDateFormat(resources.getString(R.string.dateTimeFormat)).format(cal.time))
+            }, Calendar.HOUR_OF_DAY, Calendar.MINUTE, true).show()
         }
         fun transportation(){
-            
+            TravelingTransportationBottomSheetDialogFragment().show(fragmentManager!!, TravelingTransportationBottomSheetDialogFragment.TAG)
         }
     }
 

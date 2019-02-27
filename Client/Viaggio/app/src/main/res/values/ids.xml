@@ -102,4 +102,9 @@
     <item name="travelCardEnrollAdditionalTransportationTgl" type="id"/>
     <item name="travelCardEnrollAdditionalTransportationBgl" type="id"/>
     <item name="travelCardEnrollAdditionalTitle" type="id"/>
+    <item name="transportationBus" type="id"/>
+    <item name="transportationWalk" type="id"/>
+    <item name="transportationTaxi" type="id"/>
+    <item name="transportationCar" type="id"/>
+    <item name="transportationSubway" type="id"/>
 </resources>

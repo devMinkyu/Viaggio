@@ -17,4 +17,5 @@ class RxEventBus @Inject constructor() {
     val travelOfTheme: BehaviorSubject<List<String>> = BehaviorSubject.create()
     val travelOfDayTheme: BehaviorSubject<List<String>> = BehaviorSubject.create()
     val travelOfDayChange: BehaviorSubject<Boolean> = BehaviorSubject.create()
+    val travelCardTransportation: BehaviorSubject<String> = BehaviorSubject.create()
 }

@@ -207,15 +207,15 @@
                     app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalContents"
             />
 
-            <TextView
+            <EditText
                     android:id="@id/travelCardEnrollAdditionalPlace"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="장소"
+                    android:hint="장소"
                     android:textColor="@android:color/black"
-                    android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
                     android:layout_marginStart="7dp"
                     android:padding="15dp"
+                    android:text="@={viewModel.place}"
                     app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalPlaceTgl"
                     app:layout_constraintStart_toStartOf="parent"
             />
@@ -235,7 +235,9 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginStart="7dp"
                     android:padding="15dp"
-                    android:text="등록 시간"
+                    android:text='@{viewModel.time}'
+                    android:hint="등록 시간"
+                    android:onClick="@{()->viewHandler.enrollOfTime()}"
                     android:textColor="@android:color/black"
                     android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -257,7 +259,9 @@
                     android:layout_marginTop="3dp"
                     android:layout_marginStart="7dp"
                     android:padding="15dp"
-                    android:text="이동수단"
+                    android:hint="이동수단"
+                    android:text='@{viewModel.transportation}'
+                    android:onClick="@{()->viewHandler.transportation()}"
                     android:textColor="@android:color/black"
                     android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
                     app:layout_constraintStart_toStartOf="parent"
