@@ -14,7 +14,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     val imagePathList: MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
 
     val chooseCountList:MutableList<ObservableInt> = mutableListOf()
-    var entireChooseCount:Int = 0
+    var entireChooseCount:Int = 1
     val imageAllList:MutableList<String> = mutableListOf()
     val imageChooseList:MutableList<String> = mutableListOf()
     override fun initialize() {
@@ -23,6 +23,8 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
             imageAllList.add(s)
             chooseCountList.add(ObservableInt(0))
         }
+        imageChooseList.add(imageAllList[0])
+        chooseCountList[0].set(1)
         imagePathList.value = Event(imageAllList)
     }
 }

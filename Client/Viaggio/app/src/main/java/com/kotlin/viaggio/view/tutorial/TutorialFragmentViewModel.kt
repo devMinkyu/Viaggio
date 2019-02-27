@@ -30,16 +30,6 @@ class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
         }
         tutorialList.value = list
     }
-
-    val autoPageNotice:MutableLiveData<Any> = MutableLiveData()
-    fun autoPager(){
-        val disposable = Observable.interval(8, TimeUnit.SECONDS)
-            .subscribe {
-                autoPageNotice.postValue(Any())
-            }
-        addDisposable(disposable)
-    }
-
     fun tutorialEnd() {
         prefUtilService.putBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK, true).subscribe()
     }

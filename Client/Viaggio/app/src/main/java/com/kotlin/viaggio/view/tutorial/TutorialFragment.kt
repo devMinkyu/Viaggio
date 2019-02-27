@@ -25,7 +25,6 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewModel().tutorialList.observe(this, Observer {list ->
-                getViewModel().autoPager()
                 tutorialPager.adapter = object: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
                         TutorialViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_tutorial, parent, false))
@@ -52,11 +51,6 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
                     }
                 })
 
-        })
-        getViewModel().autoPageNotice.observe(this, Observer {
-            getViewModel().tutorialList.value?.let { list ->
-                tutorialPager.currentItem = if (tutorialPager.currentItem < list.size - 1) tutorialPager.currentItem + 1 else 0
-            }
         })
     }
 
