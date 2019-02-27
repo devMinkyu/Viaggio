@@ -88,4 +88,6 @@
     <item name="travelCardEnrollConfirm" type="id"/>
     <item name="travelCardEnrollLastImg" type="id"/>
     <item name="travelCardEnrollImageBtn" type="id"/>
+    <item name="travelingCardListImage" type="id"/>
+    <item name="travelingCardSelectedBtn" type="id"/>
 </resources>

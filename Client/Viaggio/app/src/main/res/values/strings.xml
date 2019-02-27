@@ -31,6 +31,7 @@
     <string name="setting_sign">Sign</string>
     <string name="dateFormat">EE, MMM d, yyyy</string>
     <string name="travel_count">%d Day</string>
+    <string name="travel_card_choose_count">%d</string>
     <string name="format">%1$tY/%1$tm/%1$td</string>
     <string name="back">Back</string>
     <string name="traveling_of_day_theme">Theme Choose</string>

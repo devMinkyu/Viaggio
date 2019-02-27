@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="com.kotlin.viaggio.view.traveling.traveling_card.TravelingCardEnrollFragment.TravelingCardImgViewHolder.TravelingCardImgViewHandler"/>
+        <import type="android.view.View"/>
+
+        <variable name="viewHandler" type="TravelingCardImgViewHandler"/>
+        <variable name="chooseCount" type="androidx.databinding.ObservableInt"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+    >
+        <ImageView
+                android:id="@id/travelingCardListImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_margin="1dp"
+                android:onClick="@{()->viewHandler.imagePicker()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+        />
+        <TextView
+                android:id="@id/travelingCardSelectedBtn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:text='@{chooseCount == 0 ? "":@string/travel_card_choose_count(chooseCount)}'
+                android:gravity="center"
+                android:background="@{chooseCount == 0 ? @drawable/traveling_card_choose_bg:@drawable/traveling_card_choosing_bg}"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:elevation="1dp"
+                app:layout_constraintEnd_toEndOf="@id/travelingCardListImage"
+                app:layout_constraintTop_toTopOf="@id/travelingCardListImage"
+        />
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.6"
+                android:background="@android:color/black"
+                android:visibility="@{chooseCount == 0 ? View.GONE:View.VISIBLE}"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

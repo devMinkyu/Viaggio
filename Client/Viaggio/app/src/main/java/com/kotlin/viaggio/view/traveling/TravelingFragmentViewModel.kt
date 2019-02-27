@@ -157,6 +157,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         val travelOfDay = TravelOfDay(dayCountries = arrayListOf(travelingStartOfCountry.get()!!),
             date = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(travelingStartOfDay.get()!!))
         val d4= prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!).observeOn(Schedulers.io()).subscribe()
+
         val disposable = travelModel.createTravel(travel)
             .flatMap {
                 travelOfDay.travelId = it
