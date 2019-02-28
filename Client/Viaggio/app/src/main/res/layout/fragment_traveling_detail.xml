@@ -15,11 +15,31 @@
             android:fitsSystemWindows="true">
 
         <androidx.recyclerview.widget.RecyclerView
-                android:id="@id/travelingDetailDayTravelCard"
+                android:id="@id/travelingDetailDayTravelCardList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/traveling_card_create_btn_bg"
+                android:gravity="center"
+                android:text="@string/traveling_card_create"
+                android:elevation="5dp"
+                android:onClick="@{()->viewHandler.travelCardCreate()}"
+        />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="image upload"
+                android:visibility="@{viewModel.existTravelCard ? View.GONE:View.VISIBLE}"
+                android:background="@drawable/popup_gallery_empty"
+                tools:ignore="HardcodedText"/>
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"

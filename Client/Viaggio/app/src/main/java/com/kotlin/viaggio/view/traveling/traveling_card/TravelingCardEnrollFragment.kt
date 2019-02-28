@@ -69,44 +69,46 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                 travelCardEnrollImg1.layoutParams = layoutParams
             }
         })
+        getViewModel().complete.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                stopLoading()
+                fragmentPopStack()
+            }
+        })
 
+        travelCardEnrollAdditionalImagePager.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                object : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_pager_img,parent,false)){}
+            override fun getItemCount() = getViewModel().imageChooseList.size
+            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                Glide.with(context!!)
+                    .load(getViewModel().imageChooseList[position])
+                    .into(holder.itemView.travelingPagerImg)
+            }
+        }
+        travelCardEnrollAdditionalImagePager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if(position < getViewModel().imageChooseList.size) {
+                    super.onPageSelected(position)
+                    travelCardEnrollAdditionalImageIndicator.setCurrPageNumber(position)
+                }
+            }
 
+        })
     }
 
     inner class ViewHandler {
         fun next() {
             getViewModel().additional.set(getViewModel().additional.get().not())
 
-            travelCardEnrollAdditionalImagePager.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                    object : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_pager_img,parent,false)){}
-                override fun getItemCount() = getViewModel().imageChooseList.size
-                override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                    Glide.with(context!!)
-                        .load(getViewModel().imageChooseList[position])
-                        .into(holder.itemView.travelingPagerImg)
-                }
-            }
             travelCardEnrollAdditionalImageIndicator.setTotalPageNumber(getViewModel().imageChooseList.size)
-            travelCardEnrollAdditionalImageIndicator.setCurrPageNumber(0)
-
-            travelCardEnrollAdditionalImagePager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
-                override fun onPageSelected(position: Int) {
-                    super.onPageSelected(position)
-                    if(position < getViewModel().imageChooseList.size) {
-                        super.onPageSelected(position)
-                        travelCardEnrollAdditionalImageIndicator.setCurrPageNumber(position)
-                    }
-                }
-            })
+            travelCardEnrollAdditionalImagePager?.adapter?.notifyDataSetChanged()
+            travelCardEnrollAdditionalImagePager.setCurrentItem(0, false)
         }
 
         fun back() {
             if (getViewModel().additional.get()) {
-                travelCardEnrollAdditionalImageIndicator.setTotalPageNumber(0)
-                travelCardEnrollAdditionalImageIndicator.setCurrPageNumber(0)
-                travelCardEnrollAdditionalImagePager.adapter = null
-
                 getViewModel().additional.set(getViewModel().additional.get().not())
             } else {
                 fragmentPopStack()
@@ -114,12 +116,8 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         }
 
         fun save() {
-            if (getViewModel().checkAdditional()) {
-                showLoading()
-                getViewModel().saveTravelCard()
-            } else {
-                toast(resources.getString(R.string.enterTravelCardNotice))
-            }
+            showLoading()
+            getViewModel().saveTravelCard()
         }
 
         @SuppressLint("SimpleDateFormat")

@@ -24,12 +24,7 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
         fun close(){
             dismiss()
         }
-        fun add(){
-            baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
-            dismiss()
-        }
         fun changeCountry(){
-
             dismiss()
         }
         fun travelFinish(){

@@ -9,12 +9,10 @@ import android.preference.PreferenceManager
 import androidx.room.Room
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.text.FirebaseVisionCloudTextRecognizerOptions
-import com.google.gson.Gson
 import com.kotlin.viaggio.data.source.AppDatabase
 import com.kotlin.viaggio.view.App
 import dagger.Module
 import dagger.Provides
-import dagger.android.ContributesAndroidInjector
 import java.util.*
 import javax.inject.Named
 import javax.inject.Singleton
@@ -50,7 +48,8 @@ class AppProviderModule {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java, "viaggio-android-db"
-        ).build()
+        )
+            .build()
     }
 
     @Provides

@@ -27,23 +27,10 @@
         />
 
         <TextView
-                android:id="@id/detailDialogAddTravelCard"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/detailDialogChangeCountry"
-                android:onClick="@{() -> viewHandler.add()}"
-                android:text="add"
-                android:padding="10dp"
-        />
-
-        <TextView
                 android:id="@id/detailDialogChangeCountry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toEndOf="@id/detailDialogAddTravelCard"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/detailDialogTravelFinish"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

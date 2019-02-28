@@ -39,11 +39,6 @@ class TimeHelper @Inject constructor(){
             travelingOfDayOfCount += 1
             prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, travelingOfDayOfCount).observeOn(Schedulers.io()).subscribe()
 
-            var travelingOfDayOrder =
-                prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ORDER).blockingGet()
-            travelingOfDayOrder += 1
-            prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ORDER, travelingOfDayOrder).observeOn(Schedulers.io()).subscribe()
-
 
             val day = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).format(cal.time)
             val travelOfDay = TravelOfDay(dayCountries = arrayListOf(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())

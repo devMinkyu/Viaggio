@@ -41,4 +41,5 @@
     <string name="enterTravelCardNotice">Please enter place, time, and transportation of travel.</string>
     <string name="next">Next</string>
     <string name="confirm">Confirm</string>
+    <string name="traveling_card_create">Create</string>
 </resources>

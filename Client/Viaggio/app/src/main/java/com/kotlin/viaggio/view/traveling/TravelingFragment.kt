@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.traveling
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.kotlin.viaggio.R
@@ -20,9 +22,11 @@ import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling.*
+import kotlinx.android.synthetic.main.item_traveling.view.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -130,8 +134,19 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 = TravelOfDayViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling, parent, false))
 
         override fun onBindViewHolder(holder: TravelOfDayViewHolder, position: Int) {
+            val imgDir = File(context?.filesDir, "images/")
             holder.binding?.data = getItem(position)
             holder.binding?.viewHandler = holder.ViewHandler()
+            getItem(position)?.themeImageName?.let {
+                val imgFile = File(imgDir, it)
+                if (imgFile.exists()) {
+                    Uri.fromFile(imgFile).let { uri ->
+                        Glide.with(holder.itemView.traveledBackground)
+                            .load(uri)
+                            .into(holder.itemView.traveledBackground)
+                    }
+                }
+            }
         }
     }
     inner class TravelOfDayViewHolder(view:View): RecyclerView.ViewHolder(view){

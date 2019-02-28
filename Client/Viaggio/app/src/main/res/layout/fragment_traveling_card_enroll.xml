@@ -62,6 +62,7 @@
                 app:flexWrap="wrap"
                 app:alignItems="stretch"
                 app:alignContent="stretch"
+                app:showDivider="end|middle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelCardEnrollConfirm">
@@ -152,6 +153,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalImagePager"
         />
+
+        <EditText
+                android:id="@id/travelCardEnrollAdditionalContents"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:padding="15dp"
+                android:text="@={viewModel.contents}"
+                android:hint="@string/traveling_card_contents_hint"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalImageIndicator"
+                app:layout_constraintBottom_toTopOf="@id/travelCardEnrollAdditionalPlaceTgl"
+        />
         <View
                 android:id="@id/travelCardEnrollAdditionalPlaceTgl"
                 android:layout_width="0dp"
@@ -160,9 +174,8 @@
                 android:background="@color/pinkish_grey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalImageIndicator"
+                app:layout_constraintBottom_toTopOf="@id/travelCardEnrollAdditionalPlace"
         />
-
         <EditText
                 android:id="@id/travelCardEnrollAdditionalPlace"
                 android:layout_width="match_parent"
@@ -172,7 +185,7 @@
                 android:layout_marginStart="7dp"
                 android:padding="15dp"
                 android:text="@={viewModel.place}"
-                app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalPlaceTgl"
+                app:layout_constraintBottom_toTopOf="@id/travelCardEnrollAdditionalTimeTgl"
                 app:layout_constraintStart_toStartOf="parent"
         />
         <View
@@ -182,7 +195,7 @@
                 android:background="@color/pinkish_grey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalPlace"
+                app:layout_constraintBottom_toTopOf="@id/travelCardEnrollAdditionalTime"
         />
         <TextView
                 android:id="@id/travelCardEnrollAdditionalTime"
@@ -197,7 +210,7 @@
                 android:textColor="@android:color/black"
                 android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalTimeTgl"/>
+                app:layout_constraintBottom_toTopOf="@id/travelCardEnrollAdditionalTransportationTgl"/>
         <View
                 android:id="@id/travelCardEnrollAdditionalTransportationTgl"
                 android:layout_width="0dp"
@@ -206,7 +219,7 @@
                 android:background="@color/pinkish_grey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalTime"
+                app:layout_constraintBottom_toTopOf="@id/travelCardEnrollAdditionalTransportation"
         />
         <TextView
                 android:id="@id/travelCardEnrollAdditionalTransportation"
@@ -221,17 +234,7 @@
                 android:textColor="@android:color/black"
                 android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalTransportationTgl"/>
-        <View
-                android:id="@id/travelCardEnrollAdditionalTransportationBgl"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="3dp"
-                android:background="@color/pinkish_grey"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalTransportation"
-        />
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
 
         <androidx.constraintlayout.widget.Group
@@ -242,7 +245,7 @@
                 travelCardEnrollAdditionalImageIndicator, travelCardEnrollAdditionalPlaceTgl,
                 travelCardEnrollAdditionalPlace,travelCardEnrollAdditionalTimeTgl
                 ,travelCardEnrollAdditionalTime, travelCardEnrollAdditionalTransportationTgl,
-                travelCardEnrollAdditionalTransportation, travelCardEnrollAdditionalTransportationBgl"
+                travelCardEnrollAdditionalTransportation, travelCardEnrollAdditionalContents"
                 tools:ignore="NotSibling"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

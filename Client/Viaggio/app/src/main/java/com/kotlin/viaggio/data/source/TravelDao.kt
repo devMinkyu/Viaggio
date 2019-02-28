@@ -34,13 +34,16 @@ interface TravelDao {
     fun getTravelOfDay(id:Long): Single<TravelOfDay>
 
     @Update
-    fun updateTravelOfDay(travelOfDay: TravelOfDay): Completable
+    fun updateTravelOfDay(travelOfDay: TravelOfDay)
 
     // travelCard
     @Insert
-    fun insertTravelCard(travelCard: TravelCard): Completable
+    fun insertTravelCard(travelCard: TravelCard): Single<Long>
 
     @Query("SELECT * FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) ORDER BY enrollOfTime DESC")
     fun getTravelCardsPaged(travelOfDayId: Long): DataSource.Factory<Int, TravelCard>
+
+    @Query("SELECT * FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) ORDER BY enrollOfTime DESC")
+    fun getTravelCard(travelOfDayId: Long): Single<MutableList<TravelCard>>
 
 }
