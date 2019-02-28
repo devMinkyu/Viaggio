@@ -5,7 +5,12 @@ import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
+import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -25,6 +30,8 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
     val travelingOfDay:ObservableField<String> = ObservableField("")
     val travelingOfDayTheme:ObservableField<String> = ObservableField("")
     val isTheme:ObservableBoolean = ObservableBoolean(false)
+
+    lateinit var travelCardPagedLiveData: LiveData<PagedList<TravelCard>>
 
     @SuppressLint("SimpleDateFormat")
     override fun initialize() {
@@ -69,5 +76,13 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             }
         addDisposable(disposable)
+        loadTravelCard()
+    }
+    fun loadTravelCard(){
+        val factory: DataSource.Factory<Int, TravelCard>
+                = travelModel.getTravelCards()
+        val pagedListBuilder: LivePagedListBuilder<Int, TravelCard> = LivePagedListBuilder<Int, TravelCard>(factory,
+            20)
+        travelCardPagedLiveData = pagedListBuilder.build()
     }
 }

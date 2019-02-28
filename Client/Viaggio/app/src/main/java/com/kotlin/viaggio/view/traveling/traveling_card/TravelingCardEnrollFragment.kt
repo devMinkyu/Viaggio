@@ -11,12 +11,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.databinding.ItemTravelingCardImageBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_card_image.view.*
+import kotlinx.android.synthetic.main.item_traveling_pager_img.view.*
 import org.jetbrains.anko.imageView
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.verticalLayout
@@ -67,15 +69,44 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                 travelCardEnrollImg1.layoutParams = layoutParams
             }
         })
+
+
     }
 
     inner class ViewHandler {
         fun next() {
             getViewModel().additional.set(getViewModel().additional.get().not())
+
+            travelCardEnrollAdditionalImagePager.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                    object : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_pager_img,parent,false)){}
+                override fun getItemCount() = getViewModel().imageChooseList.size
+                override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                    Glide.with(context!!)
+                        .load(getViewModel().imageChooseList[position])
+                        .into(holder.itemView.travelingPagerImg)
+                }
+            }
+            travelCardEnrollAdditionalImageIndicator.setTotalPageNumber(getViewModel().imageChooseList.size)
+            travelCardEnrollAdditionalImageIndicator.setCurrPageNumber(0)
+
+            travelCardEnrollAdditionalImagePager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    if(position < getViewModel().imageChooseList.size) {
+                        super.onPageSelected(position)
+                        travelCardEnrollAdditionalImageIndicator.setCurrPageNumber(position)
+                    }
+                }
+            })
         }
 
         fun back() {
             if (getViewModel().additional.get()) {
+                travelCardEnrollAdditionalImageIndicator.setTotalPageNumber(0)
+                travelCardEnrollAdditionalImageIndicator.setCurrPageNumber(0)
+                travelCardEnrollAdditionalImagePager.adapter = null
+
                 getViewModel().additional.set(getViewModel().additional.get().not())
             } else {
                 fragmentPopStack()
