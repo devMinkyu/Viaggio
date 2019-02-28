@@ -89,7 +89,7 @@
     <item name="travelingCardListImage" type="id"/>
     <item name="travelingCardSelectedBtn" type="id"/>
     <item name="travelCardEnrollCard" type="id"/>
-    <item name="travelCardEnrollAdditionalImage" type="id"/>
+    <item name="travelCardEnrollAdditionalImagePager" type="id"/>
     <item name="travelCardEnrollAdditionalContents" type="id"/>
     <item name="travelCardEnrollAdditionalPlace" type="id"/>
     <item name="travelCardEnrollAdditionalPlaceTgl" type="id"/>
@@ -111,4 +111,5 @@
     <item name="travelingCardContainer" type="id"/>
     <item name="cameraViewContainer" type="id"/>
     <item name="travelCardEnrollImg4Container" type="id"/>
+    <item name="travelCardEnrollAdditionalImageIndicator" type="id"/>
 </resources>
