@@ -1,7 +1,6 @@
 package com.kotlin.viaggio.view.camera
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
@@ -15,24 +14,27 @@ import io.fotoapparat.result.PhotoResult
 import io.reactivex.Observable
 import javax.inject.Inject
 
-class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
+class CameraFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelModel: TravelModel
     @Inject
     lateinit var firebaseVision: FirebaseVisionTextRecognizer
 
-    val photoUri:MutableLiveData<Event<Uri>> = MutableLiveData()
+    val photoUri: MutableLiveData<Event<Uri>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
-    val imageViewShow:MutableLiveData<Event<Any>> = MutableLiveData()
-    val complete:MutableLiveData<Event<Any>> = MutableLiveData()
+    val imageViewShow: MutableLiveData<Event<Any>> = MutableLiveData()
+    val complete: MutableLiveData<Event<Any>> = MutableLiveData()
 
-    val isImageMake:ObservableBoolean = ObservableBoolean(false)
+    val isImageMake: ObservableBoolean = ObservableBoolean(false)
+    val isVisionTextRecognizer: ObservableBoolean = ObservableBoolean(false)
     lateinit var imagePathList: MutableList<String>
 
     override fun initialize() {
         super.initialize()
         imagePathList = travelModel.imageAllPath()
+        isVisionTextRecognizer.set(false)
     }
+
     fun savePicture(photoResult: PhotoResult) {
         isImageMake.set(true)
         val disposable = travelModel.savePicture(photoResult).subscribe { t1 ->
@@ -41,11 +43,12 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
         }
         addDisposable(disposable)
     }
+
     fun permissionCheck(request: Observable<Boolean>?) {
         val disposable = request?.subscribe { t ->
-            if(t){
+            if (t) {
                 imageViewShow.value = Event(Any())
-            }else{
+            } else {
                 permissionRequestMsg.value = Event(PermissionError.STORAGE_PERMISSION)
             }
         }
@@ -53,20 +56,21 @@ class CameraFragmentViewModel @Inject constructor():BaseViewModel() {
     }
 
     fun visionTextRecognizer(any: Any) {
-        when(any){
-            is Bitmap ->{
+        when (any) {
+            is Bitmap -> {
                 firebaseVision.processImage(FirebaseVisionImage.fromBitmap(any))
             }
-            is Uri ->{
+            is Uri -> {
                 firebaseVision.processImage(FirebaseVisionImage.fromFilePath(appCtx.get(), any))
             }
-            else ->{
+            else -> {
                 firebaseVision.processImage(FirebaseVisionImage.fromBitmap(any as Bitmap))
             }
         }.addOnCompleteListener {
-                complete.value = Event(Any())
-                rxEventBus.travelOfCountry.onNext("미국")
-            }.addOnFailureListener {}
+            complete.value = Event(Any())
+            rxEventBus.travelOfCountry.onNext("미국")
+            isVisionTextRecognizer.set(true)
+        }.addOnFailureListener {}
     }
 
     fun imageBitmapConfirm(bitmap: Bitmap) {

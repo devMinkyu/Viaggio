@@ -36,10 +36,11 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:padding="10dp"
-                    android:visibility="@{viewModel.isImageMake ? View.VISIBLE:View.GONE}"
-                    android:onClick="@{()->viewHandler.close()}"
+                    android:visibility="@{viewModel.isVisionTextRecognizer ? View.VISIBLE:View.GONE}"
+                    android:onClick="@{()->viewHandler.confirm()}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:textColor="@android:color/white"
                     android:text="확인"
                     tools:ignore="HardcodedText"/>
             <androidx.cardview.widget.CardView

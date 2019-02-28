@@ -57,7 +57,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         BottomSheetBehavior.from(cameraViewImageBottomSheet).state = STATE_HIDDEN
 
-        context?.let {context ->
+        context?.let { context ->
             cameraViewImageAllList.layoutManager = GridLayoutManager(context, 3)
             Glide.with(context)
                 .load(getViewModel().imagePathList[0])
@@ -65,7 +65,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         }
 
         getViewModel().permissionRequestMsg.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {permissionError ->
+            it.getContentIfNotHandled()?.let { permissionError ->
                 when (permissionError) {
                     PermissionError.STORAGE_PERMISSION -> toast(resources.getString(R.string.storage_permission))
                     else -> {
@@ -85,9 +85,16 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         getViewModel().imageViewShow.observe(this, Observer {
             it?.getContentIfNotHandled()?.let {
                 BottomSheetBehavior.from(cameraViewImageBottomSheet).state = STATE_COLLAPSED
-                cameraViewImageAllList.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=
-                        CameraViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_camera_image, parent, false))
+                cameraViewImageAllList.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                        CameraViewHolder(
+                            LayoutInflater.from(parent.context).inflate(
+                                R.layout.item_camera_image,
+                                parent,
+                                false
+                            )
+                        )
+
                     override fun getItemCount() = getViewModel().imagePathList.size
                     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
                         holder as CameraViewHolder
@@ -100,7 +107,6 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
 
         getViewModel().complete.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                getViewModel().imageBitmapConfirm((ocrImage.drawable as BitmapDrawable).bitmap)
                 ocrLottie.cancelAnimation()
                 ocrLottie.visibility = View.GONE
             }
@@ -108,7 +114,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
     }
 
 
-    fun scaleAnimation():ScaleAnimation{
+    fun scaleAnimation(): ScaleAnimation {
         val scale = ScaleAnimation(0.95f, 1f, 0.95f, 1f)
         scale.duration = 200
         return scale
@@ -136,6 +142,11 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
             cameraViewClose.startAnimation(scaleAnimation())
             fragmentPopStack()
         }
+
+        fun confirm(){
+            getViewModel().imageBitmapConfirm((ocrImage.drawable as BitmapDrawable).bitmap)
+            fragmentPopStack()
+        }
         fun imageOpen() {
             cameraViewImage.startAnimation(scaleAnimation())
             getViewModel().permissionCheck(
@@ -145,7 +156,8 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
                 )
             )
         }
-        fun retake(){
+
+        fun retake() {
             ocrLottie.cancelAnimation()
             getViewModel().isImageMake.set(false)
 
@@ -153,11 +165,18 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
             ocrImage.setImageDrawable(resources.getDrawable(R.drawable.empty_gallery, null))
         }
     }
-    inner class CameraViewHolder(itemView:View): RecyclerView.ViewHolder(itemView){
+
+    inner class CameraViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemCameraImageBinding>(itemView)
-        private lateinit var fileNamePath:String
-        fun imageBinding(string: String){
+        private lateinit var fileNamePath: String
+        fun imageBinding(string: String) {
             fileNamePath = string
+
+            val layoutParams = itemView.cameraViewContainer.layoutParams
+            layoutParams.width = width/4
+            layoutParams.height = width/4
+            itemView.cameraViewContainer.layoutParams = layoutParams
+
             binding?.let {
                 Glide.with(itemView)
                     .load(string)
@@ -165,17 +184,17 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
             }
         }
 
-        inner class CameraViewHandler{
-            fun imagePicker(){
+        inner class CameraViewHandler {
+            fun imagePicker() {
                 ocrLottie.playAnimation()
                 getViewModel().isImageMake.set(true)
                 BottomSheetBehavior.from(cameraViewImageBottomSheet).state = STATE_HIDDEN
-                context?.let {contextVal ->
+                context?.let { contextVal ->
                     Glide.with(contextVal)
                         .load(fileNamePath)
                         .into(ocrImage)
                 }
-                val bitmap =BitmapFactory.decodeFile(fileNamePath)
+                val bitmap = BitmapFactory.decodeFile(fileNamePath)
                 getViewModel().visionTextRecognizer(bitmap)
             }
         }

@@ -27,8 +27,11 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
     lateinit var timeHelper: TimeHelper
     @Inject
     lateinit var prefUtilService: AndroidPrefUtilService
+
     lateinit var rxPermission: RxPermissions
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
+
+    var width:Int = 0
 
     override fun androidXFragmentInjector() = fragmentInjector
 
@@ -42,6 +45,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
 
         rxPermission = RxPermissions(this)
         (getViewModel() as BaseViewModel).initialize()
+        width = context!!.resources.displayMetrics.widthPixels
     }
 
     override fun onStart() {

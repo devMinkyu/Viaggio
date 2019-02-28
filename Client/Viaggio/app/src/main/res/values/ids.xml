@@ -75,7 +75,7 @@
     <item name="travelingCountries" type="id"/>
     <item name="travelingDetailDayCount" type="id"/>
     <item name="travelingDetailDayImg" type="id"/>
-    <item name="travelingDetailDayTarvelCard" type="id"/>
+    <item name="travelingDetailDayTravelCard" type="id"/>
     <item name="travelingDetailDay" type="id"/>
     <item name="travelingDetailDayTheme" type="id"/>
     <item name="detailDialogClose" type="id"/>
@@ -83,15 +83,12 @@
     <item name="detailDialogAddTravelCard" type="id"/>
     <item name="detailDialogChangeCountry" type="id"/>
     <item name="detailDialogTravelFinish" type="id"/>
-    <item name="travelCardEnrollBottomSheet" type="id"/>
     <item name="travelCardEnrollImageAllList" type="id"/>
     <item name="travelCardEnrollConfirm" type="id"/>
-    <item name="travelCardEnrollLastImg" type="id"/>
     <item name="travelCardEnrollImageBtn" type="id"/>
     <item name="travelingCardListImage" type="id"/>
     <item name="travelingCardSelectedBtn" type="id"/>
     <item name="travelCardEnrollCard" type="id"/>
-    <item name="travelCardEnrollAdditionalConfirm" type="id"/>
     <item name="travelCardEnrollAdditionalImage" type="id"/>
     <item name="travelCardEnrollAdditionalContents" type="id"/>
     <item name="travelCardEnrollAdditionalPlace" type="id"/>
@@ -107,4 +104,11 @@
     <item name="transportationTaxi" type="id"/>
     <item name="transportationCar" type="id"/>
     <item name="transportationSubway" type="id"/>
+    <item name="travelCardEnrollImg1" type="id"/>
+    <item name="travelCardEnrollImg2" type="id"/>
+    <item name="travelCardEnrollImg3" type="id"/>
+    <item name="travelCardEnrollImg4" type="id"/>
+    <item name="travelingCardContainer" type="id"/>
+    <item name="cameraViewContainer" type="id"/>
+    <item name="travelCardEnrollImg4Container" type="id"/>
 </resources>

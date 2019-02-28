@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_theme.*
@@ -28,6 +29,7 @@ class TravelingOfDayThemeFragment:BaseFragment<TravelingOfDayThemeFragmentViewMo
         super.onViewCreated(view, savedInstanceState)
         val layoutManager = FlexboxLayoutManager(context)
         layoutManager.flexWrap = FlexWrap.WRAP
+        layoutManager.justifyContent = JustifyContent.CENTER
         themeList.layoutManager = layoutManager
 
         getViewModel().themesList.observe(this, Observer {

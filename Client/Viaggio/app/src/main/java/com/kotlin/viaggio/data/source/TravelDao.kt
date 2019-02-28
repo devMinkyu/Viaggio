@@ -34,7 +34,7 @@ interface TravelDao {
     fun getTravelOfDay(id:Long): Single<TravelOfDay>
 
     @Update
-    fun updateTravelOfDay(travelOfDay: TravelOfDay)
+    fun updateTravelOfDay(travelOfDay: TravelOfDay): Completable
 
     // travelCard
     @Insert

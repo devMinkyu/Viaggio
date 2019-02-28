@@ -145,6 +145,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         val cal = Calendar.getInstance()
         val d1 = prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).observeOn(Schedulers.io()).subscribe()
         val d2 = prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 1).observeOn(Schedulers.io()).subscribe()
+        val d5 = prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ORDER, 1).observeOn(Schedulers.io()).subscribe()
         val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
         val d3 = prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).observeOn(Schedulers.io()).subscribe()
 
@@ -176,5 +177,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(d2)
         addDisposable(d3)
         addDisposable(d4)
+        addDisposable(d5)
     }
 }

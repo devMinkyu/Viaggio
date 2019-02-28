@@ -3,6 +3,7 @@ package com.kotlin.viaggio.view.traveling.traveling_card
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -25,6 +26,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     lateinit var travelModel: TravelModel
 
     val imagePathList: MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
+    val complete:MutableLiveData<Event<Any>> = MutableLiveData()
 
     val chooseCountList:MutableList<ObservableInt> = mutableListOf()
     var entireChooseCount:Int = 1
@@ -36,6 +38,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     val place = ObservableField<String>("")
     val time = ObservableField<String>("")
     val transportation = ObservableField<String>("")
+    val overImageCount = ObservableInt(0)
 
     @SuppressLint("SimpleDateFormat")
     override fun initialize() {
@@ -72,17 +75,39 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         val cal = Calendar.getInstance()
         cal.set(Calendar.HOUR_OF_DAY, time.get()!!.split(":")[0].toInt())
         cal.set(Calendar.MINUTE, time.get()!!.split(":")[1].toInt())
+
+        val order = prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ORDER).blockingGet()
         val travelCard = TravelCard(country = prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet(),
             contents = contents.get()!!, travelCardPlace = place.get()!!, enrollOfTime = cal.time,
-            travelOfDayId = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID).blockingGet(), previousTransportation = arrayListOf(transportation.get()!!)
+            travelOfDayId = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID).blockingGet(), previousTransportation = arrayListOf(transportation.get()!!),
+            order = order
         )
 
-        val completables = mutableListOf<Completable>()
-        val c1 = travelModel.createTravelCard(travelCard, imageChooseList)
-        completables.add(c1)
-
-        val disposable = Completable.merge(completables)
-            .subscribe {
+        val disposable = travelModel.imagePathList(imageChooseList)
+            .flatMapCompletable {
+                val imageNames:MutableList<String> = mutableListOf()
+                for (s in it) {
+                    imageNames.add(Uri.parse(s).lastPathSegment!!)
+                }
+                travelCard.imageNames = imageNames as ArrayList<String>
+                travelModel.createTravelCard(travelCard).andThen {
+                    if(order == 1){
+                        travelModel.getTravelOfDay()
+                            .flatMapCompletable {travelOfCard ->
+                                travelOfCard.themeImageName = imageNames[0]
+                                travelModel.updateTravelOfDay(travelOfCard)
+                            }
+                    }else{
+                        Completable.complete()
+                    }
+                }
+            }
+            .observeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                complete.postValue(Event(Any()))
+                rxEventBus.travelCardUpdate.onNext(Any())
+            }){
 
             }
         addDisposable(disposable)

@@ -43,7 +43,8 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
                         travelingOfDayTheme.set("${travelingOfDayTheme.get()} $s")
                         travelingOfDayTheme.set(travelingOfDayTheme.get()?.trim())
                     }
-                    travelModel.updateTravelOfDay(travelOfDay)
+                    val disposable = travelModel.updateTravelOfDay(travelOfDay).subscribe()
+                    addDisposable(disposable)
                 }
                 Single.just(travelOfDay)
             }

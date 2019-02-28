@@ -45,16 +45,12 @@ class TravelModel @Inject constructor() : BaseModel() {
         }
     }
 
-    fun createTravelCard(travelCard: TravelCard, filePath: MutableList<String>):Completable{
-        return localDataSource.recordImage(filePath.toTypedArray())
-            .flatMapCompletable {
-                val imageNames:MutableList<String> = mutableListOf()
-                for (s in it) {
-                    imageNames.add(Uri.parse(s).lastPathSegment!!)
-                }
-                travelCard.imageNames = imageNames as ArrayList<String>
-                db.get().travelDao().insertTravelCard(travelCard)
-            }
+    fun createTravelCard(travelCard: TravelCard):Completable{
+        return db.get().travelDao().insertTravelCard(travelCard)
+    }
+
+    fun imagePathList(imageChooseList: MutableList<String>): Single<List<String>> {
+        return localDataSource.recordImage(imageChooseList.toTypedArray())
     }
 
     fun createTravelOfDay(travelOfDay: TravelOfDay): Single<Long> {
@@ -71,7 +67,8 @@ class TravelModel @Inject constructor() : BaseModel() {
         return db.get().travelDao().getTravelCardsPaged(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
     }
 
-    fun updateTravelOfDay(travelOfDay: TravelOfDay) {
-        db.get().travelDao().updateTravelOfDay(travelOfDay)
+    fun updateTravelOfDay(travelOfDay: TravelOfDay):Completable {
+        return  db.get().travelDao().updateTravelOfDay(travelOfDay)
     }
+
 }
