@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -166,7 +168,14 @@ class LocalDataSource @Inject constructor() {
                     val cameraImg = BitmapFactory.decodeFile(fileName)
                     val sampleSize = normalQualitySizeCalculation(fileName)
 
-                    val compressImg = Bitmap.createScaledBitmap(cameraImg, (cameraImg.width/sampleSize).toInt(),(cameraImg.height/sampleSize).toInt(),true )
+                    val exit = ExifInterface(fileName)
+                    val rotate = exifOrientationToDegrees(exit.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL))
+
+                    val matrix = Matrix()
+                    matrix.postRotate(rotate.toFloat())
+                    val resizedBitmap = Bitmap.createBitmap(cameraImg, 0, 0, cameraImg.width, cameraImg.height, matrix, true)
+
+                    val compressImg = Bitmap.createScaledBitmap(resizedBitmap, (resizedBitmap.width/sampleSize).toInt(),(resizedBitmap.height/sampleSize).toInt(),true )
 
                     val imageDir = File(appCtx.get().filesDir, IMG_FOLDER)
                     if(!imageDir.exists()){
@@ -222,6 +231,15 @@ class LocalDataSource @Inject constructor() {
             imageWidth / 1440
         } else {
             imageHeight / 1440
+        }
+    }
+
+    private fun exifOrientationToDegrees(exifOrientation: Int): Int {
+        return when (exifOrientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> 90
+            ExifInterface.ORIENTATION_ROTATE_180 -> 180
+            ExifInterface.ORIENTATION_ROTATE_270 -> 270
+            else -> 0
         }
     }
 }
