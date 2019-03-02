@@ -173,8 +173,8 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
             fileNamePath = string
 
             val layoutParams = itemView.cameraViewContainer.layoutParams
-            layoutParams.width = width/4
-            layoutParams.height = width/4
+            layoutParams.width = width/3
+            layoutParams.height = width/3
             itemView.cameraViewContainer.layoutParams = layoutParams
 
             binding?.let {

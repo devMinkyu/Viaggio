@@ -63,7 +63,6 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                     .load(list[0])
                     .into(travelCardEnrollImg1)
 
-                val width = context!!.resources.displayMetrics.widthPixels
                 val layoutParams = travelCardEnrollImg1.layoutParams
                 layoutParams.width = width/2
                 travelCardEnrollImg1.layoutParams = layoutParams

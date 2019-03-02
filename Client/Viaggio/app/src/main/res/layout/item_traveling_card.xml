@@ -3,6 +3,8 @@
     <data>
         <import type="android.view.View"/>
 
+        <variable name="data" type="String"/>
+        <variable name="date" type="String"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,31 +17,17 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="20dp"
                 android:id="@+id/tgl"/>
-        <ImageView
-                android:id="@id/travelCardBg"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="@id/tgl"
-                app:layout_constraintBottom_toBottomOf="@id/travelCardEnrollCard"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:srcCompat="@drawable/travel_bg"
-                android:scaleType="fitXY"
-                tools:ignore="ContentDescription"/>
 
         <com.google.android.flexbox.FlexboxLayout
                 android:id="@id/travelCardEnrollCard"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
-                android:layout_margin="10dp"
                 app:flexWrap="wrap"
                 app:alignItems="stretch"
                 app:alignContent="stretch"
-                app:layout_constraintStart_toStartOf="@id/travelCardBg"
-                app:layout_constraintEnd_toEndOf="@id/travelCardBg"
-                app:layout_constraintTop_toTopOf="@id/travelCardBg">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tgl">
             <ImageView
                     android:id="@id/travelCardEnrollImg1"
                     android:layout_width="wrap_content"
@@ -77,14 +65,18 @@
                         android:scaleType="centerCrop"
                 />
                 <View
+                        android:id="@id/travelCardAdditionalBackground"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:alpha="0.6"
+                        android:visibility="gone"
                         android:background="@android:color/black"
                 />
                 <TextView
+                        android:id="@id/travelCardAdditionalCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:textColor="@android:color/white"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -93,6 +85,33 @@
                 />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.flexbox.FlexboxLayout>
+
+        <TextView
+                android:id="@id/travelCardContents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:paddingTop="10dp"
+                android:text="@{data}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelCardEnrollCard"
+                tools:text="ddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsddsafdsafadsfafsdsafdsafadsfafsd"
+        />
+        <TextView
+                android:id="@id/travelCardEnrollDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/pinkish_grey"
+                android:textSize="12sp"
+                android:text="@{date}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelCardContents"
+                tools:text="2019/03/10"
+        />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

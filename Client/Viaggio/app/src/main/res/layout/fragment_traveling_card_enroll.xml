@@ -62,7 +62,6 @@
                 app:flexWrap="wrap"
                 app:alignItems="stretch"
                 app:alignContent="stretch"
-                app:showDivider="end|middle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelCardEnrollConfirm">
@@ -125,6 +124,7 @@
                 android:id="@id/travelCardEnrollImageAllList"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/travelCardEnrollCard"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

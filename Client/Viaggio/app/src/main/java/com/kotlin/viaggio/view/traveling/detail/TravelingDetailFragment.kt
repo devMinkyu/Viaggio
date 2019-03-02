@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.traveling.detail
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -17,7 +18,9 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_detail.*
+import kotlinx.android.synthetic.main.item_traveling_card.view.*
 import java.io.File
+import java.text.SimpleDateFormat
 
 
 class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
@@ -87,10 +90,83 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
                 = TravelCardViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_card, parent, false))
 
+        @SuppressLint("SimpleDateFormat")
         override fun onBindViewHolder(holder: TravelCardViewHolder, position: Int) {
+            holder.binding?.data = getItem(position)?.contents
+            holder.binding?.date = SimpleDateFormat(resources.getString(R.string.dateTimeFormat)).format(getItem(position)?.enrollOfTime)
+            holder.loadImage(getItem(position)?.imageNames)
         }
     }
     inner class TravelCardViewHolder(view:View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingCardBinding>(view)
+
+        fun loadImage(imageName:ArrayList<String>?){
+            imageName?.let {
+                val imgDir = File(context?.filesDir, "images/")
+                loop@ for((i,s) in imageName.withIndex()){
+                    val imgFile = File(imgDir, s)
+                    when(i){
+                        0 ->{
+                            val params = itemView.travelCardEnrollImg1.layoutParams
+                            params.width = width/2
+                            itemView.travelCardEnrollImg1.layoutParams = params
+                            if (imgFile.exists()) {
+                                Uri.fromFile(imgFile).let { uri ->
+                                    Glide.with(itemView.travelCardEnrollImg1)
+                                        .load(uri)
+                                        .into(itemView.travelCardEnrollImg1)
+                                }
+                            }
+                        }
+                        1->{
+                            itemView.travelCardEnrollImg2.visibility = View.VISIBLE
+                            val params = itemView.travelCardEnrollImg2.layoutParams
+                            params.width = width/2
+                            itemView.travelCardEnrollImg2.layoutParams = params
+                            if (imgFile.exists()) {
+                                Uri.fromFile(imgFile).let { uri ->
+                                    Glide.with(itemView.travelCardEnrollImg2)
+                                        .load(uri)
+                                        .into(itemView.travelCardEnrollImg2)
+                                }
+                            }
+                        }
+                        2->{
+                            itemView.travelCardEnrollImg3.visibility = View.VISIBLE
+                            val params = itemView.travelCardEnrollImg3.layoutParams
+                            params.width = width/2
+                            itemView.travelCardEnrollImg3.layoutParams = params
+                            if (imgFile.exists()) {
+                                Uri.fromFile(imgFile).let { uri ->
+                                    Glide.with(itemView.travelCardEnrollImg3)
+                                        .load(uri)
+                                        .into(itemView.travelCardEnrollImg3)
+                                }
+                            }
+                        }
+                        3->{
+                            itemView.travelCardEnrollImg4Container.visibility = View.VISIBLE
+                            val params = itemView.travelCardEnrollImg4.layoutParams
+                            params.width = width/2
+                            itemView.travelCardEnrollImg4.layoutParams = params
+                            if (imgFile.exists()) {
+                                Uri.fromFile(imgFile).let { uri ->
+                                    Glide.with(itemView.travelCardEnrollImg4)
+                                        .load(uri)
+                                        .into(itemView.travelCardEnrollImg4)
+                                }
+                            }
+                        }
+                        4->{
+                            itemView.travelCardAdditionalBackground.visibility = View.VISIBLE
+                            itemView.travelCardAdditionalCount.visibility = View.VISIBLE
+                            itemView.travelCardAdditionalCount.text = String.format(resources.getString(R.string.over_image_count), imageName.size - 4)
+                            break@loop
+                        }
+                    }
+                }
+
+            }
+        }
     }
 }

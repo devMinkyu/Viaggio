@@ -114,4 +114,9 @@
     <item name="travelCardEnrollAdditionalImageIndicator" type="id"/>
     <item name="travelingPagerImg" type="id"/>
     <item name="travelCardBg" type="id"/>
+    <item name="travelingFinishActionPop" type="id"/>
+    <item name="travelCardContents" type="id"/>
+    <item name="travelCardAdditionalBackground" type="id"/>
+    <item name="travelCardAdditionalCount" type="id"/>
+    <item name="travelCardEnrollDate" type="id"/>
 </resources>
