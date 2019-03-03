@@ -153,11 +153,62 @@
                 android:id="@id/travelingList"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:visibility="@{viewModel.traveling ? View.VISIBLE:View.INVISIBLE}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tgl"
         />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@id/travelingFinishTravel"
+                android:layout_width="@dimen/traveling_floating_size"
+                android:layout_height="@dimen/traveling_floating_size"
+                android:layout_marginBottom="14dp"
+                app:fabCustomSize="@dimen/traveling_floating_size"
+                app:maxImageSize="28dp"
+                android:src="@drawable/icon_menu"
+                android:visibility="invisible"
+                android:onClick="@{() -> viewHandler.finishTravel()}"
+                app:layout_constraintStart_toStartOf="@id/travelingView"
+                app:layout_constraintEnd_toEndOf="@id/travelingView"
+                app:layout_constraintBottom_toTopOf="@id/travelingChangeCountry"
+                app:backgroundTint="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@id/travelingChangeCountry"
+                android:layout_width="@dimen/traveling_floating_size"
+                android:layout_height="@dimen/traveling_floating_size"
+                android:layout_marginBottom="24dp"
+                app:fabCustomSize="@dimen/traveling_floating_size"
+                app:maxImageSize="28dp"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                android:visibility="invisible"
+                android:onClick="@{() -> viewHandler.changeCountry()}"
+                app:layout_constraintStart_toStartOf="@id/travelingView"
+                app:layout_constraintEnd_toEndOf="@id/travelingView"
+                app:layout_constraintBottom_toTopOf="@id/travelingView"
+                app:backgroundTint="@color/white"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@id/travelingView"
+                android:layout_width="@dimen/floating_size"
+                android:layout_height="@dimen/floating_size"
+                android:backgroundTint="@color/colorAccent"
+                android:elevation="5dp"
+                android:src="@{viewModel.isClick ? @drawable/filtering_cancel:@drawable/filtering_menu}"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="28dp"
+                android:onClick="@{() -> viewHandler.view()}"
+                app:fabCustomSize="@dimen/floating_size"
+                app:maxImageSize="28dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+        />
+        <androidx.constraintlayout.widget.Group
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{viewModel.traveling ? View.VISIBLE:View.GONE}"
+                app:constraint_referenced_ids="travelingList, travelingView"
+                tools:ignore="NotSibling"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

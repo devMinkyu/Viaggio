@@ -4,4 +4,7 @@
     <dimen name="tutorial_lottie_size">250dp</dimen>
     <dimen name="sign_margin_side">35dp</dimen>
     <dimen name="sign_height">35dp</dimen>
+
+    <dimen name="traveling_floating_size">48dp</dimen>
+    <dimen name="floating_size">60dp</dimen>
 </resources>

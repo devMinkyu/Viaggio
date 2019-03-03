@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.DatePicker
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -82,6 +83,30 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         getViewModel().travelOfDayPagedLiveData.observe(this, Observer(adapter::submitList))
     }
 
+    fun anim() {
+        if (getViewModel().isFabOpen) {
+            travelingChangeCountry.apply {
+                startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.fab_close))
+                isClickable = false
+            }
+            travelingFinishTravel.apply {
+                startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.fab_close))
+                isClickable = false
+            }
+            getViewModel().isFabOpen = false
+        } else {
+            travelingChangeCountry.apply {
+                startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.fab_open))
+                isClickable = true
+            }
+            travelingFinishTravel.apply {
+                startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.fab_open))
+                isClickable = true
+            }
+            getViewModel().isFabOpen = true
+        }
+    }
+
     inner class ViewHandler{
         fun cameraOpen(){
             getViewModel().permissionCheck(
@@ -119,6 +144,17 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         }
         fun travelStart(){
             getViewModel().travelStart()
+        }
+
+        fun changeCountry(){
+
+        }
+        fun finishTravel(){
+
+        }
+        fun view(){
+            getViewModel().click()
+            anim()
         }
     }
 

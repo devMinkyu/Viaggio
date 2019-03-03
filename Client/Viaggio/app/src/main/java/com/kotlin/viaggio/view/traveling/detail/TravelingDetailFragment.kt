@@ -74,10 +74,6 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
         fun add(){
             TravelingDetailActionDialogFragment().show(fragmentManager!!,TravelingDetailActionDialogFragment.TAG)
         }
-        fun chooseTheme(){
-            baseIntent("http://viaggio.kotlin.com/traveling/theme/")
-        }
-
         fun travelCardCreate(){
             baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
         }

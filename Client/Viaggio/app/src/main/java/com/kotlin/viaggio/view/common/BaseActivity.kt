@@ -5,19 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
-import com.kotlin.viaggio.worker.TimeCheckWorker
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import java.lang.ref.WeakReference
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFragmentInjector {
@@ -36,17 +29,6 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
         super.onCreate(savedInstanceState)
 
         (getViewModel() as BaseViewModel).initialize()
-
-        val traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
-        if(traveling){
-            val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS)
-                .build()
-            WorkManager.getInstance().enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name, ExistingPeriodicWorkPolicy.KEEP, timeCheckWork)
-        }else{
-            val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS)
-                .build()
-            WorkManager.getInstance().enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name, ExistingPeriodicWorkPolicy.REPLACE, timeCheckWork)
-        }
     }
 
     override fun androidXFragmentInjector() = fragmentInjector

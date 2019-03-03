@@ -119,4 +119,7 @@
     <item name="travelCardAdditionalBackground" type="id"/>
     <item name="travelCardAdditionalCount" type="id"/>
     <item name="travelCardEnrollDate" type="id"/>
+    <item name="travelingView" type="id"/>
+    <item name="travelingChangeCountry" type="id"/>
+    <item name="travelingFinishTravel" type="id"/>
 </resources>

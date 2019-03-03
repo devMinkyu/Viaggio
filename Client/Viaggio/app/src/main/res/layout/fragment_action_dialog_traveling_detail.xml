@@ -34,8 +34,8 @@
                 app:layout_constraintEnd_toStartOf="@id/detailDialogTravelFinish"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:onClick="@{() -> viewHandler.changeCountry()}"
-                android:text="change"
+                android:onClick="@{() -> viewHandler.theme()}"
+                android:text="theme"
                 android:padding="10dp"
         />
 
@@ -47,8 +47,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/detailDialogChangeCountry"
-                android:onClick="@{() -> viewHandler.travelFinish()}"
-                android:text="finish"
+                android:onClick="@{() -> viewHandler.changeBackground()}"
+                android:text="대표사진 변경"
                 android:padding="10dp"
         />
         <androidx.constraintlayout.widget.Group
@@ -58,20 +58,6 @@
                 detailDialogChangeCountry, detailDialogTravelFinish"
                 tools:ignore="NotSibling"/>
 
-        <View
-                android:id="@id/travelingFinishActionPop"
-                android:layout_width="272dp"
-                android:layout_height="146.5dp"
-                android:background="@android:color/white"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-        <androidx.constraintlayout.widget.Group
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:constraint_referenced_ids="travelingFinishActionPop"
-                tools:ignore="NotSibling"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

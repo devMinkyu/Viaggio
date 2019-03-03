@@ -102,7 +102,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15dp"
                             android:textColor="@android:color/white"
-                            android:onClick="@{()->viewHandler.chooseTheme()}"
                             android:text="@{viewModel.isTheme? viewModel.travelingOfDayTheme:@string/traveling_of_day_theme}"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"

@@ -24,10 +24,11 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
         fun close(){
             dismiss()
         }
-        fun changeCountry(){
+        fun theme(){
+            baseIntent("http://viaggio.kotlin.com/traveling/theme/")
             dismiss()
         }
-        fun travelFinish(){
+        fun changeBackground(){
             dismiss()
         }
     }

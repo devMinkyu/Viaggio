@@ -9,8 +9,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.gson.Gson
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelOfDay
@@ -19,6 +23,7 @@ import com.kotlin.viaggio.data.source.AppDatabase
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.tag_hive.saathi.saathi.error.InvalidFormException
 import dagger.Lazy
 import io.reactivex.Maybe
@@ -27,6 +32,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -45,6 +51,9 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     lateinit var travelOfDayPagedLiveData: LiveData<PagedList<TravelOfDay>>
 
+    var isFabOpen = false
+
+    val isClick:ObservableBoolean = ObservableBoolean(false)
     val traveling = ObservableBoolean(false)
     val themeExist = ObservableBoolean(false)
     val travelingStartOfDay = ObservableField<String>("").apply {
@@ -176,5 +185,12 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(d2)
         addDisposable(d3)
         addDisposable(d4)
+
+        val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()
+        WorkManager.getInstance().enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name,ExistingPeriodicWorkPolicy.KEEP,timeCheckWork)
+    }
+
+    fun click(){
+        isClick.set(!isClick.get())
     }
 }
