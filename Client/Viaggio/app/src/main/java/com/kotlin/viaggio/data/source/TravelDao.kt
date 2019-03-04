@@ -23,6 +23,12 @@ interface TravelDao {
     @Query("SELECT * FROM travels")
     fun getTravels(): Single<List<Travel>>
 
+    @Query("SELECT * FROM travels WHERE id IN(:id)")
+    fun getTravel(id: Long): Single<Travel>
+
+    @Update
+    fun updateTravel(travel: Travel)
+
     // travelOfDay
     @Insert
     fun insertTravelOfDay(travelOfDay: TravelOfDay): Single<Long>

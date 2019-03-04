@@ -15,11 +15,12 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
     lateinit var travelModel: TravelModel
 
     val choose: MutableList<ObservableBoolean> = mutableListOf()
+    val list:MutableList<String> = mutableListOf()
 
     val imageNamesListLiveDate:MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
+    val completeLiveDate:MutableLiveData<Event<Any>> = MutableLiveData()
     override fun initialize() {
         super.initialize()
-        val list:MutableList<String> = mutableListOf()
         val disposable = travelModel.getTravelCards()
             .subscribeOn(Schedulers.io())
             .subscribe({travelCards ->
@@ -36,8 +37,22 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
         addDisposable(disposable)
     }
 
-    fun saveRepresentativeImage(imageName:String){
+    fun changeRepresentative() {
+        val index = choose.indexOf(ObservableBoolean(true))
+        val imageName = list[index]
 
+        val disposable = travelModel.getTravelOfDay()
+            .observeOn(Schedulers.io())
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                it.themeImageName = imageName
+                travelModel.updateTravelOfDay(it)
+                rxEventBus.travelOfDayImage.onNext(imageName)
+                completeLiveDate.postValue(Event(Any()))
+            }){
+
+            }
+        addDisposable(disposable = disposable)
     }
 
 }

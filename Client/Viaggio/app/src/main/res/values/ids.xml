@@ -127,4 +127,10 @@
     <item name="travelingRepresentativeListImage" type="id"/>
     <item name="travelingRepresentativeSelectedBtn" type="id"/>
     <item name="travelingRepresentativeContainer" type="id"/>
+    <item name="travelingFinishCancelBtn" type="id"/>
+    <item name="travelingFinishYesBtn" type="id"/>
+    <item name="travelingFinishTxt" type="id"/>
+    <item name="countryContinent" type="id"/>
+    <item name="countryArea" type="id"/>
+    <item name="countryCountry" type="id"/>
 </resources>

@@ -165,7 +165,10 @@ class LocalDataSource @Inject constructor() {
             val imageListUri:MutableList<String> = mutableListOf()
             for ((index, fileName) in fileNames.withIndex()) {
                 if(File(fileName).exists()){
-                    val cameraImg = BitmapFactory.decodeFile(fileName)
+                    val options = BitmapFactory.Options()
+                    options.inSampleSize = 2
+                    val cameraImg = BitmapFactory.decodeFile(fileName, options)
+
                     val sampleSize = normalQualitySizeCalculation(fileName)
 
                     val exit = ExifInterface(fileName)
@@ -211,6 +214,7 @@ class LocalDataSource @Inject constructor() {
     private fun normalQualitySizeCalculation(fileName: String):Double{
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
+        options.inSampleSize = 2
         BitmapFactory.decodeFile(fileName, options)
         val imageHeight = options.outHeight.toDouble()
         val imageWidth = options.outWidth.toDouble()

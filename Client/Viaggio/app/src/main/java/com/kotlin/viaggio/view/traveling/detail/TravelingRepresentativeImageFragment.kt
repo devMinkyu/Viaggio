@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,34 +34,44 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
             it.getContentIfNotHandled()?.let { imageNames ->
                 val imgDir = File(context?.filesDir, "images/")
                 if (imgDir.exists()) {
-                    val imgFile = File(imgDir, imageNames[0])
-                    if (imgFile.exists()) {
-                        Uri.fromFile(imgFile).let { uri ->
-                            Glide.with(travelingRepresentativeImage)
-                                .load(uri)
-                                .into(travelingRepresentativeImage)
+                    if(imageNames.isNotEmpty()){
+                        val imgFile = File(imgDir, imageNames[0])
+                        if (imgFile.exists()) {
+                            Uri.fromFile(imgFile).let { uri ->
+                                Glide.with(travelingRepresentativeImage)
+                                    .load(uri)
+                                    .into(travelingRepresentativeImage)
+                            }
                         }
-                    }
-                    travelingRepresentativeImageList.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-                        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                            TravelingRepresentativeImageViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_representative_image, parent, false))
-                        override fun getItemCount() = imageNames.size
+                        travelingRepresentativeImageList.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                                TravelingRepresentativeImageViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_representative_image, parent, false))
+                            override fun getItemCount() = imageNames.size
 
-                        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                            holder as TravelingRepresentativeImageViewHolder
-                            holder.binding?.viewHandler = holder.TravelingRepresentativeImageViewHandler()
-                            holder.binding?.choose = getViewModel().choose[position]
-                            holder.imageBinding(imageNames[position])
+                            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                                holder as TravelingRepresentativeImageViewHolder
+                                holder.binding?.viewHandler = holder.TravelingRepresentativeImageViewHandler()
+                                holder.binding?.choose = getViewModel().choose[position]
+                                holder.imageBinding(imageNames[position])
+                            }
                         }
                     }
                 }
             }
         })
 
+        getViewModel().completeLiveDate.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                stopLoading()
+                fragmentPopStack()
+            }
+        })
     }
 
     inner class ViewHandler {
         fun confirm() {
+            showLoading()
+            getViewModel().changeRepresentative()
         }
 
         fun back() {
@@ -92,7 +103,10 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
 
         inner class TravelingRepresentativeImageViewHandler{
             fun imagePicker(){
-
+                val index = getViewModel().list.indexOf(fileNamePath)
+                getViewModel().choose[index].set(true)
+                val beforeIndex = getViewModel().choose.indexOf(ObservableBoolean(true))
+                getViewModel().choose[beforeIndex].set(false)
             }
         }
     }

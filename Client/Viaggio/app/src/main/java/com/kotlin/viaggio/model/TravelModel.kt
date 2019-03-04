@@ -44,6 +44,13 @@ class TravelModel @Inject constructor() : BaseModel() {
                 }
         }
     }
+    fun getTravel() :Single<Travel>{
+        return db.get().travelDao().getTravel(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet())
+    }
+
+    fun updateTravel(travel: Travel) {
+        db.get().travelDao().updateTravel(travel)
+    }
 
     fun createTravelCard(travelCard: TravelCard):Single<Long>{
         return db.get().travelDao().insertTravelCard(travelCard)
@@ -74,4 +81,6 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun getTravelCards():Single<MutableList<TravelCard>> {
         return db.get().travelDao().getTravelCard(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
     }
+
+
 }

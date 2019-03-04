@@ -150,7 +150,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
 
         }
         fun finishTravel(){
-
+            TravelingFinishActionDialogFragment().show(fragmentManager!!, TravelingFinishActionDialogFragment.TAG)
         }
         fun view(){
             getViewModel().click()

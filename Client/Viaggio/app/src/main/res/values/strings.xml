@@ -41,4 +41,6 @@
     <string name="next">Next</string>
     <string name="confirm">Confirm</string>
     <string name="traveling_card_create">Create</string>
+    <string name="yes">Yes</string>
+    <string name="traveling_country">Country</string>
 </resources>
