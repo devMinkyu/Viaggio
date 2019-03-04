@@ -105,8 +105,17 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
             fun imagePicker(){
                 val index = getViewModel().list.indexOf(fileNamePath)
                 getViewModel().choose[index].set(true)
-                val beforeIndex = getViewModel().choose.indexOf(ObservableBoolean(true))
-                getViewModel().choose[beforeIndex].set(false)
+                getViewModel().choose[getViewModel().chooseIndex].set(false)
+                getViewModel().chooseIndex = index
+
+                val imgFile = File(imgDir, fileNamePath)
+                if (imgFile.exists()) {
+                    Uri.fromFile(imgFile).let { uri ->
+                        Glide.with(travelingRepresentativeImage)
+                            .load(uri)
+                            .into(travelingRepresentativeImage)
+                    }
+                }
             }
         }
     }

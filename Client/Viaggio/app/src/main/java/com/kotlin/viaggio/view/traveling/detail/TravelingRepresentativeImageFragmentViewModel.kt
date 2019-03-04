@@ -19,6 +19,8 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
 
     val imageNamesListLiveDate:MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
     val completeLiveDate:MutableLiveData<Event<Any>> = MutableLiveData()
+
+    var chooseIndex:Int = 0
     override fun initialize() {
         super.initialize()
         val disposable = travelModel.getTravelCards()
@@ -38,7 +40,7 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
     }
 
     fun changeRepresentative() {
-        val index = choose.indexOf(ObservableBoolean(true))
+        val index = chooseIndex
         val imageName = list[index]
 
         val disposable = travelModel.getTravelOfDay()

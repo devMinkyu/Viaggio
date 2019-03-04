@@ -22,5 +22,9 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         super.onViewCreated(view, savedInstanceState)
     }
 
-    inner class ViewHandler
+    inner class ViewHandler{
+        fun back(){
+            fragmentPopStack()
+        }
+    }
 }
