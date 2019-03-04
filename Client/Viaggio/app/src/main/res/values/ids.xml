@@ -124,4 +124,7 @@
     <item name="travelingFinishTravel" type="id"/>
     <item name="travelingRepresentativeImage" type="id"/>
     <item name="travelingRepresentativeImageList" type="id"/>
+    <item name="travelingRepresentativeListImage" type="id"/>
+    <item name="travelingRepresentativeSelectedBtn" type="id"/>
+    <item name="travelingRepresentativeContainer" type="id"/>
 </resources>

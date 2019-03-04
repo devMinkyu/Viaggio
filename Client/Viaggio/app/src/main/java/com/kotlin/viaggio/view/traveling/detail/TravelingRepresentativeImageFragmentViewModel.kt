@@ -1,5 +1,7 @@
 package com.kotlin.viaggio.view.traveling.detail
 
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.event.Event
@@ -12,14 +14,22 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
     @Inject
     lateinit var travelModel: TravelModel
 
+    val choose: MutableList<ObservableBoolean> = mutableListOf()
 
-    val imageNamesListLiveDate:MutableLiveData<Event<MutableList<TravelCard>>> = MutableLiveData()
+    val imageNamesListLiveDate:MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
     override fun initialize() {
         super.initialize()
+        val list:MutableList<String> = mutableListOf()
         val disposable = travelModel.getTravelCards()
             .subscribeOn(Schedulers.io())
-            .subscribe({
-                imageNamesListLiveDate.postValue(Event(it))
+            .subscribe({travelCards ->
+                for (travelCard in travelCards) {
+                    for (imageName in travelCard.imageNames) {
+                        list.add(imageName)
+                        choose.add(ObservableBoolean(false))
+                    }
+                }
+                imageNamesListLiveDate.postValue(Event(list))
             }){
 
             }
