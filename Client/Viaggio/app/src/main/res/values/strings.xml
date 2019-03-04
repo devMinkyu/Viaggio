@@ -1,5 +1,7 @@
 <resources>
     <string name="travel_theme_json">theme.json</string>
+    <string name="travel_country_json">country.json</string>
+    <string name="travel_tutorial_json">tutorial.json</string>
 
     <string name="camera_permission">You have to allow camera access in Settings.</string>
     <string name="storage_permission">You have to allow storage access in Settings.</string>

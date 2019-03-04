@@ -147,7 +147,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         }
 
         fun changeCountry(){
-
+            baseIntent("http://viaggio.kotlin.com/traveling/country/")
         }
         fun finishTravel(){
             TravelingFinishActionDialogFragment().show(fragmentManager!!, TravelingFinishActionDialogFragment.TAG)

@@ -14,6 +14,7 @@ import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
+import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.traveling_card.TravelingCardEnrollFragment
@@ -93,6 +94,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "image" -> {
                             showTravelingRepresentative()
                         }
+                        "country" -> showTravelingCountry()
                     }
                 "setting" ->{
                     when (appLinkData.pathSegments?.last()) {
@@ -103,6 +105,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTravelingCountry() {
+        baseShowLeftAddBackFragment(TravelingCountryFragment())
     }
 
     private fun showTravelingRepresentative() {
