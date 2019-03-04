@@ -74,9 +74,4 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun getTravelCards():Single<MutableList<TravelCard>> {
         return db.get().travelDao().getTravelCard(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
     }
-
-    fun getTravelCardsImages() :Single<MutableList<String>>{
-        return db.get().travelDao().getTravelCardImage(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
-    }
-
 }

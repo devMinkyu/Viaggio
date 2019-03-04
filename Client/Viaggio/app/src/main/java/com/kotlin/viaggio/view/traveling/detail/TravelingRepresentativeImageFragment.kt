@@ -28,10 +28,10 @@ class TravelingRepresentativeImageFragment:BaseFragment<TravelingRepresentativeI
         super.onViewCreated(view, savedInstanceState)
 
         getViewModel().imageNamesListLiveDate.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { imageNames ->
+            it.getContentIfNotHandled()?.let { travelCards ->
                 val imgDir = File(context?.filesDir, "images/")
                 if (imgDir.exists()) {
-                    val imgFile = File(imgDir, imageNames[0])
+                    val imgFile = File(imgDir, travelCards[0].imageNames[0])
                     if (imgFile.exists()) {
                         Uri.fromFile(imgFile).let { uri ->
                             Glide.with(travelingRepresentativeImage)
@@ -41,11 +41,18 @@ class TravelingRepresentativeImageFragment:BaseFragment<TravelingRepresentativeI
                     }
                 }
 
-                Log.d("hoho", "$imageNames")
+                Log.d("hoho", "$travelCards")
             }
         })
 
     }
 
-    inner class ViewHandler
+    inner class ViewHandler{
+        fun confirm(){
+
+        }
+        fun back(){
+            fragmentPopStack()
+        }
+    }
 }

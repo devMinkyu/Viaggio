@@ -63,7 +63,6 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     }
 
     fun saveTravelCard() {
-
         val imagePathSingle = travelModel.imagePathList(imageChooseList)
         val orderTravelCardSingle = travelModel.getTravelCards()
         val travelOfDaySingle = travelModel.getTravelOfDay()
