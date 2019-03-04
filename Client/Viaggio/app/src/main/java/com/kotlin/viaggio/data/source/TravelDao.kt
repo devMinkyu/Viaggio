@@ -46,4 +46,6 @@ interface TravelDao {
     @Query("SELECT * FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) ORDER BY enrollOfTime DESC")
     fun getTravelCard(travelOfDayId: Long): Single<MutableList<TravelCard>>
 
+    @Query("SELECT imageNames FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) ORDER BY enrollOfTime ASC")
+    fun getTravelCardImage(travelOfDayId: Long): Single<MutableList<String>>
 }

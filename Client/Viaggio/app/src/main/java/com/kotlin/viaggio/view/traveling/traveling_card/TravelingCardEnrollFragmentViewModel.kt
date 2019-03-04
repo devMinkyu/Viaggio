@@ -14,7 +14,6 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Single
-import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
@@ -51,7 +50,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         chooseCountList[0].set(1)
         imagePathList.value = Event(imageAllList)
 
-        time.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.dateTimeFormat)).format(Date(System.currentTimeMillis())))
+        time.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.date_time_format)).format(Date(System.currentTimeMillis())))
 
         val disposable = rxEventBus.travelCardTransportation
             .observeOn(Schedulers.io())

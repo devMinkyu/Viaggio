@@ -13,6 +13,7 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.util.StringUtil
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.TravelCard
@@ -21,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_traveling_detail.*
 import kotlinx.android.synthetic.main.item_traveling_card.view.*
 import java.io.File
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
@@ -89,7 +91,17 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
         @SuppressLint("SimpleDateFormat")
         override fun onBindViewHolder(holder: TravelCardViewHolder, position: Int) {
             holder.binding?.data = getItem(position)?.contents
-            holder.binding?.date = SimpleDateFormat(resources.getString(R.string.dateTimeFormat)).format(getItem(position)?.enrollOfTime)
+            val now = Calendar.getInstance()
+            now.time = getItem(position)?.enrollOfTime
+            val isAMorPM = now.get(Calendar.AM_PM)
+            when(isAMorPM){
+                Calendar.AM -> {
+                    holder.binding?.date = "${now.get(Calendar.HOUR)}:${now.get(Calendar.MINUTE)} am"
+                }
+                Calendar.PM -> {
+                    holder.binding?.date = "${now.get(Calendar.HOUR)}:${now.get(Calendar.MINUTE)} pm"
+                }
+            }
             holder.loadImage(getItem(position)?.imageNames)
         }
     }

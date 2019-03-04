@@ -13,6 +13,7 @@ import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
+import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.traveling_card.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.traveling_card.TravelingTransportationBottomSheetDialogFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
@@ -63,4 +64,7 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun travelingPlaceBottomSheetDialogFragment(): TravelingTransportationBottomSheetDialogFragment
+
+    @ContributesAndroidInjector
+    fun travelingRepresentativeImageFragment(): TravelingRepresentativeImageFragment
 }

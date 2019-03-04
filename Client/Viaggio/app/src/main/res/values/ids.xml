@@ -122,4 +122,6 @@
     <item name="travelingView" type="id"/>
     <item name="travelingChangeCountry" type="id"/>
     <item name="travelingFinishTravel" type="id"/>
+    <item name="travelingRepresentativeImage" type="id"/>
+    <item name="travelingRepresentativeImageList" type="id"/>
 </resources>

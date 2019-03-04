@@ -19,13 +19,11 @@ import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
-import com.kotlin.viaggio.data.source.AppDatabase
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.tag_hive.saathi.saathi.error.InvalidFormException
-import dagger.Lazy
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
@@ -116,7 +114,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             addDisposable(countryDisposable)
 
             val cal = Calendar.getInstance()
-            travelingStartOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).format(cal.time))
+            travelingStartOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).format(cal.time))
         }
 
         val disposable = rxEventBus.travelOfDayChange
@@ -159,12 +157,12 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
         val travel = Travel(
             entireCountries = arrayListOf(travelingStartOfCountry.get()!!),
-            startDate = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(travelingStartOfDay.get()!!),
+            startDate = SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).parse(travelingStartOfDay.get()!!),
             userId = prefUtilService.getInt(AndroidPrefUtilService.Key.USER_ID).blockingGet(),
             theme = travelThemeList.toMutableList() as ArrayList<String>
         )
         val travelOfDay = TravelOfDay(dayCountries = arrayListOf(travelingStartOfCountry.get()!!),
-            date = SimpleDateFormat(appCtx.get().resources.getString(R.string.dateFormat)).parse(travelingStartOfDay.get()!!))
+            date = SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).parse(travelingStartOfDay.get()!!))
         val d4= prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!).observeOn(Schedulers.io()).subscribe()
 
         val disposable = travelModel.createTravel(travel)

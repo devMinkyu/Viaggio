@@ -29,6 +29,7 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
             dismiss()
         }
         fun changeBackground(){
+            baseIntent("http://viaggio.kotlin.com/traveling/representative/image/")
             dismiss()
         }
     }

@@ -3,7 +3,6 @@ package com.kotlin.viaggio.view.traveling.traveling_card
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +18,6 @@ import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_card_image.view.*
 import kotlinx.android.synthetic.main.item_traveling_pager_img.view.*
-import org.jetbrains.anko.imageView
-import org.jetbrains.anko.support.v4.toast
-import org.jetbrains.anko.verticalLayout
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -125,7 +121,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
             TimePickerDialog(context!!, TimePickerDialog.OnTimeSetListener { timePicker, i, i1 ->
                 cal.set(Calendar.HOUR_OF_DAY, timePicker.hour)
                 cal.set(Calendar.MINUTE, timePicker.minute)
-                getViewModel().time.set(SimpleDateFormat(resources.getString(R.string.dateTimeFormat)).format(cal.time))
+                getViewModel().time.set(SimpleDateFormat(resources.getString(R.string.date_time_format)).format(cal.time))
             }, Calendar.HOUR_OF_DAY, Calendar.MINUTE, true).show()
         }
 

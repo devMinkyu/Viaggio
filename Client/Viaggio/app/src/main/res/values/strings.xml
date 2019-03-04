@@ -17,7 +17,6 @@
     <string name="sign_up_name">Name</string>
     <string name="sign_up_confirm_password">Confirm Password</string>
 
-
     <string name="err_pw_mismatch">Password Mismatch</string>
     <string name="err_pw_same">Same Password</string>
     <string name="err_email_format">It is not an email form</string>
@@ -29,8 +28,8 @@
     <string name="home_travel">Traveled</string>
     <string name="finish_of_msg">Please press back button one more time to exit the app</string>
     <string name="setting_sign">Sign</string>
-    <string name="dateFormat">EE, MMM d, yyyy</string>
-    <string name="dateTimeFormat">HH:MM</string>
+    <string name="date_format">EE, MMM d, yyyy</string>
+    <string name="date_time_format">HH:MM</string>
     <string name="travel_count">%d Day</string>
     <string name="over_image_count">+%d</string>
     <string name="travel_card_choose_count">%d</string>
