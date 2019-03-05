@@ -34,7 +34,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        travelCardEnrollImageAllList.layoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
+        travelCardEnrollImageAllList.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
         getViewModel().imagePathList.observe(this, Observer {
             it.getContentIfNotHandled()?.let { list ->
                 travelCardEnrollImageAllList.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

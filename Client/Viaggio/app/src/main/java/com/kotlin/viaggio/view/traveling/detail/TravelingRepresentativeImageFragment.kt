@@ -29,7 +29,7 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        travelingRepresentativeImageList.layoutManager = GridLayoutManager(context, 4, GridLayoutManager.VERTICAL, false)
+        travelingRepresentativeImageList.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
         getViewModel().imageNamesListLiveDate.observe(this, Observer {
             it.getContentIfNotHandled()?.let { imageNames ->
                 val imgDir = File(context?.filesDir, "images/")
@@ -104,16 +104,18 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
         inner class TravelingRepresentativeImageViewHandler{
             fun imagePicker(){
                 val index = getViewModel().list.indexOf(fileNamePath)
-                getViewModel().choose[index].set(true)
-                getViewModel().choose[getViewModel().chooseIndex].set(false)
-                getViewModel().chooseIndex = index
+                if(index != getViewModel().chooseIndex){
+                    getViewModel().choose[index].set(true)
+                    getViewModel().choose[getViewModel().chooseIndex].set(false)
+                    getViewModel().chooseIndex = index
 
-                val imgFile = File(imgDir, fileNamePath)
-                if (imgFile.exists()) {
-                    Uri.fromFile(imgFile).let { uri ->
-                        Glide.with(travelingRepresentativeImage)
-                            .load(uri)
-                            .into(travelingRepresentativeImage)
+                    val imgFile = File(imgDir, fileNamePath)
+                    if (imgFile.exists()) {
+                        Uri.fromFile(imgFile).let { uri ->
+                            Glide.with(travelingRepresentativeImage)
+                                .load(uri)
+                                .into(travelingRepresentativeImage)
+                        }
                     }
                 }
             }
