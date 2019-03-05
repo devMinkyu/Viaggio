@@ -134,4 +134,7 @@
     <item name="countryArea" type="id"/>
     <item name="countryCountry" type="id"/>
     <item name="travelCardEnrollSeveralCountriesList" type="id"/>
+    <item name="travelCardEnrollAdditionalCountry1" type="id"/>
+    <item name="travelCardEnrollAdditionalCountry2" type="id"/>
+    <item name="travelCardEnrollAdditionalCountry3" type="id"/>
 </resources>

@@ -41,9 +41,11 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     val transportation = ObservableField<String>("")
     val overImageCount = ObservableInt(0)
     val severalCountries = ObservableBoolean(false)
+    val country1 = ObservableField<String>("")
+    val country2 = ObservableField<String>("")
 
     var travelOfDay = TravelOfDay()
-
+    var selectedCountry = ""
     @SuppressLint("SimpleDateFormat")
     override fun initialize() {
         super.initialize()
@@ -71,6 +73,14 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
             .subscribe({
                 travelOfDay = it
                 severalCountries.set(it.dayCountries.size > 1)
+                selectedCountry = it.dayCountries[0]
+
+                for ((i,dayCountry) in it.dayCountries.withIndex()) {
+                    when(i){
+                        0 -> country1.set(dayCountry)
+                        1 -> country2.set(dayCountry)
+                    }
+                }
             }){
 
             }
@@ -96,7 +106,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                 cal.set(Calendar.HOUR_OF_DAY, time.get()!!.split(":")[0].toInt())
                 cal.set(Calendar.MINUTE, time.get()!!.split(":")[1].toInt())
                 val travelCard = TravelCard(
-                    country = prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet(),
+                    country = selectedCountry,
                     contents = contents.get()!!,
                     travelCardPlace = place.get()!!,
                     enrollOfTime = cal.time,

@@ -148,7 +148,7 @@
                 android:id="@id/travelCardEnrollAdditionalImageIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelCardEnrollAdditionalImagePager"
@@ -174,17 +174,45 @@
                 android:background="@color/pinkish_grey"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/travelCardEnrollSeveralCountriesList"
+                app:layout_constraintBottom_toTopOf="@id/travelCardEnrollAdditionalCountry1"
         />
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@id/travelCardEnrollSeveralCountriesList"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
-                android:visibility="@{viewModel.severalCountries ? View.VISIBLE:View.GONE}"
+        <TextView
+                android:id="@id/travelCardEnrollAdditionalCountry1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Title"
+                android:textColor="@color/black"
+                android:text="@{viewModel.country1}"
+                android:padding="5dp"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/theme_btn_bg"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/travelCardEnrollAdditionalPlace"
         />
+        <TextView
+                android:id="@id/travelCardEnrollAdditionalCountry2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Title"
+                android:textColor="@color/black"
+                android:text="@{viewModel.country2}"
+                android:padding="5dp"
+                android:textSize="13sp"
+                android:gravity="center"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/theme_btn_bg"
+                app:layout_constraintStart_toEndOf="@id/travelCardEnrollAdditionalCountry1"
+                app:layout_constraintBottom_toTopOf="@id/travelCardEnrollAdditionalPlace"
+        />
+        <androidx.constraintlayout.widget.Group
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{viewModel.severalCountries ? View.VISIBLE:View.GONE}"
+                app:constraint_referenced_ids="travelCardEnrollAdditionalCountry1
+                ,travelCardEnrollAdditionalCountry2"
+                tools:ignore="NotSibling"/>
         <EditText
                 android:id="@id/travelCardEnrollAdditionalPlace"
                 android:layout_width="match_parent"
