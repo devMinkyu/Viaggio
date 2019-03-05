@@ -39,6 +39,9 @@ interface TravelDao {
     @Query("SELECT * FROM travelOfDays WHERE id = :id")
     fun getTravelOfDay(id:Long): Single<TravelOfDay>
 
+    @Query("SELECT * FROM travelOfDays WHERE travelOfDay = :day")
+    fun getTravelOfDayCount(day: Int): Single<TravelOfDay>
+
     @Update
     fun updateTravelOfDay(travelOfDay: TravelOfDay)
 
@@ -51,4 +54,5 @@ interface TravelDao {
 
     @Query("SELECT * FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) ORDER BY enrollOfTime DESC")
     fun getTravelCard(travelOfDayId: Long): Single<MutableList<TravelCard>>
+
 }

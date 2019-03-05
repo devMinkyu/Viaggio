@@ -109,7 +109,14 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             addDisposable(themeDisposable)
 
             val countryDisposable = rxEventBus.travelOfCountry.subscribe { t ->
-                travelingStartOfCountry.set(t)
+                if(TextUtils.isEmpty(t).not()){
+                    if(traveling.get()){
+                        loadTravelingOfDay()
+                    }else{
+                        travelingStartOfCountry.set(t)
+                    }
+                    rxEventBus.travelOfCountry.onNext("")
+                }
             }
             addDisposable(countryDisposable)
 
@@ -128,6 +135,17 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             }
         addDisposable(disposable)
+
+        val travelingFinishDisposable = rxEventBus.travelFinish
+            .subscribe({
+                if(it){
+                    traveling.set(false)
+                    rxEventBus.travelFinish.onNext(false)
+                }
+            }){
+
+            }
+        addDisposable(travelingFinishDisposable)
     }
     private fun loadTravelingOfDay(){
         val factory: DataSource.Factory<Int, TravelOfDay>

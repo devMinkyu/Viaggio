@@ -75,6 +75,11 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
                 countryCountry.adapter = adapter
             }
         })
+
+        getViewModel().completeLiveData.observe(this, Observer {
+            stopLoading()
+            fragmentPopStack()
+        })
     }
 
     inner class ViewHandler {
@@ -91,7 +96,8 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
                     getViewModel().showCountry(position)
                 }
                 else -> {
-
+                    showLoading()
+                    getViewModel().changeCountry(position)
                 }
             }
         }

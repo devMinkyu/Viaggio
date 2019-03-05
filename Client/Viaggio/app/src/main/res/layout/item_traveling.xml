@@ -53,7 +53,7 @@
                 android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 android:textColor="@android:color/white"
-                android:text="@{data.dayCountries[0]}"
+                android:text='@{data.dayCountries.size() == 1 ? data.dayCountries[0]:String.format(@string/travel_of_day_country,data.dayCountries[0],data.dayCountries[1])}'
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelingDayOfCount"

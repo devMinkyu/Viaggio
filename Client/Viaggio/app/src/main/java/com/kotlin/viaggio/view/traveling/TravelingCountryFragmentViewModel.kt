@@ -5,9 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.CountryList
+import com.kotlin.viaggio.data.`object`.Travel
+import com.kotlin.viaggio.data.`object`.TravelOfDay
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import io.reactivex.Single
+import io.reactivex.functions.BiFunction
+import io.reactivex.schedulers.Schedulers
 import java.io.InputStreamReader
 import javax.inject.Inject
 
@@ -31,6 +37,7 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
     val continentLiveData:MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
     val areaLiveData:MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
     val countryLiveData:MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
+    val completeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
     override fun initialize() {
         super.initialize()
 
@@ -69,5 +76,28 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
         if(areaOfCountriesMap.containsKey(areaList[position])){
             countryLiveData.value = Event(areaOfCountriesMap[areaList[position]]!!)
         }
+    }
+
+    fun changeCountry(position: Int) {
+        val country = areaOfCountriesMap[areaList[areaPosition]]!![position]
+        prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, country).blockingAwait()
+        val day = prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet()
+
+        val travelSingle = travelModel.getTravel()
+        val travelOfDaySingle = travelModel.getTravelOfDayCount(day)
+        val disposable = Single.zip(travelSingle, travelOfDaySingle, BiFunction<Travel, TravelOfDay, Any> { t1, t2 ->
+            t1.entireCountries.add(country)
+            t2.dayCountries.add(country)
+            travelModel.updateTravel(t1)
+            travelModel.updateTravelOfDay(t2)
+
+        }).subscribeOn(Schedulers.io())
+            .subscribe({
+                rxEventBus.travelOfCountry.onNext(country)
+                completeLiveData.postValue(Event(Any()))
+            }) {
+
+            }
+        addDisposable(disposable = disposable)
     }
 }

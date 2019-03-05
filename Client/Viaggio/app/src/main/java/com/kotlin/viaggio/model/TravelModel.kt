@@ -2,7 +2,6 @@ package com.kotlin.viaggio.model
 
 import android.graphics.Bitmap
 import android.net.Uri
-import android.text.TextUtils
 import androidx.paging.DataSource
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelCard
@@ -10,10 +9,8 @@ import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.RxEventBus
 import io.fotoapparat.result.PhotoResult
-import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
-import java.util.ArrayList
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -70,6 +67,12 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun getTravelOfDay(): Single<TravelOfDay> {
         return db.get().travelDao().getTravelOfDay(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
     }
+
+    fun getTravelOfDayCount(day: Int): Single<TravelOfDay> {
+        return db.get().travelDao().getTravelOfDayCount(day)
+    }
+
+
     fun getTravelCardsPager(): DataSource.Factory<Int, TravelCard> {
         return db.get().travelDao().getTravelCardsPaged(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
     }
@@ -81,6 +84,7 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun getTravelCards():Single<MutableList<TravelCard>> {
         return db.get().travelDao().getTravelCard(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
     }
+
 
 
 }
