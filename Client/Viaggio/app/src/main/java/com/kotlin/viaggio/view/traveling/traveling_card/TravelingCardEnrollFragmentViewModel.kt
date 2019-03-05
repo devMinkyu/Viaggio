@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.traveling.traveling_card
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
@@ -14,6 +15,7 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 import io.reactivex.functions.Function3
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
@@ -38,6 +40,9 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     val time = ObservableField<String>("")
     val transportation = ObservableField<String>("")
     val overImageCount = ObservableInt(0)
+    val severalCountries = ObservableBoolean(false)
+
+    var travelOfDay = TravelOfDay()
 
     @SuppressLint("SimpleDateFormat")
     override fun initialize() {
@@ -60,18 +65,26 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
 
             }
         addDisposable(disposable)
+
+        val travelOfDayDisposable = travelModel.getTravelOfDay()
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                travelOfDay = it
+                severalCountries.set(it.dayCountries.size > 1)
+            }){
+
+            }
+        addDisposable(travelOfDayDisposable)
     }
 
     fun saveTravelCard() {
         val imagePathSingle = travelModel.imagePathList(imageChooseList)
         val orderTravelCardSingle = travelModel.getTravelCards()
-        val travelOfDaySingle = travelModel.getTravelOfDay()
 
         val disposable = Single.zip(
             imagePathSingle,
             orderTravelCardSingle,
-            travelOfDaySingle,
-            Function3<List<String>, List<TravelCard>,TravelOfDay, TravelCard>  { t1, t2, t3 ->
+            BiFunction<List<String>, List<TravelCard>, TravelCard>  { t1, t2 ->
                 val imageNames: MutableList<String> = mutableListOf()
                 for (s in t1) {
                     imageNames.add(Uri.parse(s).lastPathSegment!!)
@@ -79,7 +92,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                 val order = if (t2.isNullOrEmpty()) 1 else t2.size + 1
 
                 val cal = Calendar.getInstance()
-                cal.time = t3.date
+                cal.time = travelOfDay.date
                 cal.set(Calendar.HOUR_OF_DAY, time.get()!!.split(":")[0].toInt())
                 cal.set(Calendar.MINUTE, time.get()!!.split(":")[1].toInt())
                 val travelCard = TravelCard(
@@ -93,9 +106,9 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                     imageNames = imageNames as ArrayList<String>
                 )
                 if (order == 1) {
-                    t3.themeImageName = imageNames[0]
-                    travelModel.updateTravelOfDay(t3)
-                    rxEventBus.travelOfDayImage.onNext(t3.themeImageName)
+                    travelOfDay.themeImageName = imageNames[0]
+                    travelModel.updateTravelOfDay(travelOfDay)
+                    rxEventBus.travelOfDayImage.onNext(travelOfDay.themeImageName)
                 }
                 travelCard
             }).flatMap { travelCard ->

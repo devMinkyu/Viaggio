@@ -133,4 +133,5 @@
     <item name="countryContinent" type="id"/>
     <item name="countryArea" type="id"/>
     <item name="countryCountry" type="id"/>
+    <item name="travelCardEnrollSeveralCountriesList" type="id"/>
 </resources>
