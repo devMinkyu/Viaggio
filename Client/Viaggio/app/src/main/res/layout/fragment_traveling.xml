@@ -28,7 +28,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:textColor="@android:color/black"
                 android:padding="10dp"
-                android:visibility="@{viewModel.isFormValid ? View.VISIBLE:View.GONE}"
                 android:onClick="@{() -> viewHandler.travelStart()}"
                 android:text="확인"
                 android:textSize="20sp"

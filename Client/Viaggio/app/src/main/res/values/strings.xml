@@ -3,6 +3,9 @@
     <string name="travel_country_json">country.json</string>
     <string name="travel_tutorial_json">tutorial.json</string>
 
+    <string name="theme_empty">Please enter theme of travel.</string>
+    <string name="country_empty">Please enter country of travel.</string>
+
     <string name="camera_permission">You have to allow camera access in Settings.</string>
     <string name="storage_permission">You have to allow storage access in Settings.</string>
     <string name="necessary_permission">You have to allow camera, storage access in Settings.</string>

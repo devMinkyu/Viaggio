@@ -18,6 +18,7 @@ import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelOfDay
+import com.kotlin.viaggio.data.`object`.TravelingError
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
@@ -43,6 +44,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val goToCamera: MutableLiveData<Event<Any>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
+    val errortMsg: MutableLiveData<Event<TravelingError>> = MutableLiveData()
     val travelThemeListLiveData = MutableLiveData<Event<List<String>>>()
 
     private var travelThemeList:List<String> = listOf()
@@ -54,44 +56,9 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     val isClick:ObservableBoolean = ObservableBoolean(false)
     val traveling = ObservableBoolean(false)
     val themeExist = ObservableBoolean(false)
-    val travelingStartOfDay = ObservableField<String>("").apply {
-        addOnPropertyChangedCallback(object :androidx.databinding.Observable.OnPropertyChangedCallback(){
-            override fun onPropertyChanged(sender: androidx.databinding.Observable?, propertyId: Int) {
-                validateForm()
-            }
-        })
-    }
-    val travelingStartOfCountry = ObservableField<String>("").apply {
-        addOnPropertyChangedCallback(object :androidx.databinding.Observable.OnPropertyChangedCallback(){
-            override fun onPropertyChanged(sender: androidx.databinding.Observable?, propertyId: Int) {
-                validateForm()
-            }
-        })
-    }
-    val isFormValid = ObservableBoolean(false)
-    private var validateFormDisposable: Disposable? = null
+    val travelingStartOfDay = ObservableField<String>("")
+    val travelingStartOfCountry = ObservableField<String>("")
 
-    private fun validateForm() {
-        validateFormDisposable?.dispose()
-        validateFormDisposable = Maybe
-            .create<Any> {
-                when {
-                    TextUtils.isEmpty(travelingStartOfDay.get()) -> throw InvalidFormException()
-                    TextUtils.isEmpty(travelingStartOfCountry.get()) -> throw InvalidFormException()
-                    travelThemeList.isNullOrEmpty() -> throw InvalidFormException()
-                    else -> it.onSuccess(Any())
-                }
-            }.map {
-                isFormValid.set(true)
-            }
-            .onErrorComplete {
-                isFormValid.set(false)
-                it is InvalidFormException
-            }.subscribe()
-        validateFormDisposable?.let {
-            addDisposable(it)
-        }
-    }
     override fun initialize() {
         super.initialize()
         traveling.set(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet())
@@ -100,7 +67,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             val themeDisposable = rxEventBus.travelOfTheme
                 .subscribe { t ->
                     travelThemeList = t
-                    validateForm()
                     travelThemeListLiveData.postValue(Event(t))
                     if(t.isNotEmpty()){
                         themeExist.set(true)
@@ -109,13 +75,10 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             addDisposable(themeDisposable)
 
             val countryDisposable = rxEventBus.travelOfCountry.subscribe { t ->
-                if(TextUtils.isEmpty(t).not()){
-                    if(traveling.get()){
-                        loadTravelingOfDay()
-                    }else{
-                        travelingStartOfCountry.set(t)
-                    }
-                    rxEventBus.travelOfCountry.onNext("")
+                if(traveling.get()){
+                    loadTravelingOfDay()
+                }else{
+                    travelingStartOfCountry.set(t)
                 }
             }
             addDisposable(countryDisposable)
@@ -139,8 +102,9 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         val travelingFinishDisposable = rxEventBus.travelFinish
             .subscribe({
                 if(it){
-                    traveling.set(false)
-                    rxEventBus.travelFinish.onNext(false)
+                    traveling.set(it.not())
+                    travelingStartOfCountry.set("")
+                    rxEventBus.travelFinish.onNext(it.not())
                 }
             }){
 
@@ -166,6 +130,17 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun travelStart() {
+//        when{
+//            TextUtils.isEmpty(travelingStartOfCountry.get()) ->{
+//                errortMsg.value = Event(TravelingError.COUNTRY_EMPTY)
+//                return
+//            }
+//            themeExist.get().not() -> {
+//                errortMsg.value = Event(TravelingError.THEME_EMPTY)
+//                return
+//            }
+//        }
+
         traveling.set(true)
         val cal = Calendar.getInstance()
         val d1 = prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).observeOn(Schedulers.io()).subscribe()

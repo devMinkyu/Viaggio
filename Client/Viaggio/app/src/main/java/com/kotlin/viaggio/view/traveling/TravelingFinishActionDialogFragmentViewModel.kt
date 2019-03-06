@@ -22,6 +22,7 @@ class TravelingFinishActionDialogFragmentViewModel @Inject constructor() : BaseV
     val completeLiveDate: MutableLiveData<Event<Any>> = MutableLiveData()
     fun travelingFinish() {
         val disposable = travelModel.getTravel()
+            .observeOn(Schedulers.io())
             .subscribeOn(Schedulers.io())
             .subscribe({
                 prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, false).blockingAwait()

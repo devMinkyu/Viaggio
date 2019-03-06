@@ -147,14 +147,13 @@ class LocalDataSource @Inject constructor() {
     }
 
     fun cacheFile(bitmap: Bitmap): Single<List<String>> {
-        return Single.create(SingleOnSubscribe<File> { emmiter ->
+        return Single.create(SingleOnSubscribe<File> { emitter ->
             val cacheFile = createTempFile()
             val out = FileOutputStream(cacheFile)
             if (bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)) {
                 out.flush()
                 out.close()
-                emmiter.onSuccess(cacheFile)
-                bitmap.recycle()
+                emitter .onSuccess(cacheFile)
             }
         }).subscribeOn(Schedulers.io())
             .flatMap {
@@ -166,9 +165,7 @@ class LocalDataSource @Inject constructor() {
             val imageListUri:MutableList<String> = mutableListOf()
             for ((index, fileName) in fileNames.withIndex()) {
                 if(File(fileName).exists()){
-                    val options = BitmapFactory.Options()
-                    options.inSampleSize = 2
-                    val cameraImg = BitmapFactory.decodeFile(fileName, options)
+                    val cameraImg = BitmapFactory.decodeFile(fileName)
 
                     val sampleSize = normalQualitySizeCalculation(fileName)
 

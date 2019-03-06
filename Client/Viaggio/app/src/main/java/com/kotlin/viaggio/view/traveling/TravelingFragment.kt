@@ -21,6 +21,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.TravelOfDay
+import com.kotlin.viaggio.data.`object`.TravelingError
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling.*
 import kotlinx.android.synthetic.main.item_traveling.view.*
@@ -58,6 +59,15 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                     PermissionError.NECESSARY_PERMISSION -> toast(resources.getString(R.string.camera_permission))
                     else -> {
                     }
+                }
+            }
+        })
+        getViewModel().errortMsg.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { error ->
+                when(error){
+                    TravelingError.THEME_EMPTY -> toast(resources.getString(R.string.theme_empty))
+                    TravelingError.COUNTRY_EMPTY -> toast(resources.getString(R.string.country_empty))
+                    else -> {}
                 }
             }
         })

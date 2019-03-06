@@ -132,6 +132,10 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                 TravelingTransportationBottomSheetDialogFragment.TAG
             )
         }
+
+        fun selectedCountry(country:String){
+            getViewModel().selectedCountry = country
+        }
     }
 
     inner class TravelingCardImgViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

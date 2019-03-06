@@ -11,8 +11,9 @@ class HomeMainFragmentViewModel @Inject constructor() : BaseViewModel() {
     override fun initialize() {
         super.initialize()
 
-        val a = travelModel.getTravelCards().subscribe { t1, t2 ->
+        val a = travelModel.getTravels().subscribe { t1, t2 ->
             Log.d("hoho", "$t1")
+            Log.d("hoho", "$t2")
         }
         addDisposable(a)
     }

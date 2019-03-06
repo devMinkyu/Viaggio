@@ -11,6 +11,7 @@ import com.kotlin.viaggio.event.RxEventBus
 import io.fotoapparat.result.PhotoResult
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,21 +29,29 @@ class TravelModel @Inject constructor() : BaseModel() {
         localDataSource.imageAllPath()
 
     fun createTravel(travel: Travel): Single<Long> {
-        return Single.create(SingleOnSubscribe<Bitmap> {
-            rxEventBus.travelOfFirstImage
-                .subscribe { t ->
-                    it.onSuccess(t)
-                }
-        }).flatMap {
-            localDataSource.cacheFile(it)
-                .flatMap { uri ->
-                    travel.themeImageName = Uri.parse(uri[0]).lastPathSegment!!
-                    db.get().travelDao().insertTravel(travel)
-                }
+        val bitmap = rxEventBus.travelOfFirstImage.value
+        return if(bitmap == null){
+            db.get().travelDao().insertTravel(travel).subscribeOn(Schedulers.io())
+        }else{
+            Single.create(SingleOnSubscribe<Bitmap> {
+                rxEventBus.travelOfFirstImage.
+                    subscribe { t ->
+                        it.onSuccess(t)
+                    }
+            }).flatMap {t ->
+                localDataSource.cacheFile(t)
+                    .flatMap { uri ->
+                        travel.themeImageName = Uri.parse(uri[0]).lastPathSegment!!
+                        db.get().travelDao().insertTravel(travel).subscribeOn(Schedulers.io())
+                    }
+            }.subscribeOn(Schedulers.io())
         }
     }
     fun getTravel() :Single<Travel>{
-        return db.get().travelDao().getTravel(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet())
+        return db.get().travelDao().getTravel(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()).subscribeOn(Schedulers.io())
+    }
+    fun getTravels() :Single<List<Travel>>{
+        return db.get().travelDao().getTravels().subscribeOn(Schedulers.io())
     }
 
     fun updateTravel(travel: Travel) {
@@ -50,7 +59,7 @@ class TravelModel @Inject constructor() : BaseModel() {
     }
 
     fun createTravelCard(travelCard: TravelCard):Single<Long>{
-        return db.get().travelDao().insertTravelCard(travelCard)
+        return db.get().travelDao().insertTravelCard(travelCard).subscribeOn(Schedulers.io())
     }
 
     fun imagePathList(imageChooseList: MutableList<String>): Single<List<String>> {
@@ -58,14 +67,14 @@ class TravelModel @Inject constructor() : BaseModel() {
     }
 
     fun createTravelOfDay(travelOfDay: TravelOfDay): Single<Long> {
-        return db.get().travelDao().insertTravelOfDay(travelOfDay)
+        return db.get().travelDao().insertTravelOfDay(travelOfDay).subscribeOn(Schedulers.io())
     }
     fun getTravelOfDays(): DataSource.Factory<Int, TravelOfDay> {
         return db.get().travelDao().getTravelOfDaysPaged(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet())
     }
 
     fun getTravelOfDay(): Single<TravelOfDay> {
-        return db.get().travelDao().getTravelOfDay(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
+        return db.get().travelDao().getTravelOfDay(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet()).subscribeOn(Schedulers.io())
     }
 
     fun getTravelOfDayCount(day: Int): Single<TravelOfDay> {
@@ -82,7 +91,7 @@ class TravelModel @Inject constructor() : BaseModel() {
     }
 
     fun getTravelCards():Single<MutableList<TravelCard>> {
-        return db.get().travelDao().getTravelCard(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet())
+        return db.get().travelDao().getTravelCard(prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID).blockingGet()).subscribeOn(Schedulers.io())
     }
 
 

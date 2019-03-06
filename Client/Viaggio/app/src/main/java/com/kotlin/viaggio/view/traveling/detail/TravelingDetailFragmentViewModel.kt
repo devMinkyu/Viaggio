@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.traveling.detail
 
 import android.annotation.SuppressLint
+import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
@@ -94,7 +95,10 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
         val imageChangeDisposable = rxEventBus.travelOfDayImage
             .observeOn(Schedulers.io())
             .subscribe({
-                travelOfDayImageChange.postValue(Event(it))
+                if(TextUtils.isEmpty(it).not()){
+                    travelOfDayImageChange.postValue(Event(it))
+                    rxEventBus.travelOfDayImage.onNext("")
+                }
             }){
 
             }
