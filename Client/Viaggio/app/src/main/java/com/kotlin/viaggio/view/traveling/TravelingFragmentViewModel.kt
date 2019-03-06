@@ -104,6 +104,9 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
                 if(it){
                     traveling.set(it.not())
                     travelingStartOfCountry.set("")
+                    val cal = Calendar.getInstance()
+                    travelingStartOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).format(cal.time))
+
                     rxEventBus.travelFinish.onNext(it.not())
                 }
             }){
@@ -130,16 +133,16 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun travelStart() {
-//        when{
-//            TextUtils.isEmpty(travelingStartOfCountry.get()) ->{
-//                errortMsg.value = Event(TravelingError.COUNTRY_EMPTY)
-//                return
-//            }
-//            themeExist.get().not() -> {
-//                errortMsg.value = Event(TravelingError.THEME_EMPTY)
-//                return
-//            }
-//        }
+        when{
+            TextUtils.isEmpty(travelingStartOfCountry.get()) ->{
+                errortMsg.value = Event(TravelingError.COUNTRY_EMPTY)
+                return
+            }
+            themeExist.get().not() -> {
+                errortMsg.value = Event(TravelingError.THEME_EMPTY)
+                return
+            }
+        }
 
         traveling.set(true)
         val cal = Calendar.getInstance()

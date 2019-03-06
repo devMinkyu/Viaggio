@@ -175,10 +175,8 @@ class LocalDataSource @Inject constructor() {
                     val matrix = Matrix()
                     matrix.postRotate(rotate.toFloat())
                     val resizedBitmap = Bitmap.createBitmap(cameraImg, 0, 0, cameraImg.width, cameraImg.height, matrix, true)
-                    cameraImg.recycle()
 
                     val compressImg = Bitmap.createScaledBitmap(resizedBitmap, (resizedBitmap.width/sampleSize).toInt(),(resizedBitmap.height/sampleSize).toInt(),true )
-                    resizedBitmap.recycle()
 
                     val imageDir = File(appCtx.get().filesDir, IMG_FOLDER)
                     if(!imageDir.exists()){
@@ -197,6 +195,9 @@ class LocalDataSource @Inject constructor() {
                                 out.flush()
                                 out.close()
                                 imageListUri.add(localFile.absolutePath)
+
+                                cameraImg.recycle()
+                                resizedBitmap.recycle()
                                 compressImg.recycle()
                             }
                         }
