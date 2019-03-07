@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -34,8 +35,8 @@ class HomeFragment:BaseFragment<HomeFragmentViewModel>() {
         childFragmentManager.beginTransaction()
             .replace(R.id.homeTravelingListView, TravelingFragment())
             .commit()
-
     }
+
 
     @SuppressLint("WrongConstant")
     inner class ViewHandler{

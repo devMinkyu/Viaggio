@@ -20,8 +20,8 @@ interface TravelDao {
     @Insert
     fun insertAllTravel(vararg travel: Travel)
 
-    @Query("SELECT * FROM travels")
-    fun getTravels(): Single<List<Travel>>
+    @Query("SELECT * FROM travels Where endDate Is not null Order By startDate Desc")
+    fun getTravels(): DataSource.Factory<Int, Travel>
 
     @Query("SELECT * FROM travels WHERE id IN(:id)")
     fun getTravel(id: Long): Single<Travel>
@@ -39,8 +39,8 @@ interface TravelDao {
     @Query("SELECT * FROM travelOfDays WHERE id = :id")
     fun getTravelOfDay(id:Long): Single<TravelOfDay>
 
-    @Query("SELECT * FROM travelOfDays WHERE travelOfDay = :day")
-    fun getTravelOfDayCount(day: Int): Single<TravelOfDay>
+    @Query("SELECT * FROM travelOfDays WHERE travelOfDay = :day And travelId = :travelId")
+    fun getTravelOfDayCount(day: Int, travelId: Long): Single<TravelOfDay>
 
     @Update
     fun updateTravelOfDay(travelOfDay: TravelOfDay)

@@ -50,8 +50,8 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun getTravel() :Single<Travel>{
         return db.get().travelDao().getTravel(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()).subscribeOn(Schedulers.io())
     }
-    fun getTravels() :Single<List<Travel>>{
-        return db.get().travelDao().getTravels().subscribeOn(Schedulers.io())
+    fun getTravels() :DataSource.Factory<Int, Travel>{
+        return db.get().travelDao().getTravels()
     }
 
     fun updateTravel(travel: Travel) {
@@ -78,7 +78,7 @@ class TravelModel @Inject constructor() : BaseModel() {
     }
 
     fun getTravelOfDayCount(day: Int): Single<TravelOfDay> {
-        return db.get().travelDao().getTravelOfDayCount(day)
+        return db.get().travelDao().getTravelOfDayCount(day, prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet())
     }
 
 

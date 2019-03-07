@@ -92,10 +92,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         val adapter = TravelOfDayAdapter()
         travelingList.adapter = adapter
         getViewModel().travelOfDayPagedLiveData.observe(this, Observer(adapter::submitList))
-
-
-
-
+        
         ///
         for(index in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
@@ -112,6 +109,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
     }
 
     fun anim() {
+        getViewModel().click()
         if (getViewModel().isFabOpen) {
             travelingChangeCountry.apply {
                 startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.fab_close))
@@ -183,7 +181,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             TravelingFinishActionDialogFragment().show(fragmentManager!!, TravelingFinishActionDialogFragment.TAG)
         }
         fun view(){
-            getViewModel().click()
             anim()
         }
     }

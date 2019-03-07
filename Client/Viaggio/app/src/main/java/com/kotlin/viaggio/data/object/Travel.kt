@@ -16,6 +16,13 @@ data class Travel(
     var share: Boolean = false
 )
 
+data class Traveled(
+    var id: Long = 0,
+    var theme:String = "",
+    var period:String = "",
+    var countries:String = ""
+)
+
 
 @Entity(tableName = "travelOfDays")
 data class TravelOfDay(

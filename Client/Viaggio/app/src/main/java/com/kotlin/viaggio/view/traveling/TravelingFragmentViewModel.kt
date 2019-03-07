@@ -62,7 +62,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     override fun initialize() {
         super.initialize()
         traveling.set(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet())
-        loadTravelingOfDay()
         if(!traveling.get()){
             val themeDisposable = rxEventBus.travelOfTheme
                 .subscribe { t ->
@@ -76,7 +75,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             val countryDisposable = rxEventBus.travelOfCountry.subscribe { t ->
                 if(traveling.get()){
-                    loadTravelingOfDay()
+                    travelOfDayPagedLiveData.value?.dataSource?.invalidate()
                 }else{
                     travelingStartOfCountry.set(t)
                 }
@@ -91,7 +90,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             .subscribeOn(Schedulers.io())
             .subscribe({
                 if(it){
-                    loadTravelingOfDay()
+                    travelOfDayPagedLiveData.value?.dataSource?.invalidate()
                     rxEventBus.travelOfDayChange.onNext(false)
                 }
             }){
@@ -113,8 +112,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             }
         addDisposable(travelingFinishDisposable)
-    }
-    private fun loadTravelingOfDay(){
         val factory: DataSource.Factory<Int, TravelOfDay>
                 = travelModel.getTravelOfDays()
         val pagedListBuilder: LivePagedListBuilder<Int, TravelOfDay> = LivePagedListBuilder<Int, TravelOfDay>(factory,
@@ -170,7 +167,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             .subscribe { t ->
                 prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t).observeOn(Schedulers.io()).blockingAwait()
                 travelOfDay.travelId = t
-                loadTravelingOfDay()
+                travelOfDayPagedLiveData.value?.dataSource?.invalidate()
             }
         addDisposable(disposable)
         val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()

@@ -90,7 +90,6 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
             t2.dayCountries.add(country)
             travelModel.updateTravel(t1)
             travelModel.updateTravelOfDay(t2)
-
         }).subscribeOn(Schedulers.io())
             .subscribe({
                 rxEventBus.travelOfCountry.onNext(country)
