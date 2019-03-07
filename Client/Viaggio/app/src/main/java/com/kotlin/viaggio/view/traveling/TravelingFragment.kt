@@ -94,6 +94,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         }
         getViewModel().travelStartLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
+                stopLoading()
                 fetchList()
             }
         })
@@ -171,7 +172,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                         cal.set(Calendar.YEAR, datePicker.year)
                         cal.set(Calendar.MONTH, datePicker.month)
                         cal.set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
-                        getViewModel().travelingStartOfDay.set(SimpleDateFormat(resources.getString(R.string.date_format)).format(cal.time))
+                        getViewModel().changeStartOfDay(SimpleDateFormat(resources.getString(R.string.date_format)).format(cal.time))
                     }
                     cancelButton {
                         it.dismiss()
@@ -180,7 +181,9 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             }.show()
         }
         fun travelStart(){
-            getViewModel().travelStart()
+            if(getViewModel().travelStart()){
+                showLoading()
+            }
         }
 
         fun changeCountry(){

@@ -82,12 +82,17 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             }
         addDisposable(disposable)
-        loadTravelCard()
+
+        val factory: DataSource.Factory<Int, TravelCard>
+                = travelModel.getTravelCardsPager()
+        val pagedListBuilder: LivePagedListBuilder<Int, TravelCard> = LivePagedListBuilder<Int, TravelCard>(factory,
+            20)
+        travelCardPagedLiveData = pagedListBuilder.build()
 
         val updateDisposable = rxEventBus.travelCardUpdate
             .observeOn(Schedulers.io())
             .subscribe({
-                loadTravelCard()
+                travelCardPagedLiveData.value?.dataSource?.invalidate()
             }){
 
             }
@@ -103,12 +108,5 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             }
         addDisposable(imageChangeDisposable)
-    }
-    fun loadTravelCard(){
-        val factory: DataSource.Factory<Int, TravelCard>
-                = travelModel.getTravelCardsPager()
-        val pagedListBuilder: LivePagedListBuilder<Int, TravelCard> = LivePagedListBuilder<Int, TravelCard>(factory,
-            20)
-        travelCardPagedLiveData = pagedListBuilder.build()
     }
 }
