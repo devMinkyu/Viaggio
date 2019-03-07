@@ -165,7 +165,9 @@ class LocalDataSource @Inject constructor() {
             val imageListUri:MutableList<String> = mutableListOf()
             for ((index, fileName) in fileNames.withIndex()) {
                 if(File(fileName).exists()){
-                    val cameraImg = BitmapFactory.decodeFile(fileName)
+                    val options = BitmapFactory.Options()
+                    options.inSampleSize = 2
+                    val cameraImg = BitmapFactory.decodeFile(fileName, options)
 
                     val sampleSize = normalQualitySizeCalculation(fileName)
 
@@ -176,7 +178,7 @@ class LocalDataSource @Inject constructor() {
                     matrix.postRotate(rotate.toFloat())
                     val resizedBitmap = Bitmap.createBitmap(cameraImg, 0, 0, cameraImg.width, cameraImg.height, matrix, true)
 
-                    val compressImg = Bitmap.createScaledBitmap(resizedBitmap, (resizedBitmap.width/sampleSize).toInt(),(resizedBitmap.height/sampleSize).toInt(),true )
+                    val compressImg = Bitmap.createScaledBitmap(resizedBitmap, (resizedBitmap.width/sampleSize).toInt(),(resizedBitmap.height/sampleSize).toInt(),true)
 
                     val imageDir = File(appCtx.get().filesDir, IMG_FOLDER)
                     if(!imageDir.exists()){

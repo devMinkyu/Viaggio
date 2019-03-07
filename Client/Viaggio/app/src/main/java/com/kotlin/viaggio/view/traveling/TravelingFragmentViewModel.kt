@@ -146,10 +146,10 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
         traveling.set(true)
         val cal = Calendar.getInstance()
-        val d1 = prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).observeOn(Schedulers.io()).subscribe()
-        val d2 = prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 1).observeOn(Schedulers.io()).subscribe()
+        prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).observeOn(Schedulers.io()).blockingAwait()
+        prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 1).observeOn(Schedulers.io()).blockingAwait()
         val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
-        val d3 = prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).observeOn(Schedulers.io()).subscribe()
+        prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).observeOn(Schedulers.io()).blockingAwait()
 
         val travel = Travel(
             entireCountries = arrayListOf(travelingStartOfCountry.get()!!),
@@ -159,27 +159,20 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         )
         val travelOfDay = TravelOfDay(dayCountries = arrayListOf(travelingStartOfCountry.get()!!),
             date = SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).parse(travelingStartOfDay.get()!!))
-        val d4= prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!).observeOn(Schedulers.io()).subscribe()
+        prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!).observeOn(Schedulers.io()).blockingAwait()
 
         val disposable = travelModel.createTravel(travel)
             .flatMap {
                 travelOfDay.travelId = it
-                val d5= prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, it).observeOn(Schedulers.io()).subscribe()
-                addDisposable(d5)
+                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, it).observeOn(Schedulers.io()).blockingAwait()
                 travelModel.createTravelOfDay(travelOfDay)
             }
             .subscribe { t ->
-                val d6 = prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t).observeOn(Schedulers.io()).subscribe()
-                addDisposable(d6)
+                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t).observeOn(Schedulers.io()).blockingAwait()
                 travelOfDay.travelId = t
                 loadTravelingOfDay()
             }
         addDisposable(disposable)
-        addDisposable(d1)
-        addDisposable(d2)
-        addDisposable(d3)
-        addDisposable(d4)
-
         val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()
         WorkManager.getInstance().enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name,ExistingPeriodicWorkPolicy.KEEP,timeCheckWork)
     }

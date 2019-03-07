@@ -23,6 +23,7 @@ import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.`object`.TravelingError
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.nightonke.boommenu.BoomButtons.HamButton
 import kotlinx.android.synthetic.main.fragment_traveling.*
 import kotlinx.android.synthetic.main.item_traveling.view.*
 import org.jetbrains.anko.*
@@ -91,6 +92,23 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         val adapter = TravelOfDayAdapter()
         travelingList.adapter = adapter
         getViewModel().travelOfDayPagedLiveData.observe(this, Observer(adapter::submitList))
+
+
+
+
+        ///
+        for(index in 0 until bmb.piecePlaceEnum.pieceNumber()) {
+            val builder = HamButton.Builder()
+                .normalImageRes(R.drawable.ic_add_black_24dp)
+                .normalTextRes(R.string.err_delete_id)
+                .subNormalTextRes(R.string.necessary_permission)
+                .shadowEffect(true)
+                .listener {
+                    toast("zzz")
+                }
+
+            bmb.addBuilder(builder)
+        }
     }
 
     fun anim() {
