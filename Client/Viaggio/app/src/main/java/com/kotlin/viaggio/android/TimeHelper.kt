@@ -31,13 +31,13 @@ class TimeHelper @Inject constructor(){
         val cal = Calendar.getInstance()
         val lastConnectOfDay = prefUtilService.getInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY).blockingGet()
         val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
-        prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).observeOn(Schedulers.io()).subscribe()
+        prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).blockingAwait()
 
         if ((currentConnectOfDay - lastConnectOfDay) != 0) {
             var travelingOfDayOfCount =
                 prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet()
             travelingOfDayOfCount += 1
-            prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, travelingOfDayOfCount).observeOn(Schedulers.io()).subscribe()
+            prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, travelingOfDayOfCount).blockingAwait()
 
 
             val day = SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).format(cal.time)
@@ -46,7 +46,7 @@ class TimeHelper @Inject constructor(){
             ,date = SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).parse(day))
 
             val travelOfDayId = travelModel.createTravelOfDay(travelOfDay).subscribeOn(Schedulers.io()).blockingGet()
-            prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, travelOfDayId).observeOn(Schedulers.io()).subscribe()
+            prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, travelOfDayId).blockingAwait()
             travelOfDay.id = travelOfDayId
             rxEventBus.travelOfDayChange.onNext(true)
         }

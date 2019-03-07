@@ -24,10 +24,7 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.TimeCheckWorker
-import com.tag_hive.saathi.saathi.error.InvalidFormException
-import io.reactivex.Maybe
 import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,12 +41,13 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val goToCamera: MutableLiveData<Event<Any>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
-    val errortMsg: MutableLiveData<Event<TravelingError>> = MutableLiveData()
+    val errorMsg: MutableLiveData<Event<TravelingError>> = MutableLiveData()
     val travelThemeListLiveData = MutableLiveData<Event<List<String>>>()
+    val travelStartLiveData = MutableLiveData<Event<Any>>()
 
     private var travelThemeList:List<String> = listOf()
 
-    lateinit var travelOfDayPagedLiveData: LiveData<PagedList<TravelOfDay>>
+    var travelOfDayPagedLiveData: LiveData<PagedList<TravelOfDay>> = MutableLiveData()
 
     var isFabOpen = false
 
@@ -62,6 +60,9 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     override fun initialize() {
         super.initialize()
         traveling.set(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet())
+        if(traveling.get()){
+            loadTravelOfDayPaged()
+        }
         if(!traveling.get()){
             val themeDisposable = rxEventBus.travelOfTheme
                 .subscribe { t ->
@@ -112,11 +113,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             }
         addDisposable(travelingFinishDisposable)
-        val factory: DataSource.Factory<Int, TravelOfDay>
-                = travelModel.getTravelOfDays()
-        val pagedListBuilder: LivePagedListBuilder<Int, TravelOfDay> = LivePagedListBuilder<Int, TravelOfDay>(factory,
-            20)
-        travelOfDayPagedLiveData = pagedListBuilder.build()
     }
     fun permissionCheck(request: Observable<Boolean>?) {
         val disposable = request?.subscribe { t ->
@@ -129,14 +125,21 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         disposable?.let { addDisposable(it) }
     }
 
+    private fun loadTravelOfDayPaged(){
+        val factory: DataSource.Factory<Int, TravelOfDay>
+                = travelModel.getTravelOfDays()
+        val pagedListBuilder: LivePagedListBuilder<Int, TravelOfDay> = LivePagedListBuilder<Int, TravelOfDay>(factory,
+            20)
+        travelOfDayPagedLiveData = pagedListBuilder.build()
+    }
     fun travelStart() {
         when{
             TextUtils.isEmpty(travelingStartOfCountry.get()) ->{
-                errortMsg.value = Event(TravelingError.COUNTRY_EMPTY)
+                errorMsg.value = Event(TravelingError.COUNTRY_EMPTY)
                 return
             }
             themeExist.get().not() -> {
-                errortMsg.value = Event(TravelingError.THEME_EMPTY)
+                errorMsg.value = Event(TravelingError.THEME_EMPTY)
                 return
             }
         }
@@ -166,8 +169,9 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
             .subscribe { t ->
                 prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t).observeOn(Schedulers.io()).blockingAwait()
-                travelOfDay.travelId = t
-                travelOfDayPagedLiveData.value?.dataSource?.invalidate()
+
+                loadTravelOfDayPaged()
+                travelStartLiveData.postValue(Event(Any()))
             }
         addDisposable(disposable)
         val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()

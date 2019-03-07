@@ -63,7 +63,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 }
             }
         })
-        getViewModel().errortMsg.observe(this, Observer {
+        getViewModel().errorMsg.observe(this, Observer {
             it.getContentIfNotHandled()?.let { error ->
                 when(error){
                     TravelingError.THEME_EMPTY -> toast(resources.getString(R.string.theme_empty))
@@ -89,10 +89,15 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         })
 
         travelingList.layoutManager = LinearLayoutManager(context!!)
-        val adapter = TravelOfDayAdapter()
-        travelingList.adapter = adapter
-        getViewModel().travelOfDayPagedLiveData.observe(this, Observer(adapter::submitList))
-        
+        if(getViewModel().traveling.get()){
+            fetchList()
+        }
+        getViewModel().travelStartLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                fetchList()
+            }
+        })
+
         ///
         for(index in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
@@ -106,6 +111,12 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
 
             bmb.addBuilder(builder)
         }
+    }
+
+    private fun fetchList(){
+        val adapter = TravelOfDayAdapter()
+        travelingList.adapter = adapter
+        getViewModel().travelOfDayPagedLiveData.observe(this, Observer(adapter::submitList))
     }
 
     fun anim() {
