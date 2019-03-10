@@ -37,7 +37,7 @@ interface TravelDao {
     fun insertAllTravelOfDay(vararg travelOfDay: TravelOfDay): Single<MutableList<Long>>
 
     @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY date DESC")
-    fun getTravelOfDaysPaged(travelId: Long): DataSource.Factory<Int, TravelOfDay>
+    fun getTravelOfDays(travelId: Long): Single<MutableList<TravelOfDay>>
 
     @Query("SELECT * FROM travelOfDays WHERE id = :id")
     fun getTravelOfDay(id:Long): Single<TravelOfDay>

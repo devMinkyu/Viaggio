@@ -72,8 +72,8 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun createTravelOfDays(travelOfDay: MutableList<TravelOfDay>):Single<MutableList<Long>> {
         return db.get().travelDao().insertAllTravelOfDay(*travelOfDay.toTypedArray()).subscribeOn(Schedulers.io())
     }
-    fun getTravelOfDays(): DataSource.Factory<Int, TravelOfDay> {
-        return db.get().travelDao().getTravelOfDaysPaged(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet())
+    fun getTravelOfDays(): Single<MutableList<TravelOfDay>> {
+        return db.get().travelDao().getTravelOfDays(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet())
     }
 
     fun getTravelOfDay(): Single<TravelOfDay> {

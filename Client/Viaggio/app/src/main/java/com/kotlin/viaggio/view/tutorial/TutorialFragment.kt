@@ -24,6 +24,8 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        tutorialPager.clipToPadding =false
+//        tutorialPager.setPadding(40,0,40,0)
         getViewModel().tutorialList.observe(this, Observer {list ->
                 tutorialPager.adapter = object: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

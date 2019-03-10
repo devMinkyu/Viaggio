@@ -13,8 +13,10 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_detail.*
@@ -25,6 +27,13 @@ import java.util.*
 
 class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentTravelingDetailBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        postponeEnterTransition()
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_detail, container, false)
         binding.viewModel = getViewModel()
@@ -35,6 +44,8 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val imgDir = File(context?.filesDir, "images/")
+
+        travelingDetailDayImg.transitionName = arguments?.getString(ArgName.EXTRA_TRANSITION_NAME.name)?:""
 
         if(TextUtils.isEmpty(getViewModel().travelOfDay.themeImageName).not()){
             val imgFile = File(imgDir, getViewModel().travelOfDay.themeImageName)
