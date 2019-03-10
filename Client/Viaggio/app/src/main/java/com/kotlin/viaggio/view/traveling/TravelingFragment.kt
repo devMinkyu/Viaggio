@@ -12,19 +12,15 @@ import android.widget.DatePicker
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.data.`object`.PermissionError
-import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.`object`.TravelingError
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
 import com.kotlin.viaggio.event.OnSwipeTouchListener
@@ -34,7 +30,6 @@ import com.nightonke.boommenu.BoomButtons.HamButton
 import kotlinx.android.synthetic.main.fragment_traveling.*
 import kotlinx.android.synthetic.main.item_traveling.view.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.support.v4.act
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
 import java.io.File
@@ -110,78 +105,92 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             bmb.addBuilder(builder)
         }
 
-        getViewModel().travelOfDayListLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {list ->
-                val argbEvaluator = android.animation.ArgbEvaluator()
-                val adapter = object :PagerAdapter(){
-                    override fun isViewFromObject(view: View, `object`: Any) = view == `object`
-                    override fun getCount() = list.size
-                    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-                        val view = LayoutInflater.from(context).inflate(R.layout.item_traveling, container, false)
-                        val binding = DataBindingUtil.bind<ItemTravelingBinding>(view)!!
-                        binding.data = list[position]
+        getViewModel().travelOfDayListLiveData.observe(this, Observer { list ->
+            val argbEvaluator = android.animation.ArgbEvaluator()
+            val adapter = object : PagerAdapter() {
+                override fun isViewFromObject(view: View, `object`: Any) = view == `object`
+                override fun getCount() = list.size
+                override fun instantiateItem(container: ViewGroup, position: Int): Any {
+                    val view = LayoutInflater.from(context).inflate(R.layout.item_traveling, container, false)
+                    val binding = DataBindingUtil.bind<ItemTravelingBinding>(view)!!
+                    binding.data = list[position]
 
-                        val imgDir = File(context?.filesDir, "images/")
-                        list[position].themeImageName.let {themeImageName ->
-                            val imgFile = File(imgDir, themeImageName)
-                            if (imgFile.exists()) {
-                                Uri.fromFile(imgFile).let { uri ->
-                                    Glide.with(view.traveledBackground)
-                                        .load(uri)
-                                        .into(view.traveledBackground)
-                                }
+                    val imgDir = File(context?.filesDir, "images/")
+                    list[position].themeImageName.let { themeImageName ->
+                        val imgFile = File(imgDir, themeImageName)
+                        if (imgFile.exists()) {
+                            Uri.fromFile(imgFile).let { uri ->
+                                Glide.with(view.traveledBackground)
+                                    .load(uri)
+                                    .centerCrop()
+                                    .into(view.traveledBackground)
                             }
                         }
-                        container.addView(view)
-                        ViewCompat.setTransitionName(view.traveledBackground, list[position].id.toString())
-
-                        view.setOnTouchListener(object : OnSwipeTouchListener(context!!){
-                            override fun onSwipeTop() {
-                                super.onSwipeTop()
-                                val id = binding.data?.id?:0
-                                getViewModel().setSelectedTravelingOfDay(id)
-                                val frag = TravelingDetailFragment()
-                                val bundle = Bundle()
-                                bundle.putString(ArgName.EXTRA_TRANSITION_NAME.name, ViewCompat.getTransitionName(view.traveledBackground))
-                                frag.arguments = bundle
-                                activity!!.supportFragmentManager
-                                    .beginTransaction()
-                                    .addSharedElement(view.traveledBackground, ViewCompat.getTransitionName(view.traveledBackground)!!)
-                                    .addToBackStack(null)
-                                    .replace(R.id.content_frame, frag)
-                                    .commit()
-                            }
-                        })
-                        return view
                     }
-                    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-                        container.removeView(`object` as View)
+                    container.addView(view)
+                    ViewCompat.setTransitionName(view.traveledBackground, list[position].id.toString())
+
+                    view.setOnTouchListener(object : OnSwipeTouchListener(context!!) {
+                        override fun onSwipeTop() {
+                            super.onSwipeTop()
+                            val id = binding.data?.id ?: 0
+                            getViewModel().setSelectedTravelingOfDay(id)
+                            val frag = TravelingDetailFragment()
+                            val bundle = Bundle()
+                            bundle.putString(
+                                ArgName.EXTRA_TRANSITION_NAME.name,
+                                ViewCompat.getTransitionName(view.traveledBackground)
+                            )
+                            frag.arguments = bundle
+                            fragmentManager!!
+                                .beginTransaction()
+                                .addSharedElement(
+                                    view.traveledBackground,
+                                    ViewCompat.getTransitionName(view.traveledBackground)!!
+                                )
+                                .addToBackStack(null)
+                                .replace(R.id.content_frame, frag)
+                                .commit()
+                        }
+                    })
+                    return view
+                }
+
+                override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+                    container.removeView(`object` as View)
+                }
+            }
+            travelingList.adapter = adapter
+            travelingList.setPadding(130, 0, 130, 0)
+
+            val colors = mutableListOf(
+                resources.getColor(R.color.color1, null),
+                resources.getColor(R.color.color2, null),
+                resources.getColor(R.color.color3, null),
+                resources.getColor(R.color.color4, null),
+                resources.getColor(R.color.color3, null),
+                resources.getColor(R.color.color4, null),
+                resources.getColor(R.color.color3, null),
+                resources.getColor(R.color.color4, null)
+            )
+            travelingList.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+                override fun onPageScrollStateChanged(state: Int) {}
+                override fun onPageSelected(position: Int) {}
+                override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                    if ((position < adapter.count - 1) && position < (colors.size - 1)) {
+                        travelingContainer.setBackgroundColor(
+                            argbEvaluator.evaluate(
+                                positionOffset,
+                                colors[position],
+                                colors[position + 1]
+                            ) as Int
+                        )
+                    } else {
+                        travelingContainer.setBackgroundColor(colors[colors.size - 1])
                     }
                 }
-                travelingList.adapter = adapter
-                travelingList.setPadding(130,0,130,0)
+            })
 
-                val colors = mutableListOf(resources.getColor(R.color.color1, null),
-                    resources.getColor(R.color.color2, null),
-                    resources.getColor(R.color.color3, null),
-                    resources.getColor(R.color.color4, null),
-                    resources.getColor(R.color.color3, null),
-                    resources.getColor(R.color.color4, null),
-                    resources.getColor(R.color.color3, null),
-                    resources.getColor(R.color.color4, null)
-                )
-                travelingList.addOnPageChangeListener(object :ViewPager.OnPageChangeListener{
-                    override fun onPageScrollStateChanged(state: Int) {}
-                    override fun onPageSelected(position: Int) {}
-                    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-                        if((position < adapter.count - 1) && position < (colors.size - 1)){
-                            travelingList.setBackgroundColor(argbEvaluator.evaluate(positionOffset, colors[position], colors[position+1]) as Int)
-                        }else{
-                            travelingList.setBackgroundColor(colors[colors.size - 1])
-                        }
-                    }
-                })
-            }
         })
     }
     fun anim() {
@@ -259,6 +268,13 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         }
         fun view(){
             anim()
+        }
+
+        fun traveled(){
+            baseIntent("http://viaggio.kotlin.com/home/main/traveled/")
+        }
+        fun setting(){
+            baseIntent("http://viaggio.kotlin.com/home/main/setting/")
         }
     }
 

@@ -18,10 +18,56 @@
                 android:id="@id/traveledList"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:clipToPadding="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/homeController"
+        />
+        <View
+                android:id="@id/homeController"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+        />
+        <TextView
+                android:id="@id/homeTravelingListNav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/icon_upload_empty"
+                android:text="@string/home_traveling"
+                android:textColor="@android:color/black"
+                android:onClick="@{()->viewHandler.traveling()}"
+                android:layout_marginStart="30dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/homeController"
+                app:layout_constraintTop_toTopOf="@id/homeController"/>
+        <TextView
+                android:id="@id/homeTravelListNav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/icon_menu"
+                android:text="@string/home_travel"
+                android:textColor="@android:color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/homeController"
+                app:layout_constraintTop_toTopOf="@id/homeController"
+        />
+        <TextView
+                android:id="@id/settingNav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/icon_upload_empty"
+                android:text="@string/home_setting"
+                android:textColor="@android:color/black"
+                android:layout_marginEnd="30dp"
+                android:onClick="@{()->viewHandler.setting()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/homeController"
+                app:layout_constraintTop_toTopOf="@id/homeController"
         />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

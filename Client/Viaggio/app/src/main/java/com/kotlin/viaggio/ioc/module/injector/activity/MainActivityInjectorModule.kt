@@ -2,17 +2,17 @@
 
 package com.kotlin.viaggio.ioc.module.injector.activity
 
-import com.kotlin.viaggio.ioc.module.injector.activity.fragment.HomeFragmentInjectorModule
 import com.kotlin.viaggio.view.camera.CameraFragment
-import com.kotlin.viaggio.view.home.HomeFragment
 import com.kotlin.viaggio.view.setting.SettingFragment
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
+import com.kotlin.viaggio.view.traveled.TraveledFragment
 import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
+import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
@@ -27,12 +27,14 @@ interface MainActivityInjectorModule {
     @ContributesAndroidInjector
     fun tutorialFragment(): TutorialFragment
 
-    @ContributesAndroidInjector(
-        modules = [
-            HomeFragmentInjectorModule::class
-        ]
-    )
-    fun homeFragment(): HomeFragment
+    @ContributesAndroidInjector
+    fun travelingFragment(): TravelingFragment
+
+    @ContributesAndroidInjector
+    fun traveledFragment(): TraveledFragment
+
+    @ContributesAndroidInjector
+    fun settingFragment(): SettingFragment
 
     @ContributesAndroidInjector
     fun signFragment(): SignFragment
@@ -45,9 +47,6 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun cameraFragment(): CameraFragment
-
-    @ContributesAndroidInjector
-    fun settingFragment(): SettingFragment
 
     @ContributesAndroidInjector
     fun themeFragment(): ThemeFragment

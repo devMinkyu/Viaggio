@@ -36,6 +36,13 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         fun sign(){
             baseIntent("http://viaggio.kotlin.com/home/login/")
         }
+
+        fun traveled(){
+            baseIntent("http://viaggio.kotlin.com/home/main/traveled/")
+        }
+        fun traveling(){
+            baseIntent("http://viaggio.kotlin.com/home/main/traveling/")
+        }
     }
 }
 

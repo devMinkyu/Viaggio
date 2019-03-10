@@ -42,7 +42,14 @@ class TraveledFragment:BaseFragment<TraveledFragmentViewModel>() {
         getViewModel().traveledPagedLiveData.observe(this, Observer(adapter::submitList))
     }
 
-    inner class ViewHandler
+    inner class ViewHandler{
+        fun setting(){
+            baseIntent("http://viaggio.kotlin.com/home/main/setting/")
+        }
+        fun traveling(){
+            baseIntent("http://viaggio.kotlin.com/home/main/traveling/")
+        }
+    }
 
     inner class TraveledAdapter: PagedListAdapter<Travel, TraveledViewHolder>(object :
         DiffUtil.ItemCallback<Travel>(){

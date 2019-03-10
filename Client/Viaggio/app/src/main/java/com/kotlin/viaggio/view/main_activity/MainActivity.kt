@@ -7,14 +7,16 @@ import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
-import com.kotlin.viaggio.view.home.HomeFragment
+import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.setting.SettingFragment
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
+import com.kotlin.viaggio.view.traveled.TraveledFragment
 import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
+import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.traveling_card.TravelingCardEnrollFragment
@@ -74,6 +76,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "login" -> showSign()
                         "camera" -> showCamera()
                         "theme" -> showTheme()
+                        "setting" -> showBottomNav(SettingFragment())
+                        "traveling" -> showBottomNav(TravelingFragment())
+                        "traveled" -> showBottomNav(TraveledFragment())
                     }
                 }
                 "login" -> {
@@ -98,13 +103,20 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                     }
                 "setting" ->{
                     when (appLinkData.pathSegments?.last()) {
-                        "main" -> showSetting()
+
                     }
                 }
                 else -> {
                 }
             }
         }
+    }
+
+    private fun showBottomNav(frag: BaseFragment<*>) {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.content_frame, frag)
+            .commit()
     }
 
     private fun showTravelingCountry() {
@@ -131,10 +143,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         baseShowLeftAddBackFragment(ThemeFragment())
     }
 
-    private fun showSetting() {
-        baseShowTopAddBackFragment(SettingFragment())
-    }
-
     private fun showCamera() {
         baseShowTopAddBackFragment(CameraFragment())
     }
@@ -144,7 +152,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showHome() {
-        baseShowLeftFragment(HomeFragment())
+        baseShowLeftFragment(TravelingFragment())
     }
 
     private fun showSign() {

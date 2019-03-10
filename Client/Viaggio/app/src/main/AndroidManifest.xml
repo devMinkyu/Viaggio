@@ -54,6 +54,18 @@
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
+                        android:pathPattern="/home/main/setting/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/home/main/traveling/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/home/main/traveled/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
                         android:pathPattern="/home/login/"/>
                 <data
                         android:scheme="http"
@@ -63,10 +75,6 @@
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
                         android:pathPattern="/login/create/"/>
-                <data
-                        android:scheme="http"
-                        android:host="viaggio.kotlin.com"
-                        android:pathPattern="/setting/main/"/>
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"

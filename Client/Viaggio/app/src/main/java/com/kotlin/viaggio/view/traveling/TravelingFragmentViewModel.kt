@@ -39,7 +39,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
     val errorMsg: MutableLiveData<Event<TravelingError>> = MutableLiveData()
     val travelThemeListLiveData = MutableLiveData<Event<List<String>>>()
-    val travelOfDayListLiveData:MutableLiveData<Event<MutableList<TravelOfDay>>> = MutableLiveData()
+    val travelOfDayListLiveData:MutableLiveData<MutableList<TravelOfDay>> = MutableLiveData()
 
     private var travelThemeList:List<String> = listOf()
 
@@ -133,7 +133,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         val disposable = travelModel.getTravelOfDays()
             .subscribeOn(Schedulers.io())
             .subscribe { t ->
-                travelOfDayListLiveData.postValue(Event(t))
+                travelOfDayListLiveData.postValue(t)
             }
         addDisposable(disposable)
     }
