@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.DatePicker
+import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -20,11 +21,14 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
+import com.kotlin.viaggio.android.ShadowTransformer
 import com.kotlin.viaggio.data.`object`.PermissionError
+import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.`object`.TravelingError
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
 import com.kotlin.viaggio.event.OnSwipeTouchListener
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.kotlin.viaggio.view.common.CardAdapter
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.nightonke.boommenu.BoomButtons.HamButton
 import kotlinx.android.synthetic.main.fragment_traveling.*
@@ -107,69 +111,26 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
 
         getViewModel().travelOfDayListLiveData.observe(this, Observer { list ->
             val argbEvaluator = android.animation.ArgbEvaluator()
-            val adapter = object : PagerAdapter() {
-                override fun isViewFromObject(view: View, `object`: Any) = view == `object`
-                override fun getCount() = list.size
-                override fun instantiateItem(container: ViewGroup, position: Int): Any {
-                    val view = LayoutInflater.from(context).inflate(R.layout.item_traveling, container, false)
-                    val binding = DataBindingUtil.bind<ItemTravelingBinding>(view)!!
-                    binding.data = list[position]
-
-                    val imgDir = File(context?.filesDir, "images/")
-                    list[position].themeImageName.let { themeImageName ->
-                        val imgFile = File(imgDir, themeImageName)
-                        if (imgFile.exists()) {
-                            Uri.fromFile(imgFile).let { uri ->
-                                Glide.with(view.traveledBackground)
-                                    .load(uri)
-                                    .centerCrop()
-                                    .into(view.traveledBackground)
-                            }
-                        }
-                    }
-                    container.addView(view)
-                    ViewCompat.setTransitionName(view.traveledBackground, list[position].id.toString())
-
-                    view.setOnTouchListener(object : OnSwipeTouchListener(context!!) {
-                        override fun onSwipeTop() {
-                            super.onSwipeTop()
-                            val id = binding.data?.id ?: 0
-                            getViewModel().setSelectedTravelingOfDay(id)
-                            val frag = TravelingDetailFragment()
-                            val bundle = Bundle()
-                            bundle.putString(
-                                ArgName.EXTRA_TRANSITION_NAME.name,
-                                ViewCompat.getTransitionName(view.traveledBackground)
-                            )
-                            frag.arguments = bundle
-                            fragmentManager!!
-                                .beginTransaction()
-                                .addSharedElement(
-                                    view.traveledBackground,
-                                    ViewCompat.getTransitionName(view.traveledBackground)!!
-                                )
-                                .addToBackStack(null)
-                                .replace(R.id.content_frame, frag)
-                                .commit()
-                        }
-                    })
-                    return view
-                }
-
-                override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-                    container.removeView(`object` as View)
-                }
+            val mViews = mutableListOf<CardView?>()
+            for(index in 0 until list.size){
+                mViews.add(null)
             }
-            travelingList.adapter = adapter
+            val adapter = TravelingOfDayPager(list, mViews)
+            val mCardShadowTransformer = ShadowTransformer(travelingList, adapter)
+            mCardShadowTransformer.enableScaling(true)
+
             travelingList.setPadding(130, 0, 130, 0)
+            travelingList.adapter = adapter
+            travelingList.setPageTransformer(false, mCardShadowTransformer)
+            travelingList.offscreenPageLimit = 3
 
             val colors = mutableListOf(
                 resources.getColor(R.color.color1, null),
                 resources.getColor(R.color.color2, null),
                 resources.getColor(R.color.color3, null),
                 resources.getColor(R.color.color4, null),
-                resources.getColor(R.color.color3, null),
-                resources.getColor(R.color.color4, null),
+                resources.getColor(R.color.color1, null),
+                resources.getColor(R.color.color2, null),
                 resources.getColor(R.color.color3, null),
                 resources.getColor(R.color.color4, null)
             )
@@ -280,5 +241,72 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
 
     inner class ThemeTravelingSelectedViewHolder(view:View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingSelectedThemeBinding>(view)
+    }
+
+    inner class TravelingOfDayPager(private val list: MutableList<TravelOfDay>, private val mViews:MutableList<CardView?>):PagerAdapter(), CardAdapter{
+        private var mBaseElevation = 0f
+
+        override fun isViewFromObject(view: View, `object`: Any) = view == `object`
+        override fun getCount() = list.size
+        override fun instantiateItem(container: ViewGroup, position: Int): Any {
+            val view = LayoutInflater.from(context).inflate(R.layout.item_traveling, container, false)
+            val binding = DataBindingUtil.bind<ItemTravelingBinding>(view)!!
+            binding.data = list[position]
+
+            val imgDir = File(context?.filesDir, "images/")
+            list[position].themeImageName.let { themeImageName ->
+                val imgFile = File(imgDir, themeImageName)
+                if (imgFile.exists()) {
+                    Uri.fromFile(imgFile).let { uri ->
+                        Glide.with(view.traveledBackground)
+                            .load(uri)
+                            .centerCrop()
+                            .into(view.traveledBackground)
+                    }
+                }
+            }
+            container.addView(view)
+            ViewCompat.setTransitionName(view.traveledBackground, list[position].id.toString())
+
+            view.setOnTouchListener(object : OnSwipeTouchListener(context!!) {
+                override fun onSwipeTop() {
+                    super.onSwipeTop()
+                    val id = binding.data?.id ?: 0
+                    getViewModel().setSelectedTravelingOfDay(id)
+                    val frag = TravelingDetailFragment()
+                    val bundle = Bundle()
+                    bundle.putString(
+                        ArgName.EXTRA_TRANSITION_NAME.name,
+                        ViewCompat.getTransitionName(view.traveledBackground)
+                    )
+                    frag.arguments = bundle
+                    fragmentManager!!
+                        .beginTransaction()
+                        .addSharedElement(
+                            view.traveledBackground,
+                            ViewCompat.getTransitionName(view.traveledBackground)!!
+                        )
+                        .addToBackStack(null)
+                        .replace(R.id.content_frame, frag)
+                        .commit()
+                }
+            })
+
+            val cardView = view.cardView
+            if(mBaseElevation == 0f){
+                mBaseElevation = cardView.cardElevation
+            }
+            cardView.maxCardElevation = mBaseElevation * CardAdapter.MAX_ELEVATION_FACTOR
+            mViews[position] = cardView
+
+            return view
+        }
+
+        override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+            container.removeView(`object` as View)
+        }
+
+        override fun getBaseElevation() = mBaseElevation
+        override fun getCardViewAt(position: Int)= mViews[position]
     }
 }

@@ -139,4 +139,5 @@
     <item name="travelCardEnrollAdditionalCountry3" type="id"/>
     <item name="settingNav" type="id"/>
     <item name="travelingContainer" type="id"/>
+    <item name="travelingDetailDayTravelCardCreate" type="id"/>
 </resources>

@@ -11,7 +11,7 @@
         <variable name="viewHandler" type="ViewHandler"/>
     </data>
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-
+            android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true">
@@ -20,9 +20,11 @@
                 android:id="@id/travelingDetailDayTravelCardList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:clipToPadding="false"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <TextView
+                android:id="@id/travelingDetailDayTravelCardCreate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|bottom"
@@ -44,7 +46,7 @@
                 tools:ignore="HardcodedText"/>
         <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 android:fitsSystemWindows="true"
         >
 

@@ -1,12 +1,15 @@
 package com.kotlin.viaggio.view.traveling.detail
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewPropertyAnimator
+import android.view.animation.AccelerateInterpolator
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
@@ -15,9 +18,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.data.`object`.TravelCard
+import com.kotlin.viaggio.event.OnSwipeTouchListener
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_detail.*
 import kotlinx.android.synthetic.main.item_traveling_card.view.*
@@ -53,6 +61,29 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                 Uri.fromFile(imgFile).let { uri ->
                     Glide.with(travelingDetailDayImg)
                         .load(uri)
+                        .dontAnimate()
+                        .listener(object :RequestListener<Drawable>{
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                target: Target<Drawable>?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                startPostponedEnterTransition()
+                                return false
+                            }
+
+                            override fun onResourceReady(
+                                resource: Drawable?,
+                                model: Any?,
+                                target: Target<Drawable>?,
+                                dataSource: DataSource?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                startPostponedEnterTransition()
+                                return false
+                            }
+                        })
                         .into(travelingDetailDayImg)
                 }
             }
@@ -77,6 +108,32 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
             getViewModel().existTravelCard.set(it.size>0)
             adapter.submitList(it)
         })
+
+        container.setOnTouchListener(object :OnSwipeTouchListener(context!!){
+            override fun onSwipeBottom() {
+                super.onSwipeBottom()
+                fragmentPopStack()
+
+            }
+        })
+
+//        travelingDetailDayTravelCardList.setOnTouchListener(object :OnSwipeTouchListener(context!!){
+//            override fun onSwipeBottom() {
+//                super.onSwipeBottom()
+//                val animator: ViewPropertyAnimator = travelingDetailDayTravelCardCreate.animate().setDuration(200)
+//                    .alpha(1f)
+//                    .setInterpolator(AccelerateInterpolator())
+//                animator.start()
+//            }
+//
+//            override fun onSwipeTop() {
+//                super.onSwipeTop()
+//                val animator: ViewPropertyAnimator = travelingDetailDayTravelCardCreate.animate().setDuration(200)
+//                    .alpha(0f)
+//                    .setInterpolator(AccelerateInterpolator())
+//                animator.start()
+//            }
+//        })
     }
     inner class ViewHandler{
         fun back(){

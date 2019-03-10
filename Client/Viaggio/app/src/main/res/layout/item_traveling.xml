@@ -18,7 +18,6 @@
                 android:layout_height="350dp"
                 android:id="@+id/cardView"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="5dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="30dp"
