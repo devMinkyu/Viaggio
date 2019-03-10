@@ -119,7 +119,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             val mCardShadowTransformer = ShadowTransformer(travelingList, adapter)
             mCardShadowTransformer.enableScaling(true)
 
-            travelingList.setPadding(130, 0, 130, 0)
             travelingList.adapter = adapter
             travelingList.setPageTransformer(false, mCardShadowTransformer)
             travelingList.offscreenPageLimit = 3

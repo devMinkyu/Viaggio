@@ -26,8 +26,8 @@ class ShadowTransformer(private val viewPager: ViewPager, private val adapter: C
             // grow main card
             val currentCard = adapter.getCardViewAt(viewPager.currentItem)
             if (currentCard != null) {
-                currentCard.animate().scaleY(1.1f)
-                currentCard.animate().scaleX(1.1f)
+                currentCard.animate().scaleY(1.2f)
+                currentCard.animate().scaleX(1.2f)
             }
         }
 
