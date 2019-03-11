@@ -9,13 +9,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.databinding.ItemTravelingCardImageBinding
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrInterface
+import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_card_image.view.*
 import kotlinx.android.synthetic.main.item_traveling_pager_img.view.*
@@ -94,9 +97,24 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         })
     }
 
+    var sliderInterface: SlidrInterface? = null
+    fun enableSliding(enable: Boolean) {
+        if (enable)
+            sliderInterface?.unlock()
+        else
+            sliderInterface?.lock()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(view!!.findViewById(R.id.enroll_container), SlidrConfig.Builder().position(SlidrPosition.LEFT).build())
+    }
+
     inner class ViewHandler {
         fun next() {
             getViewModel().additional.set(getViewModel().additional.get().not())
+            enableSliding(false)
 
             travelCardEnrollAdditionalImageIndicator.setTotalPageNumber(getViewModel().imageChooseList.size)
             travelCardEnrollAdditionalImagePager?.adapter?.notifyDataSetChanged()
@@ -106,6 +124,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         fun back() {
             if (getViewModel().additional.get()) {
                 getViewModel().additional.set(getViewModel().additional.get().not())
+                enableSliding(true)
             } else {
                 fragmentPopStack()
             }

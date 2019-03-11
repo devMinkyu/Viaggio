@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:id="@+id/main_container"
         tools:context=".view.main_activity.MainActivity"
-        android:background="@android:color/white">
+        android:background="@color/background_material_light">
 
     <!--<fragment-->
             <!--android:id="@+id/nav_host_fragment"-->

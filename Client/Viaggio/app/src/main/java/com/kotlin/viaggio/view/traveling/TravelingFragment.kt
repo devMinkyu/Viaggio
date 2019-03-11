@@ -42,6 +42,9 @@ import java.util.*
 
 
 class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
+    companion object {
+        val TAG:String = TravelingFragment::class.java.simpleName
+    }
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling, container, false)

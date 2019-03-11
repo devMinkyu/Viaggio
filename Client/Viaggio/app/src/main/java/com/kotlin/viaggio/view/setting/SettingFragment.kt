@@ -13,6 +13,9 @@ import kotlinx.android.synthetic.main.fragment_setting.*
 
 
 class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
+    companion object {
+        val TAG:String = SettingFragment::class.java.simpleName
+    }
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSettingBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false)

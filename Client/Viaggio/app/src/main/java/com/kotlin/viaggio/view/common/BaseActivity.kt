@@ -68,6 +68,13 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
             .replace(R.id.content_frame, fragment, null)
             .commit()
     }
+    fun baseShowTestLeftAddBackFragment(fragment:BaseFragment<*>){
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .setCustomAnimations(R.anim.layout_left_in, R.anim.layout_left_out)
+            .replace(R.id.content_frame, fragment, null)
+            .commit()
+    }
     fun baseShowRightFragment(fragment:BaseFragment<*>){
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(R.anim.layout_right_in, R.anim.layout_right_out)

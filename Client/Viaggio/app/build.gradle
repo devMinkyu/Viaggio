@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
-
+apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     compileSdkVersion rootProject.targetSdkVersion
 
@@ -44,7 +44,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     // workmanager
-    def work_version = "1.0.0-rc01"
+    def work_version = "1.0.0"
     implementation "android.arch.work:work-runtime-ktx:$work_version" // use -ktx for Kotlin+Coroutines
     implementation "android.arch.work:work-rxjava2:$work_version"
 
@@ -78,10 +78,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
-//    // navigation
-//    def nav_version = "1.0.0-beta01"
-//    implementation "android.arch.navigation:navigation-fragment-ktx:$nav_version"
-//    implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
+    // navigation
+    def nav_version = "2.0.0-rc02"
+    implementation "androidx.navigation:navigation-fragment:$nav_version" // For Kotlin use navigation-fragment-ktx
+    implementation "androidx.navigation:navigation-ui:$nav_version"
 
     //firebase
     implementation 'com.google.firebase:firebase-core:16.0.7'
@@ -118,7 +118,7 @@ dependencies {
 
     //
     implementation 'com.nightonke:boommenu:2.1.1'
+    implementation 'com.r0adkll:slidableactivity:2.0.6'
 
 }
-//apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'

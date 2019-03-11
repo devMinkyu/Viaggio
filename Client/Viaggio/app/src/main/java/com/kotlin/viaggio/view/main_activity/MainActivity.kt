@@ -128,7 +128,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showTravelingCardEnroll() {
-        baseShowLeftAddBackFragment(TravelingCardEnrollFragment())
+        baseShowTestLeftAddBackFragment(TravelingCardEnrollFragment())
     }
 
     private fun showTravelingTheme() {

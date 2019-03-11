@@ -25,6 +25,9 @@ import java.text.SimpleDateFormat
 
 
 class TraveledFragment:BaseFragment<TraveledFragmentViewModel>() {
+    companion object {
+        val TAG:String = TraveledFragment::class.java.simpleName
+    }
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentTraveledBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveled, container, false)
