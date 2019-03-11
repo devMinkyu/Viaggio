@@ -19,7 +19,8 @@ android {
         versionCode version_code.toInteger()
         versionName version_name
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        buildConfigField("String", "OPEN_WEATHER", "\"${viaggio_open_weather}\"")
+        buildConfigField("String", "OPEN_WEATHER_API_KEY", "\"${viaggio_open_weather_api_key}\"")
         multiDexEnabled true
     }
     buildTypes {

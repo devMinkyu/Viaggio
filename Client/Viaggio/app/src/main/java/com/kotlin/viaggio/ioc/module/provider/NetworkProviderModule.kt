@@ -1,6 +1,8 @@
 package com.kotlin.viaggio.ioc.module.provider
 
 import com.google.gson.Gson
+import com.kotlin.viaggio.BuildConfig
+import com.kotlin.viaggio.data.source.OpenWeatherApiService
 import com.kotlin.viaggio.data.source.ViaggioApiService
 import dagger.Module
 import dagger.Provides
@@ -35,6 +37,29 @@ class NetworkProviderModule{
             .build()
 
         return retrofit.create(ViaggioApiService::class.java)
+    }
+    @Provides
+    @Singleton
+    internal fun provideOpenWeather(
+        client: OkHttpClient,
+        gson: Gson
+    ): OpenWeatherApiService {
+        val gsonConverterFactory = GsonConverterFactory.create(gson)
+
+        val tagClient = client.newBuilder()
+            .retryOnConnectionFailure(true)
+            .build()
+
+        val baseUrl = BuildConfig.OPEN_WEATHER
+
+        val retrofit = Retrofit.Builder()
+            .client(tagClient)
+            .baseUrl(baseUrl)
+            .addConverterFactory(gsonConverterFactory)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+
+        return retrofit.create(OpenWeatherApiService::class.java)
     }
 
     @Provides
