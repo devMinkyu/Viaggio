@@ -3,13 +3,18 @@ package com.kotlin.viaggio.view.traveling.traveling_card
 import android.annotation.SuppressLint
 import android.app.TimePickerDialog
 import android.os.Bundle
+import android.transition.Transition
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Slide
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
@@ -28,6 +33,14 @@ import java.util.*
 
 class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentViewModel>() {
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingCardEnrollBinding
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        val slide = Slide(Gravity.END)
+//        slide.interpolator = AccelerateDecelerateInterpolator()
+//        slide.duration = 1000
+//        enterTransition = slide
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_card_enroll, container, false)
         binding.viewModel = getViewModel()

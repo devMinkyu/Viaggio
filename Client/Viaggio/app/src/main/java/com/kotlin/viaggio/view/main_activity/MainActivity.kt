@@ -152,7 +152,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showHome() {
-        baseShowLeftFragment(TravelingFragment())
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.content_frame, TravelingFragment(), null)
+            .commit()
     }
 
     private fun showSign() {

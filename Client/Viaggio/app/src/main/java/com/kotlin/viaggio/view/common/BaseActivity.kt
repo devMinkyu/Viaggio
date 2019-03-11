@@ -71,8 +71,8 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
     fun baseShowTestLeftAddBackFragment(fragment:BaseFragment<*>){
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
-            .setCustomAnimations(R.anim.layout_left_in, R.anim.layout_left_out)
-            .replace(R.id.content_frame, fragment, null)
+            .setCustomAnimations(R.anim.layout_left_in, R.anim.layout_left_out,R.anim.layout_pop_left_in, R.anim.layout_pop_left_out)
+            .add(R.id.content_frame, fragment, null)
             .commit()
     }
     fun baseShowRightFragment(fragment:BaseFragment<*>){

@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
@@ -282,6 +283,10 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                         ViewCompat.getTransitionName(view.traveledBackground)
                     )
                     frag.arguments = bundle
+
+                    val  changeBoundsTransition = TransitionInflater.from(context).inflateTransition(R.transition.simple_fragment_transition)
+                    frag.sharedElementEnterTransition = changeBoundsTransition
+
                     fragmentManager!!
                         .beginTransaction()
                         .addSharedElement(
