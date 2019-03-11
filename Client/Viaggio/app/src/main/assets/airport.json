@@ -1,0 +1,706 @@
+{
+  "data": [
+    {
+      "airportEName": [
+        "GIMPO",
+        "INCHEON",
+        "JEJU",
+        "BUSAN"
+      ],
+      "airportCode": [
+        "GMP",
+        "ICN",
+        "CJU",
+        "PUS"
+      ],
+      "country": "KOREA"
+    },
+    {
+      "airportEName": [
+        "AOMORI",
+        "FUKUOKA",
+        "HIROSHIMA",
+        "HANEDA",
+        "NIIGATA",
+        "KITAKYUSHU",
+        "KUMAMOTO",
+        "KOMATSU",
+        "KAGOSHIMA",
+        "MASUYAMA",
+        "NAGOYA",
+        "NAGASAKI",
+        "NARITA",
+        "OITA",
+        "OKAYAMA",
+        "OSAKA",
+        "SENDAI",
+        "SAPPORO",
+        "SYONAI",
+        "DAKAMETSU",
+        "TOYAMA",
+        "TOTTORI",
+        "NARITA",
+        "HANEDA",
+        "ITAMI",
+        "KANSAI"
+      ],
+      "airportCode": [
+        "AOJ",
+        "FUK",
+        "HIJ",
+        "HND",
+        "KIJ",
+        "KKJ",
+        "KMJ",
+        "KMQ",
+        "KOJ",
+        "MYJ",
+        "NGO",
+        "NGS",
+        "NRT",
+        "OIT",
+        "OKJ",
+        "OSA",
+        "SDJ",
+        "SPK",
+        "SYO",
+        "TAK",
+        "TOY",
+        "TTJ",
+        "NRT",
+        "HND",
+        "ITM",
+        "KIX"
+      ],
+      "country": "JAPAN"
+    },
+    {
+      "airportEName": [
+        "BEIJING",
+        "GUANGZHOU",
+        "CHANGCHUN",
+        "DALIAN",
+        "HARBIN",
+        "QINGDAO",
+        "SHANGHAI",
+        "TIANJIN",
+        "SHENYANG",
+        "XIAMEN",
+        "YANTAI",
+        "XIAN",
+        "KUNMING",
+        "SANYA",
+        "WUHAN",
+        "YANJI",
+        "WEIHAI"
+      ],
+      "airportCode": [
+        "PEK",
+        "CAN",
+        "CGQ",
+        "DLC",
+        "HRB",
+        "TAO",
+        "SHA",
+        "TSN",
+        "SHE",
+        "XMN",
+        "YNT",
+        "SIA",
+        "KMG",
+        "SYX",
+        "WUH",
+        "YNJ",
+        "WEH"
+      ],
+      "country": "CHINA"
+    },
+    {
+      "airportEName": [
+        "ANCHORAGE",
+        "ATLANTA",
+        "BOSTON",
+        "CHICAGO",
+        "CINCINNATI",
+        "DENVER",
+        "DALLAS FORT WORTH",
+        "DETROIT",
+        "HOUSTON",
+        "LOS ANGELES",
+        "ORLANDO",
+        "MIAMI",
+        "MINNEAPOLIS/ST.PAUL",
+        "NEW ORIEANS",
+        "NEW YORK",
+        "PORTLAND",
+        "PHILADELPHIA",
+        "SEATTLE",
+        "SAN FRANCISCO",
+        "SAN DIEGO",
+        "WASHINGTON DC",
+        "JOHN F KENNEDY",
+        "NEWARK",
+        "LA GUARDIA",
+        "NATIONAL",
+        "DULLES",
+        "MDIWAY",
+        "O'HARE",
+        "DETROIT CITY",
+        "WAYNE COUNTRY"
+      ],
+      "airportCode": [
+        "ANC",
+        "ATL",
+        "BOS",
+        "CHI",
+        "CVG",
+        "DEN",
+        "DFW",
+        "DTW",
+        "HOU",
+        "LAX",
+        "MCO",
+        "MIA",
+        "MSP",
+        "MSY",
+        "NYC",
+        "PDX",
+        "PHL",
+        "SEA",
+        "SFO",
+        "SAN",
+        "WAS",
+        "JFK",
+        "EWR",
+        "LGA",
+        "DCA",
+        "IAD",
+        "MDW",
+        "ORD",
+        "DET",
+        "DTW"
+      ],
+      "country": "USA"
+    },
+    {
+      "airportEName": [
+        "HONOLULU"
+      ],
+      "airportCode": [
+        "HNL"
+      ],
+      "country": "USA(Hawaii)"
+    },
+    {
+      "airportEName": [
+        "GUAM"
+      ],
+      "airportCode": [
+        "GUM"
+      ],
+      "country": "USA(Guam)"
+    },
+    {
+      "airportEName": [
+        "FAIRBANKS"
+      ],
+      "airportCode": [
+        "FAI"
+      ],
+      "country": "USA(Alaska)"
+    },
+    {
+      "airportEName": [
+        "EDMONTON",
+        "MONTREAL",
+        "TORONTO",
+        "VANCOUVER",
+        "NAMOA FIELD",
+        "MUNICIPAL"
+      ],
+      "airportCode": [
+        "YEG",
+        "YMX",
+        "YTZ",
+        "YVR",
+        "YED",
+        "YXD"
+      ],
+      "country": "CANADA"
+    },
+    {
+      "airportEName": [
+        "SAO PAULO",
+        "RIO DE JANEIRO",
+        "RIO DE JANEIRO"
+      ],
+      "airportCode": [
+        "SAO",
+        "RIO",
+        "GIG"
+      ],
+      "country": "BRAZIL"
+    },
+    {
+      "airportEName": [
+        "BUENOS AIRES"
+      ],
+      "airportCode": [
+        "BVE"
+      ],
+      "country": "ARGENTINA"
+    },
+    {
+      "airportEName": [
+        "MEXICO"
+      ],
+      "airportCode": [
+        "MEX"
+      ],
+      "country": "MEXICO"
+    },
+    {
+      "airportEName": [
+        "ABU DHABI",
+        "DUBAI"
+      ],
+      "airportCode": [
+        "AUH",
+        "DXB"
+      ],
+      "country": "UAE"
+    },
+    {
+      "airportEName": [
+        "BAHRAIN"
+      ],
+      "airportCode": [
+        "BAH"
+      ],
+      "country": "BAHRAIN"
+    },
+    {
+      "airportEName": [
+        "BAGHDAD",
+        "AL MUTHANA",
+        "SADDAN"
+      ],
+      "airportCode": [
+        "BWG",
+        "BGW",
+        "SDA"
+      ],
+      "country": "IRAQ"
+    },
+    {
+      "airportEName": [
+        "CAIRO"
+      ],
+      "airportCode": [
+        "CAI"
+      ],
+      "country": "EGYPT"
+    },
+    {
+      "airportEName": [
+        "JEDDAH",
+        "RIYADH"
+      ],
+      "airportCode": [
+        "JED",
+        "RUH"
+      ],
+      "country": "SAUDI ARABIA"
+    },
+    {
+      "airportEName": [
+        "TELAVIV",
+        "JERUSALEM"
+      ],
+      "airportCode": [
+        "TLV",
+        "JRS"
+      ],
+      "country": "ISRAEL"
+    },
+    {
+      "airportEName": [
+        "KUWAIT"
+      ],
+      "airportCode": [
+        "KWI"
+      ],
+      "country": "KUWAIT"
+    },
+    {
+      "airportEName": [
+        "TEHERAN"
+      ],
+      "airportCode": [
+        "THR"
+      ],
+      "country": "IRAN"
+    },
+    {
+      "airportEName": [
+        "TRIPOLI"
+      ],
+      "airportCode": [
+        "TIP"
+      ],
+      "country": "RIBYA"
+    },
+    {
+      "airportEName": [
+        "ALMATY"
+      ],
+      "airportCode": [
+        "ALA"
+      ],
+      "country": "KAZAHSTAN"
+    },
+    {
+      "airportEName": [
+        "KOTAKINABALU",
+        "KUCHING",
+        "KUALA LUMPUR",
+        "PENANG"
+      ],
+      "airportCode": [
+        "BKI",
+        "KCH",
+        "KUL",
+        "PEN"
+      ],
+      "country": "MALAYSIA"
+    },
+    {
+      "airportEName": [
+        "NGURAH RAI"
+      ],
+      "airportCode": [
+        "DPS"
+      ],
+      "country": "MALAYSIA(Bali)"
+    },
+    {
+      "airportEName": [
+        "BANGKOK",
+        "PHUKET"
+      ],
+      "airportCode": [
+        "BKK",
+        "HKT"
+      ],
+      "country": "THAILAND"
+    },
+    {
+      "airportEName": [
+        "MUMBAI",
+        "KOLKATA",
+        "DELHI"
+      ],
+      "airportCode": [
+        "BOM",
+        "CCU",
+        "DEL"
+      ],
+      "country": "INDIA"
+    },
+    {
+      "airportEName": [
+        "COLOMBO"
+      ],
+      "airportCode": [
+        "CMB"
+      ],
+      "country": "SRI LANKA"
+    },
+    {
+      "airportEName": [
+        "COLOMBO",
+        "JAKARTA"
+      ],
+      "airportCode": [
+        "DPS",
+        "JKT"
+      ],
+      "country": "INDONESIA"
+    },
+    {
+      "airportEName": [
+        "HANOI",
+        "HO CHI MINH",
+        "Da Nang"
+      ],
+      "airportCode": [
+        "HAN",
+        "SGN",
+        "DAD"
+      ],
+      "country": "VIETNAM"
+    },
+    {
+      "airportEName": [
+        "HONG KONG"
+      ],
+      "airportCode": [
+        "HKG"
+      ],
+      "country": "HONG KONG"
+    },
+    {
+      "airportEName": [
+        "KAOHSIUNG",
+        "TAIPEI"
+      ],
+      "airportCode": [
+        "KHH",
+        "TPE"
+      ],
+      "country": "TAIWAN"
+    },
+    {
+      "airportEName": [
+        "MANILA"
+      ],
+      "airportCode": [
+        "MNL"
+      ],
+      "country": "PHILIPPINES"
+    },
+    {
+      "airportEName": [
+        "KALIBO",
+        "CATICLAN"
+      ],
+      "airportCode": [
+        "KLO",
+        "MPH"
+      ],
+      "country": "PHILIPPINES(Boracay)"
+    },
+    {
+      "airportEName": [
+        "SINGAPORE"
+      ],
+      "airportCode": [
+        "SIN"
+      ],
+      "country": "SINGAPORE"
+    },
+    {
+      "airportEName": [
+        "TASHKENT"
+      ],
+      "airportCode": [
+        "TAS"
+      ],
+      "country": "UZBEKISTAN"
+    },
+    {
+      "airportEName": [
+        "ULAANBAATAR"
+      ],
+      "airportCode": [
+        "ULN"
+      ],
+      "country": "MONGOLIA"
+    },
+    {
+      "airportEName": [
+        "AMSTERDAM"
+      ],
+      "airportCode": [
+        "AMS"
+      ],
+      "country": "NETHERLANDS"
+    },
+    {
+      "airportEName": [
+        "BARCELONA",
+        "MADRID",
+        "VALENCIA"
+      ],
+      "airportCode": [
+        "BCN",
+        "MAD",
+        "VLC"
+      ],
+      "country": "SPAIN"
+    },
+    {
+      "airportEName": [
+        "BERLIN",
+        "COLOGNE/BONN",
+        "FRANKFURT",
+        "HAMBURG",
+        "SCHOENEFELD EAST DD",
+        "TEGEL WEST DE"
+      ],
+      "airportCode": [
+        "BER",
+        "CGN",
+        "FRA",
+        "HAM",
+        "SXF",
+        "TXL"
+      ],
+      "country": "GERMANY"
+    },
+    {
+      "airportEName": [
+        "BRUSSELS"
+      ],
+      "airportCode": [
+        "BRU"
+      ],
+      "country": "BELGIUM"
+    },
+    {
+      "airportEName": [
+        "COPENHAGEN",
+        "COPENHAGEN",
+        "ROSKILDE"
+      ],
+      "airportCode": [
+        "CPH",
+        "CHP",
+        "RKE"
+      ],
+      "country": "DENMARK"
+    },
+    {
+      "airportEName": [
+        "GENEVA",
+        "ZURICH"
+      ],
+      "airportCode": [
+        "GVA",
+        "ZRH"
+      ],
+      "country": "SWISS"
+    },
+    {
+      "airportEName": [
+        "HELSINKI"
+      ],
+      "airportCode": [
+        "HEL"
+      ],
+      "country": "FINLAND"
+    },
+    {
+      "airportEName": [
+        "KHABAROVSK",
+        "KRASNOJARC",
+        "MOSCOW",
+        "VLADIVOSTOK"
+      ],
+      "airportCode": [
+        "KHV",
+        "KJA",
+        "MOW",
+        "VVO"
+      ],
+      "country": "RUSSIA"
+    },
+    {
+      "airportEName": [
+        "LONDON",
+        "MANCHESTER",
+        "HEATHROW",
+        "GATWICK"
+      ],
+      "airportCode": [
+        "LON",
+        "MAN",
+        "LHR",
+        "LGW"
+      ],
+      "country": "ENGLAND"
+    },
+    {
+      "airportEName": [
+        "LUXEMBOURG"
+      ],
+      "airportCode": [
+        "LUX"
+      ],
+      "country": "LUXEMBOURG"
+    },
+    {
+      "airportEName": [
+        "PARIS",
+        "GAULLE",
+        "ORLY"
+      ],
+      "airportCode": [
+        "PAR",
+        "CDG",
+        "ORY"
+      ],
+      "country": "FRANCE"
+    },
+    {
+      "airportEName": [
+        "ROME"
+      ],
+      "airportCode": [
+        "ROM"
+      ],
+      "country": "ITALY"
+    },
+    {
+      "airportEName": [
+        "SOFIA"
+      ],
+      "airportCode": [
+        "SOF"
+      ],
+      "country": "BULGARIA"
+    },
+    {
+      "airportEName": [
+        "STOCKHOLM"
+      ],
+      "airportCode": [
+        "STO"
+      ],
+      "country": "SWEDEN"
+    },
+    {
+      "airportEName": [
+        "AUCKLAND",
+        "CHRISTCHURCH"
+      ],
+      "airportCode": [
+        "AKL",
+        "CHC"
+      ],
+      "country": "NEW ZEALAND"
+    },
+    {
+      "airportEName": [
+        "BRISBANE",
+        "CAIRNS",
+        "SYDNEY"
+      ],
+      "airportCode": [
+        "BNE",
+        "CNS",
+        "SYD"
+      ],
+      "country": "AUSTRIALIA"
+    },
+    {
+      "airportEName": [
+        "NANDI"
+      ],
+      "airportCode": [
+        "NAN"
+      ],
+      "country": "FIJI"
+    }
+  ]
+}
