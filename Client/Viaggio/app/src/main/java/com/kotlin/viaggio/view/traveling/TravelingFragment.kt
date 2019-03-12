@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.transition.Explode
 import androidx.transition.TransitionInflater
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
@@ -77,7 +78,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             travelingList.adapter = adapter
             travelingList.setPageTransformer(false, mCardShadowTransformer)
             travelingList.offscreenPageLimit = 3
-
             val colors = mutableListOf(
                 resources.getColor(R.color.color1, null),
                 resources.getColor(R.color.color2, null),
@@ -191,7 +191,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                     )
                     frag.arguments = bundle
 
-                    val  changeBoundsTransition = TransitionInflater.from(context).inflateTransition(R.transition.simple_fragment_transition)
+                    val  changeBoundsTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
                     frag.sharedElementEnterTransition = changeBoundsTransition
 
                     fragmentManager!!

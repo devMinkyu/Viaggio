@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
 import android.view.animation.AccelerateInterpolator
+import android.widget.ViewAnimator
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
@@ -42,13 +43,12 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         postponeEnterTransition()
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-        val fade = Fade()
-        fade.duration = 300
-        val slide = Slide()
-        slide.duration = 300
-        enterTransition = slide
-        returnTransition = fade
+//        val fade = Fade()
+//        fade.duration = 200
+//        val slide = Slide()
+//        slide.duration = 300
+//        enterTransition = slide
+//        returnTransition = fade
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,6 +61,9 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val imgDir = File(context?.filesDir, "images/")
+
+        travelingDetailDayTravelCardList.animate().alpha(0f).setDuration(0).start()
+        travelingDetailDayTravelCardList.animate().setDuration(1000).alpha(1f).start()
 
         travelingDetailDayImg.transitionName = arguments?.getString(ArgName.EXTRA_TRANSITION_NAME.name)?:""
 
@@ -125,6 +128,7 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
 
             }
         })
+
 
 //        travelingDetailDayTravelCardList.setOnTouchListener(object :OnSwipeTouchListener(context!!){
 //            override fun onSwipeBottom() {

@@ -35,10 +35,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.NoActionBar.DefaultActivity">
-        <item name="android:windowEnterTransition">@transition/default_window_fade</item>
-        <item name="android:windowExitTransition">@transition/default_window_fade</item>
-    </style>
 
     <style name="Base.MinV.ViaggioAppTheme.Dialog" parent="Theme.AppCompat.Dialog">
         <!-- hides status bar on top with clock and wifi status -->
