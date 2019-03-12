@@ -148,7 +148,7 @@
                 app:constraint_referenced_ids="travelingTheme, travelingDay, travelingStart
                 , travelingCountry, travelingCamera"
                 tools:ignore="NotSibling"/>
-
+        
         <androidx.viewpager.widget.ViewPager
                 android:id="@id/travelingList"
                 android:layout_width="0dp"
@@ -156,7 +156,7 @@
                 android:layout_gravity="bottom"
                 android:clipToPadding="false"
                 android:overScrollMode="never"
-                android:paddingBottom="30dp"
+                android:paddingBottom="20dp"
                 android:paddingEnd="@dimen/card_padding"
                 android:paddingStart="@dimen/card_padding"
                 app:layout_constraintTop_toTopOf="parent"
