@@ -2,7 +2,7 @@
 <layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
-        <import type="com.kotlin.viaggio.view.traveling.TravelingFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.travel.TravelEnrollFragment.ViewHandler"/>
 
         <variable name="data" type="String"/>
         <variable name="viewHandler" type="ViewHandler"/>

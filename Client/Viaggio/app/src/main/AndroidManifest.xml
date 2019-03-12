@@ -87,6 +87,10 @@
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
+                        android:pathPattern="/traveling/start/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
                         android:pathPattern="/traveling/representative/image/"/>
                 <data
                         android:scheme="http"

@@ -19,9 +19,10 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
 
     val finishActivity:MutableLiveData<Event<Any>> = MutableLiveData()
     val showToast:MutableLiveData<Event<Any>> = MutableLiveData()
-
+    var traveling = false
     override fun initialize() {
         super.initialize()
+        traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
         val disposable = backButtonSubject.toFlowable(BackpressureStrategy.BUFFER)
             .observeOn(AndroidSchedulers.mainThread())
             .buffer(2, 1) // List<Long>

@@ -1,31 +1,23 @@
 package com.kotlin.viaggio.view.traveling
 
-import android.Manifest
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.DatePicker
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.TransitionInflater
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayoutManager
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.android.ShadowTransformer
-import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.TravelOfDay
-import com.kotlin.viaggio.data.`object`.TravelingError
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
 import com.kotlin.viaggio.event.OnSwipeTouchListener
 import com.kotlin.viaggio.view.common.BaseFragment
@@ -34,12 +26,8 @@ import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.nightonke.boommenu.BoomButtons.HamButton
 import kotlinx.android.synthetic.main.fragment_traveling.*
 import kotlinx.android.synthetic.main.item_traveling.view.*
-import org.jetbrains.anko.*
-import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
@@ -51,51 +39,14 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
-        val layoutManager = FlexboxLayoutManager(context)
-        layoutManager.flexWrap = FlexWrap.WRAP
-        binding.travelingThemes.layoutManager = layoutManager
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewModel().goToCamera.observe(this, Observer {
+        getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                baseIntent("http://viaggio.kotlin.com/home/main/camera/")
-            }
-
-        })
-        getViewModel().permissionRequestMsg.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { permissionError ->
-                when (permissionError) {
-                    PermissionError.NECESSARY_PERMISSION -> toast(resources.getString(R.string.camera_permission))
-                    else -> {
-                    }
-                }
-            }
-        })
-        getViewModel().errorMsg.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { error ->
-                when(error){
-                    TravelingError.THEME_EMPTY -> toast(resources.getString(R.string.theme_empty))
-                    TravelingError.COUNTRY_EMPTY -> toast(resources.getString(R.string.country_empty))
-                    else -> {}
-                }
-            }
-        })
-
-        getViewModel().travelThemeListLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { list ->
-                travelingThemes.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-                            = ThemeTravelingSelectedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_selected_theme, parent, false))
-                    override fun getItemCount() = list.size
-                    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                        holder as ThemeTravelingSelectedViewHolder
-                        holder.binding?.data = list[position]
-                        holder.binding?.viewHandler = ViewHandler()
-                    }
-                }
+                baseIntent("http://viaggio.kotlin.com/home/main/")
             }
         })
 
@@ -183,45 +134,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
     }
 
     inner class ViewHandler{
-        fun cameraOpen(){
-            getViewModel().permissionCheck(
-                rxPermission.request(
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-            )
-        }
-        fun addTheme(){
-            baseIntent("http://viaggio.kotlin.com/home/main/theme/")
-        }
-        @SuppressLint("SimpleDateFormat")
-        fun changeDate(){
-            alert {
-                lateinit var datePicker: DatePicker
-                customView {
-                    verticalLayout {
-                        datePicker = datePicker {
-                            this.maxDate = System.currentTimeMillis()
-                        }
-                    }
-                    okButton {
-                        val cal = Calendar.getInstance()
-                        cal.set(Calendar.YEAR, datePicker.year)
-                        cal.set(Calendar.MONTH, datePicker.month)
-                        cal.set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
-                        getViewModel().changeStartOfDay(SimpleDateFormat(resources.getString(R.string.date_format)).format(cal.time))
-                    }
-                    cancelButton {
-                        it.dismiss()
-                    }
-                }
-            }.show()
-        }
-        fun travelStart(){
-            if(getViewModel().travelStart()){
-                showLoading()
-            }
-        }
         fun changeCountry(){
             anim()
             baseIntent("http://viaggio.kotlin.com/traveling/country/")
@@ -233,17 +145,12 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         fun view(){
             anim()
         }
-
         fun traveled(){
             baseIntent("http://viaggio.kotlin.com/home/main/traveled/")
         }
         fun setting(){
             baseIntent("http://viaggio.kotlin.com/home/main/setting/")
         }
-    }
-
-    inner class ThemeTravelingSelectedViewHolder(view:View): RecyclerView.ViewHolder(view){
-        val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingSelectedThemeBinding>(view)
     }
 
     inner class TravelingOfDayPager(private val list: MutableList<TravelOfDay>, private val mViews:MutableList<CardView?>):PagerAdapter(), CardAdapter{

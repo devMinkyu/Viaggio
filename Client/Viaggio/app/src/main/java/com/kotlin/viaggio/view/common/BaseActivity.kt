@@ -98,7 +98,7 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
         supportFragmentManager.beginTransaction()
             .addToBackStack(null)
             .setCustomAnimations(R.anim.layout_top_in, R.anim.layout_top_out,R.anim.layout_pop_top_in, R.anim.layout_pop_top_out)
-            .replace(R.id.content_frame, fragment, null)
+            .add(R.id.content_frame, fragment, null)
             .commit()
     }
 

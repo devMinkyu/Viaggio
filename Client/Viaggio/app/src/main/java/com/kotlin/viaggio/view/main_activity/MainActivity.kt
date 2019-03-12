@@ -14,6 +14,7 @@ import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
+import com.kotlin.viaggio.view.travel.TravelEnrollFragment
 import com.kotlin.viaggio.view.traveled.TraveledFragment
 import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
@@ -77,7 +78,13 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "camera" -> showCamera()
                         "theme" -> showTheme()
                         "setting" -> showBottomNav(SettingFragment())
-                        "traveling" -> showBottomNav(TravelingFragment())
+                        "traveling" -> {
+                            if(getViewModel().traveling){
+                                showBottomNav(TravelingFragment())
+                            }else{
+                                showBottomNav(TravelEnrollFragment())
+                            }
+                        }
                         "traveled" -> showBottomNav(TraveledFragment())
                     }
                 }
@@ -90,6 +97,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
                 "traveling" ->
                     when(appLinkData.pathSegments?.last()){
+                        "start" -> showTraveling()
                         "detail" -> {
                             getViewModel().setSelectedTravelingOfDay(appLinkData.pathSegments?.get(1))
                             showTravelingDetail()
@@ -110,6 +118,13 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTraveling() {
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.content_frame, TravelingFragment())
+            .commit()
     }
 
     private fun showBottomNav(frag: BaseFragment<*>) {
@@ -152,8 +167,13 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showHome() {
+        val frag = if(getViewModel().traveling){
+            TravelingFragment()
+        }else{
+            TravelEnrollFragment()
+        }
         supportFragmentManager.beginTransaction()
-            .replace(R.id.content_frame, TravelingFragment(), null)
+            .replace(R.id.content_frame, frag, null)
             .commit()
     }
 

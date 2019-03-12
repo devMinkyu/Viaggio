@@ -20,6 +20,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HIDDEN
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrInterface
+import com.r0adkll.slidr.model.SlidrPosition
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.ScaleType
 import io.fotoapparat.selector.*
@@ -105,6 +109,15 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
             }
         })
 
+        BottomSheetBehavior.from(cameraViewImageBottomSheet).setBottomSheetCallback(object :BottomSheetBehavior.BottomSheetCallback(){
+            override fun onSlide(p0: View, p1: Float) {}
+            override fun onStateChanged(p0: View, p1: Int) {
+                if(p1 == 5){
+                    enableSliding(true)
+                }
+            }
+        })
+
         getViewModel().complete.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 ocrLottie.cancelAnimation()
@@ -130,6 +143,21 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         fotoapparat.stop()
     }
 
+    var sliderInterface: SlidrInterface? = null
+    fun enableSliding(enable: Boolean) {
+        if (enable)
+            sliderInterface?.unlock()
+        else
+            sliderInterface?.lock()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(view!!.findViewById(R.id.enroll_container), SlidrConfig.Builder().position(
+                SlidrPosition.LEFT).build())
+    }
+
     inner class ViewHandler {
         fun shutter() {
             ocrLottie.playAnimation()
@@ -148,6 +176,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
             fragmentPopStack()
         }
         fun imageOpen() {
+            enableSliding(false)
             cameraViewImage.startAnimation(scaleAnimation())
             getViewModel().permissionCheck(
                 rxPermission.request(
