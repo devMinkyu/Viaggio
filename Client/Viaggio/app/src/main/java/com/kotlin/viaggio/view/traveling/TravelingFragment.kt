@@ -33,9 +33,35 @@ import org.jetbrains.anko.support.v4.toast
 import java.io.File
 
 
-class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
+class TravelingFragment : BaseFragment<TravelingFragmentViewModel>(), MotionLayout.TransitionListener{
     companion object {
         val TAG:String = TravelingFragment::class.java.simpleName
+    }
+    private var lastProgress = 0f
+    private var fragment : Fragment? = null
+    private var last : Float = 0f
+    override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
+    override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
+    override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {}
+
+    override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+        // from start to end
+        val atEnd = Math.abs(p3 - 1f) < 0.1f
+        if (atEnd) {
+            val frag = TravelingDetailFragment()
+//                val bundle = Bundle()
+//                bundle.putString(
+//                    ArgName.EXTRA_TRANSITION_NAME.name,
+//                    ViewCompat.getTransitionName(view.traveledBackground)
+//                )
+//                frag.arguments = bundle
+
+            fragmentManager!!
+                .beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.content_frame, frag)
+                .commit()
+        }
     }
 
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingBinding
@@ -53,8 +79,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 baseIntent("http://viaggio.kotlin.com/home/main/")
             }
         })
-
-        ///
+        travelingContainer.setTransitionListener(this)
         for(index in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
                 .normalImageRes(R.drawable.ic_add_black_24dp)
@@ -95,6 +120,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 override fun onPageScrollStateChanged(state: Int) {}
                 override fun onPageSelected(position: Int) {}
                 override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                    getViewModel().setSelectedTravelingOfDay(list[position].id)
                     if ((position < adapter.count - 1) && position < (colors.size - 1)) {
                         travelingContainer.setBackgroundColor(
                             argbEvaluator.evaluate(
@@ -180,34 +206,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             }
             container.addView(view)
             ViewCompat.setTransitionName(view.traveledBackground, list[position].id.toString())
-
-//            view.setOnTouchListener(object : OnSwipeTouchListener(context!!) {
-//                override fun onSwipeTop() {
-//                    super.onSwipeTop()
-//                    val id = binding.data?.id ?: 0
-//                    getViewModel().setSelectedTravelingOfDay(id)
-//                    val frag = TravelingDetailFragment()
-//                    val bundle = Bundle()
-//                    bundle.putString(
-//                        ArgName.EXTRA_TRANSITION_NAME.name,
-//                        ViewCompat.getTransitionName(view.traveledBackground)
-//                    )
-//                    frag.arguments = bundle
-//
-//                    val  changeBoundsTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-//                    frag.sharedElementEnterTransition = changeBoundsTransition
-//
-//                    fragmentManager!!
-//                        .beginTransaction()
-//                        .addSharedElement(
-//                            view.traveledBackground,
-//                            ViewCompat.getTransitionName(view.traveledBackground)!!
-//                        )
-//                        .addToBackStack(null)
-//                        .replace(R.id.content_frame, frag)
-//                        .commit()
-//                }
-//            })
 
             val cardView = view.cardView
             if(mBaseElevation == 0f){

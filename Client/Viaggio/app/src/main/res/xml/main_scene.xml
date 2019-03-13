@@ -22,12 +22,11 @@
             motion:constraintSetStart="@+id/start"
             motion:duration="1000"
             motion:interpolator="linear">
-
         <OnSwipe
                 motion:touchAnchorId="@id/test"
                 motion:touchAnchorSide="top"
                 motion:dragDirection="dragUp"/>
-
+    </Transition>
         <ConstraintSet android:id="@+id/start">
             <Constraint
                     android:id="@id/travelingList"
@@ -52,6 +51,7 @@
                     motion:layout_constraintEnd_toEndOf="@id/travelingList"
                     motion:layout_constraintTop_toTopOf="@id/travelingList"
                     motion:layout_constraintBottom_toBottomOf="@id/travelingList">
+                <PropertySet motion:alpha="0"/>
                 <!--<CustomAttribute-->
                         <!--motion:attributeName="BackgroundColor"-->
                         <!--motion:customColorValue="#9999FF"/>-->
@@ -85,11 +85,11 @@
                     motion:layout_constraintEnd_toEndOf="parent"
                     motion:layout_constraintTop_toTopOf="parent"
                     motion:layout_constraintBottom_toBottomOf="parent">
+                <PropertySet motion:alpha="1"/>
                 <!--<CustomAttribute-->
                         <!--motion:attributeName="BackgroundColor"-->
                         <!--motion:customColorValue="#9999FF"/>-->
             </Constraint>
         </ConstraintSet>
 
-    </Transition>
 </MotionScene>

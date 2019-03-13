@@ -5,18 +5,16 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.*
-import android.view.animation.AccelerateInterpolator
-import android.widget.ViewAnimator
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
-import androidx.transition.Slide
 import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -28,9 +26,6 @@ import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.event.OnSwipeTouchListener
 import com.kotlin.viaggio.view.common.BaseFragment
-import com.r0adkll.slidr.Slidr
-import com.r0adkll.slidr.model.SlidrConfig
-import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_detail.*
 import kotlinx.android.synthetic.main.item_traveling_card.view.*
 import java.io.File
@@ -42,13 +37,11 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        postponeEnterTransition()
-//        val fade = Fade()
-//        fade.duration = 200
-//        val slide = Slide()
-//        slide.duration = 300
-//        enterTransition = slide
-//        returnTransition = fade
+        val fade = Fade()
+        fade.duration = 1000
+        enterTransition = fade
+//        postponeEnterTransition()
+//        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -73,29 +66,6 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                 Uri.fromFile(imgFile).let { uri ->
                     Glide.with(travelingDetailDayImg)
                         .load(uri)
-                        .dontAnimate()
-                        .listener(object :RequestListener<Drawable>{
-                            override fun onLoadFailed(
-                                e: GlideException?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                startPostponedEnterTransition()
-                                return false
-                            }
-
-                            override fun onResourceReady(
-                                resource: Drawable?,
-                                model: Any?,
-                                target: Target<Drawable>?,
-                                dataSource: DataSource?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                startPostponedEnterTransition()
-                                return false
-                            }
-                        })
                         .into(travelingDetailDayImg)
                 }
             }
@@ -125,7 +95,6 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
             override fun onSwipeBottom() {
                 super.onSwipeBottom()
                 fragmentPopStack()
-
             }
         })
 
