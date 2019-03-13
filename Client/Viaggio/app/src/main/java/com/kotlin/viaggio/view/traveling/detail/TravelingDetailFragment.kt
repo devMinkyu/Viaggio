@@ -1,7 +1,6 @@
 package com.kotlin.viaggio.view.traveling.detail
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -15,14 +14,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
-import androidx.transition.TransitionInflater
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.event.OnSwipeTouchListener
 import com.kotlin.viaggio.view.common.BaseFragment
@@ -35,15 +28,6 @@ import java.util.*
 class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentTravelingDetailBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val fade = Fade()
-        fade.duration = 1000
-        enterTransition = fade
-//        postponeEnterTransition()
-//        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_detail, container, false)
         binding.viewModel = getViewModel()
@@ -54,11 +38,6 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val imgDir = File(context?.filesDir, "images/")
-
-        travelingDetailDayTravelCardList.animate().alpha(0f).setDuration(0).start()
-        travelingDetailDayTravelCardList.animate().setDuration(1000).alpha(1f).start()
-
-        travelingDetailDayImg.transitionName = arguments?.getString(ArgName.EXTRA_TRANSITION_NAME.name)?:""
 
         if(TextUtils.isEmpty(getViewModel().travelOfDay.themeImageName).not()){
             val imgFile = File(imgDir, getViewModel().travelOfDay.themeImageName)

@@ -37,27 +37,17 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>(), MotionLayo
     companion object {
         val TAG:String = TravelingFragment::class.java.simpleName
     }
-    private var lastProgress = 0f
-    private var fragment : Fragment? = null
-    private var last : Float = 0f
     override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
     override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
     override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {}
-
     override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
-        // from start to end
+            // from start to end
         val atEnd = Math.abs(p3 - 1f) < 0.1f
         if (atEnd) {
             val frag = TravelingDetailFragment()
-//                val bundle = Bundle()
-//                bundle.putString(
-//                    ArgName.EXTRA_TRANSITION_NAME.name,
-//                    ViewCompat.getTransitionName(view.traveledBackground)
-//                )
-//                frag.arguments = bundle
-
             fragmentManager!!
                 .beginTransaction()
+                .setCustomAnimations(R.animator.show, 0)
                 .addToBackStack(null)
                 .replace(R.id.content_frame, frag)
                 .commit()

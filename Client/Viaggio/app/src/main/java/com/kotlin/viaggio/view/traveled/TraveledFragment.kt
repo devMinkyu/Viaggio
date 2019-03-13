@@ -38,7 +38,6 @@ class TraveledFragment:BaseFragment<TraveledFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         traveledList.layoutManager = LinearLayoutManager(context)
         val adapter = TraveledAdapter()
         traveledList.adapter = adapter
@@ -69,17 +68,17 @@ class TraveledFragment:BaseFragment<TraveledFragmentViewModel>() {
                 var theme = ""
                 var countries = ""
                 for ((i,s) in travel.theme.withIndex()) {
-                    if(i != 0){
-                        theme = "$theme, $s"
+                    theme = if(i != 0){
+                        "$theme, $s"
                     }else{
-                        theme = s
+                        s
                     }
                 }
                 for ((i,s) in travel.entireCountries.withIndex()) {
-                    if(i != 0){
-                        countries = "$countries > $s"
+                    countries = if(i != 0){
+                        "$countries > $s"
                     }else{
-                        countries = s
+                        s
                     }
                 }
                 val item = Traveled(id = travel.id, theme = theme, period =

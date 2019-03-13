@@ -155,7 +155,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         super.onResume()
         if(sliderInterface == null)
             sliderInterface = Slidr.replace(view!!.findViewById(R.id.enroll_container), SlidrConfig.Builder().position(
-                SlidrPosition.LEFT).build())
+                SlidrPosition.TOP).build())
     }
 
     inner class ViewHandler {

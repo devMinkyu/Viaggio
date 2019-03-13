@@ -173,6 +173,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             TravelEnrollFragment()
         }
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(R.animator.show, 0)
             .replace(R.id.content_frame, frag, null)
             .commit()
     }
