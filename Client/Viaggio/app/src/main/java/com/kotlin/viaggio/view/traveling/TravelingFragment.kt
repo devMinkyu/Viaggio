@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.transition.Explode
 import androidx.transition.TransitionInflater
@@ -35,6 +37,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
     companion object {
         val TAG:String = TravelingFragment::class.java.simpleName
     }
+
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling, container, false)
@@ -105,7 +108,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                     }
                 }
             })
-
         })
     }
     fun anim() {
@@ -151,6 +153,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         fun setting(){
             baseIntent("http://viaggio.kotlin.com/home/main/setting/")
         }
+
     }
 
     inner class TravelingOfDayPager(private val list: MutableList<TravelOfDay>, private val mViews:MutableList<CardView?>):PagerAdapter(), CardAdapter{
@@ -178,33 +181,33 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             container.addView(view)
             ViewCompat.setTransitionName(view.traveledBackground, list[position].id.toString())
 
-            view.setOnTouchListener(object : OnSwipeTouchListener(context!!) {
-                override fun onSwipeTop() {
-                    super.onSwipeTop()
-                    val id = binding.data?.id ?: 0
-                    getViewModel().setSelectedTravelingOfDay(id)
-                    val frag = TravelingDetailFragment()
-                    val bundle = Bundle()
-                    bundle.putString(
-                        ArgName.EXTRA_TRANSITION_NAME.name,
-                        ViewCompat.getTransitionName(view.traveledBackground)
-                    )
-                    frag.arguments = bundle
-
-                    val  changeBoundsTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-                    frag.sharedElementEnterTransition = changeBoundsTransition
-
-                    fragmentManager!!
-                        .beginTransaction()
-                        .addSharedElement(
-                            view.traveledBackground,
-                            ViewCompat.getTransitionName(view.traveledBackground)!!
-                        )
-                        .addToBackStack(null)
-                        .replace(R.id.content_frame, frag)
-                        .commit()
-                }
-            })
+//            view.setOnTouchListener(object : OnSwipeTouchListener(context!!) {
+//                override fun onSwipeTop() {
+//                    super.onSwipeTop()
+//                    val id = binding.data?.id ?: 0
+//                    getViewModel().setSelectedTravelingOfDay(id)
+//                    val frag = TravelingDetailFragment()
+//                    val bundle = Bundle()
+//                    bundle.putString(
+//                        ArgName.EXTRA_TRANSITION_NAME.name,
+//                        ViewCompat.getTransitionName(view.traveledBackground)
+//                    )
+//                    frag.arguments = bundle
+//
+//                    val  changeBoundsTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+//                    frag.sharedElementEnterTransition = changeBoundsTransition
+//
+//                    fragmentManager!!
+//                        .beginTransaction()
+//                        .addSharedElement(
+//                            view.traveledBackground,
+//                            ViewCompat.getTransitionName(view.traveledBackground)!!
+//                        )
+//                        .addToBackStack(null)
+//                        .replace(R.id.content_frame, frag)
+//                        .commit()
+//                }
+//            })
 
             val cardView = view.cardView
             if(mBaseElevation == 0f){

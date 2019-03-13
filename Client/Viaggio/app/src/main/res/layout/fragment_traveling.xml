@@ -10,10 +10,11 @@
         <variable name="viewModel" type="TravelingFragmentViewModel"/>
         <variable name="viewHandler" type="ViewHandler"/>
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@id/travelingContainer"
+            app:layoutDescription="@xml/main_scene"
             android:background="@android:color/white">
         <View
                 android:id="@+id/tgl"
@@ -22,6 +23,15 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+        <FrameLayout
+                android:id="@+id/test"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="@id/travelingList"
+                app:layout_constraintEnd_toEndOf="@id/travelingList"
+                app:layout_constraintTop_toTopOf="@id/travelingList"
+                app:layout_constraintBottom_toBottomOf="@id/travelingList"
+        />
         <androidx.viewpager.widget.ViewPager
                 android:id="@id/travelingList"
                 android:layout_width="0dp"
@@ -71,7 +81,7 @@
                 android:layout_width="@dimen/floating_size"
                 android:layout_height="@dimen/floating_size"
                 android:backgroundTint="@color/colorAccent"
-                android:elevation="5dp"
+                android:elevation="4dp"
                 android:src="@{viewModel.isClick ? @drawable/filtering_cancel:@drawable/filtering_menu}"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="28dp"
@@ -136,5 +146,5 @@
                 app:layout_constraintBottom_toBottomOf="@id/homeController"
                 app:layout_constraintTop_toTopOf="@id/homeController"
         />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
