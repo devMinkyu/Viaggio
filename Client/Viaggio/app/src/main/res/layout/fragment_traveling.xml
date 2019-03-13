@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@id/travelingContainer"
-            app:layoutDescription="@xml/main_scene"
+            app:layoutDescription="@xml/traveling_scene"
             android:background="@android:color/white">
         <View
                 android:id="@+id/tgl"

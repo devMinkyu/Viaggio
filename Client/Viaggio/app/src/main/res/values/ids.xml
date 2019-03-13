@@ -140,4 +140,5 @@
     <item name="settingNav" type="id"/>
     <item name="travelingContainer" type="id"/>
     <item name="travelingDetailDayTravelCardCreate" type="id"/>
+    <item name="travelingDetailMotionLayout" type="id"/>
 </resources>

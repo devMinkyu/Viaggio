@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.traveling
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,19 +11,14 @@ import androidx.cardview.widget.CardView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.transition.Explode
-import androidx.transition.TransitionInflater
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.android.ShadowTransformer
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
-import com.kotlin.viaggio.event.OnSwipeTouchListener
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.common.CardAdapter
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
@@ -37,6 +33,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>(), MotionLayo
     companion object {
         val TAG:String = TravelingFragment::class.java.simpleName
     }
+
     override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
     override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
     override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {}
@@ -70,6 +67,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>(), MotionLayo
             }
         })
         travelingContainer.setTransitionListener(this)
+        
         for(index in 0 until bmb.piecePlaceEnum.pieceNumber()) {
             val builder = HamButton.Builder()
                 .normalImageRes(R.drawable.ic_add_black_24dp)

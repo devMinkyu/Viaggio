@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import com.bumptech.glide.Glide
+import com.google.android.material.appbar.AppBarLayout
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.event.OnSwipeTouchListener
@@ -38,6 +40,23 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val imgDir = File(context?.filesDir, "images/")
+
+        appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { p0, p1 ->
+            val animator = travelingDetailDayTravelCardCreate.animate()
+            if(p1 == 0){
+                animator
+                    .setDuration(300)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                animator.start()
+            }else{
+                animator
+                    .setDuration(300)
+                    .scaleX(0f)
+                    .scaleY(0f)
+                animator.start()
+            }
+        })
 
         if(TextUtils.isEmpty(getViewModel().travelOfDay.themeImageName).not()){
             val imgFile = File(imgDir, getViewModel().travelOfDay.themeImageName)
