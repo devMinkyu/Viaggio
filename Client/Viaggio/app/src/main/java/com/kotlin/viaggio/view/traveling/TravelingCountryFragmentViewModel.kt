@@ -43,20 +43,16 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
 
         val inputStream = InputStreamReader(appCtx.get().assets.open(appCtx.get().getString(R.string.travel_country_json)))
         val countries: CountryList = gson.fromJson(inputStream, CountryList::class.java)
-
-        for (datum in countries.data) {
-            continentList.add(datum.continent)
-            if(!continentOfAreasMap.containsKey(datum.continent)){
-                continentOfAreasMap[datum.continent] = mutableListOf()
-                for (area in datum.areas) {
-                    continentOfAreasMap[datum.continent]?.add(area.area)
-                    if(!areaOfCountriesMap.containsKey(area.area)){
-                        areaOfCountriesMap[area.area] = area.country.toMutableList()
-                    }
-                }
-            }
-        }
-        continentLiveData.value = Event(continentList)
+        continentOfAreasMap.putAll(
+            countries.data.map {country ->
+                continentList.add(country.continent)
+                val ares = country.areas
+                areaOfCountriesMap.putAll(
+                    ares.map { it.area to it.country}.toMap()
+                )
+                country.continent to ares.map { it.area }.toMutableList()
+            }.toMap()
+        )
     }
 
     fun showArea(position: Int) {
