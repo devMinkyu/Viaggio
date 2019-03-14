@@ -23,34 +23,26 @@ import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.common.CardAdapter
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.nightonke.boommenu.BoomButtons.HamButton
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrPosition
+import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.fragment_traveling.*
 import kotlinx.android.synthetic.main.item_traveling.view.*
 import org.jetbrains.anko.support.v4.toast
 import java.io.File
 
 
-class TravelingFragment : BaseFragment<TravelingFragmentViewModel>(), MotionLayout.TransitionListener{
+class TravelingFragment : BaseFragment<TravelingFragmentViewModel>(){
     companion object {
         val TAG:String = TravelingFragment::class.java.simpleName
     }
-
-    override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
-    override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
-    override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {}
-    override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
-            // from start to end
-        val atEnd = Math.abs(p3 - 1f) < 0.1f
-        if (atEnd) {
-            val frag = TravelingDetailFragment()
-            fragmentManager!!
-                .beginTransaction()
-                .setCustomAnimations(R.animator.show, 0)
-                .addToBackStack(null)
-                .replace(R.id.content_frame, frag)
-                .commit()
-        }
+    override fun onResume() {
+        super.onResume()
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(travelingContainer, SlidrConfig.Builder().position(
+                SlidrPosition.LEFT).build())
     }
-
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling, container, false)
@@ -66,20 +58,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>(), MotionLayo
                 baseIntent("http://viaggio.kotlin.com/home/main/")
             }
         })
-        travelingContainer.setTransitionListener(this)
-        
-        for(index in 0 until bmb.piecePlaceEnum.pieceNumber()) {
-            val builder = HamButton.Builder()
-                .normalImageRes(R.drawable.ic_add_black_24dp)
-                .normalTextRes(R.string.err_delete_id)
-                .subNormalTextRes(R.string.necessary_permission)
-                .shadowEffect(true)
-                .listener {
-                    toast("zzz")
-                }
-
-            bmb.addBuilder(builder)
-        }
 
         getViewModel().travelOfDayListLiveData.observe(this, Observer { list ->
             val argbEvaluator = android.animation.ArgbEvaluator()
@@ -124,49 +102,8 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>(), MotionLayo
             })
         })
     }
-    fun anim() {
-        getViewModel().click()
-        if (getViewModel().isFabOpen) {
-            travelingChangeCountry.apply {
-                startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.fab_close))
-                isClickable = false
-            }
-            travelingFinishTravel.apply {
-                startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.fab_close))
-                isClickable = false
-            }
-            getViewModel().isFabOpen = false
-        } else {
-            travelingChangeCountry.apply {
-                startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.fab_open))
-                isClickable = true
-            }
-            travelingFinishTravel.apply {
-                startAnimation(AnimationUtils.loadAnimation(context!!, R.anim.fab_open))
-                isClickable = true
-            }
-            getViewModel().isFabOpen = true
-        }
-    }
 
     inner class ViewHandler{
-        fun changeCountry(){
-            anim()
-            baseIntent("http://viaggio.kotlin.com/traveling/country/")
-        }
-        fun finishTravel(){
-            anim()
-            TravelingFinishActionDialogFragment().show(fragmentManager!!, TravelingFinishActionDialogFragment.TAG)
-        }
-        fun view(){
-            anim()
-        }
-        fun traveled(){
-            baseIntent("http://viaggio.kotlin.com/home/main/traveled/")
-        }
-        fun setting(){
-            baseIntent("http://viaggio.kotlin.com/home/main/setting/")
-        }
 
     }
 

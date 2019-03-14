@@ -33,14 +33,11 @@ import java.util.*
 
 class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentViewModel>() {
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingCardEnrollBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        val slide = Slide(Gravity.END)
-//        slide.interpolator = AccelerateDecelerateInterpolator()
-//        slide.duration = 1000
-//        enterTransition = slide
+    override fun onResume() {
+        super.onResume()
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(enroll_container, SlidrConfig.Builder().position(SlidrPosition.LEFT).build())
     }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_card_enroll, container, false)
         binding.viewModel = getViewModel()
@@ -110,19 +107,6 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         })
     }
 
-    var sliderInterface: SlidrInterface? = null
-    fun enableSliding(enable: Boolean) {
-        if (enable)
-            sliderInterface?.unlock()
-        else
-            sliderInterface?.lock()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if(sliderInterface == null)
-            sliderInterface = Slidr.replace(view!!.findViewById(R.id.enroll_container), SlidrConfig.Builder().position(SlidrPosition.LEFT).build())
-    }
 
     inner class ViewHandler {
         fun next() {

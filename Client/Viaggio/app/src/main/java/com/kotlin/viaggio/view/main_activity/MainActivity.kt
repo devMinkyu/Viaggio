@@ -81,15 +81,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "login" -> showSign()
                         "camera" -> showCamera()
                         "theme" -> showTheme()
-                        "setting" -> showBottomNav(SettingFragment())
-                        "traveling" -> {
-                            if(getViewModel().traveling){
-                                showBottomNav(TravelingFragment())
-                            }else{
-                                showBottomNav(TravelEnrollFragment())
-                            }
-                        }
-                        "traveled" -> showBottomNav(TravelFragment())
+                        "setting" -> showSetting()
                     }
                 }
                 "login" -> {
@@ -101,13 +93,14 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
                 "traveling" ->
                     when(appLinkData.pathSegments?.last()){
+                        "days" -> showTraveling()
                         "start" -> showTraveling()
                         "detail" -> {
                             getViewModel().setSelectedTravelingOfDay(appLinkData.pathSegments?.get(1))
                             showTravelingDetail()
                         }
                         "theme" -> showTravelingTheme()
-                        "enroll" -> showTravelingCardEnroll()
+                        "enroll" -> showTravelEnroll()
                         "image" -> {
                             showTravelingRepresentative()
                         }
@@ -124,18 +117,16 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         }
     }
 
-    private fun showTraveling() {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.content_frame, TravelingFragment())
-            .commit()
+    private fun showTravelEnroll() {
+        baseShowAddLeftAddBackFragment(TravelEnrollFragment())
     }
 
-    private fun showBottomNav(frag: BaseFragment<*>) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.content_frame, frag)
-            .commit()
+    private fun showSetting() {
+        baseShowTopAddBackFragment(SettingFragment())
+    }
+
+    private fun showTraveling() {
+        baseShowAddLeftAddBackFragment(TravelingFragment())
     }
 
     private fun showTravelingCountry() {
@@ -144,10 +135,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
     private fun showTravelingRepresentative() {
         baseShowLeftAddBackFragment(TravelingRepresentativeImageFragment())
-    }
-
-    private fun showTravelingCardEnroll() {
-        baseShowTestLeftAddBackFragment(TravelingCardEnrollFragment())
     }
 
     private fun showTravelingTheme() {

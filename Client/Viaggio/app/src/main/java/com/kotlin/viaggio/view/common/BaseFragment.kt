@@ -13,6 +13,7 @@ import com.kotlin.viaggio.android.TimeHelper
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.ioc.module.common.AndroidXInjection
 import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
+import com.r0adkll.slidr.model.SlidrInterface
 import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.android.DispatchingAndroidInjector
 import java.lang.ref.WeakReference
@@ -30,6 +31,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
 
     lateinit var rxPermission: RxPermissions
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
+    var sliderInterface: SlidrInterface? = null
 
     var width:Int = 0
 
@@ -55,6 +57,10 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
             timeHelper.timeCheckOfDay()
         }
     }
+    override fun onStop() {
+        super.onStop()
+        sliderInterface = null
+    }
 
     fun getViewModel(): E =
         viewModelProvider.let { vmpRef ->
@@ -76,6 +82,12 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
         })
         viewModelProvider = WeakReference(nonNullViewModelProviderVal)
         return nonNullViewModelProviderVal
+    }
+    fun enableSliding(enable: Boolean) {
+        if (enable)
+            sliderInterface?.unlock()
+        else
+            sliderInterface?.lock()
     }
 
     fun baseIntent(uri:String){
@@ -102,7 +114,6 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
             (it as BaseActivity<*>).showLoading()
         }
     }
-
     fun stopLoading() {
         activity?.let {
             (it as BaseActivity<*>).stopLoading()

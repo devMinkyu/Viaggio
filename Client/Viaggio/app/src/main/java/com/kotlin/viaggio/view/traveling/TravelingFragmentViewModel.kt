@@ -24,10 +24,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     val travelOfDayListLiveData:MutableLiveData<MutableList<TravelOfDay>> = MutableLiveData()
     val completeLiveData = MutableLiveData<Event<Any>>()
 
-    var isFabOpen = false
-
-    val isClick:ObservableBoolean = ObservableBoolean(false)
-
     override fun initialize() {
         super.initialize()
         loadTravelOfDayPaged()
@@ -69,10 +65,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
                 travelOfDayListLiveData.postValue(t)
             }
         addDisposable(disposable)
-    }
-
-    fun click(){
-        isClick.set(!isClick.get())
     }
 
     fun setSelectedTravelingOfDay(travelOfDayId: Long?) {

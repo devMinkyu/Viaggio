@@ -22,6 +22,7 @@
         <meta-data
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"
                 android:value="ocr" />
+        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="com.kotlin.viaggio.fileprovider"
@@ -59,11 +60,7 @@
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
-                        android:pathPattern="/home/main/traveling/"/>
-                <data
-                        android:scheme="http"
-                        android:host="viaggio.kotlin.com"
-                        android:pathPattern="/home/main/traveled/"/>
+                        android:pathPattern="/traveling/days/"/>
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
@@ -104,10 +101,6 @@
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
                         android:pathPattern="/traveling/country/"/>
-                <data
-                        android:scheme="http"
-                        android:host="viaggio.kotlin.com"
-                        android:pathPattern="/traveled/detail/"/>
             </intent-filter>
         </activity>
     </application>

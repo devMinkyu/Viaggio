@@ -143,18 +143,10 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         fotoapparat.stop()
     }
 
-    var sliderInterface: SlidrInterface? = null
-    fun enableSliding(enable: Boolean) {
-        if (enable)
-            sliderInterface?.unlock()
-        else
-            sliderInterface?.lock()
-    }
-
     override fun onResume() {
         super.onResume()
         if(sliderInterface == null)
-            sliderInterface = Slidr.replace(view!!.findViewById(R.id.enroll_container), SlidrConfig.Builder().position(
+            sliderInterface = Slidr.replace(camera_container, SlidrConfig.Builder().position(
                 SlidrPosition.TOP).build())
     }
 

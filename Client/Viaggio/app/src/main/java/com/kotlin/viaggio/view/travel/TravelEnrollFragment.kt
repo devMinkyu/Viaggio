@@ -16,6 +16,9 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.TravelingError
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_travel_enroll.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert
@@ -37,6 +40,13 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
         layoutManager.flexWrap = FlexWrap.WRAP
         binding.travelingThemes.layoutManager = layoutManager
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(view!!.findViewById(R.id.travelingContainer), SlidrConfig.Builder().position(
+                SlidrPosition.LEFT).build())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

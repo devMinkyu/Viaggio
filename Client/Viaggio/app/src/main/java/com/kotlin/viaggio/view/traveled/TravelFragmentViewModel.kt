@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.traveled
 
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.`object`.Travel
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -29,5 +30,9 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
 
         addDisposable(disposable)
+    }
+
+    fun selectedTravelId(id: Long) {
+        prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, id).blockingAwait()
     }
 }
