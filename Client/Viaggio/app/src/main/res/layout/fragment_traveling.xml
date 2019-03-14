@@ -48,6 +48,7 @@
                             android:layout_width="36dp"
                             android:layout_height="36dp"
                             android:layout_gravity="start"
+                            android:onClick="@{()->viewHandler.close()}"
                             android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
                             android:layout_marginStart="16dp"
                     />

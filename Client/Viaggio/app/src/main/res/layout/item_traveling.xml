@@ -2,10 +2,12 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="com.kotlin.viaggio.data.object.TravelOfDay"/>
+        <import type="com.kotlin.viaggio.view.traveling.TravelingFragment.TravelOfDayViewHolder.TravelOfDayViewHandler"/>
         <import type="android.view.View"/>
 
 
         <variable name="data" type="TravelOfDay"/>
+        <variable name="viewHandler" type="TravelOfDayViewHandler"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +22,7 @@
                 app:cardUseCompatPadding="true"
                 app:cardElevation="10dp"
                 android:layout_marginTop="10dp"
+                android:onClick="@{()->viewHandler.detail()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +30,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                <View
+                <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@id/travelingItemInfo"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
@@ -36,7 +39,44 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+                        app:layout_constraintHorizontal_chainStyle="spread_inside">
+                    <TextView
+                            android:id="@id/TravelingItemDayCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:layout_marginBottom="30dp"
+                            tools:textSize="30sp"
+                            tools:text="1DAY"
+                    />
+                    <TextView
+                            android:id="@id/TravelingItemDay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            app:layout_constraintTop_toBottomOf="@id/TravelingItemDayCount"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:text="JUL.7"
+                            android:textSize="12sp"
+                            android:textColor="@color/pinkish_grey"
+                    />
+                    <TextView
+                            android:id="@id/TravelingItemWeek"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            app:layout_constraintTop_toBottomOf="@id/TravelingItemDay"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:text="WED"
+                            android:textSize="12sp"
+                            android:textColor="@color/black"
+                    />
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <ImageView
                         android:id="@id/travelingItemThemeImg"
                         android:layout_width="0dp"

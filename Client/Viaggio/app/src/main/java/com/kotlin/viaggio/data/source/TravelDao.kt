@@ -8,7 +8,6 @@ import androidx.room.Update
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelOfDay
-import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
@@ -36,11 +35,14 @@ interface TravelDao {
     @Insert
     fun insertAllTravelOfDay(vararg travelOfDay: TravelOfDay): Single<MutableList<Long>>
 
-    @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY date DESC")
+    @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY date Asc")
     fun getTravelOfDays(travelId: Long): DataSource.Factory<Int, TravelOfDay>
 
+    @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY date DESC")
+    fun getTravelingOfDays(travelId: Long): DataSource.Factory<Int, TravelOfDay>
+
     @Query("SELECT * FROM travelOfDays WHERE id = :id")
-    fun getTravelOfDay(id:Long): Single<TravelOfDay>
+    fun getTravelOfDay(id: Long): Single<TravelOfDay>
 
     @Query("SELECT * FROM travelOfDays WHERE travelOfDay = :day And travelId = :travelId")
     fun getTravelOfDayCount(day: Int, travelId: Long): Single<TravelOfDay>

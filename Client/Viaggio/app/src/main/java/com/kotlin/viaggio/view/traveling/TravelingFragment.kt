@@ -30,7 +30,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
     companion object {
         val TAG: String = TravelingFragment::class.java.simpleName
     }
-
     override fun onResume() {
         super.onResume()
         if (sliderInterface == null)
@@ -74,7 +73,11 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
 
     }
 
-    inner class ViewHandler
+    inner class ViewHandler{
+        fun close(){
+            fragmentPopStack()
+        }
+    }
     inner class TravelOfDayAdapter :
         PagedListAdapter<TravelOfDay, TravelOfDayViewHolder>(object :
             DiffUtil.ItemCallback<TravelOfDay>() {
@@ -87,6 +90,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
 
         override fun onBindViewHolder(holder: TravelOfDayViewHolder, position: Int) {
             holder.binding?.data = getItem(position)
+            holder.binding?.viewHandler = holder.TravelOfDayViewHandler()
             holder.loadImage(getItem(position)?.themeImageName)
         }
     }
@@ -106,6 +110,11 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                         }
                     }
                 }
+            }
+        }
+        inner class TravelOfDayViewHandler{
+            fun detail(){
+
             }
         }
     }

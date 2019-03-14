@@ -33,6 +33,6 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun selectedTravelId(id: Long) {
-        prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, id).blockingAwait()
+        prefUtilService.putLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID, id).blockingAwait()
     }
 }

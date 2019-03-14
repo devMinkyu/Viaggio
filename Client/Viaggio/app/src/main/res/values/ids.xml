@@ -147,4 +147,7 @@
     <item name="travelAdd" type="id"/>
     <item name="travelingItemThemeImg" type="id"/>
     <item name="travelingItemInfo" type="id"/>
+    <item name="TravelingItemDayCount" type="id"/>
+    <item name="TravelingItemDay" type="id"/>
+    <item name="TravelingItemWeek" type="id"/>
 </resources>
