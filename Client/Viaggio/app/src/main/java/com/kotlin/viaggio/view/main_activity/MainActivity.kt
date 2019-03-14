@@ -4,25 +4,21 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
-import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.setting.SettingFragment
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
-import com.kotlin.viaggio.view.travel.TravelEnrollFragment
-import com.kotlin.viaggio.view.traveled.TravelFragment
+import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
+import com.kotlin.viaggio.view.travel.TravelFragment
 import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
-import com.kotlin.viaggio.view.traveling.traveling_card.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import org.jetbrains.anko.toast
 

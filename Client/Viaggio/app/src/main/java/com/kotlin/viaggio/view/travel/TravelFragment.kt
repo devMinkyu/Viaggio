@@ -1,4 +1,4 @@
-package com.kotlin.viaggio.view.traveled
+package com.kotlin.viaggio.view.travel
 
 import android.net.Uri
 import android.os.Bundle

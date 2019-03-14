@@ -1,4 +1,4 @@
-package com.kotlin.viaggio.view.traveled
+package com.kotlin.viaggio.view.travel
 
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.`object`.Travel

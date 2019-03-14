@@ -4,10 +4,10 @@
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
-        <import type="com.kotlin.viaggio.view.travel.TravelEnrollFragment.ViewHandler"/>
-        <import type="com.kotlin.viaggio.view.travel.TravelEnrollFragmentViewModel"/>
+        <import type="com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragmentViewModel"/>
 
-        <variable name="viewModel" type="TravelEnrollFragmentViewModel"/>
+        <variable name="viewModel" type="com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragmentViewModel"/>
         <variable name="viewHandler" type="ViewHandler"/>
     </data>
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">

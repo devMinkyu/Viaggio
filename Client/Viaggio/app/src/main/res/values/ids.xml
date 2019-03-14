@@ -145,4 +145,6 @@
     <item name="travelAppBar" type="id"/>
     <item name="travelBackground" type="id"/>
     <item name="travelAdd" type="id"/>
+    <item name="travelingItemThemeImg" type="id"/>
+    <item name="travelingItemInfo" type="id"/>
 </resources>

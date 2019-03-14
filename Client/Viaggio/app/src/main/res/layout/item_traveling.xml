@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="com.kotlin.viaggio.data.object.TravelOfDay"/>
         <import type="android.view.View"/>
@@ -12,77 +12,42 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
+    >
         <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="20dp"
-                android:layout_gravity="center"
+                android:layout_height="200dp"
                 app:cardUseCompatPadding="true"
+                app:cardElevation="10dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
         >
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
-                <ImageView
-                        android:id="@id/traveledBackground"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
                 <View
+                        android:id="@id/travelingItemInfo"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:background="@android:color/black"
-                        android:alpha="0.4"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintEnd_toStartOf="@id/travelingItemThemeImg"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+                <ImageView
+                        android:id="@id/travelingItemThemeImg"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="fitXY"
+                        tools:src="@drawable/background"
+                        app:layout_constraintHorizontal_weight="2.5"
+                        app:layout_constraintStart_toEndOf="@id/travelingItemInfo"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"/>
-
-                <TextView
-                        android:id="@id/travelingDayOfCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="25sp"
-                        android:textColor="@android:color/white"
-                        android:text="@{String.format(@string/travel_count ,data.travelOfDay)}"
-                        android:layout_marginTop="50dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                />
-                <TextView
-                        android:id="@id/travelingCountries"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="20sp"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@android:color/white"
-                        android:text='@{data.dayCountries.size() == 1 ? data.dayCountries[0]:String.format(@string/travel_of_day_country,data.dayCountries[0],data.dayCountries[1])}'
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/travelingDayOfCount"
-                />
-                <TextView
-                        android:id="@id/travelingDay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="15sp"
-                        android:textColor="@color/pinkish_grey"
-                        android:layout_marginTop="30dp"
-                        android:text="@{String.format(@string/format, data.date)}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/travelingCountries"
-                />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>

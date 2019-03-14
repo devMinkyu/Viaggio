@@ -83,6 +83,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
         viewModelProvider = WeakReference(nonNullViewModelProviderVal)
         return nonNullViewModelProviderVal
     }
+
     fun enableSliding(enable: Boolean) {
         if (enable)
             sliderInterface?.unlock()
