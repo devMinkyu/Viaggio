@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrInterface
+import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
 import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.ScaleType
@@ -147,7 +149,16 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         super.onResume()
         if(sliderInterface == null)
             sliderInterface = Slidr.replace(camera_container, SlidrConfig.Builder().position(
-                SlidrPosition.TOP).build())
+                SlidrPosition.TOP)
+                .listener(object :SlidrListener{
+                    override fun onSlideClosed() {
+                        fragmentPopStack()
+                    }
+                    override fun onSlideStateChanged(state: Int) {}
+                    override fun onSlideChange(percent: Float) {}
+                    override fun onSlideOpened() {}
+                })
+                .build())
     }
 
     inner class ViewHandler {

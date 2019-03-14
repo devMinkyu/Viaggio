@@ -19,6 +19,7 @@ import com.kotlin.viaggio.databinding.ItemTravelingBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling.*
 import kotlinx.android.synthetic.main.item_traveling.view.*
@@ -34,9 +35,18 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         super.onResume()
         if (sliderInterface == null)
             sliderInterface = Slidr.replace(
-                travelingContainer, SlidrConfig.Builder().position(
-                    SlidrPosition.LEFT
-                ).build()
+                travelingContainer, SlidrConfig.Builder()
+                    .position(SlidrPosition.LEFT)
+                    .listener(object : SlidrListener {
+                        override fun onSlideClosed() {
+                            fragmentPopStack()
+                        }
+
+                        override fun onSlideStateChanged(state: Int) {}
+                        override fun onSlideChange(percent: Float) {}
+                        override fun onSlideOpened() {}
+                    })
+                    .build()
             )
     }
 

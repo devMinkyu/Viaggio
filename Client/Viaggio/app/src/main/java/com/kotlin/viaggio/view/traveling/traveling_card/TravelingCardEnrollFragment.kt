@@ -23,6 +23,7 @@ import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrInterface
+import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_card_image.view.*
@@ -36,7 +37,17 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
     override fun onResume() {
         super.onResume()
         if(sliderInterface == null)
-            sliderInterface = Slidr.replace(enroll_container, SlidrConfig.Builder().position(SlidrPosition.LEFT).build())
+            sliderInterface = Slidr.replace(enroll_container, SlidrConfig.Builder()
+                .position(SlidrPosition.LEFT)
+                .listener(object : SlidrListener {
+                    override fun onSlideClosed() {
+                        fragmentPopStack()
+                    }
+                    override fun onSlideStateChanged(state: Int) {}
+                    override fun onSlideChange(percent: Float) {}
+                    override fun onSlideOpened() {}
+                })
+                .build())
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_card_enroll, container, false)

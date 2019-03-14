@@ -3,6 +3,7 @@ package com.kotlin.viaggio.view.travel.enroll
 import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,8 @@ import com.kotlin.viaggio.data.`object`.TravelingError
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrInterface
+import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_travel_enroll.*
 import org.jetbrains.anko.*
@@ -42,11 +45,21 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
         return binding.root
     }
 
+
     override fun onResume() {
         super.onResume()
         if(sliderInterface == null)
-            sliderInterface = Slidr.replace(view!!.findViewById(R.id.travelingContainer), SlidrConfig.Builder().position(
-                SlidrPosition.LEFT).build())
+            sliderInterface = Slidr.replace(travelingContainer, SlidrConfig.Builder().position(
+                SlidrPosition.LEFT)
+                .listener(object :SlidrListener{
+                    override fun onSlideClosed() {
+                        fragmentPopStack()
+                    }
+                    override fun onSlideStateChanged(state: Int) {}
+                    override fun onSlideChange(percent: Float) {}
+                    override fun onSlideOpened() {}
+                })
+                .build())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
