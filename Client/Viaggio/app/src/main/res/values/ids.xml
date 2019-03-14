@@ -141,4 +141,8 @@
     <item name="travelingContainer" type="id"/>
     <item name="travelingDetailDayTravelCardCreate" type="id"/>
     <item name="travelingDetailMotionLayout" type="id"/>
+    <item name="travelPager" type="id"/>
+    <item name="travelAppBar" type="id"/>
+    <item name="travelBackground" type="id"/>
+    <item name="travelAdd" type="id"/>
 </resources>

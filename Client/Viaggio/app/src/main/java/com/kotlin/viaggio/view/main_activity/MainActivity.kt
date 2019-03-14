@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
@@ -15,7 +17,7 @@ import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
 import com.kotlin.viaggio.view.travel.TravelEnrollFragment
-import com.kotlin.viaggio.view.traveled.TraveledFragment
+import com.kotlin.viaggio.view.traveled.TravelFragment
 import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
@@ -40,6 +42,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
         handleIntent(intent)
 
+
         getViewModel().finishActivity.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 finish()
@@ -51,6 +54,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             }
         })
     }
+
 
     override fun onBackPressed() {
         if(supportFragmentManager.backStackEntryCount == 0){
@@ -85,7 +89,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                                 showBottomNav(TravelEnrollFragment())
                             }
                         }
-                        "traveled" -> showBottomNav(TraveledFragment())
+                        "traveled" -> showBottomNav(TravelFragment())
                     }
                 }
                 "login" -> {
@@ -167,14 +171,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showHome() {
-        val frag = if(getViewModel().traveling){
-            TravelingFragment()
-        }else{
-            TravelEnrollFragment()
-        }
         supportFragmentManager.beginTransaction()
             .setCustomAnimations(R.animator.show, 0)
-            .replace(R.id.content_frame, frag, null)
+            .replace(R.id.content_frame, TravelFragment(), null)
             .commit()
     }
 

@@ -20,8 +20,8 @@ interface TravelDao {
     @Insert
     fun insertAllTravel(vararg travel: Travel)
 
-    @Query("SELECT * FROM travels Where endDate Is not null Order By startDate Desc")
-    fun getTravels(): DataSource.Factory<Int, Travel>
+    @Query("SELECT * FROM travels Order By startDate Asc")
+    fun getTravels(): Single<List<Travel>>
 
     @Query("SELECT * FROM travels WHERE id IN(:id)")
     fun getTravel(id: Long): Single<Travel>
