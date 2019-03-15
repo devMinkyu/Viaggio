@@ -43,9 +43,10 @@
                     app:layout_constraintBottom_toBottomOf="parent"
             />
             <TextView
-                    android:layout_width="100dp"
+                    android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:text="첫번째, 여행"
+                    android:maxLength="10"
                     android:textColor="@android:color/white"
                     android:textSize="30sp"
                     android:fontFamily="@font/noto_sans"

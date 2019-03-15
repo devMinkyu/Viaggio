@@ -9,8 +9,9 @@ import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
-import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
 import com.kotlin.viaggio.view.travel.TravelFragment
+import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
+import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
@@ -75,6 +76,9 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun travelingCountryFragment(): TravelingCountryFragment
+
     @ContributesAndroidInjector
     fun travelEnrollFragment(): TravelEnrollFragment
+    @ContributesAndroidInjector
+    fun travelKindsBottomSheetDialogFragment(): TravelKindsBottomSheetDialogFragment
 }

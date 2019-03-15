@@ -11,6 +11,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_travel.*
 import kotlinx.android.synthetic.main.item_travel.view.*
 import java.io.File
@@ -58,7 +59,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                             binding.data = null
                         }
                         view.travelAdd.setOnClickListener {
-                            baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
+                            TravelKindsBottomSheetDialogFragment().show(fragmentManager!!, TravelKindsBottomSheetDialogFragment.TAG)
                         }
                         view.travelBackground.setOnClickListener {
                             if (travelList.size > position) {

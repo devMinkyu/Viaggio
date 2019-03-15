@@ -150,4 +150,33 @@
     <item name="TravelingItemDayCount" type="id"/>
     <item name="TravelingItemDay" type="id"/>
     <item name="TravelingItemWeek" type="id"/>
+
+    <item name="travelKinds" type="id"/>
+    <item name="travelOverseas" type="id"/>
+    <item name="travelOverseasIcon" type="id"/>
+    <item name="travelOverseasLgl" type="id"/>
+    <item name="travelOverseasTitle" type="id"/>
+    <item name="travelOverseasSubTitle" type="id"/>
+    <item name="travelOverseasStart" type="id"/>
+
+    <item name="travelDomestic" type="id"/>
+    <item name="travelDomesticIcon" type="id"/>
+    <item name="travelDomesticLgl" type="id"/>
+    <item name="travelDomesticTitle" type="id"/>
+    <item name="travelDomesticSubTitle" type="id"/>
+    <item name="travelDomesticStart" type="id"/>
+
+    <item name="travelBeforeOverseas" type="id"/>
+    <item name="travelBeforeOverseasSubTitle" type="id"/>
+    <item name="travelBeforeOverseasTitle" type="id"/>
+    <item name="travelBeforeOverseasLgl" type="id"/>
+    <item name="travelBeforeOverseasIcon" type="id"/>
+    <item name="travelBeforeOverseasStart" type="id"/>
+
+    <item name="travelBeforeDomestic" type="id"/>
+    <item name="travelBeforeDomesticIcon" type="id"/>
+    <item name="travelBeforeDomesticLgl" type="id"/>
+    <item name="travelBeforeDomesticTitle" type="id"/>
+    <item name="travelBeforeDomesticSubTitle" type="id"/>
+    <item name="travelBeforeDomesticStart" type="id"/>
 </resources>
