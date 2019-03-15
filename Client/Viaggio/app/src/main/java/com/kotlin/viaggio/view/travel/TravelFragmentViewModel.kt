@@ -31,17 +31,6 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
 
         addDisposable(disposable)
-
-        val openCalendarDisposable = rxEventBus.openCalendar
-            .subscribe({
-                if(it){
-                    openCalendarLiveData.value = Event(it)
-                    rxEventBus.openCalendar.onNext(it.not())
-                }
-            }){
-                openCalendarLiveData.value = Event(false)
-            }
-        addDisposable(openCalendarDisposable)
     }
 
     fun selectedTravelId(id: Long) {

@@ -12,6 +12,10 @@
            parent="Base.TextAppearance.Viaggio">
     </style>
 
+    <style name="TextAppearance.Viaggio.Calendar">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
     <style name="TextAppearance.Viaggio.Kinds">
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize" tools:ignore="SpUsage">19dp</item>

@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.view.common.BaseFragment
-import com.kotlin.viaggio.view.travel.calendar.CalendarViewActionDialogFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_travel.*
 import kotlinx.android.synthetic.main.item_travel.view.*
@@ -43,16 +42,6 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                     travelList.size - 1
                 } else {
                     0
-                }
-            }
-        })
-
-        getViewModel().openCalendarLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {open ->
-                if(open){
-                    CalendarViewActionDialogFragment().show(fragmentManager!!, CalendarViewActionDialogFragment.TAG)
-                }else{
-                    // error msg
                 }
             }
         })

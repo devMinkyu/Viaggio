@@ -123,7 +123,8 @@ dependencies {
     implementation 'com.r0adkll:slidableactivity:2.0.6'
 
     // calendar
-    implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
+
+    implementation 'com.github.psinetron:slycalendarview:0.0.9'
 
 }
 apply plugin: 'com.google.gms.google-services'
