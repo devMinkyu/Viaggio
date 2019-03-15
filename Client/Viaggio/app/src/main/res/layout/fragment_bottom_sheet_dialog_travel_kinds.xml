@@ -188,7 +188,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelDomestic"
-                android:onClick='@{()->viewHandler.selectedKinds("beforeOverseas")}'
+                android:onClick='@{()->viewHandler.selectBeforeKinds("overseas")}'
         />
         <ImageView
                 android:id="@id/travelBeforeOverseasIcon"
@@ -263,7 +263,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelBeforeOverseas"
-                android:onClick='@{()->viewHandler.selectedKinds("beforeDomestic")}'
+                android:onClick='@{()->viewHandler.selectBeforeKinds("domestic")}'
         />
         <ImageView
                 android:id="@id/travelBeforeDomesticIcon"

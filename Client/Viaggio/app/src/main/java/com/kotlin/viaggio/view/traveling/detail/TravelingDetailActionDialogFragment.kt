@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseDialogFragment
+import com.kotlin.viaggio.view.common.BaseViewModel
+import javax.inject.Inject
 
 class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActionDialogFragmentViewModel>(){
     companion object {
@@ -34,3 +36,6 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
         }
     }
 }
+
+
+class TravelingDetailActionDialogFragmentViewModel @Inject constructor() : BaseViewModel()

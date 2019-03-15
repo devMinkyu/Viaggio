@@ -14,6 +14,7 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
     lateinit var travelModel: TravelModel
 
     val travelListLiveData = MutableLiveData<Event<List<Travel>>>()
+    val openCalendarLiveData = MutableLiveData<Event<Boolean>>()
 
     val travelList = mutableListOf<Travel>()
 
@@ -30,6 +31,17 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
 
         addDisposable(disposable)
+
+        val openCalendarDisposable = rxEventBus.openCalendar
+            .subscribe({
+                if(it){
+                    openCalendarLiveData.value = Event(it)
+                    rxEventBus.openCalendar.onNext(it.not())
+                }
+            }){
+                openCalendarLiveData.value = Event(false)
+            }
+        addDisposable(openCalendarDisposable)
     }
 
     fun selectedTravelId(id: Long) {
