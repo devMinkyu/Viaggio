@@ -24,11 +24,14 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingOfDayEnrollBinding
     override fun onResume() {
         super.onResume()
-        if(sliderInterface == null)
-            sliderInterface = Slidr.replace(enroll_container, SlidrConfig.Builder()
-                .position(SlidrPosition.TOP)
-                .build())
+        if (sliderInterface == null)
+            sliderInterface = Slidr.replace(
+                enroll_container, SlidrConfig.Builder()
+                    .position(SlidrPosition.TOP)
+                    .build()
+            )
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_of_day_enroll, container, false)
         binding.viewModel = getViewModel()
@@ -44,9 +47,13 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
         travelingOfDayEnrollImageView.layoutParams = params
 
         travelingOfDayEnrollImageView.setOnTouchListener { v, event ->
-            when(event.action){
+            when (event.action) {
                 MotionEvent.ACTION_DOWN -> enableSliding(false)
-                MotionEvent.ACTION_UP -> enableSliding(true)
+                MotionEvent.ACTION_UP -> {
+                    if(travelingOfDayEnrollImageList.canScrollVertically(-1).not()){
+                        enableSliding(true)
+                    }
+                }
             }
             false
         }
@@ -76,21 +83,24 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
             travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList[0])
         })
         travelingOfDayEnrollImageList.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-            if(travelingOfDayEnrollImageList.canScrollVertically(-1).not()){
-                enableSliding(true)
-            }else{
-                enableSliding(false)
+            travelingOfDayEnrollImageList?.let {
+                if (travelingOfDayEnrollImageList.canScrollVertically(-1).not()) {
+                    enableSliding(true)
+                } else {
+                    enableSliding(false)
+                }
             }
         }
     }
 
 
     inner class ViewHandler {
-        fun back(){
+        fun back() {
             fragmentPopStack()
         }
-        fun confirm(){
-            
+
+        fun confirm() {
+
         }
     }
 
@@ -114,6 +124,32 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
 
         inner class TravelingOfDayImgViewHandler {
             fun imagePicker() {
+                if (binding?.chooseCount?.get() == 0) {
+                    if (getViewModel().entireChooseCount < 20) {
+                        getViewModel().entireChooseCount += 1
+                        binding.chooseCount?.set(getViewModel().entireChooseCount)
+                        getViewModel().imageChooseList.add(fileNamePath)
+                        Glide.with(context!!)
+                            .load(fileNamePath)
+                            .into(travelingOfDayEnrollImageView)
+                    }
+                } else {
+                    if (getViewModel().entireChooseCount != 1) {
+                        getViewModel().imageChooseList.remove(fileNamePath)
+                        getViewModel().entireChooseCount -= 1
+                        binding?.chooseCount?.set(0)
+                        for ((i, s) in getViewModel().imageChooseList.withIndex()) {
+                            val index = getViewModel().imageAllList.indexOf(s)
+                            getViewModel().chooseCountList[index].set(i + 1)
+                        }
+                        if (getViewModel().imageChooseList.isNotEmpty()) {
+                            Glide.with(context!!)
+                                .load(getViewModel().imageChooseList.last())
+                                .into(travelingOfDayEnrollImageView)
+                        }
+
+                    }
+                }
             }
         }
     }

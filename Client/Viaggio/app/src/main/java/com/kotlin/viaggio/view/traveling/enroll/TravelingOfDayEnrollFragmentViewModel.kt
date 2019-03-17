@@ -13,6 +13,7 @@ class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewMode
 
     val imagePathList: MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
 
+    var entireChooseCount:Int = 1
     val chooseCountList: MutableList<ObservableInt> = mutableListOf()
     val imageAllList: MutableList<String> = mutableListOf()
     val imageChooseList: MutableList<String> = mutableListOf()
