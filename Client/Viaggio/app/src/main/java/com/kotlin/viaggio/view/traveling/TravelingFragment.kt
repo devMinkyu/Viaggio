@@ -134,7 +134,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         }
         inner class TravelOfDayViewHandler{
             fun detail(){
-
+                baseIntent("http://viaggio.kotlin.com/traveling/enroll/image/")
             }
         }
     }

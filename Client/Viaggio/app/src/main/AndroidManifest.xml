@@ -89,7 +89,7 @@
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
-                        android:pathPattern="/traveling/representative/image/"/>
+                        android:pathPattern="/traveling/representative/"/>
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
@@ -102,6 +102,10 @@
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
                         android:pathPattern="/traveling/country/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/traveling/enroll/image/"/>
             </intent-filter>
         </activity>
     </application>

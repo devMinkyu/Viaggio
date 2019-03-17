@@ -179,4 +179,6 @@
     <item name="travelBeforeDomesticTitle" type="id"/>
     <item name="travelBeforeDomesticSubTitle" type="id"/>
     <item name="travelBeforeDomesticStart" type="id"/>
+    <item name="travelingOfDayEnrollImageView" type="id"/>
+    <item name="travelingOfDayEnrollImageList" type="id"/>
 </resources>

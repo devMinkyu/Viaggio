@@ -18,6 +18,7 @@ import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
+import com.kotlin.viaggio.view.traveling.enroll.TravelingOfDayEnrollFragment
 import com.kotlin.viaggio.view.traveling.traveling_card.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.traveling_card.TravelingTransportationBottomSheetDialogFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
@@ -82,4 +83,7 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun travelKindsBottomSheetDialogFragment(): TravelKindsBottomSheetDialogFragment
+
+    @ContributesAndroidInjector
+    fun travelingOfDayEnrollFragment(): TravelingOfDayEnrollFragment
 }

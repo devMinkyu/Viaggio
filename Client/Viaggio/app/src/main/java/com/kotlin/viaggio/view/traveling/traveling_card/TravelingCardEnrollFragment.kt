@@ -76,7 +76,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
                         holder as TravelingCardImgViewHolder
                         holder.imageBinding(list[position])
-                        holder.binding?.viewHandler = holder.TravelingCardImgViewHandler()
+//                        holder.binding?.viewHandler = holder.TravelingCardImgViewHandler()
                         holder.binding?.chooseCount = getViewModel().chooseCountList[position]
                     }
                 }

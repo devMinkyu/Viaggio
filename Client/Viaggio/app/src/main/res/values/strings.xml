@@ -41,6 +41,7 @@
     <string name="travel_of_day_country">%s -> %s</string>
     <string name="format">%1$tY/%1$tm/%1$td</string>
     <string name="back">Back</string>
+    <string name="done">| DONE |</string>
     <string name="traveling_of_day_theme">Theme Choose</string>
     <string name="traveling_card_contents_hint">Enter description..</string>
     <string name="enterTravelCardNotice">Please enter place, time, and transportation of travel.</string>

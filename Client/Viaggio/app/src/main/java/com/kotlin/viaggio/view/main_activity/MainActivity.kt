@@ -13,12 +13,13 @@ import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
-import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
 import com.kotlin.viaggio.view.travel.TravelFragment
+import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
 import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
+import com.kotlin.viaggio.view.traveling.enroll.TravelingOfDayEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import org.jetbrains.anko.toast
 
@@ -30,9 +31,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if(getViewModel().checkTutorial()){
+        if (getViewModel().checkTutorial()) {
             showHome()
-        }else{
+        } else {
             showTutorial()
         }
 
@@ -53,9 +54,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
 
     override fun onBackPressed() {
-        if(supportFragmentManager.backStackEntryCount == 0){
+        if (supportFragmentManager.backStackEntryCount == 0) {
             getViewModel().backButtonSubject.onNext(System.currentTimeMillis())
-        }else{
+        } else {
             super.onBackPressed()
         }
     }
@@ -88,7 +89,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
 
                 "traveling" ->
-                    when(appLinkData.pathSegments?.last()){
+                    when (appLinkData.pathSegments?.last()) {
                         "days" -> showTraveling()
                         "start" -> showTraveling()
                         "detail" -> {
@@ -97,12 +98,11 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         }
                         "theme" -> showTravelingTheme()
                         "enroll" -> showTravelEnroll()
-                        "image" -> {
-                            showTravelingRepresentative()
-                        }
+                        "representative" -> showTravelingRepresentative()
+                        "image" -> showTravelingEnrollImage()
                         "country" -> showTravelingCountry()
                     }
-                "setting" ->{
+                "setting" -> {
                     when (appLinkData.pathSegments?.last()) {
 
                     }
@@ -111,6 +111,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTravelingEnrollImage() {
+        baseShowTopAddBackFragment(TravelingOfDayEnrollFragment())
     }
 
     private fun showTravelEnroll() {
