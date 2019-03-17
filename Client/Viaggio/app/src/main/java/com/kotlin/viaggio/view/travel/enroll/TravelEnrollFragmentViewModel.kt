@@ -50,7 +50,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     override fun initialize() {
         super.initialize()
             val cal = Calendar.getInstance()
-            travelingStartOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).format(cal.time))
+            travelingStartOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format),Locale.ENGLISH).format(cal.time))
 
             val themeDisposable = rxEventBus.travelOfTheme
                 .subscribe { t ->

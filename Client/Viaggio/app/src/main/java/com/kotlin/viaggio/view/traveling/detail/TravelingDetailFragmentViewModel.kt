@@ -19,7 +19,7 @@ import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
-import java.util.ArrayList
+import java.util.*
 import javax.inject.Inject
 
 class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
@@ -46,7 +46,7 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
             .flatMap {
                 travelOfDay = it
                 travelingOfDayCount.set(it.travelOfDay)
-                travelingOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).format(it.date))
+                travelingOfDay.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format), Locale.ENGLISH).format(it.date))
                 if(travelOfDay.theme.isNotEmpty()){
                     isTheme.set(true)
                     travelingOfDayTheme.set("")

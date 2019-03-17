@@ -35,6 +35,16 @@ data class TravelOfDay(
     var themeImageName: String = ""
 )
 
+data class TravelOfDayVal(
+    var id:Long = 0,
+    var dayCount:Int = 0,
+    var week:String = "",
+    var day:String = "",
+    var countries: String = "",
+    var weather:String = "",
+    var weekend:Int = -1
+)
+
 @Entity(tableName = "travelCards")
 data class TravelCard(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,

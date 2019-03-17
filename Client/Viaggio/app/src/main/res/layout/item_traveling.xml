@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <import type="com.kotlin.viaggio.data.object.TravelOfDay"/>
+        <import type="com.kotlin.viaggio.data.object.TravelOfDayVal"/>
         <import type="com.kotlin.viaggio.view.traveling.TravelingFragment.TravelOfDayViewHolder.TravelOfDayViewHandler"/>
         <import type="android.view.View"/>
 
 
-        <variable name="data" type="TravelOfDay"/>
+        <variable name="data" type="TravelOfDayVal"/>
         <variable name="viewHandler" type="TravelOfDayViewHandler"/>
     </data>
 
@@ -21,7 +21,6 @@
                 android:layout_height="200dp"
                 app:cardUseCompatPadding="true"
                 app:cardElevation="10dp"
-                android:layout_marginTop="10dp"
                 android:onClick="@{()->viewHandler.detail()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,7 +48,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toTopOf="@id/TravelingItemDay"
                             android:textSize="30sp"
-                            android:text="1DAY"
+                            android:text="@{String.format(@string/travel_count, data.dayCount)}"
+                            tools:text="1DAY"
                             app:layout_constraintVertical_chainStyle="packed"
                     />
                     <TextView
@@ -61,7 +61,8 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toTopOf="@id/TravelingItemWeek"
-                            android:text="JUL.7"
+                            android:text="@{data.week}"
+                            tools:text="JUL.7"
                             android:textSize="12sp"
                             android:textColor="@color/pinkish_grey"
                     />
@@ -74,9 +75,10 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            android:text="WED"
+                            android:text="@{data.day}"
+                            tools:text="WED"
                             android:textSize="12sp"
-                            android:textColor="@color/black"
+                            android:textColor="@{data.weekend == 1 ? @color/coral:@color/black}"
                     />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <ImageView

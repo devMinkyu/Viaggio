@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.traveling
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.TravelOfDay
+import com.kotlin.viaggio.data.`object`.TravelOfDayVal
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
@@ -24,6 +26,8 @@ import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling.*
 import kotlinx.android.synthetic.main.item_traveling.view.*
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
@@ -89,9 +93,25 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         )
 
         override fun onBindViewHolder(holder: TravelOfDayViewHolder, position: Int) {
-            holder.binding?.data = getItem(position)
+            holder.binding?.data = converter(getItem(position)!!)
             holder.binding?.viewHandler = holder.TravelOfDayViewHandler()
             holder.loadImage(getItem(position)?.themeImageName)
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        fun converter(travelOfDay: TravelOfDay):TravelOfDayVal{
+            val cal = Calendar.getInstance()
+            cal.time = travelOfDay.date
+            val item = TravelOfDayVal()
+            item.id = travelOfDay.id
+            item.countries = travelOfDay.dayCountries.joinToString {
+                it
+            }
+            item.dayCount = travelOfDay.travelOfDay
+            item.weekend = cal.get(Calendar.DAY_OF_WEEK)
+            item.day = SimpleDateFormat("EEE",Locale.ENGLISH).format(cal.time).toUpperCase()
+            item.week = SimpleDateFormat("MMM d",Locale.ENGLISH).format(cal.time).toUpperCase()
+            return item
         }
     }
 

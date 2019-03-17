@@ -139,7 +139,7 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
                         cal.set(Calendar.YEAR, datePicker.year)
                         cal.set(Calendar.MONTH, datePicker.month)
                         cal.set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
-                        getViewModel().changeStartOfDay(SimpleDateFormat(resources.getString(R.string.date_format)).format(cal.time))
+                        getViewModel().changeStartOfDay(SimpleDateFormat(resources.getString(R.string.date_format),Locale.ENGLISH).format(cal.time))
                     }
                     cancelButton {
                         it.dismiss()

@@ -84,7 +84,7 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun getTravelOfDays(): DataSource.Factory<Int, TravelOfDay> {
         val travelingId = getTravelingId().blockingGet()
         val selectedTravelingId = getSelectedTravelingId().blockingGet()
-        return if (travelingId == selectedTravelingId) {
+        return if (travelingId != selectedTravelingId) {
             db.get().travelDao().getTravelOfDays(selectedTravelingId)
         } else {
             db.get().travelDao().getTravelingOfDays(selectedTravelingId)
