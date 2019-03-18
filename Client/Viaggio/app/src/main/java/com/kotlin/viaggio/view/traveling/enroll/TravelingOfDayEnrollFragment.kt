@@ -50,7 +50,7 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> enableSliding(false)
                 MotionEvent.ACTION_UP -> {
-                    if(travelingOfDayEnrollImageList.canScrollVertically(-1).not()){
+                    if (travelingOfDayEnrollImageList.canScrollVertically(-1).not()) {
                         enableSliding(true)
                     }
                 }
@@ -100,7 +100,10 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
         }
 
         fun confirm() {
-
+            getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
+            if (getViewModel().imageChooseList.size == getViewModel().imageBitmapChooseList.size) {
+//                showLoading()
+            }
         }
     }
 
@@ -126,26 +129,37 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
             fun imagePicker() {
                 if (binding?.chooseCount?.get() == 0) {
                     if (getViewModel().entireChooseCount < 20) {
+                        getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
+                        travelingOfDayEnrollImageView.resetDisplay()
                         getViewModel().entireChooseCount += 1
                         binding.chooseCount?.set(getViewModel().entireChooseCount)
                         getViewModel().imageChooseList.add(fileNamePath)
-                        Glide.with(context!!)
-                            .load(fileNamePath)
-                            .into(travelingOfDayEnrollImageView)
+                        travelingOfDayEnrollImageView.setImageFilePath(fileNamePath)
                     }
                 } else {
                     if (getViewModel().entireChooseCount != 1) {
+                        var cancelIndex = getViewModel().imageChooseList.indexOf(fileNamePath)
+                        if (getViewModel().imageBitmapChooseList.size > cancelIndex) {
+                            val bitmap = getViewModel().imageBitmapChooseList[cancelIndex]
+                            getViewModel().imageBitmapChooseList.remove(bitmap)
+                        }
                         getViewModel().imageChooseList.remove(fileNamePath)
+
                         getViewModel().entireChooseCount -= 1
+
                         binding?.chooseCount?.set(0)
+                        
                         for ((i, s) in getViewModel().imageChooseList.withIndex()) {
                             val index = getViewModel().imageAllList.indexOf(s)
                             getViewModel().chooseCountList[index].set(i + 1)
                         }
                         if (getViewModel().imageChooseList.isNotEmpty()) {
-                            Glide.with(context!!)
-                                .load(getViewModel().imageChooseList.last())
-                                .into(travelingOfDayEnrollImageView)
+                            travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
+                            cancelIndex = getViewModel().imageChooseList.indexOf(getViewModel().imageChooseList.last())
+                            if (getViewModel().imageBitmapChooseList.size > cancelIndex) {
+                                val bitmap = getViewModel().imageBitmapChooseList[cancelIndex]
+                                getViewModel().imageBitmapChooseList.remove(bitmap)
+                            }
                         }
 
                     }

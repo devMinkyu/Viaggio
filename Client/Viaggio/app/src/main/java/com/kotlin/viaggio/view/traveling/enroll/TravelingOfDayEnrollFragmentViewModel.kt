@@ -1,10 +1,12 @@
 package com.kotlin.viaggio.view.traveling.enroll
 
+import android.graphics.Bitmap
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import com.naver.android.helloyako.imagecrop.model.CropInfo
 import javax.inject.Inject
 
 class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
@@ -17,6 +19,7 @@ class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewMode
     val chooseCountList: MutableList<ObservableInt> = mutableListOf()
     val imageAllList: MutableList<String> = mutableListOf()
     val imageChooseList: MutableList<String> = mutableListOf()
+    val imageBitmapChooseList: MutableList<Bitmap> = mutableListOf()
 
     override fun initialize() {
         super.initialize()
