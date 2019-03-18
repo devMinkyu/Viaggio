@@ -105,6 +105,10 @@
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
                         android:pathPattern="/traveling/enroll/image/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/traveling/enroll/card/"/>
             </intent-filter>
         </activity>
     </application>

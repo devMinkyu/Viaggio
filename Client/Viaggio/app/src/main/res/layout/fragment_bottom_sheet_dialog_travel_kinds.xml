@@ -28,11 +28,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
         />
-        <androidx.cardview.widget.CardView
+        <View
                 android:id="@id/travelOverseas"
                 style="@style/ViewStyle.Viaggio.Kinds"
-                app:cardElevation="5dp"
-                app:cardCornerRadius="10dp"
+                android:background="@drawable/popup_gallery_empty"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelKinds"
@@ -95,20 +94,11 @@
                 app:layout_constraintBottom_toBottomOf="@id/travelOverseas"
                 app:layout_constraintEnd_toEndOf="@id/travelOverseas"
         />
-        <androidx.constraintlayout.widget.Group
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:elevation="5dp"
-                app:constraint_referenced_ids="
-                    travelOverseasIcon, travelOverseasLgl, travelOverseasTitle, travelOverseasSubTitle, travelOverseasStart"
-                tools:ignore="NotSibling"/>
 
-
-        <androidx.cardview.widget.CardView
+        <View
                 android:id="@id/travelDomestic"
                 style="@style/ViewStyle.Viaggio.Kinds"
-                app:cardElevation="5dp"
-                app:cardCornerRadius="10dp"
+                android:background="@drawable/popup_gallery_empty"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelOverseas"
@@ -172,19 +162,11 @@
                 app:layout_constraintBottom_toBottomOf="@id/travelDomestic"
                 app:layout_constraintEnd_toEndOf="@id/travelDomestic"
         />
-        <androidx.constraintlayout.widget.Group
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:elevation="5dp"
-                app:constraint_referenced_ids="
-                    travelDomesticIcon, travelDomesticLgl, travelDomesticTitle, travelDomesticSubTitle, travelDomesticStart"
-                tools:ignore="NotSibling"/>
 
-        <androidx.cardview.widget.CardView
+        <View
                 android:id="@id/travelBeforeOverseas"
                 style="@style/ViewStyle.Viaggio.Kinds"
-                app:cardElevation="5dp"
-                app:cardCornerRadius="10dp"
+                android:background="@drawable/popup_gallery_empty"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelDomestic"
@@ -247,19 +229,10 @@
                 app:layout_constraintBottom_toBottomOf="@id/travelBeforeOverseas"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseas"
         />
-        <androidx.constraintlayout.widget.Group
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:elevation="5dp"
-                app:constraint_referenced_ids="
-                    travelBeforeOverseasIcon, travelBeforeOverseasLgl, travelBeforeOverseasTitle,
-                    travelBeforeOverseasSubTitle,travelBeforeOverseasStart"
-                tools:ignore="NotSibling"/>
-        <androidx.cardview.widget.CardView
+        <View
                 android:id="@id/travelBeforeDomestic"
                 style="@style/ViewStyle.Viaggio.Kinds"
-                app:cardElevation="5dp"
-                app:cardCornerRadius="10dp"
+                android:background="@drawable/popup_gallery_empty"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelBeforeOverseas"
@@ -322,14 +295,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/travelBeforeDomestic"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeDomestic"
         />
-        <androidx.constraintlayout.widget.Group
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:elevation="5dp"
-                app:constraint_referenced_ids="
-                    travelBeforeDomesticIcon, travelBeforeDomesticLgl, travelBeforeDomesticTitle,
-                    travelBeforeDomesticSubTitle, travelBeforeDomesticStart"
-                tools:ignore="NotSibling"/>
         <View
                 android:id="@+id/bgl"
                 android:layout_width="match_parent"

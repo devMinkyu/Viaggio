@@ -102,6 +102,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "representative" -> showTravelingRepresentative()
                         "image" -> showTravelingEnrollImage()
                         "country" -> showTravelingCountry()
+                        "card" -> showTravelingEnroll()
                     }
                 "setting" -> {
                     when (appLinkData.pathSegments?.last()) {
@@ -112,6 +113,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTravelingEnroll() {
+        baseShowAddLeftAddBackFragment(TravelingOfDayEnrollFragment())
     }
 
     private fun showTravelingEnrollImage() {
@@ -143,8 +148,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showTravelingDetail() {
-        baseShowAddLeftAddBackFragment(TravelingOfDayEnrollFragment())
-//        baseShowTopAddBackFragment(TravelingDetailFragment())
+        baseShowAddLeftAddBackFragment(TravelingDetailFragment())
     }
 
     private fun showTheme() {

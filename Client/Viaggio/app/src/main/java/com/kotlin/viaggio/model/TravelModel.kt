@@ -100,16 +100,15 @@ class TravelModel @Inject constructor() : BaseModel() {
         return db.get().travelDao().getTravelOfDayCount(day, getTravelingId().blockingGet())
     }
 
-
-    fun getTravelCardsPager(): DataSource.Factory<Int, TravelCard> {
-        return db.get().travelDao().getTravelCardsPaged(getSelectedTravelingOfDayId().blockingGet())
-    }
-
     fun updateTravelOfDay(travelOfDay: TravelOfDay) {
         db.get().travelDao().updateTravelOfDay(travelOfDay)
     }
 
     fun getTravelCards(): Single<MutableList<TravelCard>> {
+        return db.get().travelDao().getTravelCards()
+            .subscribeOn(Schedulers.io())
+    }
+    fun getTravelCard(): Single<TravelCard> {
         return db.get().travelDao().getTravelCard(getSelectedTravelingOfDayId().blockingGet())
             .subscribeOn(Schedulers.io())
     }

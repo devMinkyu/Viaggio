@@ -1,35 +1,37 @@
 package com.kotlin.viaggio.view.traveling.detail
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.google.android.material.appbar.AppBarLayout
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.`object`.TravelCard
-import com.kotlin.viaggio.event.OnSwipeTouchListener
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_detail.*
-import kotlinx.android.synthetic.main.item_traveling_card.view.*
+import kotlinx.android.synthetic.main.fragment_traveling_of_day_enroll.*
+import kotlinx.android.synthetic.main.item_traveling_pager_img.view.*
 import java.io.File
-import java.util.*
 
 
 class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentTravelingDetailBinding
-
+    override fun onResume() {
+        super.onResume()
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(travelingDetailLayout, SlidrConfig.Builder()
+                .position(SlidrPosition.LEFT)
+                .build())
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_detail, container, false)
         binding.viewModel = getViewModel()
@@ -39,81 +41,58 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val params = appBar.layoutParams
+        params.width = width
+        params.height = width
         val imgDir = File(context?.filesDir, "images/")
-
-        appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { p0, p1 ->
-            val animator = travelingDetailDayTravelCardCreate.animate()
-            if(p1 == 0){
-                animator
-                    .setDuration(300)
-                    .scaleX(1f)
-                    .scaleY(1f)
-                animator.start()
-            }else{
-                animator
-                    .setDuration(300)
-                    .scaleX(0f)
-                    .scaleY(0f)
-                animator.start()
-            }
-        })
-
-        if(TextUtils.isEmpty(getViewModel().travelOfDay.themeImageName).not()){
-            val imgFile = File(imgDir, getViewModel().travelOfDay.themeImageName)
-            if (imgFile.exists()) {
-                Uri.fromFile(imgFile).let { uri ->
-                    Glide.with(travelingDetailDayImg)
-                        .load(uri)
-                        .into(travelingDetailDayImg)
-                }
-            }
-        }
-        getViewModel().travelOfDayImageChange.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {imagePath ->
-                val imgFile = File(imgDir, imagePath)
-                if (imgFile.exists()) {
-                    Uri.fromFile(imgFile).let { uri ->
-                        Glide.with(travelingDetailDayImg)
-                            .load(uri)
-                            .into(travelingDetailDayImg)
+        getViewModel().travelOfDayCardImageListLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { imageNames ->
+                travelingDetailDayImg.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                        object :RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_pager_img, parent, false)){}
+                    override fun getItemCount() = imageNames.size
+                    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                        imageNames[position].let { themeImageName ->
+                            if(TextUtils.isEmpty(themeImageName).not()){
+                                val imgFile = File(imgDir, themeImageName)
+                                if (imgFile.exists()) {
+                                    Uri.fromFile(imgFile).let { uri ->
+                                        Glide.with(holder.itemView.travelingPagerImg)
+                                            .load(uri)
+                                            .into(holder.itemView.travelingPagerImg)
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
         })
-
-        travelingDetailDayTravelCardList.layoutManager = LinearLayoutManager(context!!)
-        val adapter = TravelCardAdapter()
-        travelingDetailDayTravelCardList.adapter = adapter
-        getViewModel().travelCardPagedLiveData.observe(this, Observer{
-            getViewModel().existTravelCard.set(it.size>0)
-            adapter.submitList(it)
-        })
-
-        container.setOnTouchListener(object :OnSwipeTouchListener(context!!){
-            override fun onSwipeBottom() {
-                super.onSwipeBottom()
-                fragmentPopStack()
+        travelingDetailDayImg.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if(position == 0){
+                    enableSliding(true)
+                }else{
+                    enableSliding(false)
+                }
             }
         })
-
-
-//        travelingDetailDayTravelCardList.setOnTouchListener(object :OnSwipeTouchListener(context!!){
-//            override fun onSwipeBottom() {
-//                super.onSwipeBottom()
-//                val animator: ViewPropertyAnimator = travelingDetailDayTravelCardCreate.animate().setDuration(200)
-//                    .alpha(1f)
-//                    .setInterpolator(AccelerateInterpolator())
-//                animator.start()
+//        scrollContainer.setOnTouchListener { v, event ->
+//            when(event.action){
+//                MotionEvent.ACTION_DOWN -> enableSliding(true)
+//                MotionEvent.ACTION_UP ->{
+//                    if(travelingDetailDayImg.currentItem != 0){
+//                        enableSliding(false)
+//                    }
+//                }
 //            }
-//
-//            override fun onSwipeTop() {
-//                super.onSwipeTop()
-//                val animator: ViewPropertyAnimator = travelingDetailDayTravelCardCreate.animate().setDuration(200)
-//                    .alpha(0f)
-//                    .setInterpolator(AccelerateInterpolator())
-//                animator.start()
-//            }
-//        })
+//            false
+//        }
+
+        getViewModel().openEnroll.observe(this, Observer {
+            baseIntent("http://viaggio.kotlin.com/traveling/enroll/card/")
+        })
     }
     inner class ViewHandler{
         fun back(){
@@ -122,105 +101,8 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
         fun add(){
             TravelingDetailActionDialogFragment().show(fragmentManager!!,TravelingDetailActionDialogFragment.TAG)
         }
-        fun travelCardCreate(){
-            baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
-        }
-    }
-
-    inner class TravelCardAdapter: PagedListAdapter<TravelCard, TravelCardViewHolder>(object : DiffUtil.ItemCallback<TravelCard>(){
-        override fun areItemsTheSame(oldItem: TravelCard, newItem: TravelCard) = oldItem.id == newItem.id
-        override fun areContentsTheSame(oldItem: TravelCard, newItem: TravelCard) = oldItem == newItem
-    }){
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-                = TravelCardViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_card, parent, false))
-
-        @SuppressLint("SimpleDateFormat")
-        override fun onBindViewHolder(holder: TravelCardViewHolder, position: Int) {
-            holder.binding?.data = getItem(position)?.contents
-            val now = Calendar.getInstance()
-            now.time = getItem(position)?.enrollOfTime
-            val isAMorPM = now.get(Calendar.AM_PM)
-            when(isAMorPM){
-                Calendar.AM -> {
-                    holder.binding?.date = "${now.get(Calendar.HOUR)}:${now.get(Calendar.MINUTE)} am"
-                }
-                Calendar.PM -> {
-                    holder.binding?.date = "${now.get(Calendar.HOUR)}:${now.get(Calendar.MINUTE)} pm"
-                }
-            }
-            holder.loadImage(getItem(position)?.imageNames)
-        }
-    }
-    inner class TravelCardViewHolder(view:View): RecyclerView.ViewHolder(view){
-        val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingCardBinding>(view)
-
-        fun loadImage(imageName:ArrayList<String>?){
-            imageName?.let {
-                val imgDir = File(context?.filesDir, "images/")
-                loop@ for((i,s) in imageName.withIndex()){
-                    val imgFile = File(imgDir, s)
-                    when(i){
-                        0 ->{
-                            val params = itemView.travelCardEnrollImg1.layoutParams
-                            params.width = width/2
-                            itemView.travelCardEnrollImg1.layoutParams = params
-                            if (imgFile.exists()) {
-                                Uri.fromFile(imgFile).let { uri ->
-                                    Glide.with(itemView.travelCardEnrollImg1)
-                                        .load(uri)
-                                        .into(itemView.travelCardEnrollImg1)
-                                }
-                            }
-                        }
-                        1->{
-                            itemView.travelCardEnrollImg2.visibility = View.VISIBLE
-                            val params = itemView.travelCardEnrollImg2.layoutParams
-                            params.width = width/2
-                            itemView.travelCardEnrollImg2.layoutParams = params
-                            if (imgFile.exists()) {
-                                Uri.fromFile(imgFile).let { uri ->
-                                    Glide.with(itemView.travelCardEnrollImg2)
-                                        .load(uri)
-                                        .into(itemView.travelCardEnrollImg2)
-                                }
-                            }
-                        }
-                        2->{
-                            itemView.travelCardEnrollImg3.visibility = View.VISIBLE
-                            val params = itemView.travelCardEnrollImg3.layoutParams
-                            params.width = width/2
-                            itemView.travelCardEnrollImg3.layoutParams = params
-                            if (imgFile.exists()) {
-                                Uri.fromFile(imgFile).let { uri ->
-                                    Glide.with(itemView.travelCardEnrollImg3)
-                                        .load(uri)
-                                        .into(itemView.travelCardEnrollImg3)
-                                }
-                            }
-                        }
-                        3->{
-                            itemView.travelCardEnrollImg4Container.visibility = View.VISIBLE
-                            val params = itemView.travelCardEnrollImg4.layoutParams
-                            params.width = width/2
-                            itemView.travelCardEnrollImg4.layoutParams = params
-                            if (imgFile.exists()) {
-                                Uri.fromFile(imgFile).let { uri ->
-                                    Glide.with(itemView.travelCardEnrollImg4)
-                                        .load(uri)
-                                        .into(itemView.travelCardEnrollImg4)
-                                }
-                            }
-                        }
-                        4->{
-                            itemView.travelCardAdditionalBackground.visibility = View.VISIBLE
-                            itemView.travelCardAdditionalCount.visibility = View.VISIBLE
-                            itemView.travelCardAdditionalCount.text = String.format(resources.getString(R.string.over_image_count), imageName.size - 4)
-                            break@loop
-                        }
-                    }
-                }
-
-            }
+        fun modify(){
+            baseIntent("http://viaggio.kotlin.com/traveling/enroll/card/")
         }
     }
 }

@@ -22,7 +22,7 @@ interface TravelDao {
     @Query("SELECT * FROM travels Order By startDate Asc")
     fun getTravels(): Single<List<Travel>>
 
-    @Query("SELECT * FROM travels WHERE id IN(:id)")
+    @Query("SELECT * FROM travels WHERE id IN(:id) limit 1")
     fun getTravel(id: Long): Single<Travel>
 
     @Update
@@ -41,10 +41,10 @@ interface TravelDao {
     @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY date DESC")
     fun getTravelingOfDays(travelId: Long): DataSource.Factory<Int, TravelOfDay>
 
-    @Query("SELECT * FROM travelOfDays WHERE id = :id")
+    @Query("SELECT * FROM travelOfDays WHERE id = :id limit 1")
     fun getTravelOfDay(id: Long): Single<TravelOfDay>
 
-    @Query("SELECT * FROM travelOfDays WHERE travelOfDay = :day And travelId = :travelId")
+    @Query("SELECT * FROM travelOfDays WHERE travelOfDay = :day And travelId = :travelId limit 1")
     fun getTravelOfDayCount(day: Int, travelId: Long): Single<TravelOfDay>
 
     @Update
@@ -57,7 +57,10 @@ interface TravelDao {
     @Query("SELECT * FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) ORDER BY enrollOfTime DESC")
     fun getTravelCardsPaged(travelOfDayId: Long): DataSource.Factory<Int, TravelCard>
 
-    @Query("SELECT * FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) ORDER BY enrollOfTime DESC")
-    fun getTravelCard(travelOfDayId: Long): Single<MutableList<TravelCard>>
+    @Query("SELECT * FROM travelCards")
+    fun getTravelCards(): Single<MutableList<TravelCard>>
+
+    @Query("SELECT * FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) limit 1")
+    fun getTravelCard(travelOfDayId: Long): Single<TravelCard>
 
 }

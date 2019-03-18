@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.traveling.enroll
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelModel
@@ -33,7 +34,7 @@ class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewMode
     override fun initialize() {
         super.initialize()
         val cal = Calendar.getInstance()
-        val date = SimpleDateFormat("EEEE / MMMM d / yyyy", Locale.ENGLISH).format(cal.time).toUpperCase()
+        val date = SimpleDateFormat(appCtx.get().resources.getString(R.string.travel_of_day_pattern), Locale.ENGLISH).format(cal.time).toUpperCase()
         this.date.set(date)
     }
 

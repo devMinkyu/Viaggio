@@ -67,7 +67,7 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
 
         fun enrollOfTime() {
             val cal = Calendar.getInstance()
-            getViewModel().contents.set("${getViewModel().contents.get()}\n${SimpleDateFormat("h:mm a", Locale.ENGLISH).format(cal.time)}\n")
+            getViewModel().contents.set("${getViewModel().contents.get()}\n${SimpleDateFormat(resources.getString(R.string.travel_of_day_time_pattern), Locale.ENGLISH).format(cal.time)}\n")
         }
         fun image(){
             baseIntent("http://viaggio.kotlin.com/traveling/enroll/image/")
