@@ -51,4 +51,5 @@
     <string name="yes">Yes</string>
     <string name="traveling_country">Country</string>
     <string name="home_setting">Setting</string>
+    <string name="enroll_title">Title</string>
 </resources>
