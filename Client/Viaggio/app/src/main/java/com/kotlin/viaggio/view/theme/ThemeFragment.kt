@@ -12,12 +12,24 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrListener
+import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_theme.*
 
 
 class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentThemeBinding
     lateinit var adapter:RecyclerView.Adapter<RecyclerView.ViewHolder>
+    override fun onResume() {
+        super.onResume()
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(container, SlidrConfig.Builder().position(
+                SlidrPosition.TOP)
+                .build())
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_theme, container, false)
         binding.viewModel = getViewModel()
@@ -32,35 +44,40 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
         layoutManager.justifyContent = JustifyContent.CENTER
         themeList.layoutManager = layoutManager
 
-        val layoutManager2 = FlexboxLayoutManager(context)
-        layoutManager2.flexWrap = FlexWrap.WRAP
-        themeSelectedList.layoutManager = layoutManager2
-
-        getViewModel().themesList.observe(this, Observer {
+        getViewModel().themesListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { theme ->
-                themeList.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-                            = ThemeNonSelectedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_non_selected_theme, parent, false))
+                adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                    override fun getItemViewType(position: Int): Int {
+                        return if(getViewModel().themes.themes.contains(theme.themes[position])) 1 else 0
+                    }
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
+                        0 -> {
+                            ThemeNonSelectedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_non_selected_theme, parent, false))
+                        }
+                        1 -> {
+                            ThemeSelectedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_selected_theme, parent, false))
+                        }
+                        else -> {
+                            ThemeNonSelectedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_non_selected_theme, parent, false))
+                        }
+                    }
                     override fun getItemCount() = theme.themes.size
                     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                        holder as ThemeNonSelectedViewHolder
-                        holder.binding?.data = theme.themes[position]
-                        holder.binding?.viewHandler = ViewHandler()
+                        when(holder){
+                            is ThemeSelectedViewHolder -> {
+                                holder.binding?.data = theme.themes[position]
+                                holder.binding?.viewHandler = ViewHandler()
+                            }
+                            is ThemeNonSelectedViewHolder ->{
+                                holder.binding?.data = theme.themes[position]
+                                holder.binding?.viewHandler = ViewHandler()
+                            }
+                        }
                     }
                 }
+                themeList.adapter = adapter
             }
         })
-        adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-                    = ThemeSelectedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_selected_theme, parent, false))
-            override fun getItemCount() = getViewModel().themes.themes.size
-            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                holder as ThemeSelectedViewHolder
-                holder.binding?.data = getViewModel().themes.themes[position]
-                holder.binding?.viewHandler = ViewHandler()
-            }
-        }
-        themeSelectedList.adapter = adapter
 
         getViewModel().showSelectTheme.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
@@ -74,15 +91,19 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
             getViewModel().sendTheme()
             fragmentPopStack()
         }
+        fun close(){
+            fragmentPopStack()
+        }
         fun chooseTheme(theme:String){
             if(getViewModel().themes.themes.contains(theme).not()){
                 getViewModel().chooseTheme(theme)
-                adapter.notifyItemInserted(getViewModel().themes.themes.size - 1)
+                val index = getViewModel().themesList.themes.indexOf(theme)
+                adapter.notifyItemChanged(index)
             }
         }
         fun cancelTheme(theme:String){
-            val position = getViewModel().themes.themes.indexOf(theme)
-            adapter.notifyItemRemoved(position)
+            val index = getViewModel().themesList.themes.indexOf(theme)
+            adapter.notifyItemChanged(index)
             getViewModel().cancelTheme(theme)
         }
     }

@@ -152,7 +152,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showTheme() {
-        baseShowLeftAddBackFragment(ThemeFragment())
+        baseShowTopAddBackFragment(ThemeFragment())
     }
 
     private fun showCamera() {
