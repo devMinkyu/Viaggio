@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.databinding.ItemTravelingCardImageBinding
+import com.kotlin.viaggio.databinding.FragmentTravelingOfDayImageEnrollBinding
+import com.kotlin.viaggio.databinding.ItemTravelingOfDayImageBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
@@ -22,21 +23,13 @@ import kotlinx.android.synthetic.main.item_traveling_of_day_image.view.*
 
 
 class TravelingOfDayImageEnrollFragment : BaseFragment<TravelingOfDayImageEnrollFragmentViewModel>() {
-    lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingOfDayEnrollBinding
+    lateinit var binding: FragmentTravelingOfDayImageEnrollBinding
     override fun onResume() {
         super.onResume()
         if (sliderInterface == null)
             sliderInterface = Slidr.replace(
                 enroll_container, SlidrConfig.Builder()
                     .position(SlidrPosition.TOP)
-                    .listener(object : SlidrListener {
-                        override fun onSlideClosed() {
-                            fragmentPopStack()
-                        }
-                        override fun onSlideStateChanged(state: Int) {}
-                        override fun onSlideChange(percent: Float) {}
-                        override fun onSlideOpened() {}
-                    })
                     .build()
             )
     }
@@ -117,7 +110,7 @@ class TravelingOfDayImageEnrollFragment : BaseFragment<TravelingOfDayImageEnroll
     }
 
     inner class TravelingOfDayImgViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val binding = DataBindingUtil.bind<ItemTravelingCardImageBinding>(itemView)
+        val binding = DataBindingUtil.bind<ItemTravelingOfDayImageBinding>(itemView)
         private lateinit var fileNamePath: String
 
         fun imageBinding(string: String) {

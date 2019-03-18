@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.databinding.FragmentTravelingOfDayEnrollBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
@@ -19,7 +21,7 @@ import java.util.*
 
 
 class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentViewModel>() {
-    lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingCardEnrollBinding
+    lateinit var binding: FragmentTravelingOfDayEnrollBinding
     override fun onResume() {
         super.onResume()
         if(sliderInterface == null)
@@ -37,10 +39,18 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
     @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         getViewModel().complete.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 stopLoading()
                 fragmentPopStack()
+            }
+        })
+        getViewModel().changeCursor.observe(this, Observer {event ->
+            event.getContentIfNotHandled()?.let {
+                travelingOfDayEnrollContents.text?.let {
+                    travelingOfDayEnrollContents.setSelection(travelingOfDayEnrollContents.text.toString().length)
+                }
             }
         })
     }
@@ -55,14 +65,12 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
 //            getViewModel().saveTravelCard()
         }
 
-        @SuppressLint("SimpleDateFormat")
         fun enrollOfTime() {
             val cal = Calendar.getInstance()
-            TimePickerDialog(context!!, TimePickerDialog.OnTimeSetListener { timePicker, i, i1 ->
-                cal.set(Calendar.HOUR_OF_DAY, timePicker.hour)
-                cal.set(Calendar.MINUTE, timePicker.minute)
-                getViewModel().time.set(SimpleDateFormat(resources.getString(R.string.date_time_format)).format(cal.time))
-            }, Calendar.HOUR_OF_DAY, Calendar.MINUTE, true).show()
+            getViewModel().contents.set("${getViewModel().contents.get()}\n${SimpleDateFormat("h:mm a", Locale.ENGLISH).format(cal.time)}\n")
+        }
+        fun image(){
+            baseIntent("http://viaggio.kotlin.com/traveling/enroll/image/")
         }
 
     }

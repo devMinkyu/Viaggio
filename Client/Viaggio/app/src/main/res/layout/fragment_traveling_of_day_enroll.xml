@@ -59,6 +59,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/back"
+                    android:text="@{viewModel.date}"
                     tools:text="SATURDAY / MARCH 16 / 2019"
                     android:layout_marginTop="10dp"
                     android:textStyle="bold"
@@ -81,32 +82,49 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/enroll_title"
+                    android:inputType="text"
+                    android:text="@={viewModel.title}"
                     app:layout_constraintStart_toStartOf="@id/travelingOfDayEnrollDate"
                     app:layout_constraintEnd_toEndOf="@id/travelingOfDayEnrollDate"
                     app:layout_constraintTop_toBottomOf="@id/titleTgl"
                     android:layout_marginTop="15dp"
-            />
+                    tools:ignore="Autofill"/>
             <EditText
                     android:id="@id/travelingOfDayEnrollContents"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginTop="15dp"
                     android:padding="25dp"
+                    android:paddingBottom="10dp"
                     android:inputType="textMultiLine"
                     android:gravity="start"
+                    android:textSize="15sp"
+                    android:scrollbars="vertical"
+                    android:text="@={viewModel.contents}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/time"
                     app:layout_constraintTop_toBottomOf="@id/travelingOfDayEnrollTitle"
                     android:background="@null"
                     tools:text="saddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasdsaddasdasdsadasd   saddasdasdsadasd \n saddasdasdsadasd saddasdasdsadasd\nsaddasdasdsadasd\nsaddasdasdsadasd "
-            />
+                    tools:ignore="Autofill"/>
             <ImageView
+                    android:id="@+id/time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="20dp"
                     android:src="@drawable/ic_access_time_black_24dp"
+                    android:onClick="@{()->viewHandler.enrollOfTime()}"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+            />
+            <ImageButton
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/empty_gallery"
+                    android:onClick="@{()->viewHandler.image()}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
             />
 

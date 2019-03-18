@@ -19,6 +19,7 @@ import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
+import com.kotlin.viaggio.view.traveling.enroll.TravelingOfDayEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingOfDayImageEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import org.jetbrains.anko.toast
@@ -142,7 +143,8 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showTravelingDetail() {
-        baseShowTopAddBackFragment(TravelingDetailFragment())
+        baseShowAddLeftAddBackFragment(TravelingOfDayEnrollFragment())
+//        baseShowTopAddBackFragment(TravelingDetailFragment())
     }
 
     private fun showTheme() {
