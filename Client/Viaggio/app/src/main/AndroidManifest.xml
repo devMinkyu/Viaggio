@@ -92,7 +92,7 @@
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
-                        android:pathPattern="/traveling/..*\\/detail/"/>
+                        android:pathPattern="/traveling/detail/"/>
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"

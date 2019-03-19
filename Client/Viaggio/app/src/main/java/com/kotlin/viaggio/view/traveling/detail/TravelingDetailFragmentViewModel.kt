@@ -20,18 +20,15 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
     val date = ObservableField<String>("")
 
     val travelOfDayCardImageListLiveData = MutableLiveData<Event<List<String>>>()
-    val openEnroll = MutableLiveData<Event<Any>>()
 
     override fun initialize() {
         super.initialize()
         val disposable = travelModel.getTravelCard()
             .observeOn(Schedulers.io())
-            .subscribe({
-                travelOfDayCardImageListLiveData.postValue(Event(it.imageNames))
-                content.set(it.contents)
-                date.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.travel_of_day_pattern), Locale.ENGLISH).format(it.enrollOfTime).toUpperCase())
-            }){
-                openEnroll.postValue(Event(Any()))
+            .subscribe { t ->
+                travelOfDayCardImageListLiveData.postValue(Event(t.imageNames))
+                content.set(t.contents)
+                date.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.travel_of_day_pattern), Locale.ENGLISH).format(t.enrollOfTime).toUpperCase())
             }
         addDisposable(disposable)
 

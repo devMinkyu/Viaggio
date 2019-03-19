@@ -44,7 +44,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                         override fun onSlideClosed() {
                             fragmentPopStack()
                         }
-
                         override fun onSlideStateChanged(state: Int) {}
                         override fun onSlideChange(percent: Float) {}
                         override fun onSlideOpened() {}
@@ -74,7 +73,15 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 baseIntent("http://viaggio.kotlin.com/home/main/")
             }
         })
-
+        getViewModel().showTravelCard.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                if(it){
+                    baseIntent("http://viaggio.kotlin.com/traveling/detail/")
+                }else{
+                    baseIntent("http://viaggio.kotlin.com/traveling/enroll/card/")
+                }
+            }
+        })
     }
 
     inner class ViewHandler{
@@ -134,7 +141,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         }
         inner class TravelOfDayViewHandler{
             fun detail(){
-                baseIntent("http://viaggio.kotlin.com/traveling/${binding?.data?.id}/detail/")
+                getViewModel().setSelectedTravelingOfDay(binding?.data?.id)
             }
         }
     }

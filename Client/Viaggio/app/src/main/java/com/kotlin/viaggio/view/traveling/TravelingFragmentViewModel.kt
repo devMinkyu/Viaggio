@@ -24,6 +24,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var gson: Gson
 
+    val showTravelCard = MutableLiveData<Event<Boolean>>()
     val completeLiveData = MutableLiveData<Event<Any>>()
     lateinit var travelOfDayPagedLiveData: LiveData<PagedList<TravelOfDay>>
 
@@ -69,9 +70,14 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     fun setSelectedTravelingOfDay(travelOfDayId: Long?) {
         travelOfDayId?.let {
-            val disposable
-                    = prefUtilService.putLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID, it)
-                .observeOn(Schedulers.io()).subscribe()
+            prefUtilService.putLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID, it).blockingAwait()
+            val disposable = travelModel.getTravelCard()
+                .observeOn(Schedulers.io())
+                .subscribe({
+                    showTravelCard.postValue(Event(true))
+                }){
+                    showTravelCard.postValue(Event(false))
+                }
             addDisposable(disposable)
         }
     }

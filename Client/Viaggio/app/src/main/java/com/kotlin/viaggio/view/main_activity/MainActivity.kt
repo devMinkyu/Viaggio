@@ -94,7 +94,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "days" -> showTraveling()
                         "start" -> showTraveling()
                         "detail" -> {
-                            getViewModel().setSelectedTravelingOfDay(appLinkData.pathSegments?.get(1))
                             showTravelingDetail()
                         }
                         "theme" -> showTravelingTheme()

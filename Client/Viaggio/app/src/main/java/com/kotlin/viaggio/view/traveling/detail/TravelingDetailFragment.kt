@@ -90,9 +90,6 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
 //            false
 //        }
 
-        getViewModel().openEnroll.observe(this, Observer {
-            baseIntent("http://viaggio.kotlin.com/traveling/enroll/card/")
-        })
     }
     inner class ViewHandler{
         fun back(){

@@ -28,7 +28,8 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tgl"
+                    app:layout_constraintTop_toTopOf="@id/close"
+                    app:layout_constraintBottom_toBottomOf="@id/close"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:onClick="@{() -> viewHandler.confirm()}"
                     android:padding="10dp"
@@ -40,7 +41,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/tgl"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_margin="10dp"
+                    android:padding="10dp"
                     android:src="@drawable/ic_clear_black_24dp"
                     android:textSize="20sp"
                     android:textColor="@android:color/black"/>
