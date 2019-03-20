@@ -1,6 +1,5 @@
 package com.kotlin.viaggio.view.traveling
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
@@ -105,8 +104,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             holder.loadImage(getItem(position)?.themeImageName)
         }
 
-        @SuppressLint("SimpleDateFormat")
-        fun converter(travelOfDay: TravelOfDay):TravelOfDayVal{
+        private fun converter(travelOfDay: TravelOfDay):TravelOfDayVal{
             val cal = Calendar.getInstance()
             cal.time = travelOfDay.date
             val item = TravelOfDayVal()

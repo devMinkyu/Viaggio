@@ -49,6 +49,8 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
             .subscribe({
                 it.themeImageName = imageName
                 travelModel.updateTravelOfDay(it)
+                    .observeOn(Schedulers.io())
+                    .subscribe()
                 rxEventBus.travelOfDayImage.onNext(imageName)
                 completeLiveDate.postValue(Event(Any()))
             }){

@@ -104,7 +104,8 @@ class TravelingOfDayImageEnrollFragment : BaseFragment<TravelingOfDayImageEnroll
         fun confirm() {
             getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
             if (getViewModel().imageChooseList.size == getViewModel().imageBitmapChooseList.size) {
-//                showLoading()
+                getViewModel().selectImage()
+                fragmentPopStack()
             }
         }
     }

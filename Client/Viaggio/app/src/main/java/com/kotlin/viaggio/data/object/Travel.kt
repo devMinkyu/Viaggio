@@ -30,7 +30,7 @@ data class TravelOfDay(
     var travelId: Long = 0,
     @Suppress("ArrayInDataClass") var dayCountries: ArrayList<String> = arrayListOf(),
     @Suppress("ArrayInDataClass") var theme: ArrayList<String> = arrayListOf(),
-    var date: Date? = null,
+    var date: Date = Date(),
     var travelOfDay: Int = 1,
     var themeImageName: String = ""
 )
@@ -49,14 +49,11 @@ data class TravelOfDayVal(
 data class TravelCard(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
     @Suppress("ArrayInDataClass") var imageNames: ArrayList<String> = arrayListOf(),
-    var country: String = "",
-    var travelCardPlace: String = "",
     var travelOfDayId: Long = 0,
     var contents: String = "",
     var enrollOfTime: Date = Date(),
     var favorite: Int = 0,
-    @Suppress("ArrayInDataClass") var previousTransportation: ArrayList<String> = arrayListOf(),
-    var order:Int = 0
+    var title:String = ""
 )
 
 data class Theme(

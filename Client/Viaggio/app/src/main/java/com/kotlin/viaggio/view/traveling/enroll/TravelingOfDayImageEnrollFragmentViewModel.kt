@@ -32,4 +32,8 @@ class TravelingOfDayImageEnrollFragmentViewModel @Inject constructor() : BaseVie
         imagePathList.value = Event(imageAllList)
     }
 
+    fun selectImage() {
+        rxEventBus.travelOfDayImages.onNext(imageBitmapChooseList)
+    }
+
 }

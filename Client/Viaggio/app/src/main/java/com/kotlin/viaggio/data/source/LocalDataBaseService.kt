@@ -14,7 +14,7 @@ import com.kotlin.viaggio.data.`object`.User
 @Suppress("unused")
 @Database(
     entities = [User::class, Travel::class, TravelOfDay::class, TravelCard::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(StringConverters::class, DateTypeConverter::class)

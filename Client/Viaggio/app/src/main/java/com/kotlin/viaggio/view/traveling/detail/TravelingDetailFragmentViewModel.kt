@@ -23,6 +23,15 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     override fun initialize() {
         super.initialize()
+        fetchData()
+        val disposable = rxEventBus.travelCardUpdate
+            .subscribe {
+                fetchData()
+            }
+        addDisposable(disposable)
+    }
+
+    fun fetchData(){
         val disposable = travelModel.getTravelCard()
             .observeOn(Schedulers.io())
             .subscribe { t ->
@@ -31,6 +40,5 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
                 date.set(SimpleDateFormat(appCtx.get().resources.getString(R.string.travel_of_day_pattern), Locale.ENGLISH).format(t.enrollOfTime).toUpperCase())
             }
         addDisposable(disposable)
-
     }
 }

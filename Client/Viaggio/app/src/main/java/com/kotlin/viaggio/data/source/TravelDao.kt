@@ -52,7 +52,7 @@ interface TravelDao {
 
     // travelCard
     @Insert
-    fun insertTravelCard(travelCard: TravelCard): Single<Long>
+    fun insertTravelCard(travelCard: TravelCard)
 
     @Query("SELECT * FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) ORDER BY enrollOfTime DESC")
     fun getTravelCardsPaged(travelOfDayId: Long): DataSource.Factory<Int, TravelCard>
@@ -62,5 +62,8 @@ interface TravelDao {
 
     @Query("SELECT * FROM travelCards WHERE travelOfDayId IN(:travelOfDayId) limit 1")
     fun getTravelCard(travelOfDayId: Long): Single<TravelCard>
+
+    @Update
+    fun updateTravelCard(travelCard: TravelCard)
 
 }

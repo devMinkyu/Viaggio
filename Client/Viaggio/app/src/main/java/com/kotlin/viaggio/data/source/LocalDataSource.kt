@@ -153,11 +153,29 @@ class LocalDataSource @Inject constructor() {
             if (bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)) {
                 out.flush()
                 out.close()
-                emitter .onSuccess(cacheFile)
+                emitter.onSuccess(cacheFile)
             }
         }).subscribeOn(Schedulers.io())
             .flatMap {
                 recordImage(arrayOf(it.absolutePath))
+            }
+    }
+    fun cacheFile(bitmaps: List<Bitmap>): Single<List<String>> {
+        return Single.create(SingleOnSubscribe<List<String>> { emitter ->
+            val result = mutableListOf<String>()
+            for (bitmap in bitmaps) {
+                val cacheFile = createTempFile()
+                val out = FileOutputStream(cacheFile)
+                if (bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)) {
+                    out.flush()
+                    out.close()
+                    result.add(cacheFile.absolutePath)
+                }
+            }
+            emitter.onSuccess(result)
+        }).subscribeOn(Schedulers.io())
+            .flatMap {
+                recordImage(it.toTypedArray())
             }
     }
     fun recordImage(fileNames: Array<String>):Single<List<String>> {

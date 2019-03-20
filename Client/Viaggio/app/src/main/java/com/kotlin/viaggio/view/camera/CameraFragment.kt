@@ -58,7 +58,6 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         return binding.root
     }
 
-    @SuppressLint("EnqueueWork")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BottomSheetBehavior.from(cameraViewImageBottomSheet).state = STATE_HIDDEN

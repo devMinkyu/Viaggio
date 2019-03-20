@@ -1,14 +1,16 @@
 package com.kotlin.viaggio.view.traveling.enroll
 
-import android.annotation.SuppressLint
-import android.app.TimePickerDialog
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.databinding.FragmentTravelingOfDayEnrollBinding
 import com.kotlin.viaggio.view.common.BaseFragment
@@ -16,6 +18,7 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_of_day_enroll.*
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,7 +39,6 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
         return binding.root
     }
 
-    @SuppressLint("WrongConstant")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
@@ -46,13 +48,38 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
                 fragmentPopStack()
             }
         })
-        getViewModel().changeCursor.observe(this, Observer {event ->
-            event.getContentIfNotHandled()?.let {
-                travelingOfDayEnrollContents.text?.let {
-                    travelingOfDayEnrollContents.setSelection(travelingOfDayEnrollContents.text.toString().length)
+        getViewModel().imageFirstLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { image ->
+                when (image) {
+                    is Bitmap -> {
+                        Glide.with(context!!)
+                            .load(image)
+                            .into(travelOfDayImage)
+                    }
+                    is String -> {
+                        val imgDir = File(context?.filesDir, "images/")
+                        if (TextUtils.isEmpty(image).not()) {
+                            val imgFile = File(imgDir, image)
+                            if (imgFile.exists()) {
+                                Uri.fromFile(imgFile).let { uri ->
+                                    Glide.with(context!!)
+                                        .load(uri)
+                                        .into(travelOfDayImage)
+                                }
+                            } else { }
+                        } else { }
+                    }
+                    else -> { }
                 }
             }
         })
+//        getViewModel().changeCursor.observe(this, Observer {event ->
+//            event.getContentIfNotHandled()?.let {
+//                travelingOfDayEnrollContents.text?.let {
+//                    travelingOfDayEnrollContents.setSelection(travelingOfDayEnrollContents.text.toString().length)
+//                }
+//            }
+//        })
     }
 
 
@@ -61,13 +88,14 @@ class TravelingOfDayEnrollFragment : BaseFragment<TravelingOfDayEnrollFragmentVi
             fragmentPopStack()
         }
         fun save() {
-//            showLoading()
-//            getViewModel().saveTravelCard()
+            showLoading()
+            getViewModel().saveCard()
         }
 
         fun enrollOfTime() {
             val cal = Calendar.getInstance()
             getViewModel().contents.set("${getViewModel().contents.get()}\n${SimpleDateFormat(resources.getString(R.string.travel_of_day_time_pattern), Locale.ENGLISH).format(cal.time)}\n")
+
         }
         fun image(){
             baseIntent("http://viaggio.kotlin.com/traveling/enroll/image/")

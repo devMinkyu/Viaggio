@@ -9,6 +9,7 @@ import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.RxEventBus
 import io.fotoapparat.result.PhotoResult
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers
@@ -65,12 +66,24 @@ class TravelModel @Inject constructor() : BaseModel() {
         db.get().travelDao().updateTravel(travel)
     }
 
-    fun createTravelCard(travelCard: TravelCard): Single<Long> {
-        return db.get().travelDao().insertTravelCard(travelCard).subscribeOn(Schedulers.io())
+    fun createTravelCard(travelCard: TravelCard): Completable {
+        return Completable.create {
+            db.get().travelDao().insertTravelCard(travelCard)
+            it.onComplete()
+        }
+            .subscribeOn(Schedulers.io())
     }
 
-    fun imagePathList(imageChooseList: MutableList<String>): Single<List<String>> {
-        return localDataSource.recordImage(imageChooseList.toTypedArray())
+    fun updateTravelCard(travelCard: TravelCard){
+        Completable.create {
+            db.get().travelDao().updateTravelCard(travelCard)
+        }
+            .subscribeOn(Schedulers.io())
+            .subscribe()
+    }
+
+    fun imagePathList(imageChooseList: List<Bitmap>): Single<List<String>> {
+        return localDataSource.cacheFile(imageChooseList)
     }
 
     fun createTravelOfDay(travelOfDay: TravelOfDay): Single<Long> {
@@ -100,8 +113,12 @@ class TravelModel @Inject constructor() : BaseModel() {
         return db.get().travelDao().getTravelOfDayCount(day, getTravelingId().blockingGet())
     }
 
-    fun updateTravelOfDay(travelOfDay: TravelOfDay) {
-        db.get().travelDao().updateTravelOfDay(travelOfDay)
+    fun updateTravelOfDay(travelOfDay: TravelOfDay):Completable {
+        return Completable.create {
+            db.get().travelDao().updateTravelOfDay(travelOfDay)
+            it.onComplete()
+        }
+            .subscribeOn(Schedulers.io())
     }
 
     fun getTravelCards(): Single<MutableList<TravelCard>> {
