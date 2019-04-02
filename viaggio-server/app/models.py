@@ -10,7 +10,8 @@ class User(db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     name = db.Column(db.String(64))
     passwordHash = db.Column(db.String(128))
-    profileImageName = db.Column(db.String(64), nullable=True)
+    profileImageName = db.Column(db.String(64))
+    profileImageUrl = db.Column(db.String(512))
     token = db.Column(db.String(128), unique=True, default=str(uuid.uuid4()))
     createdDate = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -19,3 +20,6 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.email, self.name, self.passwordHash, self.profileImageName, self.token, self.createdDate
+
+    def as_dict(self):
+        return {x.name: getattr(self, x.name) for x in self.__table__.columns}
