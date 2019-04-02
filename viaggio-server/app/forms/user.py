@@ -10,7 +10,6 @@ class RegistrationForm(Form):
     passwordHash = StringField('Password', validators=[DataRequired(), length(8, 128),
                                                         EqualTo('passwordHash2')])
     passwordHash2 = StringField('Password2', validators=[DataRequired(), length(8, 128)])
-    profileImageName = StringField('ProfileImageName', validators=[length(0, 64)])
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
@@ -24,8 +23,10 @@ class ChangePasswordForm(Form):
     passwordHash2 = StringField('Password2', validators=[DataRequired(), length(8, 128)])
 
 
-class ChangeUserNameForm(Form):
+class ChangeUserInfoForm(Form):
     name = StringField('Name', validators=[DataRequired(), length(1, 64)])
+    profileImageName = StringField('ProfileImageName', validators=[length(0, 64)])
+    profileImageUrl = StringField('ProfileImageUrl', validators=[length(0, 512)])
 
 
 class LoginForm(Form):

@@ -2,7 +2,7 @@ from flask import jsonify, request
 from . import api
 from .. import db
 from ..models import User
-from ..forms.user import RegistrationForm, ChangePasswordForm, ChangeUserNameForm, LoginForm
+from ..forms.user import RegistrationForm, ChangePasswordForm, ChangeUserInfoForm, LoginForm
 import uuid
 
 
@@ -12,8 +12,7 @@ def create_user():
     if form.validate():
         user = User(email=request.form['email'],
                     name=request.form['name'],
-                    passwordHash=request.form['passwordHash'],
-                    profileImageName=request.form.get('profileImageName', ''))
+                    passwordHash=request.form['passwordHash'])
         db.session.add(user)
         db.session.commit()
         return jsonify({ 'email': user.email, 'name': user.name, 'token': user.token }), 200
@@ -66,9 +65,9 @@ def change_password():
     }), 400
 
 
-@api.route('/users/changename', methods=['POST'])
+@api.route('/users/changeinfo', methods=['POST'])
 def change_name():
-    form = ChangeUserNameForm(request.form)
+    form = ChangeUserInfoForm(request.form)
     if form.validate():
         user = User.query.filter_by(token=request.headers['token']).first()
         if user is None:
@@ -77,16 +76,20 @@ def change_name():
                 'detail': 'There is no user matched with token when change user name.'
             }), 400
         user.name = request.form['name']
+        if request.form.get('profileImageName') is not None \
+                and request.form.get('profileImageUrl') is not None:
+            user.profileImageName = request.form['profileImageName']
+            user.profileImageUrl = request.form['profileImageUrl']
         db.session.add(user)
         db.session.commit()
         return jsonify({
             'message': 200,
-            'detail': 'User name is changed.'
+            'detail': 'User info is changed.'
         }), 200
     
     return jsonify({
         'message': 400,
-        'detail': 'When change user name, validation error is occurred.'
+        'detail': 'When change user info, validation error is occurred.'
     }), 400
 
 
@@ -130,7 +133,7 @@ def logout():
             'detail': 'Token is already null.'
         }), 200
 
-    user.token = ''
+    user.token = None
     db.session.add(user)
     db.session.commit()
     return jsonify({
