@@ -2,7 +2,8 @@ from flask import jsonify, request
 from . import api
 from .. import db
 from ..models import User
-from ..forms.user import RegistrationForm, ChangePasswordForm, ChangeUserNameForm
+from ..forms.user import RegistrationForm, ChangePasswordForm, ChangeUserNameForm, LoginForm
+import uuid
 
 
 @api.route('/users', methods=['POST'])
@@ -87,3 +88,52 @@ def change_name():
         'message': 400,
         'detail': 'When change user name, validation error is occurred.'
     }), 400
+
+
+@api.route('/users/login', methods=['POST'])
+def login():
+    form = LoginForm(request.form)
+    if form.validate():
+        user = User.query.filter_by(email=request.form['email'], passwordHash=request.form['passwordHash']).first()
+        if user is None:
+            return jsonify({
+                'message': 401,
+                'detail': 'There is no user matched with pwd.'
+            }), 400
+
+        if user.token:
+            return jsonify({
+                'message': 200,
+                'token': user.token
+            }), 200
+        else:
+            user.token = str(uuid.uuid4())
+            db.session.add(user)
+            db.session.commit()
+            return jsonify({
+                'message': 200,
+                'token': user.token
+            }), 200
+
+    return jsonify({
+        'message': 400,
+        'detail': 'Login validation is failed.'
+    }), 400
+
+
+@api.route('/users/logout')
+def logout():
+    user = User.query.filter_by(token=request.headers['token']).first()
+    if user is None:
+        return jsonify({
+            'message': 200,
+            'detail': 'Token is already null.'
+        }), 200
+
+    user.token = ''
+    db.session.add(user)
+    db.session.commit()
+    return jsonify({
+        'message': 200,
+        'detail': 'User logout is success.'
+    }), 200

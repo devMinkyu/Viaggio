@@ -26,3 +26,8 @@ class ChangePasswordForm(Form):
 
 class ChangeUserNameForm(Form):
     name = StringField('Name', validators=[DataRequired(), length(1, 64)])
+
+
+class LoginForm(Form):
+    email = StringField('Email', validators=[DataRequired(), length(1, 64), Email()])
+    passwordHash = StringField('PasswordHash', validators=[DataRequired(), length(1, 128)])
