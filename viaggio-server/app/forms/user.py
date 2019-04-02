@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, length, Email, EqualTo
 from ..models import User
 
 
-class UserForm(Form):
+class RegistrationForm(Form):
     email = StringField('Email', validators=[DataRequired(), length(1, 64), Email()])
     name = StringField('Name', validators=[DataRequired(), length(1, 64)])
     passwordHash = StringField('Password', validators=[DataRequired(), length(1, 128),
