@@ -7,9 +7,9 @@ from ..models import User
 class RegistrationForm(Form):
     email = StringField('Email', validators=[DataRequired(), length(1, 64), Email()])
     name = StringField('Name', validators=[DataRequired(), length(1, 64)])
-    passwordHash = StringField('Password', validators=[DataRequired(), length(1, 128),
+    passwordHash = StringField('Password', validators=[DataRequired(), length(8, 128),
                                                         EqualTo('passwordHash2')])
-    passwordHash2 = StringField('Password2', validators=[DataRequired(), length(1, 128)])
+    passwordHash2 = StringField('Password2', validators=[DataRequired(), length(8, 128)])
     profileImageName = StringField('ProfileImageName', validators=[length(0, 64)])
 
     def validate_email(self, field):
@@ -18,10 +18,10 @@ class RegistrationForm(Form):
 
 
 class ChangePasswordForm(Form):
-    oldPasswordHash = StringField('OldPwd', validators=[DataRequired(), length(1, 128)])
-    passwordHash = StringField('Password', validators=[DataRequired(), length(1, 128),
+    oldPasswordHash = StringField('OldPwd', validators=[DataRequired(), length(8, 128)])
+    passwordHash = StringField('Password', validators=[DataRequired(), length(8, 128),
                                                         EqualTo('passwordHash2')])
-    passwordHash2 = StringField('Password2', validators=[DataRequired(), length(1, 128)])
+    passwordHash2 = StringField('Password2', validators=[DataRequired(), length(8, 128)])
 
 
 class ChangeUserNameForm(Form):
@@ -30,4 +30,4 @@ class ChangeUserNameForm(Form):
 
 class LoginForm(Form):
     email = StringField('Email', validators=[DataRequired(), length(1, 64), Email()])
-    passwordHash = StringField('PasswordHash', validators=[DataRequired(), length(1, 128)])
+    passwordHash = StringField('PasswordHash', validators=[DataRequired(), length(8, 128)])
