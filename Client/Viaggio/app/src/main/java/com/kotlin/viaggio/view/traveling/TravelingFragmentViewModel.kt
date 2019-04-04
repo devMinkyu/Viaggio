@@ -2,7 +2,6 @@ package com.kotlin.viaggio.view.traveling
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
@@ -34,26 +33,26 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         val disposable = rxEventBus.travelOfDayChange
             .subscribeOn(Schedulers.io())
             .subscribe({
-                if(it){
+                if (it) {
                     travelOfDayPagedLiveData.value?.dataSource?.invalidate()
                     rxEventBus.travelOfDayChange.onNext(false)
                 }
-            }){
+            }) {
 
             }
         addDisposable(disposable)
         val travelingFinishDisposable = rxEventBus.travelFinish
             .subscribe({
-                if(it){
+                if (it) {
                     rxEventBus.travelFinish.onNext(it.not())
                     completeLiveData.postValue(Event(Any()))
                 }
-            }){
+            }) {
 
             }
         addDisposable(travelingFinishDisposable)
         val countryDisposable = rxEventBus.travelOfCountry.subscribe { t ->
-            if(TextUtils.isEmpty(t).not()){
+            if (TextUtils.isEmpty(t).not()) {
                 travelOfDayPagedLiveData.value?.dataSource?.invalidate()
                 rxEventBus.travelOfCountry.onNext("")
             }
@@ -61,10 +60,12 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(countryDisposable)
     }
 
-    private fun loadTravelOfDayPaged(){
+    private fun loadTravelOfDayPaged() {
         val factory = travelModel.getTravelOfDays()
-        val pagedListBuilder = LivePagedListBuilder<Int, TravelOfDay>(factory,
-            10)
+        val pagedListBuilder = LivePagedListBuilder<Int, TravelOfDay>(
+            factory,
+            10
+        )
         travelOfDayPagedLiveData = pagedListBuilder.build()
     }
 
@@ -75,7 +76,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
                 .observeOn(Schedulers.io())
                 .subscribe({
                     showTravelCard.postValue(Event(true))
-                }){
+                }) {
                     showTravelCard.postValue(Event(false))
                 }
             addDisposable(disposable)
