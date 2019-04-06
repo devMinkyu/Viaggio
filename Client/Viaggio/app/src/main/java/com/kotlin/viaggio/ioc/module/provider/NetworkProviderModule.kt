@@ -26,8 +26,7 @@ class NetworkProviderModule{
             .retryOnConnectionFailure(true)
             .build()
 
-//        val baseUrl = BuildConfig.SERVICE_HOST
-        val baseUrl = ""
+        val baseUrl = BuildConfig.SERVER_HOST
 
         val retrofit = Retrofit.Builder()
             .client(tagClient)
@@ -36,7 +35,9 @@ class NetworkProviderModule{
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 
+
         return retrofit.create(ViaggioApiService::class.java)
+
     }
     @Provides
     @Singleton

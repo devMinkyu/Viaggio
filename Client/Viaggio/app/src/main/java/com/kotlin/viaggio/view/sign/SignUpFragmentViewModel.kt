@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.sign
 
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
@@ -17,8 +18,8 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
-//    @Inject
-//    lateinit var userModel: UserModel
+    @Inject
+    lateinit var userModel: UserModel
     val name = ObservableField<String>().apply {
         addOnPropertyChangedCallback(object : androidx.databinding.Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: androidx.databinding.Observable?, propertyId: Int) {
@@ -53,9 +54,6 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
     private var validateFormDisposable: Disposable? = null
     val error: MutableLiveData<Event<SignError>> = MutableLiveData()
     var complete: MutableLiveData<Event<Any>> = MutableLiveData()
-    override fun initialize() {
-        super.initialize()
-    }
 
     private fun validateForm() {
         validateFormDisposable?.dispose()
@@ -91,20 +89,24 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
                 return false
             }
         }
-        error.value = null
+
         val encryptionPassword = Encryption().encryptionValue(password.get()!!)
-//
-//        val disposable = userModel.signUp(name = name.get()!!, email = email.get()!!, password = encryptionPassword)
-//            .subscribe { t1, t2 ->
-//                if (t1.isSuccessful){
-//                    complete.value = Event(Any())
-//                }else{
-//                    when(t1.code()){
-//                        HttpURLConnection.HTTP_CONFLICT -> error.value = SignError.EXIST_EMAIL
-//                    }
-//                }
-//            }
-//        addDisposable(disposable)
+        val encryptionPassword2 = Encryption().encryptionValue(confirmPassword.get()!!)
+
+        val disposable = userModel.signUp(name = name.get()!!, email = email.get()!!, password = encryptionPassword, password2 = encryptionPassword2)
+            .subscribe ({ t1->
+                if (t1.isSuccessful){
+                    complete.postValue(Event(Any()))
+                }else{
+                    when(t1.code()){
+                        HttpURLConnection.HTTP_BAD_REQUEST -> error.postValue(Event(SignError.EXIST_EMAIL))
+                    }
+                    Log.d("hoho", "${t1.errorBody()?.string()}")
+                }
+            }){
+                Log.d("hoho", "$it")
+            }
+        addDisposable(disposable)
         return true
     }
 }
