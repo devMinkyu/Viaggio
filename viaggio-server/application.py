@@ -5,17 +5,17 @@ from app import create_app, db
 from app.models import User
 
 
-app = create_app(os.getenv('FLASK_CONFIG') or 'default')
-migrate = Migrate(app, db)
+application = create_app(os.getenv('FLASK_CONFIG') or 'default')
+migrate = Migrate(application, db)
 
-with app.app_context():
+with application.app_context():
     db.create_all()
 
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    application.run()
 
 
-@app.cli.command()
+@application.cli.command()
 def test():
     """Run the unit tests."""
     import unittest
