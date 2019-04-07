@@ -16,9 +16,9 @@
 #### Collaborator
 
 Developer
-- Android Developer
+Android Developer
 * 김민규 Min Kyu Kim, minkyu9403@gmail.com
-- Server Developer
+Server Developer
 * 허용성 Yong Sung Heo, flchddnpdl@gmail.com
 
 Designer
