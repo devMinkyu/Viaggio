@@ -1,4 +1,4 @@
-## Viaggio - 여행 기록장
+## Viaggio - 여행 일기
 
 ## 주요 기술 및 설명
 
@@ -16,9 +16,7 @@
 #### Collaborator
 
 Developer
-Android Developer
 * 김민규 Min Kyu Kim, minkyu9403@gmail.com
-Server Developer
 * 허용성 Yong Sung Heo, flchddnpdl@gmail.com
 
 Designer
