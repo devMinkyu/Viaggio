@@ -69,8 +69,12 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
 
     inner class ViewHandler {
         fun signUp() {
-            if(getViewModel().validateSignUp()){
-                showLoading()
+            if(checkInternet()){
+                if(getViewModel().validateSignUp()){
+                    showLoading()
+                }
+            }else{
+
             }
         }
         fun back(){

@@ -14,5 +14,4 @@ app/release/app.aab
 .gitignore
 app/libs/
 app/src/main/res/assets/
-build/kotlin/
 /gradle.properties

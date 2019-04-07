@@ -8,7 +8,7 @@ import java.util.*
 data class Travel(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
     @Suppress("ArrayInDataClass") var entireCountries: ArrayList<String> = arrayListOf(),
-    var userId: Int = 0,
+    var userExist: Boolean = false,
     var startDate: Date? = null,
     var endDate: Date? = null,
     @Suppress("ArrayInDataClass") var theme: ArrayList<String> = arrayListOf(),
@@ -22,7 +22,6 @@ data class Traveled(
     var period:String = "",
     var countries:String = ""
 )
-
 
 @Entity(tableName = "travelOfDays")
 data class TravelOfDay(

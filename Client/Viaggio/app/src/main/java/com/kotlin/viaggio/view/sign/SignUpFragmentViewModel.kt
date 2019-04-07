@@ -6,6 +6,8 @@ import android.util.Patterns
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
+import com.kotlin.viaggio.data.`object`.Error
 import com.kotlin.viaggio.data.`object`.SignError
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
@@ -20,6 +22,8 @@ import javax.inject.Inject
 class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var userModel: UserModel
+    @Inject
+    lateinit var gson:Gson
     val name = ObservableField<String>().apply {
         addOnPropertyChangedCallback(object : androidx.databinding.Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: androidx.databinding.Observable?, propertyId: Int) {
@@ -98,8 +102,9 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
                 if (t1.isSuccessful){
                     complete.postValue(Event(Any()))
                 }else{
-                    when(t1.code()){
-                        HttpURLConnection.HTTP_BAD_REQUEST -> error.postValue(Event(SignError.EXIST_EMAIL))
+                    val errorMsg: Error = gson.fromJson(t1.errorBody()?.string(), Error::class.java)
+                    when(errorMsg.message){
+                        401 -> error.postValue(Event(SignError.EXIST_EMAIL))
                     }
                     Log.d("hoho", "${t1.errorBody()?.string()}")
                 }

@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
-apply plugin: "androidx.navigation.safeargs.kotlin"
+//apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     compileSdkVersion rootProject.targetSdkVersion
 
@@ -90,7 +90,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-ml-vision:19.0.3'
 
     // viewPager2
-    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha01'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha03'
 
     // lottie
     implementation "com.airbnb.android:lottie:$lottie_version"
