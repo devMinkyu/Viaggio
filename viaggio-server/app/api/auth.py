@@ -3,6 +3,7 @@ from . import api
 from .. import db
 from ..models import User
 from ..forms.user import RegistrationForm, ChangePasswordForm, ChangeUserInfoForm, LoginForm
+from .errors import bad_request
 import uuid
 
 
@@ -39,7 +40,8 @@ def create_user():
 def change_password():
     form = ChangePasswordForm(request.form)
     if form.validate():
-        user = User.query.filter_by(token=request.headers['token'], passwordHash=request.form['oldPasswordHash']).first()
+        user = User.query.filter_by(token=request.headers['authorization'],
+                                    passwordHash=request.form['oldPasswordHash']).first()
         if user is None:
             return jsonify({
                 'message': 401,
@@ -48,10 +50,7 @@ def change_password():
         user.passwordHash = request.form['passwordHash']
         db.session.add(user)
         db.session.commit()
-        return jsonify({
-            'message': 200,
-            'detail': 'User password is changed.'
-        }), 200
+        return jsonify({ 'result': 'User password is changed.' }), 200
     
     if form.passwordHash.errors:
         return jsonify({
@@ -69,7 +68,7 @@ def change_password():
 def change_name():
     form = ChangeUserInfoForm(request.form)
     if form.validate():
-        user = User.query.filter_by(token=request.headers['token']).first()
+        user = User.query.filter_by(token=request.headers['authorization']).first()
         if user is None:
             return jsonify({
                 'message': 401,
@@ -82,10 +81,7 @@ def change_name():
             user.profileImageUrl = request.form['profileImageUrl']
         db.session.add(user)
         db.session.commit()
-        return jsonify({
-            'message': 200,
-            'detail': 'User info is changed.'
-        }), 200
+        return jsonify({ 'result': 'User info is changed.' }), 200
     
     return jsonify({
         'message': 400,
@@ -97,7 +93,8 @@ def change_name():
 def login():
     form = LoginForm(request.form)
     if form.validate():
-        user = User.query.filter_by(email=request.form['email'], passwordHash=request.form['passwordHash']).first()
+        user = User.query.filter_by(email=request.form['email'],
+                                    passwordHash=request.form['passwordHash']).first()
         if user is None:
             return jsonify({
                 'message': 401,
@@ -105,18 +102,12 @@ def login():
             }), 400
 
         if user.token:
-            return jsonify({
-                'message': 200,
-                'token': user.token
-            }), 200
+            return jsonify({ 'token': user.token }), 200
         else:
             user.token = str(uuid.uuid4())
             db.session.add(user)
             db.session.commit()
-            return jsonify({
-                'message': 200,
-                'token': user.token
-            }), 200
+            return jsonify({ 'token': user.token }), 200
 
     return jsonify({
         'message': 400,
@@ -126,17 +117,11 @@ def login():
 
 @api.route('/users/logout')
 def logout():
-    user = User.query.filter_by(token=request.headers['token']).first()
+    user = User.query.filter_by(token=request.headers['authorization']).first()
     if user is None:
-        return jsonify({
-            'message': 200,
-            'detail': 'Token is already null.'
-        }), 200
+        return jsonify({ 'result': 'Token is already null.' }), 200
 
     user.token = None
     db.session.add(user)
     db.session.commit()
-    return jsonify({
-        'message': 200,
-        'detail': 'User logout is success.'
-    }), 200
+    return jsonify({ 'result': 'User logout is success.' }), 200
