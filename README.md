@@ -20,4 +20,4 @@ Developer
 * 허용성 Yong Sung Heo, flchddnpdl@gmail.com
 
 Designer
-* 김민기 Min Ki Kim, 
+* 김민기 Min Ki Kim, 8811kmk@naver.com
