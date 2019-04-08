@@ -1,18 +1,16 @@
 package com.kotlin.viaggio.view.traveling.detail
 
 import androidx.databinding.ObservableBoolean
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
-import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.event.Event
-import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
-    lateinit var travelModel: TravelModel
+    lateinit var travelLocalModel: TravelLocalModel
 
     val choose: MutableList<ObservableBoolean> = mutableListOf()
     val list:MutableList<String> = mutableListOf()
@@ -23,7 +21,7 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
     var chooseIndex:Int = 0
     override fun initialize() {
         super.initialize()
-        val disposable = travelModel.getTravelCards()
+        val disposable = travelLocalModel.getTravelCards()
             .subscribeOn(Schedulers.io())
             .subscribe({travelCards ->
                 for (travelCard in travelCards) {
@@ -43,12 +41,12 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
         val index = chooseIndex
         val imageName = list[index]
 
-        val disposable = travelModel.getTravelOfDay()
+        val disposable = travelLocalModel.getTravelOfDay()
             .observeOn(Schedulers.io())
             .subscribeOn(Schedulers.io())
             .subscribe({
                 it.themeImageName = imageName
-                travelModel.updateTravelOfDay(it)
+                travelLocalModel.updateTravelOfDay(it)
                     .observeOn(Schedulers.io())
                     .subscribe()
                 rxEventBus.travelOfDayImage.onNext(imageName)

@@ -8,7 +8,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.event.Event
-import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.fotoapparat.result.PhotoResult
 import io.reactivex.Observable
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 class CameraFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
-    lateinit var travelModel: TravelModel
+    lateinit var travelLocalModel: TravelLocalModel
     @Inject
     lateinit var firebaseVision: FirebaseVisionTextRecognizer
 
@@ -31,13 +31,13 @@ class CameraFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     override fun initialize() {
         super.initialize()
-        imagePathList = travelModel.imageAllPath()
+        imagePathList = travelLocalModel.imageAllPath()
         isVisionTextRecognizer.set(false)
     }
 
     fun savePicture(photoResult: PhotoResult) {
         isImageMake.set(true)
-        val disposable = travelModel.savePicture(photoResult).subscribe { t1 ->
+        val disposable = travelLocalModel.savePicture(photoResult).subscribe { t1 ->
             photoUri.postValue(Event(t1))
             visionTextRecognizer(t1)
         }

@@ -106,7 +106,6 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
                     when(errorMsg.message){
                         401 -> error.postValue(Event(SignError.EXIST_EMAIL))
                     }
-                    Log.d("hoho", "${t1.errorBody()?.string()}")
                 }
             }){
                 Log.d("hoho", "$it")

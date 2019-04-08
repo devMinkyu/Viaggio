@@ -9,7 +9,7 @@ import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
-import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
-    lateinit var travelModel: TravelModel
+    lateinit var travelLocalModel: TravelLocalModel
     @Inject
     lateinit var gson: Gson
 
@@ -79,13 +79,14 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
         prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, country).blockingAwait()
         val day = prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet()
 
-        val travelSingle = travelModel.getTravel()
-        val travelOfDaySingle = travelModel.getTravelOfDayCount(day)
+        val travelSingle = travelLocalModel.getTravel()
+        val travelOfDaySingle = travelLocalModel.getTravelOfDayCount(day)
         val disposable = Single.zip(travelSingle, travelOfDaySingle, BiFunction<Travel, TravelOfDay, Any> { t1, t2 ->
             t1.entireCountries.add(country)
             t2.dayCountries.add(country)
-            travelModel.updateTravel(t1)
-            travelModel.updateTravelOfDay(t2).subscribe()
+
+            travelLocalModel.updateTravel(t1)
+            travelLocalModel.updateTravelOfDay(t2).subscribe()
         }).subscribeOn(Schedulers.io())
             .subscribe({
                 rxEventBus.travelOfCountry.onNext(country)

@@ -79,7 +79,7 @@
                 android:layout_marginEnd="@dimen/sign_margin_side"
                 android:textColorHint="@android:color/white"
                 android:layout_marginTop="15dp"
-
+                android:maxLength="20"
                 android:textColor="@android:color/white"
                 android:hint="@string/sign_in_password"
                 android:inputType="textWebPassword"
@@ -98,7 +98,7 @@
                 android:layout_marginEnd="@dimen/sign_margin_side"
                 android:textColorHint="@android:color/white"
                 android:layout_marginTop="15dp"
-
+                android:maxLength="20"
                 android:textColor="@android:color/white"
                 android:hint="@string/sign_up_confirm_password"
                 android:inputType="textWebPassword"

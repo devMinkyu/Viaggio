@@ -4,14 +4,13 @@ import android.graphics.Bitmap
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.event.Event
-import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
-import com.naver.android.helloyako.imagecrop.model.CropInfo
 import javax.inject.Inject
 
 class TravelingOfDayImageEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
-    lateinit var travelModel: TravelModel
+    lateinit var travelLocalModel: TravelLocalModel
 
     val imagePathList: MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
 
@@ -23,7 +22,7 @@ class TravelingOfDayImageEnrollFragmentViewModel @Inject constructor() : BaseVie
 
     override fun initialize() {
         super.initialize()
-        for (s in travelModel.imageAllPath()) {
+        for (s in travelLocalModel.imageAllPath()) {
             imageAllList.add(s)
             chooseCountList.add(ObservableInt(0))
         }

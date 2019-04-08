@@ -2,7 +2,9 @@ package com.kotlin.viaggio.data.source
 
 import androidx.annotation.Keep
 import com.kotlin.viaggio.data.`object`.SignInBody
+import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
+import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.*
@@ -27,4 +29,10 @@ interface ViaggioApiService {
     )
     @FormUrlEncoded
     fun updateUserPaswword(@Body body: SignInBody): Single<Response<ViaggioApiAuth>>
+
+    @POST
+    @Headers(
+        "Content-Type: application/x-www-form-urlencoded"
+    )
+    fun uploadTravel(@Header("Authorization") token:String, @Body travel: Travel): Completable
 }

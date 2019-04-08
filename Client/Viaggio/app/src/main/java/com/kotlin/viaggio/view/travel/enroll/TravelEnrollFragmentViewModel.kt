@@ -5,23 +5,22 @@ import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import com.google.gson.Gson
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.Travel
-import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.`object`.TravelingError
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
-import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.TimeCheckWorker
+import com.kotlin.viaggio.worker.UploadTravelWorker
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -31,7 +30,7 @@ import javax.inject.Inject
 @SuppressLint("SimpleDateFormat")
 class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
-    lateinit var travelModel: TravelModel
+    lateinit var travelLocalModel: TravelLocalModel
     @Inject
     lateinit var gson: Gson
 
@@ -47,6 +46,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     val travelingStartOfDay = ObservableField<String>("")
     val travelingStartOfCountry = ObservableField<String>("")
 
+    var travelType:String = ""
     override fun initialize() {
         super.initialize()
             val cal = Calendar.getInstance()
@@ -95,6 +95,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         rxEventBus.travelingStartOfDay.onNext(startOfDay)
     }
 
+    @SuppressLint("RestrictedApi")
     fun travelStart():Boolean {
         when{
             TextUtils.isEmpty(travelingStartOfCountry.get()) ->{
@@ -115,36 +116,47 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         val travel = Travel(
             entireCountries = arrayListOf(travelingStartOfCountry.get()!!),
             startDate = SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).parse(travelingStartOfDay.get()!!),
-            userId = prefUtilService.getInt(AndroidPrefUtilService.Key.USER_ID).blockingGet(),
-            theme = travelThemeList.toMutableList() as ArrayList<String>
+            theme = travelThemeList.toMutableList() as ArrayList<String>,
+            travelType = travelType
         )
         prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!).observeOn(Schedulers.io()).blockingAwait()
 
-        val disposable = travelModel.createTravel(travel)
-            .flatMap {
-                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, it).observeOn(Schedulers.io()).blockingAwait()
+        val disposable = travelLocalModel.createTravel(travel)
+            .flatMap { t ->
+                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, t).observeOn(Schedulers.io()).blockingAwait()
                 val day = Math.floor(((cal.time.time - SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).parse(travelingStartOfDay.get()!!).time).toDouble()/1000)/(24*60*60)).toInt()
-                val result = mutableListOf<TravelOfDay>()
                 cal.time = SimpleDateFormat(appCtx.get().resources.getString(R.string.date_format)).parse(travelingStartOfDay.get()!!)
-                for(index in 0 .. day){
-                    if(index != 0) {
-                        val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
-                        cal.set(Calendar.DAY_OF_MONTH, dayOfMonth + 1)
-                    }
-                    val travelOfDay = TravelOfDay(dayCountries = arrayListOf(travelingStartOfCountry.get()!!), travelOfDay = index+1,
-                        date = cal.time, travelId = it)
-                    result.add(travelOfDay)
-                }
+
                 prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, day+1).observeOn(Schedulers.io()).blockingAwait()
-                travelModel.createTravelOfDays(result)
+                travel.id = t
+                prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID)
             }
-            .subscribe { t ->
-                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, t.last()).observeOn(Schedulers.io()).blockingAwait()
+            .subscribe ({ token ->
+                if(TextUtils.isEmpty(token).not()){
+                    val constraints = Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .build()
+
+                    val resultJsonTravel = gson.toJson(travel)
+
+                    val data = Data.Builder()
+                        .putString(WorkerName.TRAVEL.name, resultJsonTravel)
+                        .build()
+                    val travelWork = OneTimeWorkRequestBuilder<UploadTravelWorker>()
+                        .setConstraints(constraints)
+                        .setInputData(data)
+                        .build()
+
+                    WorkManager.getInstance().enqueue(travelWork)
+                }
                 completeLiveData.postValue(Event(Any()))
+            }){
+                Timber.e(it)
             }
         addDisposable(disposable)
         val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()
         WorkManager.getInstance().enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name,ExistingPeriodicWorkPolicy.KEEP,timeCheckWork)
+
         return true
     }
 }

@@ -1,14 +1,13 @@
 package com.kotlin.viaggio.view.traveling.enroll
 
 import android.graphics.Bitmap
-import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.event.Event
-import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
-    lateinit var travelModel: TravelModel
+    lateinit var travelLocalModel: TravelLocalModel
 
     val complete: MutableLiveData<Event<Any>> = MutableLiveData()
     val imageFirstLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
@@ -34,13 +33,13 @@ class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewMode
 
     override fun initialize() {
         super.initialize()
-        val disposable = travelModel.getTravelCard()
+        val disposable = travelLocalModel.getTravelCard()
             .observeOn(Schedulers.io())
             .subscribe({
                 travelCard = it
-                val date = SimpleDateFormat(appCtx.get().resources.getString(R.string.travel_of_day_pattern), Locale.ENGLISH).format(it.enrollOfTime).toUpperCase()
+                val date = SimpleDateFormat(appCtx.get().resources.getString(R.string.travel_of_day_pattern), Locale.ENGLISH).format(it.date).toUpperCase()
                 this.date.set(date)
-                this.contents.set(it.contents)
+                this.contents.set(it.content)
                 this.title.set(it.title)
                 if(it.imageNames.size > 0){
                     imageFirstLiveData.postValue(Event(it.imageNames[0]))
@@ -49,7 +48,7 @@ class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewMode
             }
         addDisposable(disposable)
 
-        val travelOfDayDisposable = travelModel.getTravelOfDay()
+        val travelOfDayDisposable = travelLocalModel.getTravelOfDay()
             .observeOn(Schedulers.io())
             .subscribe { t ->
                 travelOfDay = t
@@ -69,12 +68,12 @@ class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewMode
 
     fun saveCard(){
         if(travelCard.id == 0L){
-            travelCard.travelOfDayId = travelOfDay.id
-            travelCard.contents = contents.get()!!
+            travelCard.travelId = travelOfDay.id
+            travelCard.content = contents.get()!!
             travelCard.title = contents.get()!!
-            travelCard.enrollOfTime = travelOfDay.date
+            travelCard.date = travelOfDay.date
             if (imageList.isNotEmpty()){
-                val disposable = travelModel.imagePathList(imageList)
+                val disposable = travelLocalModel.imagePathList(imageList)
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.io())
                     .flatMapCompletable {
@@ -82,8 +81,8 @@ class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewMode
                         travelOfDay.themeImageName = it[0]
                         val completables = mutableListOf<Completable>()
 
-                        val travelCardCompletable = travelModel.createTravelCard(travelCard)
-                        val travelOfDayCompletable = travelModel.updateTravelOfDay(travelOfDay)
+                        val travelCardCompletable = travelLocalModel.createTravelCard(travelCard)
+                        val travelOfDayCompletable = travelLocalModel.updateTravelOfDay(travelOfDay)
 
                         completables.add(travelCardCompletable)
                         completables.add(travelOfDayCompletable)
@@ -94,7 +93,7 @@ class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewMode
                     }
                 addDisposable(disposable)
             }else{
-                val disposable = travelModel.createTravelCard(travelCard)
+                val disposable = travelLocalModel.createTravelCard(travelCard)
                     .observeOn(Schedulers.io())
                     .subscribe {
                         complete.postValue(Event(Any()))
@@ -102,10 +101,10 @@ class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewMode
                 addDisposable(disposable)
             }
         }else{
-            travelCard.contents = contents.get()!!
+            travelCard.content = contents.get()!!
             travelCard.title = title.get()!!
 
-            travelModel.updateTravelCard(travelCard)
+            travelLocalModel.updateTravelCard(travelCard)
             rxEventBus.travelCardUpdate.onNext(Any())
             complete.postValue(Event(Any()))
         }

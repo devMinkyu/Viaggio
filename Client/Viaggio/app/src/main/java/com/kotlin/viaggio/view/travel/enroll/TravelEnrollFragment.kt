@@ -124,7 +124,6 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
         fun addTheme(){
             baseIntent("http://viaggio.kotlin.com/home/main/theme/")
         }
-        @SuppressLint("SimpleDateFormat")
         fun changeDate(){
             alert {
                 lateinit var datePicker: DatePicker
@@ -151,12 +150,6 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
             if(getViewModel().travelStart()){
                 showLoading()
             }
-        }
-        fun traveled(){
-            baseIntent("http://viaggio.kotlin.com/home/main/traveled/")
-        }
-        fun setting(){
-            baseIntent("http://viaggio.kotlin.com/home/main/setting/")
         }
     }
 

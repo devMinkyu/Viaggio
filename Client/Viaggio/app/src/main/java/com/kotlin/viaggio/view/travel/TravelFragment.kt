@@ -56,7 +56,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             if (travelList.size > position) {
                 binding.data = travelList[position]
                 val imgDir = File(context?.filesDir, "images/")
-                travelList[position].themeImageName.let { themeImageName ->
+                travelList[position].backgroundImageName.let { themeImageName ->
                     val imgFile = File(imgDir, themeImageName)
                     if (imgFile.exists()) {
                         Uri.fromFile(imgFile).let { uri ->

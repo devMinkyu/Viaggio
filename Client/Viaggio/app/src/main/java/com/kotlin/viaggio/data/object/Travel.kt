@@ -9,11 +9,15 @@ data class Travel(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
     @Suppress("ArrayInDataClass") var entireCountries: ArrayList<String> = arrayListOf(),
     var userExist: Boolean = false,
+    var title: String = "재미있는 여행",
+    var travelType:String ="",
     var startDate: Date? = null,
     var endDate: Date? = null,
     @Suppress("ArrayInDataClass") var theme: ArrayList<String> = arrayListOf(),
-    var themeImageName: String = "",
-    var share: Boolean = false
+    var backgroundImageName: String = "",
+    var backgroundImageUrl: String = "",
+    var share: Boolean = false,
+    var isDelete:Boolean = false
 )
 
 data class Traveled(
@@ -47,12 +51,14 @@ data class TravelOfDayVal(
 @Entity(tableName = "travelCards")
 data class TravelCard(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
+    var travelId: Long = 0,
+    var travelOfDay: Int = 1,
+    var country:String = "",
     @Suppress("ArrayInDataClass") var imageNames: ArrayList<String> = arrayListOf(),
-    var travelOfDayId: Long = 0,
-    var contents: String = "",
-    var enrollOfTime: Date = Date(),
-    var favorite: Int = 0,
-    var title:String = ""
+    @Suppress("ArrayInDataClass") var imageUrl: ArrayList<String> = arrayListOf(),
+    var title: String = "",
+    var content: String = "",
+    var date: Date = Date()
 )
 
 data class Theme(

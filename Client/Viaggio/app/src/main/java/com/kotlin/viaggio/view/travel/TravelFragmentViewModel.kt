@@ -4,14 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
-import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
-    lateinit var travelModel: TravelModel
+    lateinit var travelLocalModel: TravelLocalModel
 
     val travelListLiveData = MutableLiveData<Event<List<Travel>>>()
     val openCalendarLiveData = MutableLiveData<Event<Boolean>>()
@@ -20,7 +20,7 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     override fun initialize() {
         super.initialize()
-        val disposable = travelModel.getTravels()
+        val disposable = travelLocalModel.getTravels()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({

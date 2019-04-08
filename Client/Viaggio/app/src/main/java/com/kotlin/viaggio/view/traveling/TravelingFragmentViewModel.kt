@@ -10,7 +10,7 @@ import com.google.gson.Gson
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
-import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @SuppressLint("SimpleDateFormat")
 class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
-    lateinit var travelModel: TravelModel
+    lateinit var travelLocalModel: TravelLocalModel
     @Inject
     lateinit var gson: Gson
 
@@ -61,7 +61,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     }
 
     private fun loadTravelOfDayPaged() {
-        val factory = travelModel.getTravelOfDays()
+        val factory = travelLocalModel.getTravelOfDays()
         val pagedListBuilder = LivePagedListBuilder<Int, TravelOfDay>(
             factory,
             10
@@ -72,7 +72,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     fun setSelectedTravelingOfDay(travelOfDayId: Long?) {
         travelOfDayId?.let {
             prefUtilService.putLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID, it).blockingAwait()
-            val disposable = travelModel.getTravelCard()
+            val disposable = travelLocalModel.getTravelCard()
                 .observeOn(Schedulers.io())
                 .subscribe({
                     showTravelCard.postValue(Event(true))

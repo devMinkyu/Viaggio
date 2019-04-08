@@ -128,5 +128,10 @@ dependencies {
     // image crop
     implementation "com.naver.android.helloyako:imagecropview:1.2.0"
 
+    // debug
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    debugImplementation 'com.facebook.stetho:stetho:1.5.1'
+    debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
 }
 apply plugin: 'com.google.gms.google-services'

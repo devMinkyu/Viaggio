@@ -2,14 +2,12 @@ package com.kotlin.viaggio.android
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.RxEventBus
-import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.TravelLocalModel
 import dagger.Lazy
 import io.reactivex.schedulers.Schedulers
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -20,7 +18,7 @@ class TimeHelper @Inject constructor(){
     @Inject
     lateinit var prefUtilService: AndroidPrefUtilService
     @Inject
-    lateinit var travelModel: TravelModel
+    lateinit var travelLocalModel: TravelLocalModel
     @field:[Inject Named("Application")]
     lateinit var appCtx: Lazy<Context>
     @Inject
@@ -43,7 +41,7 @@ class TimeHelper @Inject constructor(){
             ,travelOfDay = travelingOfDayOfCount, travelId = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
             )
 
-            val travelOfDayId = travelModel.createTravelOfDay(travelOfDay).subscribeOn(Schedulers.io()).blockingGet()
+            val travelOfDayId = travelLocalModel.createTravelOfDay(travelOfDay).subscribeOn(Schedulers.io()).blockingGet()
             prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID, travelOfDayId).blockingAwait()
             travelOfDay.id = travelOfDayId
             rxEventBus.travelOfDayChange.onNext(true)
