@@ -55,4 +55,5 @@
 
     <string name="travel_of_day_pattern">EEEE / MMMM d / yyyy</string>
     <string name="travel_of_day_time_pattern">h:mm a</string>
+    <string name="non_travel_notice">터치하여\n새로운 여행을\n시작하세요!</string>
 </resources>

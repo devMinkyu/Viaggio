@@ -184,4 +184,10 @@
     <item name="travelingOfDayEnrollDate" type="id"/>
     <item name="travelingOfDayEnrollTitle" type="id"/>
     <item name="travelingOfDayEnrollContents" type="id"/>
+    <item name="travelNonBack" type="id"/>
+    <item name="travelNonNotice" type="id"/>
+    <item name="travelTitle" type="id"/>
+    <item name="travelDate" type="id"/>
+    <item name="travelBack" type="id"/>
+    <item name="travelSpinner" type="id"/>
 </resources>

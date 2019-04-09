@@ -24,6 +24,7 @@ data class Traveled(
     var id: Long = 0,
     var theme:String = "",
     var period:String = "",
+    var title:String ="",
     var countries:String = ""
 )
 

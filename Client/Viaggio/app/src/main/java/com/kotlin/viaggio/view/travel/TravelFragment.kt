@@ -11,11 +11,14 @@ import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.Travel
+import com.kotlin.viaggio.data.`object`.Traveled
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_travel.*
 import kotlinx.android.synthetic.main.item_travel.view.*
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
@@ -54,7 +57,13 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             val view = LayoutInflater.from(context).inflate(R.layout.item_travel, container, false)
             val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelBinding>(view)!!
             if (travelList.size > position) {
-                binding.data = travelList[position]
+                val travel = Traveled()
+                travelList[position].apply {
+                    travel.id = id
+                    travel.title = title
+                    travel.period = SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)
+                }
+                binding.data = travel
                 val imgDir = File(context?.filesDir, "images/")
                 travelList[position].backgroundImageName.let { themeImageName ->
                     val imgFile = File(imgDir, themeImageName)
@@ -70,7 +79,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             } else {
                 binding.data = null
             }
-            view.travelAdd.setOnClickListener {
+            view.travelNonBack.setOnClickListener {
                 TravelKindsBottomSheetDialogFragment().show(fragmentManager!!, TravelKindsBottomSheetDialogFragment.TAG)
             }
             view.travelBackground.setOnClickListener {

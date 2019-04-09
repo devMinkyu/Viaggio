@@ -24,4 +24,11 @@
     <color name="ultramarine">#13009f</color>
     <color name="black">#212121</color>
     <color name="dark_indigo">#111a58</color>
+    <color name="almost_black_90">#e6111918</color>
+    <color name="charcoal">#0f1010</color>
+    <color name="ice_blue">#eceeee</color>
+    <color name="ice">#eff8f6</color>
+    <color name="ice_blue_two">#f2f8f8</color>
+    <color name="pale_blue">#e2e7e9</color>
+    <color name="dark_grey">#363737</color>
 </resources>
