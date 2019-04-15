@@ -33,6 +33,7 @@ class Travel(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     startDate = db.Column(db.DateTime)
     endDate = db.Column(db.DateTime)
+    entireCountry = db.Column(db.PickleType)
     title = db.Column(db.String(64))
     thema = db.Column(db.PickleType)
     backgroundImageName = db.Column(db.String(32))
@@ -50,6 +51,22 @@ class Travel(db.Model):
 
     def as_dict(self):
         return {x.name: getattr(self, x.name) for x in self.__table__.columns}
+
+    def to_json(self):
+        json_travel = {
+            'id': self.id,
+            'userId': self.userId,
+            'startDate': self.startDate,
+            'endDate': self.endDate,
+            'entireCountry': self.entireCountry,
+            'title': self.title,
+            'thema': self.thema,
+            'backgroundImageName': self.backgroundImageName,
+            'backgroundImageUrl': self.backgroundImageUrl,
+            'share': self.share,
+            'isDelete': self.isDelete
+        }
+        return json_travel
 
 
 class TravelCard(db.Model):
@@ -74,3 +91,17 @@ class TravelCard(db.Model):
 
     def as_dict(self):
         return {x.name: getattr(self, x.name) for x in self.__table__.columns}
+
+    def to_json(self):
+        json_travelCard = {
+            'id': self.id,
+            'travelId': self.travelId,
+            'travelOfDay': self.travelOfDay,
+            'country': self.country,
+            'title': self.title,
+            'content': self.content,
+            'imageName': self.imageName,
+            'imageUrl': self.imageUrl,
+            'date': self.date
+        }
+        return json_travelCard
