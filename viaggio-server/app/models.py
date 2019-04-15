@@ -33,6 +33,7 @@ class Travel(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     startDate = db.Column(db.DateTime)
     endDate = db.Column(db.DateTime)
+    travelType = db.Column(db.String(16))
     entireCountry = db.Column(db.PickleType)
     title = db.Column(db.String(64))
     thema = db.Column(db.PickleType)
