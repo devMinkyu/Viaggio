@@ -190,4 +190,5 @@
     <item name="travelDate" type="id"/>
     <item name="travelBack" type="id"/>
     <item name="travelSpinner" type="id"/>
+    <item name="travelingCountryNotice" type="id"/>
 </resources>
