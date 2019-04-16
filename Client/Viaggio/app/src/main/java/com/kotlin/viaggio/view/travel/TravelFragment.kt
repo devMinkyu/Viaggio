@@ -25,7 +25,6 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
     companion object {
         val TAG: String = TravelFragment::class.java.simpleName
     }
-
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_travel, container, false)
@@ -33,7 +32,6 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
         binding.viewHandler = ViewHandler()
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -50,6 +48,18 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        if(getViewModel().isTravelRefresh){
+            getViewModel().fetchData()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        getViewModel().isTravelRefresh = true
+    }
+
     inner class TravelPagerAdapter(private val travelList:List<Travel>):PagerAdapter(){
         override fun isViewFromObject(view: View, `object`: Any) = view == `object`
         override fun getCount() = travelList.size + 1
@@ -61,7 +71,11 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                 travelList[position].apply {
                     travel.id = id
                     travel.title = title
-                    travel.period = SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)
+                    travel.period = if(endDate == null){
+                        "${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)} ~"
+                    } else{
+                        "${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)} ~ ${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(endDate)}"
+                    }
                 }
                 binding.data = travel
                 val imgDir = File(context?.filesDir, "images/")

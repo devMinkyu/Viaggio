@@ -11,7 +11,7 @@ import retrofit2.http.*
 
 @Keep
 interface ViaggioApiService {
-    @POST("api/v1/users")
+    @POST("api/v1/auth/signup")
     @FormUrlEncoded
     fun signUp(@Field("email") email:String,
                @Field("name") name:String,

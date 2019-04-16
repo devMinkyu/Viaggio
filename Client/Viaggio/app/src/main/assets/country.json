@@ -1,88 +1,86 @@
-{
-  "data": [
-    {
-      "continent": "Asia",
-      "areas": [
-        {
-          "area": "East Asia",
-          "country": [
-            "Korea",
-            "China"
-          ]
-        },
-        {
-          "area": "Southeast Asia",
-          "country": [
-            "Brunei"
-          ]
-        }
-      ]
-    },
-    {
-      "continent": "Americas",
-      "areas": [
-        {
-          "area": "North America",
-          "country": [
-            "USA",
-            "Canada"
-          ]
-        },
-        {
-          "area": "South America",
-          "country": [
-            "Brazil"
-          ]
-        }
-      ]
-    },
-    {
-      "continent": "Europe",
-      "areas": [
-        {
-          "area": "Southern Europe",
-          "country": [
-            "Spain",
-            "Portugal"
-          ]
-        },
-        {
-          "area": "Western Europe",
-          "country": [
-            "England"
-          ]
-        }
-      ]
-    },
-    {
-      "continent": "Africa",
-      "areas": [
-        {
-          "area": "East Africa",
-          "country": [
-            "Comoros",
-            "Djibouti"
-          ]
-        },
-        {
-          "area": "Central Africa",
-          "country": [
-            "Central African Republic"
-          ]
-        }
-      ]
-    },
-    {
-      "continent": "Oceania",
-      "areas": [
-        {
-          "area": "",
-          "country": [
-            "Australia",
-            "New Zealand"
-          ]
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "continent": "Asia",
+    "areas": [
+      {
+        "area": "East Asia",
+        "country": [
+          "Korea",
+          "China"
+        ]
+      },
+      {
+        "area": "Southeast Asia",
+        "country": [
+          "Brunei"
+        ]
+      }
+    ]
+  },
+  {
+    "continent": "Americas",
+    "areas": [
+      {
+        "area": "North America",
+        "country": [
+          "USA",
+          "Canada"
+        ]
+      },
+      {
+        "area": "South America",
+        "country": [
+          "Brazil"
+        ]
+      }
+    ]
+  },
+  {
+    "continent": "Europe",
+    "areas": [
+      {
+        "area": "Southern Europe",
+        "country": [
+          "Spain",
+          "Portugal"
+        ]
+      },
+      {
+        "area": "Western Europe",
+        "country": [
+          "England"
+        ]
+      }
+    ]
+  },
+  {
+    "continent": "Africa",
+    "areas": [
+      {
+        "area": "East Africa",
+        "country": [
+          "Comoros",
+          "Djibouti"
+        ]
+      },
+      {
+        "area": "Central Africa",
+        "country": [
+          "Central African Republic"
+        ]
+      }
+    ]
+  },
+  {
+    "continent": "Oceania",
+    "areas": [
+      {
+        "area": "",
+        "country": [
+          "Australia",
+          "New Zealand"
+        ]
+      }
+    ]
+  }
+]

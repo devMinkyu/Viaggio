@@ -3,8 +3,9 @@ package com.kotlin.viaggio.view.traveling
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.`object`.CountryList
+import com.kotlin.viaggio.data.`object`.Country
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
@@ -31,28 +32,30 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
 
     private val continentList:MutableList<String> = mutableListOf()
     private val areaList:MutableList<String> = mutableListOf()
-    private val continentOfAreasMap:MutableMap<String, MutableList<String>> = mutableMapOf()
-    private val areaOfCountriesMap:MutableMap<String, MutableList<String>> = mutableMapOf()
+    private val continentOfAreasMap:MutableMap<String, List<String>> = mutableMapOf()
+    private val areaOfCountriesMap:MutableMap<String, List<String>> = mutableMapOf()
 
-    val continentLiveData:MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
-    val areaLiveData:MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
-    val countryLiveData:MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
+    val continentLiveData:MutableLiveData<Event<List<String>>> = MutableLiveData()
+    val areaLiveData:MutableLiveData<Event<List<String>>> = MutableLiveData()
+    val countryLiveData:MutableLiveData<Event<List<String>>> = MutableLiveData()
     val completeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
     override fun initialize() {
         super.initialize()
 
         val inputStream = InputStreamReader(appCtx.get().assets.open(appCtx.get().getString(R.string.travel_country_json)))
-        val countries: CountryList = gson.fromJson(inputStream, CountryList::class.java)
-        continentOfAreasMap.putAll(
-            countries.data.map {country ->
-                continentList.add(country.continent)
-                val ares = country.areas
-                areaOfCountriesMap.putAll(
-                    ares.map { it.area to it.country}.toMap()
-                )
-                country.continent to ares.map { it.area }.toMutableList()
-            }.toMap()
-        )
+        val type = object : TypeToken<List<Country>>() {}.type
+
+        val countries: List<Country> = gson.fromJson(inputStream, type)
+        val result = countries.associate {country ->
+            continentList.add(country.continent)
+            val ares = country.areas
+            val areaResult = ares.associate { it.area to it.country}
+            areaOfCountriesMap.putAll(areaResult)
+            country.continent to ares.map { it.area }
+        }
+        continentOfAreasMap.putAll(result)
+
+        continentLiveData.value = Event(continentList)
     }
 
     fun showArea(position: Int) {

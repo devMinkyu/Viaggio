@@ -1,9 +1,7 @@
 package com.kotlin.viaggio.view.travel.enroll
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +17,6 @@ import com.kotlin.viaggio.data.`object`.TravelingError
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
-import com.r0adkll.slidr.model.SlidrInterface
 import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_travel_enroll.*
@@ -39,9 +36,6 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_travel_enroll, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
-        val layoutManager = FlexboxLayoutManager(context)
-        layoutManager.flexWrap = FlexWrap.WRAP
-        binding.travelingThemes.layoutManager = layoutManager
         return binding.root
     }
 
@@ -89,21 +83,6 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
             }
         })
 
-        getViewModel().travelThemeListLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { list ->
-                travelingThemes.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
-                            = ThemeTravelingSelectedViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_selected_theme, parent, false))
-                    override fun getItemCount() = list.size
-                    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                        holder as ThemeTravelingSelectedViewHolder
-                        holder.binding?.data = list[position]
-                        holder.binding?.viewHandler = ViewHandler()
-                    }
-                }
-            }
-        })
-
         getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
 //                baseIntent("http://viaggio.kotlin.com/traveling/start/")
@@ -120,6 +99,12 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
                     Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             )
+        }
+        fun back() {
+            fragmentPopStack()
+        }
+        fun addCountry(){
+            baseIntent("http://viaggio.kotlin.com/traveling/country/")
         }
         fun addTheme(){
             baseIntent("http://viaggio.kotlin.com/home/main/theme/")

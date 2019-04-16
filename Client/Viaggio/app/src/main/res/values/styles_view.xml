@@ -3,9 +3,35 @@
     </style>
 
     <style name="ViewStyle.Viaggio.Kinds">
-        <item name="android:layout_height">80dp</item>
-        <!--<item name="android:layout_height">121dp</item>-->
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Travel.Kind</item>
+        <item name="android:layout_marginStart">@dimen/travel_kind_margin</item>
+        <item name="android:layout_marginTop">12.7dp</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Kinds.Sub">
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Travel.Kind.Sub</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Enroll">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Travel.Enroll</item>
+        <item name="android:layout_marginStart">@dimen/travel_kind_margin</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Enroll.Value">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_marginEnd">@dimen/travel_kind_margin</item>
+        <item name="android:inputType">text</item>
+        <item name="android:clickable">false</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:gravity">end</item>
+        <item name="android:textColorHint">@color/silver</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 </resources>

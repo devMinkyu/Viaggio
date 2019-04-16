@@ -42,7 +42,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
 
         getViewModel().continentLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {continents ->
-                continentAdapter.list = continents
+                continentAdapter.list = continents.toMutableList()
                 continentAdapter.viewType = if(getViewModel().chooseContinent.get()) 1 else 0
                 continentAdapter.type = 0
 
@@ -56,7 +56,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
                 continentAdapter.selectedPosition = getViewModel().continentPosition
                 continentAdapter.notifyDataSetChanged()
 
-                areaAdapter.list = areas
+                areaAdapter.list = areas.toMutableList()
                 areaAdapter.viewType = if(getViewModel().chooseArea.get()) 1 else 0
                 areaAdapter.type = 1
                 countryArea.adapter = areaAdapter
@@ -70,7 +70,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
                 areaAdapter.notifyDataSetChanged()
 
                 val adapter = TravelingCountryAdapter()
-                adapter.list = countries
+                adapter.list = countries.toMutableList()
                 adapter.viewType = 0
                 countryCountry.adapter = adapter
             }

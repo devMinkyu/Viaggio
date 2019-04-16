@@ -18,39 +18,36 @@
 
     <style name="TextAppearance.Viaggio.Non">
         <item name="android:textColor">@color/dark_grey</item>
-        <item name="android:textSize" tools:ignore="SpUsage">23dp</item>
+        <item name="android:textSize" tools:ignore="SpUsage">20dp</item>
         <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3.3dp</item>
-        <item name="android:letterSpacing">-0.02</item>
-        <item name="android:fontFamily">@font/noto_sanscjkkr_light</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
     <style name="TextAppearance.Viaggio.Travel">
         <item name="android:textColor">@color/ice</item>
-        <item name="android:textSize" tools:ignore="SpUsage">41.7dp</item>
-        <item name="android:letterSpacing">-0.02</item>
-        <item name="android:fontFamily">@font/noto_sanscjkkr_bold</item>
+        <item name="android:textSize" tools:ignore="SpUsage">30dp</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
     <style name="TextAppearance.Viaggio.Travel.Date">
         <item name="android:textColor">@color/ice</item>
         <item name="android:textSize" tools:ignore="SpUsage">10dp</item>
-        <item name="android:letterSpacing">-0.02</item>
-        <item name="android:fontFamily">@font/noto_sanscjkkr_demilight</item>
     </style>
     <style name="TextAppearance.Viaggio.Travel.Kind">
         <item name="android:textColor">@color/charcoal_two</item>
         <item name="android:textSize" tools:ignore="SpUsage">15.8dp</item>
+        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3.3dp</item>
         <item name="android:letterSpacing">-0.02</item>
-        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">25.8dp</item>
-        <item name="android:fontFamily">@font/noto_sanscjkkr_bold</item>
+        <item name="android:fontFamily">sans-serif-black</item>
     </style>
     <style name="TextAppearance.Viaggio.Travel.Kind.Sub">
         <item name="android:textColor">@color/brown_grey</item>
         <item name="android:textSize" tools:ignore="SpUsage">9.5dp</item>
-        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">32.2dp</item>
-        <item name="android:fontFamily">@font/noto_sanscjkkr_light</item>
+        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3.3dp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
     <style name="TextAppearance.Viaggio.Travel.Enroll">
         <item name="android:textColor">@color/almost_black</item>
         <item name="android:textSize" tools:ignore="SpUsage">15.7dp</item>
-        <item name="android:fontFamily">@font/noto_sanscjkkr_bold</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 </resources>

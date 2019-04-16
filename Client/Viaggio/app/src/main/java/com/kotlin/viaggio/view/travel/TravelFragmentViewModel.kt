@@ -14,12 +14,16 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
     lateinit var travelLocalModel: TravelLocalModel
 
     val travelListLiveData = MutableLiveData<Event<List<Travel>>>()
-    val openCalendarLiveData = MutableLiveData<Event<Boolean>>()
 
     val travelList = mutableListOf<Travel>()
 
+    var isTravelRefresh = false
+
     override fun initialize() {
         super.initialize()
+        fetchData()
+    }
+    fun fetchData(){
         val disposable = travelLocalModel.getTravels()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
