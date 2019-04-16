@@ -33,12 +33,14 @@ class Travel(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     startDate = db.Column(db.DateTime)
     endDate = db.Column(db.DateTime)
+    travelType = db.Column(db.String(16))
+    entireCountry = db.Column(db.PickleType)
     title = db.Column(db.String(64))
     thema = db.Column(db.PickleType)
     backgroundImageName = db.Column(db.String(32))
     backgroundImageUrl = db.Column(db.String(128))
-    share = db.Column(db.Boolean, default=False)
-    isDelete = db.Column(db.Boolean, default=False)
+    share = db.Column(db.Boolean)
+    isDelete = db.Column(db.Boolean)
     travlecard = db.relationship('TravelCard', backref='travel', lazy='dynamic')
 
     def __init__(self, **kwargs):
@@ -50,6 +52,22 @@ class Travel(db.Model):
 
     def as_dict(self):
         return {x.name: getattr(self, x.name) for x in self.__table__.columns}
+
+    def to_json(self):
+        json_travel = {
+            'id': self.id,
+            'userId': self.userId,
+            'startDate': self.startDate,
+            'endDate': self.endDate,
+            'entireCountry': self.entireCountry,
+            'title': self.title,
+            'thema': self.thema,
+            'backgroundImageName': self.backgroundImageName,
+            'backgroundImageUrl': self.backgroundImageUrl,
+            'share': self.share,
+            'isDelete': self.isDelete
+        }
+        return json_travel
 
 
 class TravelCard(db.Model):
@@ -64,6 +82,7 @@ class TravelCard(db.Model):
     imageName = db.Column(db.String(32))
     imageUrl = db.Column(db.String(128))
     date = db.Column(db.DateTime)
+    isDelete = db.Column(db.Boolean)
 
     def __init__(self, **kwargs):
         super(TravelCard, self).__init__(**kwargs)
@@ -74,3 +93,17 @@ class TravelCard(db.Model):
 
     def as_dict(self):
         return {x.name: getattr(self, x.name) for x in self.__table__.columns}
+
+    def to_json(self):
+        json_travelCard = {
+            'id': self.id,
+            'travelId': self.travelId,
+            'travelOfDay': self.travelOfDay,
+            'country': self.country,
+            'title': self.title,
+            'content': self.content,
+            'imageName': self.imageName,
+            'imageUrl': self.imageUrl,
+            'date': self.date
+        }
+        return json_travelCard
