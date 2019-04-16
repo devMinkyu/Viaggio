@@ -68,7 +68,6 @@ def update_travel(id):
             tempData = list(travel.entireCountry)
             tempData.append(request.form.get('addCountry'))
             travel.entireCountry = tempData
-        # TODO: If startDate can be updated, logic will be added.
         travel.endDate = request.form.get('endDate')
         if request.form.get('addThema') is not None \
             and request.form.get('addThema') not in travel.thema:
