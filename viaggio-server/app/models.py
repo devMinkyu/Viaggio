@@ -39,8 +39,8 @@ class Travel(db.Model):
     thema = db.Column(db.PickleType)
     backgroundImageName = db.Column(db.String(32))
     backgroundImageUrl = db.Column(db.String(128))
-    share = db.Column(db.Boolean, default=False)
-    isDelete = db.Column(db.Boolean, default=False)
+    share = db.Column(db.Boolean)
+    isDelete = db.Column(db.Boolean)
     travlecard = db.relationship('TravelCard', backref='travel', lazy='dynamic')
 
     def __init__(self, **kwargs):
@@ -82,6 +82,7 @@ class TravelCard(db.Model):
     imageName = db.Column(db.String(32))
     imageUrl = db.Column(db.String(128))
     date = db.Column(db.DateTime)
+    isDelete = db.Column(db.Boolean)
 
     def __init__(self, **kwargs):
         super(TravelCard, self).__init__(**kwargs)
