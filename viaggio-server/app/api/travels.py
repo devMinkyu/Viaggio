@@ -81,7 +81,7 @@ def update_travel(id):
         else:
             travel.share = False
         db.session.commit()
-        return jsonify(travel.as_dict())
+        return jsonify({ 'travel': travel.as_dict() })
 
     if form.travelType.errors:
         return bad_request(401, 'TravelType validation error.')
