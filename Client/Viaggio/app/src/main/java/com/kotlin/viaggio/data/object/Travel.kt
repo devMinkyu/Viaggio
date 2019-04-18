@@ -63,5 +63,6 @@ data class TravelCard(
 )
 
 data class Theme(
-    var themes: MutableList<String> = mutableListOf()
+    var themes: MutableList<String> = mutableListOf(),
+    var authority:Boolean = false
 )

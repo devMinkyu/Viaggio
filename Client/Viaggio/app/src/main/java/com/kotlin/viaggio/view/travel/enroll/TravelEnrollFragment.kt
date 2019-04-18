@@ -23,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_travel_enroll.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -85,7 +86,6 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
 
         getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-//                baseIntent("http://viaggio.kotlin.com/traveling/start/")
                 baseIntent("http://viaggio.kotlin.com/home/main/")
             }
         })
@@ -123,7 +123,7 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
                         cal.set(Calendar.YEAR, datePicker.year)
                         cal.set(Calendar.MONTH, datePicker.month)
                         cal.set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
-                        getViewModel().changeStartOfDay(SimpleDateFormat(resources.getString(R.string.date_format),Locale.ENGLISH).format(cal.time))
+                        getViewModel().changeStartOfDay(DateFormat.getDateInstance(DateFormat.LONG).format(cal.time))
                     }
                     cancelButton {
                         it.dismiss()

@@ -10,4 +10,12 @@
     <dimen name="card_padding">60dp</dimen>
     <dimen name="calendar_size">10dp</dimen>
     <dimen name="travel_kind_margin">42.7dp</dimen>
+
+    <dimen name="top_height">24dp</dimen>
+    <dimen name="common_margin">22dp</dimen>
+    <dimen name="title_start">31.7dp</dimen>
+    <dimen name="tool_bar">102dp</dimen>
+    <dimen name="tool_bar_title">59dp</dimen>
+    <dimen name="app_bar_height">126dp</dimen>
+    <dimen name="country_top_margin">56.5dp</dimen>
 </resources>

@@ -68,9 +68,13 @@
     <string name="travel_start">여행 시작</string>
     <string name="travel_enroll_notice">새로운 해외여행 등록</string>
     <string name="travel_enroll_country">새로운 여행지</string>
-    <string name="travel_enroll_country_hint">터치하여 여행지를 골라주세요</string>
+    <string name="travel_enroll_country_hint">터치하여 여행지를 골라주세요.</string>
     <string name="travel_enroll_day">여행 시작날짜</string>
-    <string name="travel_enroll_day_hint">터치하여 날짜를 골라주세요</string>
+    <string name="travel_enroll_day_hint">터치하여 날짜를 골라주세요.</string>
     <string name="travel_enroll_theme">여행의 테마</string>
-    <string name="travel_enroll_theme_hint">터치하여 테마를 골라주세요</string>
+    <string name="travel_enroll_theme_hint">터치하여 테마를 골라주세요.</string>
+    <string name="travel_country_notice">여행지</string>
+    <string name="total">전체</string>
+    <string name="travel_country_choice_notice">원하는 나라를 클릭 해주세요.</string>
+    <string name="travel_country_add_notice">더 많은 도시가 추가될 예정이에요.</string>
 </resources>

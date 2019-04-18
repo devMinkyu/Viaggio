@@ -1,22 +1,32 @@
 package com.kotlin.viaggio.view.traveling
 
-import android.graphics.Color
+import android.content.Context
+import android.graphics.Rect
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_country.*
-import org.jetbrains.anko.backgroundColor
+import kotlinx.android.synthetic.main.item_traveling_country.view.*
+import org.jetbrains.anko.support.v4.dip
 
 
 class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>() {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        arguments?.let {
+            it.getInt(ArgName.TRAVEL_TYPE.name, 0)
+        }
+    }
+
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingCountryBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_country, container, false)
@@ -27,58 +37,36 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        countryContinent.layoutManager = LinearLayoutManager(context)
-        countryContinent.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        countryContinent.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL))
-        countryArea.layoutManager = LinearLayoutManager(context)
-        countryArea.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        countryArea.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL))
-        countryCountry.layoutManager = LinearLayoutManager(context)
-        countryCountry.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        countryCountry.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL))
+        countryList.layoutManager = GridLayoutManager(context, 2)
+        countryList.addItemDecoration(TravelCountryItemDecoration())
 
-        val continentAdapter = TravelingCountryAdapter()
-        val areaAdapter = TravelingCountryAdapter()
-
-        getViewModel().continentLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {continents ->
-                continentAdapter.list = continents.toMutableList()
-                continentAdapter.viewType = if(getViewModel().chooseContinent.get()) 1 else 0
-                continentAdapter.type = 0
-
-                countryContinent.adapter = continentAdapter
-            }
-        })
-
-        getViewModel().areaLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { areas ->
-                continentAdapter.viewType = if(getViewModel().chooseContinent.get()) 1 else 0
-                continentAdapter.selectedPosition = getViewModel().continentPosition
-                continentAdapter.notifyDataSetChanged()
-
-                areaAdapter.list = areas.toMutableList()
-                areaAdapter.viewType = if(getViewModel().chooseArea.get()) 1 else 0
-                areaAdapter.type = 1
-                countryArea.adapter = areaAdapter
-            }
-        })
+        val width = context!!.resources.displayMetrics.widthPixels - dip(59)
 
         getViewModel().countryLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { countries ->
-                areaAdapter.viewType = if(getViewModel().chooseArea.get()) 1 else 0
-                areaAdapter.selectedPosition = getViewModel().areaPosition
-                areaAdapter.notifyDataSetChanged()
+            it.getContentIfNotHandled()?.let {list ->
+                countryList.adapter = object : RecyclerView.Adapter<TravelingCountryViewHolder>(){
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                        TravelingCountryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_country, parent, false))
+                    override fun getItemCount() = list.size
+                    override fun onBindViewHolder(holder: TravelingCountryViewHolder, position: Int) {
+                        holder.binding?.data = list[position]
+                        holder.binding?.viewHandler = holder.TravelingCountryViewHandler()
+                        holder.round()
 
-                val adapter = TravelingCountryAdapter()
-                adapter.list = countries.toMutableList()
-                adapter.viewType = 0
-                countryCountry.adapter = adapter
+                        val params = holder.itemView.item_container.layoutParams
+                        params.width = width / 2
+                        params.height = params.width
+                        holder.itemView.item_container.layoutParams = params
+                    }
+                }
             }
         })
 
         getViewModel().completeLiveData.observe(this, Observer {
-            stopLoading()
-            fragmentPopStack()
+            it.getContentIfNotHandled()?.let {
+                stopLoading()
+                fragmentPopStack()
+            }
         })
     }
 
@@ -86,81 +74,38 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         fun back() {
             fragmentPopStack()
         }
-
-        fun choose(position: Int) {
-            when{
-                getViewModel().chooseContinent.get().not() ->{
-                    getViewModel().showArea(position)
-                }
-                getViewModel().chooseArea.get().not() -> {
-                    getViewModel().showCountry(position)
-                }
-                else -> {
-                    showLoading()
-                    getViewModel().changeCountry(position)
-                }
-            }
-        }
-        fun reChoose(position: Int, type:Int){
-            when(type){
-                0 -> {
-                    getViewModel().showArea(position)
-                }
-                1 -> {
-                    getViewModel().showCountry(position)
-                }
-            }
-        }
     }
-
-    inner class TravelingCountryAdapter:RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-        var list: MutableList<String> = mutableListOf()
-        var viewType: Int = 0
-        var selectedPosition:Int = 0
-        var type = 0
-
-        override fun getItemViewType(position: Int) = viewType
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            when(viewType){
-                0 -> {
-                    TravelingCountryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_country, parent, false))
-                }
-                1 -> {
-                    TravelingCountryChooseViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_country_choose, parent, false))
-                }
-                else -> {
-                    TravelingCountryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_country, parent, false))
-                }
-            }
-        override fun getItemCount() = list.size
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            when(getItemViewType(position)){
-                0 -> {
-                    holder as TravelingCountryViewHolder
-                    holder.binding?.data = list[position]
-                    holder.binding?.position = position
-                    holder.binding?.viewHandler = ViewHandler()
-                }
-                1 -> {
-                    holder as TravelingCountryChooseViewHolder
-                    holder.binding?.data = list[position]
-                    holder.binding?.position = position
-                    holder.binding?.type = type
-                    holder.binding?.viewHandler = ViewHandler()
-                    if(position == selectedPosition){
-                        holder.itemView.backgroundColor = resources.getColor(R.color.pinkish_grey, null)
-                    }else{
-                        holder.itemView.backgroundColor = Color.WHITE
-                    }
-                }
-            }
-        }
-    }
-
     inner class TravelingCountryViewHolder(view:View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingCountryBinding>(view)
+
+        fun round(){
+            val drawable = context?.getDrawable(R.drawable.round_bg) as GradientDrawable
+            itemView.countryItem.background = drawable
+            itemView.countryItem.clipToOutline = true
+        }
+        inner class TravelingCountryViewHandler{
+            fun selected(){
+
+            }
+        }
     }
-    inner class TravelingCountryChooseViewHolder(view:View): RecyclerView.ViewHolder(view){
-        val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingCountryChooseBinding>(view)
+}
+
+
+class TravelCountryItemDecoration :
+    RecyclerView.ItemDecoration() {
+    private var firstVerticalMargin: Float? = null
+
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        super.getItemOffsets(outRect, view, parent, state)
+
+        val adapterPos = parent.getChildAdapterPosition(view)
+
+        if (adapterPos < 2) {
+            val firstVerticalMarginVal = firstVerticalMargin
+                ?: (parent.context.resources.getDimension(R.dimen.country_top_margin))
+            firstVerticalMargin = firstVerticalMarginVal
+            outRect.top = firstVerticalMarginVal.toInt()
+        }
     }
 }

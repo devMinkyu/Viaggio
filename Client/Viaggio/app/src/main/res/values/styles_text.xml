@@ -16,6 +16,16 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="TextAppearance.Viaggio.Navigation">
+        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:textSize" tools:ignore="SpUsage">20.3dp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textColor">@color/almost_black</item>
+    </style>
+    <style name="TextAppearance.Viaggio.Navigation.Scroll">
+        <item name="android:textSize" tools:ignore="SpUsage">18dp</item>
+    </style>
+
     <style name="TextAppearance.Viaggio.Non">
         <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textSize" tools:ignore="SpUsage">20dp</item>
@@ -49,5 +59,11 @@
         <item name="android:textSize" tools:ignore="SpUsage">15.7dp</item>
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="TextAppearance.Viaggio.Travel.Country">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize" tools:ignore="SpUsage">16.2dp</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>
