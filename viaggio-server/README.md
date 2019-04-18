@@ -30,3 +30,8 @@ In your alembic env.py file, modify the run_migrations_* methods context.configu
 ## Envitonment variable
 
 You can set environment variable in .env file. For using .env file, install env module with `pip install pyhton-dotenv`.
+
+
+## AWS SDK
+
+You can install AWS SDK with `pip install boto3` command. Using this SDK you can get access authentication AWS.
