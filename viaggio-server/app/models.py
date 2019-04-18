@@ -1,6 +1,8 @@
+import os
 from . import db
 from datetime import datetime
 import uuid
+import boto3
 
 
 class User(db.Model):
@@ -25,6 +27,17 @@ class User(db.Model):
     def as_dict(self):
         return {x.name: getattr(self, x.name) for x in self.__table__.columns}
 
+    def get_aws_token(self):
+        client = boto3.client('cognito-identity', region_name=os.environ.get('REGION'))
+        response = client.get_open_id_token_for_developer_identity(
+                        IdentityPoolId = os.environ.get('IdentityPoolId'),
+                        Logins = {
+                            os.environ.get('Logins'): str(self.id)
+                        },
+                        TokenDuration=86400
+                    )
+        return response
+
 
 class Travel(db.Model):
     __tablename__ = 'travels'
@@ -39,8 +52,8 @@ class Travel(db.Model):
     thema = db.Column(db.PickleType)
     backgroundImageName = db.Column(db.String(32))
     backgroundImageUrl = db.Column(db.String(128))
-    share = db.Column(db.Boolean)
-    isDelete = db.Column(db.Boolean)
+    share = db.Column(db.Boolean, default=False)
+    isDelete = db.Column(db.Boolean, default=False)
     travlecard = db.relationship('TravelCard', backref='travel', lazy='dynamic')
 
     def __init__(self, **kwargs):
@@ -82,7 +95,7 @@ class TravelCard(db.Model):
     imageName = db.Column(db.String(32))
     imageUrl = db.Column(db.String(128))
     date = db.Column(db.DateTime)
-    isDelete = db.Column(db.Boolean)
+    isDelete = db.Column(db.Boolean, default=False)
 
     def __init__(self, **kwargs):
         super(TravelCard, self).__init__(**kwargs)
