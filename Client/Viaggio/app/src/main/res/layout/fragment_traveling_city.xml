@@ -16,13 +16,13 @@
             android:layout_height="match_parent">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/container_view"
+                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="24dp"
-                android:background="@color/white_five">
+                android:background="@color/white_five" android:focusable="true">
             <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="97dp"
+                    android:layout_height="wrap_content"
                     android:padding="36dp"
                     android:onClick="@{()->viewHandler.cancel()}"
                     app:srcCompat="@drawable/ic_clear_black_24dp"
@@ -42,18 +42,17 @@
                     android:textColor="@color/pinkish_grey"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:text="여행 도시를 선택을 해주세요."
+                    android:text="@string/city_notice"
                     tools:ignore="SpUsage"/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@id/cityList"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="50dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/cityNotice"
-                    app:layout_constraintBottom_toTopOf="@id/travelingStart"
             />
 
             <TextView
@@ -64,7 +63,7 @@
                     android:textColor="@android:color/white"
                     android:background="@color/colorPrimary"
                     android:gravity="center"
-                    android:visibility="gone"
+                    android:visibility="@{viewModel.selectedCities.size == 0 ? View.GONE:View.VISIBLE}"
                     android:onClick="@{() -> viewHandler.choose()}"
                     android:fontFamily="sans-serif-light"
                     android:text="@string/travel_start"

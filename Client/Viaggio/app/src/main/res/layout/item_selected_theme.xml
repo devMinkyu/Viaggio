@@ -10,29 +10,29 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_margin="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/theme_selected_btn_bg">
-
+            android:layout_height="wrap_content">
         <TextView
-                android:id="@id/themeSelectName"
+                android:id="@id/themeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Title"
-                android:textColor="@android:color/white"
+                tools:text="와이너리"
+                android:textColor="@color/colorPrimary"
                 android:text="@{data}"
-                android:padding="5dp"
                 android:textSize="13sp"
                 android:gravity="center"
+                android:paddingStart="@dimen/common_margin"
+                android:paddingEnd="@dimen/common_margin"
+                android:paddingTop="10.8dp"
+                android:paddingBottom="10.8dp"
                 android:onClick="@{()->viewHandler.cancelTheme(data)}"
-                android:background="@drawable/theme_btn_bg"
+                android:background="@drawable/selected_theme_btn_bg"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
         />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

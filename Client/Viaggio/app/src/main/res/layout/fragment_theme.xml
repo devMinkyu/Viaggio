@@ -18,56 +18,66 @@
                 android:background="@android:color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-            <View
-                    android:id="@+id/tgl"
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="@id/close"
-                    app:layout_constraintBottom_toBottomOf="@id/close"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:onClick="@{() -> viewHandler.confirm()}"
-                    android:padding="10dp"
-                    android:text="@string/done"
-                    android:textColor="@android:color/black"/>
-            <ImageView
-                    android:id="@+id/close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/tgl"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_clear_black_24dp"
-                    android:textSize="20sp"
-                    android:textColor="@android:color/black"/>
-            <TextView
-                    android:id="@id/themeTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/close"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/themeList"
-                    android:layout_margin="15dp"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="나의 여행 테마는..."
-                    android:textColor="@android:color/black" tools:ignore="HardcodedText"/>
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@id/themeList"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginTop="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/themeTitle"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/travelingStart"
                     app:layout_constraintVertical_weight="10"
             />
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@android:color/white"
+                    android:alpha="0.9"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/themeTitle"
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:padding="36dp"
+                    android:src="@drawable/ic_clear_black_24dp"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/black"/>
 
+            <TextView
+                    android:id="@id/themeTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:layout_marginTop="@dimen/tool_bar"
+                    android:gravity="start"
+                    android:textSize="28.5dp"
+                    android:lineSpacingExtra="3.5dp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/pinkish_grey"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/theme_notice"
+                    tools:ignore="SpUsage"/>
+            <TextView
+                    android:id="@id/travelingStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="@android:color/white"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:onClick="@{() -> viewHandler.confirm()}"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/theme_start"
+                    android:letterSpacing="-0.02"
+                    android:textSize="20.3dp"
+                    tools:ignore="SpUsage"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 

@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.theme
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -43,6 +44,7 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
         layoutManager.flexWrap = FlexWrap.WRAP
         layoutManager.justifyContent = JustifyContent.CENTER
         themeList.layoutManager = layoutManager
+        themeList.addItemDecoration(ThemeItemDecoration())
 
         getViewModel().themesListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { theme ->
@@ -112,5 +114,19 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
     }
     inner class ThemeSelectedViewHolder(view:View):RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemSelectedThemeBinding>(view)
+    }
+}
+
+class ThemeItemDecoration :
+    RecyclerView.ItemDecoration() {
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        super.getItemOffsets(outRect, view, parent, state)
+        val adapterPos = parent.getChildAdapterPosition(view)
+
+        if (adapterPos < 3) {
+                val firstHorMarginVal1 = (parent.context.resources.getDimension(R.dimen.theme_height))
+                outRect.top = firstHorMarginVal1.toInt()
+
+        }
     }
 }

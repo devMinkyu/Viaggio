@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.traveling.country
 
+import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.event.Event
@@ -15,6 +16,8 @@ class TravelingCityFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val cityList = mutableListOf<Area>()
     val complete = MutableLiveData<Event<Any>>()
+
+    val selectedCities = ObservableArrayList<Area>()
     override fun initialize() {
         super.initialize()
         val disposable = rxEventBus.travelCountry

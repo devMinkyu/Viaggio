@@ -10,6 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayout
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
@@ -40,7 +44,11 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        countryList.layoutManager = GridLayoutManager(context, 2)
+        val layoutManager = FlexboxLayoutManager(context)
+        layoutManager.flexWrap = FlexWrap.WRAP
+        layoutManager.justifyContent = JustifyContent.SPACE_BETWEEN
+
+        countryList.layoutManager = GridLayoutManager(context,2)
         countryList.addItemDecoration(TravelCountryItemDecoration())
         countryList.isNestedScrollingEnabled = false
 
