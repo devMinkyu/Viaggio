@@ -17,11 +17,19 @@ def login():
             return bad_request(401, 'There is no user matched with email or pwd.')
 
         if user.token:
-            return jsonify({ 'token': user.token }), 200
+            try:
+                response = user.get_aws_token()
+            except:
+                return bad_request(402, 'Get AWS validation is failed.')
+            return jsonify({ 'token': user.token, 'AWS_IdentityId': response['IdentityId'], 'AWS_Token': response['Token'] }), 200
         else:
             user.token = str(uuid.uuid4())
             db.session.add(user)
             db.session.commit()
-            return jsonify({ 'token': user.token }), 200
+            try:
+                response = user.get_aws_token()
+            except:
+                return bad_request(402, 'Get AWS validation is failed.')
+            return jsonify({ 'token': user.token, 'AWS_IdentityId': response['IdentityId'], 'AWS_Token': response['Token'] }), 200
 
     return bad_request(400, 'Login valdation is failed.')
