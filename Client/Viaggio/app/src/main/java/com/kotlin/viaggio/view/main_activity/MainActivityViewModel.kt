@@ -18,6 +18,7 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
     val finishActivity:MutableLiveData<Event<Any>> = MutableLiveData()
     val showToast:MutableLiveData<Event<Any>> = MutableLiveData()
     var traveling = false
+    var travelType = 0
     override fun initialize() {
         super.initialize()
         traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()

@@ -50,9 +50,6 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
                         hours: Int,
                         minutes: Int
                     ) {
-                        Log.d("hoho", "$firstDate")
-                        Log.d("hoho", "$secondDate")
-
                         dismiss()
                     }
                     override fun onCancelled() {}
@@ -66,5 +63,13 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
 class TravelKindsBottomSheetDialogFragmentViewModel @Inject constructor() : BaseViewModel(){
     fun selectKind(kinds: String){
         prefUtilService.putString(AndroidPrefUtilService.Key.TRAVEL_KINDS, kinds).blockingAwait()
+        when(kinds){
+            "overseas" ->{
+                rxEventBus.travelType.onNext(0)
+            }
+            "domestic" ->{
+                rxEventBus.travelType.onNext(1)
+            }
+        }
     }
 }

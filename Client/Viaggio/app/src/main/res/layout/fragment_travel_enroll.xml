@@ -180,7 +180,7 @@
             <TextView
                     android:id="@id/travelingStart"
                     android:layout_width="match_parent"
-                    android:layout_height="54.3dp"
+                    android:layout_height="62dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:textColor="@android:color/white"
                     android:background="@{viewModel.themeExist &amp;&amp; viewModel.countryExist ? @color/colorPrimary:@color/very_light_pink}"

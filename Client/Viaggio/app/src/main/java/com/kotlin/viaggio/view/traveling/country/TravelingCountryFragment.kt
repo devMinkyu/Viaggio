@@ -1,6 +1,5 @@
-package com.kotlin.viaggio.view.traveling
+package com.kotlin.viaggio.view.traveling.country
 
-import android.content.Context
 import android.graphics.Rect
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -12,21 +11,25 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrListener
+import com.r0adkll.slidr.model.SlidrPosition
+import kotlinx.android.synthetic.main.fragment_travel_enroll.*
 import kotlinx.android.synthetic.main.fragment_traveling_country.*
 import kotlinx.android.synthetic.main.item_traveling_country.view.*
 import org.jetbrains.anko.support.v4.dip
 
 
 class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>() {
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        arguments?.let {
-            it.getInt(ArgName.TRAVEL_TYPE.name, 0)
-        }
+    override fun onResume() {
+        super.onResume()
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(travelingCountryContainer, SlidrConfig.Builder().position(
+                SlidrPosition.LEFT)
+                .build())
     }
-
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingCountryBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_country, container, false)
@@ -39,6 +42,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         super.onViewCreated(view, savedInstanceState)
         countryList.layoutManager = GridLayoutManager(context, 2)
         countryList.addItemDecoration(TravelCountryItemDecoration())
+        countryList.isNestedScrollingEnabled = false
 
         val width = context!!.resources.displayMetrics.widthPixels - dip(59)
 
@@ -85,7 +89,8 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         }
         inner class TravelingCountryViewHandler{
             fun selected(){
-
+                getViewModel().selectedCountry(binding?.data)
+                baseIntent("http://viaggio.kotlin.com/traveling/${getViewModel().travelType.get()}/city/")
             }
         }
     }
@@ -103,7 +108,7 @@ class TravelCountryItemDecoration :
 
         if (adapterPos < 2) {
             val firstVerticalMarginVal = firstVerticalMargin
-                ?: (parent.context.resources.getDimension(R.dimen.country_top_margin))
+                ?: (parent.context.resources.getDimension(R.dimen.country_top_margin) + parent.context.resources.getDimension(R.dimen.app_bar_height))
             firstVerticalMargin = firstVerticalMarginVal
             outRect.top = firstVerticalMarginVal.toInt()
         }

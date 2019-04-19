@@ -9,8 +9,6 @@ import android.widget.DatePicker
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayoutManager
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.TravelingError
@@ -24,7 +22,6 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 
 

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.setting.SettingFragment
@@ -15,8 +16,9 @@ import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
 import com.kotlin.viaggio.view.travel.TravelFragment
 import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
-import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
+import com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
+import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingOfDayEnrollFragment
@@ -100,7 +102,13 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "enroll" -> showTravelEnroll()
                         "representative" -> showTravelingRepresentative()
                         "image" -> showTravelingEnrollImage()
-                        "country" -> showTravelingCountry()
+                        "country" -> {
+                            showTravelingCountry()
+                        }
+                        "city" -> {
+                            getViewModel().travelType = appLinkData.pathSegments[1].toInt()
+                            showTravelingCity()
+                        }
                         "card" -> showTravelingEnroll()
                     }
                 "setting" -> {
@@ -112,6 +120,14 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTravelingCity() {
+        val frag = TravelingCityFragment()
+        val arg = Bundle()
+        arg.putInt(ArgName.TRAVEL_TYPE.name, getViewModel().travelType)
+        frag.arguments = arg
+        baseShowTopAddBackFragment(frag)
     }
 
     private fun showTravelingEnroll() {
@@ -135,7 +151,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showTravelingCountry() {
-        baseShowLeftAddBackFragment(TravelingCountryFragment())
+        baseShowAddLeftAddBackFragment(TravelingCountryFragment())
     }
 
     private fun showTravelingRepresentative() {

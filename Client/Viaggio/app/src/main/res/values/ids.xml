@@ -193,4 +193,7 @@
     <item name="travelingThemeNotice" type="id"/>
     <item name="countryItem" type="id"/>
     <item name="countryName" type="id"/>
+    <item name="travelingCountryContainer" type="id"/>
+    <item name="cityNotice" type="id"/>
+    <item name="cityList" type="id"/>
 </resources>

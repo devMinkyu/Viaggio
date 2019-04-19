@@ -12,9 +12,10 @@ import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
 import com.kotlin.viaggio.view.travel.TravelFragment
 import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
-import com.kotlin.viaggio.view.traveling.TravelingCountryFragment
+import com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
+import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
@@ -73,6 +74,9 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun travelingCountryFragment(): TravelingCountryFragment
+
+    @ContributesAndroidInjector
+    fun travelingCityFragment(): TravelingCityFragment
 
     @ContributesAndroidInjector
     fun travelEnrollFragment(): TravelEnrollFragment

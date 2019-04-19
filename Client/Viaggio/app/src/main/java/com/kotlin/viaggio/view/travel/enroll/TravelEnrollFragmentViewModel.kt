@@ -46,12 +46,14 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     val travelThemes = ObservableField<String>("")
 
     var travelType: String = ""
+
     override fun initialize() {
         super.initialize()
         val cal = Calendar.getInstance()
         travelingStartOfDay.set(
             DateFormat.getDateInstance(DateFormat.LONG).format(cal.time)
         )
+        travelType = prefUtilService.getString(AndroidPrefUtilService.Key.TRAVEL_KINDS).blockingGet()
 
         val themeDisposable = rxEventBus.travelOfTheme
             .subscribe { t ->

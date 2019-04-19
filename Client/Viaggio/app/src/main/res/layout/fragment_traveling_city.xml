@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.traveling.country.TravelingCityFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.traveling.country.TravelingCityFragmentViewModel"/>
+
+        <variable name="viewModel" type="TravelingCityFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <FrameLayout
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="24dp"
+                android:background="@color/white_five">
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="97dp"
+                    android:padding="36dp"
+                    android:onClick="@{()->viewHandler.cancel()}"
+                    app:srcCompat="@drawable/ic_clear_black_24dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+            />
+            <TextView
+                    android:id="@id/cityNotice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:layout_marginTop="@dimen/tool_bar"
+                    android:gravity="start"
+                    android:textSize="28.5dp"
+                    android:lineSpacingExtra="3.5dp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/pinkish_grey"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:text="여행 도시를 선택을 해주세요."
+                    tools:ignore="SpUsage"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@id/cityList"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="50dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cityNotice"
+                    app:layout_constraintBottom_toTopOf="@id/travelingStart"
+            />
+
+            <TextView
+                    android:id="@id/travelingStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="62dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textColor="@android:color/white"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:onClick="@{() -> viewHandler.choose()}"
+                    android:fontFamily="sans-serif-light"
+                    android:text="@string/travel_start"
+                    android:letterSpacing="-0.02"
+                    android:textSize="20.3dp"
+                    tools:ignore="SpUsage"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

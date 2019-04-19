@@ -1,5 +1,6 @@
-package com.kotlin.viaggio.view.traveling
+package com.kotlin.viaggio.view.traveling.country
 
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -22,6 +23,8 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
 
     val countryLiveData:MutableLiveData<Event<List<String>>> = MutableLiveData()
     val completeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
+
+    var travelType = ObservableInt(0)
     override fun initialize() {
         super.initialize()
 
@@ -39,5 +42,23 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
         }
 
         countryLiveData.value = Event(list)
+
+
+
+        val typeDisposable = rxEventBus.travelType.subscribe {
+            travelType.set(it)
+        }
+        addDisposable(typeDisposable)
+    }
+
+    fun selectedCountry(country: String?) {
+        country?.let {countryVal ->
+            val selectedCountry = countryList.firstOrNull {
+                it.country == countryVal
+            }
+            selectedCountry?.let {
+                rxEventBus.travelCountry.onNext(it)
+            }
+        }
     }
 }
