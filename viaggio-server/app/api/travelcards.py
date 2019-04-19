@@ -6,9 +6,9 @@ from ..forms.travel import CreateTravelForm
 from ..errors import bad_request
 
 
-@api.route('/my/travelcards/<int:id>', methods=['POST'])
-def create_travelCard(id):
-    travelCard = TravelCard(travelId=id,
+@api.route('/my/travelcards/<int:travelId>', methods=['POST'])
+def create_travelCard(travelId):
+    travelCard = TravelCard(travelId=travelId,
                             travelOfDay=request.form.get('travelOfDay'),
                             country=request.form.get('country'),
                             title=request.form.get('title'),
@@ -21,25 +21,25 @@ def create_travelCard(id):
     return jsonify({ 'travelCard': travelCard.as_dict() }), 200
 
 
-@api.route('/my/travelcards/<int:id>')
-def get_travelCards(id):
-    travelCards = TravelCard.query.filter_by(travelId=id)
+@api.route('/my/travelcards/<int:travelId>')
+def get_travelCards(travelId):
+    travelCards = TravelCard.query.filter_by(travelId=travelId)
     return jsonify({
         'travelCards': [travelCard.to_json() for travelCard in travelCards]
     }), 200
 
 
-@api.route('/my/travelcard/<int:travelId>/<int:travelCardId>')
-def get_travelCard(travelId, travelCardId):
-    travelCard = TravelCard.query.filter_by(travelId=travelId, id=travelCardId).first_or_404()
+@api.route('/my/travelcard/<int:travelCardId>')
+def get_travelCard(travelCardId):
+    travelCard = TravelCard.query.filter_by(id=travelCardId).first_or_404()
     return jsonify({
         'travelCard': travelCard.as_dict()
     }), 200
 
 
-@api.route('/my/travelcards/<int:travelId>/<int:travelCardId>', methods=['PUT'])
-def update_travelCard(travelId, travelCardId):
-    travelCard = TravelCard.query.filter_by(travelId=travelId, id=travelCardId).first_or_404()
+@api.route('/my/travelcards/<int:travelCardId>', methods=['PUT'])
+def update_travelCard(travelCardId):
+    travelCard = TravelCard.query.filter_by(id=travelCardId).first_or_404()
     if request.form.get('travelOfDay') is not None:
         travelCard.travelOfDay = request.form.get('travelOfDay')
     if request.form.get('country') is not None:
@@ -60,9 +60,9 @@ def update_travelCard(travelId, travelCardId):
     return jsonify({ 'travelCard': travelCard.as_dict() })
 
 
-@api.route('/my/travelcards/<int:travelId>/<int:travelCardId>', methods=['DELETE'])
-def delete_travelCard(travelId, travelCardId):
-    travelCard = TravelCard.query.filter_by(travelId=travelId, id=travelCardId).first_or_404()
+@api.route('/my/travelcards/<int:travelCardId>', methods=['DELETE'])
+def delete_travelCard(travelCardId):
+    travelCard = TravelCard.query.filter_by(id=travelCardId).first_or_404()
     travelCard.isDelete = True
     db.session.commit()
     return jsonify({ 'result': 'Travel card is archived.' })
