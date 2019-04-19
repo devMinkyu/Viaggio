@@ -49,7 +49,7 @@ class Travel(db.Model):
     travelType = db.Column(db.String(16))
     entireCountry = db.Column(db.PickleType)
     title = db.Column(db.String(64))
-    thema = db.Column(db.PickleType)
+    theme = db.Column(db.PickleType)
     backgroundImageName = db.Column(db.String(32))
     backgroundImageUrl = db.Column(db.String(128))
     share = db.Column(db.Boolean, default=False)
@@ -60,7 +60,7 @@ class Travel(db.Model):
         super(Travel, self).__init__(**kwargs)
 
     def __repr__(self):
-        return '<Travel %r>' % self.startDate, self.endDate, self.title, self.thema,\
+        return '<Travel %r>' % self.startDate, self.endDate, self.title, self.theme,\
             self.backgroundImageName, self.backgroundImageUrl, self.share, self.isDelete
 
     def as_dict(self):
@@ -74,7 +74,7 @@ class Travel(db.Model):
             'endDate': self.endDate,
             'entireCountry': self.entireCountry,
             'title': self.title,
-            'thema': self.thema,
+            'theme': self.theme,
             'backgroundImageName': self.backgroundImageName,
             'backgroundImageUrl': self.backgroundImageUrl,
             'share': self.share,
