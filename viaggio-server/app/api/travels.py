@@ -8,6 +8,7 @@ from ..errors import bad_request
 
 @api.route('/my/travels', methods=['POST'])
 def create_travel():
+    # TODO: Change Request Theme from form to json array
     form = CreateTravelForm(request.form)
     if form.validate():
         entireCountries = [request.form.get('entireCountry')]
@@ -17,7 +18,7 @@ def create_travel():
                         travelType=request.form.get('travelType'),
                         entireCountry=entireCountries,
                         title=request.form.get('title'),
-                        thema=request.form.get('thema'),
+                        theme=request.form.get('theme'),
                         backgroundImageName=request.form.get('backgroundImageName'),
                         backgroundImageUrl=request.form.get('backgroundImageUrl'),
                         share=request.form.get('share'),
@@ -56,6 +57,7 @@ def get_specific_travel(id):
 
 @api.route('/my/travels/<int:id>', methods=['PUT'])
 def update_travel(id):
+    # TODO: Change Request Theme from form to json array
     form = UpdateTravelForm(request.form)
     if form.validate():
         travel = Travel.query.get_or_404(id)
@@ -69,11 +71,11 @@ def update_travel(id):
             tempData.append(request.form.get('addCountry'))
             travel.entireCountry = tempData
         travel.endDate = request.form.get('endDate')
-        if request.form.get('addThema') is not None \
-            and request.form.get('addThema') not in travel.thema:
-            tempThema = list(trave.thema)
-            tempThema.append(request.form.get('addThema'))
-            travel.thema = tempThema
+        if request.form.get('addTheme') is not None \
+            and request.form.get('addTheme') not in travel.theme:
+            tempTheme = list(trave.theme)
+            tempTheme.append(request.form.get('addTheme'))
+            travel.theme = tempTheme
         travel.backgroundImageName = request.form.get('backgroundImageName')
         travel.backgroundImageUrl = request.form.get('backgroundImageUrl')
         if request.form.get('share'):
