@@ -15,6 +15,7 @@ import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import com.kotlin.viaggio.view.traveling.country.Area
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.kotlin.viaggio.worker.UploadTravelWorker
 import io.reactivex.Observable
@@ -44,6 +45,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     val travelingStartOfDay = ObservableField<String>("")
     val travelingStartOfCountry = ObservableField<String>("")
     val travelThemes = ObservableField<String>("")
+    val chooseCountry = mutableListOf<Area>()
 
     var travelType: String = ""
 
@@ -74,12 +76,14 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             }
         addDisposable(travelingStartOfDayDisposable)
-        val countryDisposable = rxEventBus.travelOfCountry.subscribe { t ->
-            if (TextUtils.isEmpty(t).not()) {
-                countryExist.set(true)
-                travelingStartOfCountry.set(t)
-                rxEventBus.travelOfCountry.onNext("")
+        val countryDisposable = rxEventBus.travelCity.subscribe { t ->
+            chooseCountry.clear()
+            chooseCountry.addAll(t)
+            countryExist.set(true)
+            val cities = t.map {
+                "${it.country}_${it.city}"
             }
+            travelingStartOfCountry.set(cities.joinToString(","))
         }
         addDisposable(countryDisposable)
     }

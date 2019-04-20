@@ -72,7 +72,13 @@ class TravelingCityFragment:BaseFragment<TravelingCityFragmentViewModel>(){
             fragmentPopStack()
         }
         fun choose(){
-
+            getViewModel().selectedCity()
+            if(getViewModel().travelType == 0){
+                fragmentManager?.popBackStackImmediate()
+                fragmentPopStack()
+            }else{
+                fragmentPopStack()
+            }
         }
     }
 

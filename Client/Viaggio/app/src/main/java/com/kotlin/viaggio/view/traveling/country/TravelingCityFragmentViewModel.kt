@@ -3,6 +3,7 @@ package com.kotlin.viaggio.view.traveling.country
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import com.kotlin.viaggio.data.`object`.Country
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -25,13 +26,22 @@ class TravelingCityFragmentViewModel @Inject constructor() : BaseViewModel() {
                 cityList.clear()
                 val list = it.area
                     .map { areaVal ->
-                        Area(city = areaVal)
+                        Area(city = areaVal, continent = it.continent, country = it.country)
                     }
                 cityList.addAll(list)
                 complete.value = Event(Any())
             }
         addDisposable(disposable)
     }
+
+    fun selectedCity() {
+        rxEventBus.travelCity.onNext(selectedCities)
+    }
 }
 
-data class Area(var city:String, var selected:ObservableBoolean = ObservableBoolean(false))
+data class Area(
+    var continent: String,
+    var country: String,
+    var city:String,
+    var selected:ObservableBoolean = ObservableBoolean(false)
+)

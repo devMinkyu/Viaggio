@@ -5,10 +5,10 @@ import com.kotlin.viaggio.ioc.component.DaggerAppComponent
 import com.kotlin.viaggio.view.common.BaseApp
 import timber.log.Timber
 
-class App:BaseApp(){
+class App : BaseApp() {
     override fun applicationInjector() = DaggerAppComponent
-            .builder()
-            .create(this)
+        .factory()
+        .create(this)
 
     override fun onCreate() {
         super.onCreate()
@@ -20,9 +20,9 @@ class App:BaseApp(){
                 .build()
         )
 
-        Timber.plant(object :Timber.DebugTree(){
-            override fun createStackElementTag(element: StackTraceElement)
-                = super.createStackElementTag(element) + " : " + element.lineNumber
+        Timber.plant(object : Timber.DebugTree() {
+            override fun createStackElementTag(element: StackTraceElement) =
+                super.createStackElementTag(element) + " : " + element.lineNumber
 
         })
     }

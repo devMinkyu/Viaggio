@@ -20,7 +20,7 @@ import javax.inject.Singleton
 @Module(
     includes =
     [
-        NetworkProviderModule::class, AppBinderModule::class
+        NetworkProviderModule::class
     ]
 )
 class AppProviderModule {
