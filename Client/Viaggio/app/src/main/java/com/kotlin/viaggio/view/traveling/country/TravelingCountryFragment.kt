@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -49,7 +51,6 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         layoutManager.justifyContent = JustifyContent.SPACE_BETWEEN
 
         countryList.layoutManager = GridLayoutManager(context,2)
-        countryList.addItemDecoration(TravelCountryItemDecoration())
         countryList.isNestedScrollingEnabled = false
 
         val width = context!!.resources.displayMetrics.widthPixels - dip(59)
@@ -70,6 +71,19 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
                         params.height = params.width
                         holder.itemView.item_container.layoutParams = params
                     }
+                }
+            }
+        })
+
+        getViewModel().continentLiveData.observe(this, Observer {
+            val spinnerAdapter = ArrayAdapter<String>(context!!, R.layout.spinner_continent_item, getViewModel().continentList)
+            spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
+
+            countrySpinner.adapter = spinnerAdapter
+            countrySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    getViewModel().chooseContinent(position)
                 }
             }
         })
@@ -100,25 +114,6 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
                 getViewModel().selectedCountry(binding?.data)
                 baseIntent("http://viaggio.kotlin.com/traveling/${getViewModel().travelType.get()}/city/")
             }
-        }
-    }
-}
-
-
-class TravelCountryItemDecoration :
-    RecyclerView.ItemDecoration() {
-    private var firstVerticalMargin: Float? = null
-
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        super.getItemOffsets(outRect, view, parent, state)
-
-        val adapterPos = parent.getChildAdapterPosition(view)
-
-        if (adapterPos < 2) {
-            val firstVerticalMarginVal = firstVerticalMargin
-                ?: (parent.context.resources.getDimension(R.dimen.country_top_margin) + parent.context.resources.getDimension(R.dimen.app_bar_height))
-            firstVerticalMargin = firstVerticalMarginVal
-            outRect.top = firstVerticalMarginVal.toInt()
         }
     }
 }

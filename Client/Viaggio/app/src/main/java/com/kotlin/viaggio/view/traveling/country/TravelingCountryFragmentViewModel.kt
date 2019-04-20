@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.data.`object`.Area
 import com.kotlin.viaggio.data.`object`.Country
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
@@ -19,12 +20,15 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
     lateinit var gson: Gson
 
     private val countryList:MutableList<Country> = mutableListOf()
-    private val continentList:MutableList<String> = mutableListOf()
+    val continentList:MutableList<String> = mutableListOf()
 
     val countryLiveData:MutableLiveData<Event<List<String>>> = MutableLiveData()
+    val continentLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
     val completeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
 
     var travelType = ObservableInt(0)
+
+    val chooseArea = mutableListOf<Area>()
     override fun initialize() {
         super.initialize()
 
@@ -40,15 +44,25 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
             continentList.add(it.continent)
             it.country
         }
+        val result = continentList.distinct()
+        continentList.clear()
+        continentList.addAll(result)
 
         countryLiveData.value = Event(list)
-
-
+        continentLiveData.value = Event(Any())
 
         val typeDisposable = rxEventBus.travelType.subscribe {
             travelType.set(it)
         }
         addDisposable(typeDisposable)
+
+        val areaDisposable = rxEventBus.travelCity.subscribe {
+            chooseArea.addAll(it)
+            val result = chooseArea.distinct()
+            chooseArea.clear()
+            chooseArea.addAll(result)
+        }
+        addDisposable(areaDisposable)
     }
 
     fun selectedCountry(country: String?) {
@@ -58,6 +72,25 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
             }
             selectedCountry?.let {
                 rxEventBus.travelCountry.onNext(it)
+            }
+        }
+    }
+
+    fun chooseContinent(position: Int) {
+        val continent = continentList[position]
+        when(position){
+            0 ->{
+                countryLiveData.value = Event(countryList.map {
+                    it.country
+                })
+            }
+            else ->{
+                val list = countryList.filter {
+                    it.continent == continent
+                }.map {
+                    it.country
+                }
+                countryLiveData.value = Event(list)
             }
         }
     }

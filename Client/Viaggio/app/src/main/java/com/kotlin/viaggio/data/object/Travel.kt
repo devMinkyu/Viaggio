@@ -10,7 +10,8 @@ data class Travel(
     @Suppress("ArrayInDataClass") var entireCountries: ArrayList<String> = arrayListOf(),
     var userExist: Boolean = false,
     var title: String = "재미있는 여행",
-    var travelType:String ="",
+    // 0 해외여행, 1 국내여행
+    var travelKind:Int =0,
     var startDate: Date? = null,
     var endDate: Date? = null,
     @Suppress("ArrayInDataClass") var theme: ArrayList<String> = arrayListOf(),
@@ -60,9 +61,4 @@ data class TravelCard(
     var title: String = "",
     var content: String = "",
     var date: Date = Date()
-)
-
-data class Theme(
-    var themes: MutableList<String> = mutableListOf(),
-    var authority:Boolean = false
 )

@@ -13,12 +13,11 @@ import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
-import com.kotlin.viaggio.view.theme.TravelingOfDayThemeFragment
 import com.kotlin.viaggio.view.travel.TravelFragment
 import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
-import com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
+import com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingOfDayEnrollFragment
@@ -98,7 +97,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "detail" -> {
                             showTravelingDetail()
                         }
-                        "theme" -> showTravelingTheme()
+                        "theme" -> {}
                         "enroll" -> showTravelEnroll()
                         "representative" -> showTravelingRepresentative()
                         "image" -> showTravelingEnrollImage()
@@ -158,9 +157,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         baseShowLeftAddBackFragment(TravelingRepresentativeImageFragment())
     }
 
-    private fun showTravelingTheme() {
-        baseShowLeftAddBackFragment(TravelingOfDayThemeFragment())
-    }
 
     private fun showTravelingDetail() {
         baseShowAddLeftAddBackFragment(TravelingDetailFragment())

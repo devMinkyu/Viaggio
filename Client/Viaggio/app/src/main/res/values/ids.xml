@@ -196,4 +196,5 @@
     <item name="travelingCountryContainer" type="id"/>
     <item name="cityNotice" type="id"/>
     <item name="cityList" type="id"/>
+    <item name="countrySpinner" type="id"/>
 </resources>

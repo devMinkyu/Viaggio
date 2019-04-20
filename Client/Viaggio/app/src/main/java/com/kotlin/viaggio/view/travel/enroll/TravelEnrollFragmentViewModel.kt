@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.google.gson.Gson
 import com.kotlin.viaggio.android.WorkerName
+import com.kotlin.viaggio.data.`object`.Area
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelingError
@@ -15,7 +16,6 @@ import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
-import com.kotlin.viaggio.view.traveling.country.Area
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.kotlin.viaggio.worker.UploadTravelWorker
 import io.reactivex.Observable
@@ -45,43 +45,64 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     val travelingStartOfDay = ObservableField<String>("")
     val travelingStartOfCountry = ObservableField<String>("")
     val travelThemes = ObservableField<String>("")
-    val chooseCountry = mutableListOf<Area>()
 
-    var travelType: String = ""
+    var startDate = Date()
+    var endDate:Date? = null
+    val chooseCountry = mutableListOf<Area>()
+    var travelKind: Int= 0
 
     override fun initialize() {
         super.initialize()
-        val cal = Calendar.getInstance()
-        travelingStartOfDay.set(
-            DateFormat.getDateInstance(DateFormat.LONG).format(cal.time)
-        )
-        travelType = prefUtilService.getString(AndroidPrefUtilService.Key.TRAVEL_KINDS).blockingGet()
+        if(TextUtils.isEmpty(travelingStartOfDay.get())){
+            val cal = Calendar.getInstance()
+            startDate = cal.time
+            travelingStartOfDay.set(
+                DateFormat.getDateInstance(DateFormat.LONG).format(startDate)
+            )
+        }
+        travelKind = prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVEL_KINDS).blockingGet()
 
         val themeDisposable = rxEventBus.travelOfTheme
             .subscribe { t ->
                 if (t.isNotEmpty()) {
                     themeExist.set(true)
-                    travelThemeList = t
+                    travelThemeList = t.map {
+                        it.theme.theme
+                    }
                     travelThemes.set(travelThemeList.joinToString(", "))
                 }
             }
         addDisposable(themeDisposable)
         val travelingStartOfDayDisposable = rxEventBus.travelingStartOfDay
             .subscribe({
-                if (TextUtils.isEmpty(it).not()) {
-                    travelingStartOfDay.set(it)
-                    rxEventBus.travelingStartOfDay.onNext("")
+                if(it.isNotEmpty()){
+                    startDate = it[0]
+                    endDate = it[1]
+                    travelingStartOfDay.set(
+                        "${DateFormat.getDateInstance(DateFormat.LONG).format(startDate)} ~ ${DateFormat.getDateInstance(DateFormat.LONG).format(endDate)}"
+                    )
+                    rxEventBus.travelingStartOfDay.onNext(listOf())
                 }
             }) {
 
             }
         addDisposable(travelingStartOfDayDisposable)
         val countryDisposable = rxEventBus.travelCity.subscribe { t ->
-            chooseCountry.clear()
-            chooseCountry.addAll(t)
             countryExist.set(true)
-            val cities = t.map {
-                "${it.country}_${it.city}"
+            val cities = if(endDate == null){
+                chooseCountry.clear()
+                chooseCountry.addAll(t)
+                chooseCountry.map {
+                    "${it.country}_${it.city}"
+                }
+            }else{
+                chooseCountry.addAll(t)
+                val result = chooseCountry.distinct()
+                chooseCountry.clear()
+                chooseCountry.addAll(result)
+                chooseCountry.map {
+                    "${it.country}_${it.city}"
+                }
             }
             travelingStartOfCountry.set(cities.joinToString(","))
         }
@@ -99,9 +120,11 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         disposable?.let { addDisposable(it) }
     }
 
-    fun changeStartOfDay(startOfDay: String) {
-        travelingStartOfDay.set(startOfDay)
-        rxEventBus.travelingStartOfDay.onNext(startOfDay)
+    fun changeStartOfDay(startOfDay: Date) {
+        startDate = startOfDay
+        travelingStartOfDay.set(
+            DateFormat.getDateInstance(DateFormat.LONG).format(startDate)
+        )
     }
 
 
@@ -131,7 +154,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                 travelingStartOfDay.get()!!
             ),
             theme = travelThemeList.toMutableList() as ArrayList<String>,
-            travelType = travelType
+            travelKind = travelKind
         )
         prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!)
             .observeOn(Schedulers.io()).blockingAwait()

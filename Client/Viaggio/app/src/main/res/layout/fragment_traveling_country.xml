@@ -29,10 +29,10 @@
                         android:id="@id/countryList"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         android:layout_marginStart="@dimen/common_margin"
                         android:layout_marginEnd="@dimen/common_margin"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="@dimen/common_top"
+                        app:layout_constraintTop_toBottomOf="@id/countrySpinner"
                         app:layout_constraintBottom_toTopOf="@id/verticalSpace1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +89,7 @@
                         app:layout_constraintTop_toBottomOf="@id/tgl"
                         app:layout_constraintStart_toStartOf="parent"
                         android:textColor="@android:color/black"/>
+
                 <TextView
                         android:id="@+id/enroll_title"
                         android:layout_width="wrap_content"
@@ -101,20 +102,15 @@
                         android:text="@string/travel_country_notice"
                         tools:ignore="SpUsage"/>
 
-                <TextView
-                        android:layout_width="wrap_content"
+                <Spinner
+                        android:id="@id/countrySpinner"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:textColor="@color/very_light_pink"
-                        android:lineSpacingExtra="2.5sp"
-                        android:gravity="center_horizontal"
                         android:layout_marginTop="12dp"
-                        android:fontFamily="sans-serif-black"
+                        android:background="@android:color/white"
                         app:layout_constraintTop_toBottomOf="@id/toolbar"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:text="@string/travel_country_choice_notice"
-                        tools:ignore="SpUsage"/>
+                        app:layout_constraintEnd_toEndOf="parent"/>
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>

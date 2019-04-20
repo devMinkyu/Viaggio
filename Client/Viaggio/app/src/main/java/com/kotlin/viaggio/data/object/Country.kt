@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.data.`object`
 
+import androidx.databinding.ObservableBoolean
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
@@ -12,4 +13,9 @@ data class Country(
     @Suppress("ArrayInDataClass") var area: ArrayList<String>
 )
 
-
+data class Area(
+    var continent: String,
+    var country: String,
+    var city:String,
+    var selected: ObservableBoolean = ObservableBoolean(false)
+)

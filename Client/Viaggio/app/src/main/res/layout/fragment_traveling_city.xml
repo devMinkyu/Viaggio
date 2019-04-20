@@ -66,7 +66,7 @@
                     android:visibility="@{viewModel.selectedCities.size == 0 ? View.GONE:View.VISIBLE}"
                     android:onClick="@{() -> viewHandler.choose()}"
                     android:fontFamily="sans-serif-light"
-                    android:text="@string/travel_start"
+                    android:text="@string/city_start"
                     android:letterSpacing="-0.02"
                     android:textSize="20.3dp"
                     tools:ignore="SpUsage"/>

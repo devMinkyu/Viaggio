@@ -10,6 +10,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.view.common.BaseBottomDialogFragment
 import com.kotlin.viaggio.view.common.BaseViewModel
+import org.jetbrains.anko.support.v4.toast
 import ru.slybeaver.slycalendarview.SlyCalendarDialog
 import java.util.*
 import javax.inject.Inject
@@ -29,17 +30,13 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
     inner class ViewHandler{
         fun selectedKinds(kinds: String){
             getViewModel().selectKind(kinds)
-            when(kinds){
-                "overseas" ->{
-                    baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
-                }
-                "domestic" ->{
-                }
-            }
+            getViewModel().travelType(0)
+            baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
             dismiss()
         }
         fun selectBeforeKinds(kinds: String){
             getViewModel().selectKind(kinds)
+            getViewModel().travelType(1)
             SlyCalendarDialog()
                 .setSingle(false)
                 .setTimeTheme(null)
@@ -50,7 +47,13 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
                         hours: Int,
                         minutes: Int
                     ) {
-                        dismiss()
+                        if(firstDate != null && secondDate != null){
+                            getViewModel().travelTerm(firstDate.time, secondDate.time)
+                            baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
+                            dismiss()
+                        }else{
+                            toast("날짜를 다 선택해줘")
+                        }
                     }
                     override fun onCancelled() {}
                 })
@@ -62,14 +65,21 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
 
 class TravelKindsBottomSheetDialogFragmentViewModel @Inject constructor() : BaseViewModel(){
     fun selectKind(kinds: String){
-        prefUtilService.putString(AndroidPrefUtilService.Key.TRAVEL_KINDS, kinds).blockingAwait()
         when(kinds){
             "overseas" ->{
-                rxEventBus.travelType.onNext(0)
+                prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVEL_KINDS, 0).blockingAwait()
             }
             "domestic" ->{
-                rxEventBus.travelType.onNext(1)
+                prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVEL_KINDS, 1).blockingAwait()
             }
         }
+    }
+
+    fun travelTerm(startTime: Date, endTime: Date) {
+        rxEventBus.travelingStartOfDay.onNext(listOf(startTime, endTime))
+    }
+
+    fun travelType(i: Int) {
+        rxEventBus.travelType.onNext(i)
     }
 }

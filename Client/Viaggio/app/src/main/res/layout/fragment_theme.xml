@@ -28,7 +28,6 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/travelingStart"
-                    app:layout_constraintVertical_weight="10"
             />
             <View
                     android:layout_width="match_parent"
@@ -44,6 +43,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:onClick="@{()->viewHandler.close()}"
                     android:padding="36dp"
                     android:src="@drawable/ic_clear_black_24dp"
                     android:textSize="20sp"
@@ -72,6 +72,7 @@
                     android:textColor="@android:color/white"
                     android:background="@color/colorPrimary"
                     android:gravity="center"
+                    android:visibility="@{viewModel.selectedTheme.size == 0 ? View.GONE:View.VISIBLE}"
                     android:onClick="@{() -> viewHandler.confirm()}"
                     android:fontFamily="sans-serif-light"
                     android:text="@string/theme_start"

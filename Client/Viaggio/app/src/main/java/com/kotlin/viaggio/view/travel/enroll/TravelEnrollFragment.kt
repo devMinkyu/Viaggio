@@ -101,32 +101,38 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
             fragmentPopStack()
         }
         fun addCountry(){
-            baseIntent("http://viaggio.kotlin.com/traveling/country/")
+            if(getViewModel().travelKind == 0){
+                baseIntent("http://viaggio.kotlin.com/traveling/country/")
+            }else{
+//                baseIntent("http://viaggio.kotlin.com/traveling/country/domestic/")
+            }
         }
         fun addTheme(){
             baseIntent("http://viaggio.kotlin.com/home/main/theme/")
         }
         fun changeDate(){
-            alert {
-                lateinit var datePicker: DatePicker
-                customView {
-                    verticalLayout {
-                        datePicker = datePicker {
-                            this.maxDate = System.currentTimeMillis()
+            if(getViewModel().endDate == null){
+                alert {
+                    lateinit var datePicker: DatePicker
+                    customView {
+                        verticalLayout {
+                            datePicker = datePicker {
+                                this.maxDate = System.currentTimeMillis()
+                            }
+                        }
+                        okButton {
+                            val cal = Calendar.getInstance()
+                            cal.set(Calendar.YEAR, datePicker.year)
+                            cal.set(Calendar.MONTH, datePicker.month)
+                            cal.set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
+                            getViewModel().changeStartOfDay(cal.time)
+                        }
+                        cancelButton {
+                            it.dismiss()
                         }
                     }
-                    okButton {
-                        val cal = Calendar.getInstance()
-                        cal.set(Calendar.YEAR, datePicker.year)
-                        cal.set(Calendar.MONTH, datePicker.month)
-                        cal.set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
-                        getViewModel().changeStartOfDay(DateFormat.getDateInstance(DateFormat.LONG).format(cal.time))
-                    }
-                    cancelButton {
-                        it.dismiss()
-                    }
-                }
-            }.show()
+                }.show()
+            }
         }
         fun travelStart(){
             if(getViewModel().travelStart()){

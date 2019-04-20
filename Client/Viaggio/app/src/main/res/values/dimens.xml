@@ -19,4 +19,5 @@
     <dimen name="app_bar_height">126dp</dimen>
     <dimen name="country_top_margin">56.5dp</dimen>
     <dimen name="theme_height">200dp</dimen>
+    <dimen name="common_top">15dp</dimen>
 </resources>
