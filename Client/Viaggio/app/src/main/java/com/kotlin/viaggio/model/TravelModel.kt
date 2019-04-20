@@ -18,8 +18,16 @@ class TravelModel @Inject constructor() : BaseModel() {
 
     fun uploadTravel(travel:Travel):Completable{
         val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
-        return api.uploadTravel(travel = travel, token = token)
-            .subscribeOn(Schedulers.io())
+        return api.uploadTravel(
+            token = token,
+            id = travel.id,
+            entireCountries = travel.entireCountries,
+            title = travel.title,
+            travelKind = travel.travelKind,
+            startDate = travel.startDate!!,
+            endDate = travel.endDate,
+            theme = travel.theme
+        ).subscribeOn(Schedulers.io())
     }
 
 }

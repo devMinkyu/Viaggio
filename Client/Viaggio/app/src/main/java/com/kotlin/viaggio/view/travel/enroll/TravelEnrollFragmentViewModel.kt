@@ -131,28 +131,10 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     @SuppressLint("RestrictedApi")
     fun travelStart(): Boolean {
-        when {
-            TextUtils.isEmpty(travelingStartOfCountry.get()) -> {
-                errorMsg.value = Event(TravelingError.COUNTRY_EMPTY)
-                return false
-            }
-            themeExist.get().not() -> {
-                errorMsg.value = Event(TravelingError.THEME_EMPTY)
-                return false
-            }
-        }
-
-        val cal = Calendar.getInstance()
-        prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).observeOn(Schedulers.io()).blockingAwait()
-        val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
-        prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay)
-            .observeOn(Schedulers.io()).blockingAwait()
-
         val travel = Travel(
             entireCountries = arrayListOf(travelingStartOfCountry.get()!!),
-            startDate = DateFormat.getDateInstance(DateFormat.LONG).parse(
-                travelingStartOfDay.get()!!
-            ),
+            startDate = startDate,
+            endDate = endDate,
             theme = travelThemeList.toMutableList() as ArrayList<String>,
             travelKind = travelKind
         )
@@ -161,18 +143,11 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
 
         val disposable = travelLocalModel.createTravel(travel)
             .flatMap { t ->
-                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, t).observeOn(Schedulers.io())
-                    .blockingAwait()
-                val day = Math.floor(
-                    ((cal.time.time - DateFormat.getDateInstance(DateFormat.LONG).parse(
-                        travelingStartOfDay.get()!!
-                    ).time).toDouble() / 1000) / (24 * 60 * 60)
-                ).toInt()
-                cal.time =
-                    DateFormat.getDateInstance(DateFormat.LONG).parse(travelingStartOfDay.get()!!)
-
-                prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, day + 1)
-                    .observeOn(Schedulers.io()).blockingAwait()
+                if(endDate == null){
+                    travelingSetting()
+                    prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, t).observeOn(Schedulers.io())
+                        .blockingAwait()
+                }
                 travel.id = t
                 prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID)
             }
@@ -199,13 +174,24 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                 Timber.e(it)
             }
         addDisposable(disposable)
-        val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()
-        WorkManager.getInstance().enqueueUniquePeriodicWork(
-            WorkerName.TRAVELING_OF_DAY_CHECK.name,
-            ExistingPeriodicWorkPolicy.KEEP,
-            timeCheckWork
-        )
 
+        val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()
+        WorkManager.getInstance().enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name, ExistingPeriodicWorkPolicy.KEEP, timeCheckWork)
         return true
+    }
+
+    private fun travelingSetting(){
+        val cal = Calendar.getInstance()
+        prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).observeOn(Schedulers.io()).blockingAwait()
+        val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
+        prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay)
+            .observeOn(Schedulers.io()).blockingAwait()
+        val day = Math.floor(
+            ((cal.time.time - startDate.time).toDouble() / 1000) / (24 * 60 * 60)
+        ).toInt()
+        cal.time = startDate
+
+        prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, day + 1)
+            .observeOn(Schedulers.io()).blockingAwait()
     }
 }

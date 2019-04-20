@@ -83,6 +83,7 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
 
         getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
+                stopLoading()
                 baseIntent("http://viaggio.kotlin.com/home/main/")
             }
         })

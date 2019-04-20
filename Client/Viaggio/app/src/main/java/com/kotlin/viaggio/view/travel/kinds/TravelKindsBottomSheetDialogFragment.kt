@@ -29,10 +29,14 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
     }
     inner class ViewHandler{
         fun selectedKinds(kinds: String){
-            getViewModel().selectKind(kinds)
-            getViewModel().travelType(0)
-            baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
-            dismiss()
+            if(getViewModel().travel){
+                toast("현재 여행 진행중")
+            }else{
+                getViewModel().selectKind(kinds)
+                getViewModel().travelType(0)
+                baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
+                dismiss()
+            }
         }
         fun selectBeforeKinds(kinds: String){
             getViewModel().selectKind(kinds)
@@ -59,27 +63,5 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
                 })
                 .show(fragmentManager!!, null)
         }
-    }
-}
-
-
-class TravelKindsBottomSheetDialogFragmentViewModel @Inject constructor() : BaseViewModel(){
-    fun selectKind(kinds: String){
-        when(kinds){
-            "overseas" ->{
-                prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVEL_KINDS, 0).blockingAwait()
-            }
-            "domestic" ->{
-                prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVEL_KINDS, 1).blockingAwait()
-            }
-        }
-    }
-
-    fun travelTerm(startTime: Date, endTime: Date) {
-        rxEventBus.travelingStartOfDay.onNext(listOf(startTime, endTime))
-    }
-
-    fun travelType(i: Int) {
-        rxEventBus.travelType.onNext(i)
     }
 }
