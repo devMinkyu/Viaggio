@@ -2,7 +2,7 @@
 <layout
         xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="com.kotlin.viaggio.view.traveling.enroll.TravelingOfDayImageEnrollFragment.TravelingOfDayImgViewHolder.TravelingOfDayImgViewHandler"/>
+        <import type="com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment.TravelingOfDayImgViewHolder.TravelingOfDayImgViewHandler"/>
         <import type="android.view.View"/>
 
         <variable name="viewHandler" type="TravelingOfDayImgViewHandler"/>

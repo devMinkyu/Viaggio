@@ -36,8 +36,11 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
         val type = object : TypeToken<List<Country>>() {}.type
 
         val countries: List<Country> = gson.fromJson(inputStream, type)
+        val list = countries.sortedBy {
+            it.country
+        }
         countryList.clear()
-        countryList.addAll(countries)
+        countryList.addAll(list)
 
         continentList.add(appCtx.get().resources.getString(R.string.total))
         countries.map {
@@ -57,9 +60,9 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
 
         val areaDisposable = rxEventBus.travelCity.subscribe {
             chooseArea.addAll(it)
-            val result = chooseArea.distinct()
+            val disList = chooseArea.distinct()
             chooseArea.clear()
-            chooseArea.addAll(result)
+            chooseArea.addAll(disList)
         }
         addDisposable(areaDisposable)
     }

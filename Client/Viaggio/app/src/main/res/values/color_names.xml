@@ -15,6 +15,7 @@
     <color name="brownish_grey">#616161</color>
     <color name="brownish_grey_two">#767676</color>
     <color name="brown_grey">#979797</color>
+    <color name="brown_grey_two">#afafaf</color>
     <color name="coral">#f24e4e</color>
     <color name="reddish_orange">#f25f28</color>
     <color name="dandelion">#f7e511</color>
@@ -31,6 +32,7 @@
     <color name="almost_black">#0f2322</color>
     <color name="charcoal">#0f1010</color>
     <color name="charcoal_two">#101111</color>
+    <color name="battleship_grey">#717575</color>
     <color name="ice_blue">#eceeee</color>
     <color name="ice">#eff8f6</color>
     <color name="ice_blue_two">#f2f8f8</color>

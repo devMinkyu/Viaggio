@@ -75,7 +75,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
         val encryptionPassword = encryption.encryptionValue(password.get()!!)
         error.value = null
         val disposable = userModel.signIn(email.get()!!, encryptionPassword)
-            .subscribe { t1, t2 ->
+            .subscribe ({ t1->
                 if(t1.isSuccessful){
                     complete.value = Event(Any())
                 }else{
@@ -84,6 +84,8 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
                         401 -> error.postValue(Event(SignError.EMAIL_NOT_FOUND))
                     }
                 }
+            }){
+
             }
         addDisposable(disposable)
     }

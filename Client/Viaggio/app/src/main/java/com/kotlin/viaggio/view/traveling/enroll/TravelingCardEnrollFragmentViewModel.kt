@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class TravelingOfDayEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
+class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
 

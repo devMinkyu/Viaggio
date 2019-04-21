@@ -57,19 +57,14 @@
 
             <TextView
                     android:id="@id/travelingStart"
-                    android:layout_width="match_parent"
-                    android:layout_height="62dp"
+                    style="@style/ViewStyle.Viaggio.Btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:textColor="@android:color/white"
                     android:background="@color/colorPrimary"
-                    android:gravity="center"
                     android:visibility="@{viewModel.selectedCities.size == 0 ? View.GONE:View.VISIBLE}"
                     android:onClick="@{() -> viewHandler.choose()}"
-                    android:fontFamily="sans-serif-light"
-                    android:text="@string/city_start"
-                    android:letterSpacing="-0.02"
-                    android:textSize="20.3dp"
-                    tools:ignore="SpUsage"/>
+                    android:text="@string/city_start"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

@@ -67,8 +67,12 @@
     <string name="travel_before_domestic_subtitle">다녀왔던 해외 여행의 기억을 남기세요!</string>
     <string name="travel_start">여행 시작</string>
     <string name="theme_start">테마 선택</string>
+    <string name="travel_card_start">등록</string>
     <string name="city_start">도시 선택</string>
+    <string name="image_start">사진 선택</string>
     <string name="travel_enroll_notice">새로운 해외여행 등록</string>
+    <string name="travel_card_enroll_notice">여행 포스팅 쓰기</string>
+    <string name="travel_card_enroll_hint">여기를 터치해서 글을 작성하세요!\n일자를 구분해서 여행의 기억을\n남기실 수 있습니다.</string>
     <string name="travel_enroll_country">새로운 여행지</string>
     <string name="travel_enroll_country_hint">터치하여 여행지를 골라주세요.</string>
     <string name="travel_enroll_day">여행 시작날짜</string>
@@ -81,4 +85,5 @@
     <string name="travel_country_add_notice">더 많은 도시가 추가될 예정이에요.</string>
     <string name="city_notice">여행 도시를\n선택을 해주세요.</string>
     <string name="theme_notice">여행 테마를\n선택을 해주세요.</string>
+     <string name="travel_card_count">%d일차</string>
 </resources>

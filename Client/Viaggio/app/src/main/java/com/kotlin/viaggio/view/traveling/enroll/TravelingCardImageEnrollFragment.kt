@@ -11,19 +11,18 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.databinding.FragmentTravelingOfDayImageEnrollBinding
+import com.kotlin.viaggio.databinding.FragmentTravelingCardImageEnrollBinding
 import com.kotlin.viaggio.databinding.ItemTravelingOfDayImageBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
-import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
-import kotlinx.android.synthetic.main.fragment_traveling_of_day_image_enroll.*
+import kotlinx.android.synthetic.main.fragment_traveling_card_image_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_of_day_image.view.*
 
 
-class TravelingOfDayImageEnrollFragment : BaseFragment<TravelingOfDayImageEnrollFragmentViewModel>() {
-    lateinit var binding: FragmentTravelingOfDayImageEnrollBinding
+class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFragmentViewModel>() {
+    lateinit var binding: FragmentTravelingCardImageEnrollBinding
     override fun onResume() {
         super.onResume()
         if (sliderInterface == null)
@@ -35,7 +34,7 @@ class TravelingOfDayImageEnrollFragment : BaseFragment<TravelingOfDayImageEnroll
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_of_day_image_enroll, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_card_image_enroll, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
         return binding.root

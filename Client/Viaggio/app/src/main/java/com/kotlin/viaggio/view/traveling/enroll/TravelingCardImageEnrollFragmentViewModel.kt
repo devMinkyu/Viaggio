@@ -8,7 +8,7 @@ import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import javax.inject.Inject
 
-class TravelingOfDayImageEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
+class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
 

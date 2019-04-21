@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.TravelingError
@@ -21,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_travel_enroll.*
 import org.jetbrains.anko.*
 import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
-import java.text.DateFormat
 import java.util.*
 
 
@@ -140,9 +138,5 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
                 showLoading()
             }
         }
-    }
-
-    inner class ThemeTravelingSelectedViewHolder(view:View): RecyclerView.ViewHolder(view){
-        val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingSelectedThemeBinding>(view)
     }
 }

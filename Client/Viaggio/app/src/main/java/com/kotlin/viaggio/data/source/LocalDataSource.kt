@@ -83,7 +83,7 @@ class LocalDataSource @Inject constructor() {
             for (i in 0..99) {
                 val imgName = String.format(Locale.getDefault(), IMG_NAME_FORMAT, System.currentTimeMillis(), i, extension)
                 val imgNameHash = encryption.encryptionValue(imgName)
-                result = File(dir, imgName)
+                result = File(dir, imgNameHash)
                 if (!result.exists()) {
                     break
                 }
@@ -210,7 +210,8 @@ class LocalDataSource @Inject constructor() {
                             val imgName = String.format(
                                 Locale.getDefault(),
                                 IMG_NAME_FORMAT, System.currentTimeMillis(), index, "jpg")
-                            val localFile = File(imageDir, imgName)
+                            val imgNameHash = encryption.encryptionValue(imgName)
+                            val localFile = File(imageDir, imgNameHash)
                             localFile.createNewFile()
 
                             val out = FileOutputStream(localFile)

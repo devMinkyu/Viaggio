@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragmentViewModel"/>
+
+        <variable name="viewModel" type="TravelingCardEnrollFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:background="@android:color/transparent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/enroll_container"
+                android:background="@color/white_two"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <View
+                    android:id="@+id/tgl"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/back"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
+                    android:onClick="@{()->viewHandler.back()}"
+                    android:layout_marginStart="22dp"
+                    app:layout_constraintTop_toBottomOf="@id/tgl"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@android:color/black"/>
+            <TextView
+                    android:id="@+id/enroll_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Viaggio.Navigation"
+                    android:layout_marginStart="31.7dp"
+                    android:layout_marginTop="@dimen/tool_bar_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tgl"
+                    android:text="@string/travel_card_enroll_notice"
+                    tools:ignore="SpUsage"/>
+            <TextView
+                    android:id="@id/travelingOfDayEnrollDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15.7sp"
+                    android:textColor="@color/brown_grey_two"
+                    android:letterSpacing="-0.02"
+                    android:layout_marginEnd="@dimen/common_margin"
+                    android:fontFamily="sans-serif-black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/enroll_title"
+                    app:layout_constraintBottom_toBottomOf="@id/enroll_title"
+                    tools:text="1일차"
+            />
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@id/travelCardEnrollImageList"
+                    android:layout_width="match_parent"
+                    android:layout_height="88dp"
+                    android:layout_marginTop="@dimen/common_margin"
+                    app:layout_constraintTop_toBottomOf="@id/enroll_title"
+            />
+            <EditText
+                    android:id="@id/travelingOfDayEnrollContents"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:paddingTop="@dimen/common_margin"
+                    android:paddingStart="@dimen/common_margin"
+                    android:paddingEnd="@dimen/common_margin"
+                    android:paddingBottom="10dp"
+                    android:inputType="textMultiLine"
+                    android:gravity="start"
+                    android:textSize="15.7dp"
+                    android:textColor="@color/almost_black"
+                    android:fontFamily="sans-serif-light"
+                    android:scrollbars="vertical"
+                    android:hint="@string/travel_card_enroll_hint"
+                    android:textColorHint="@color/battleship_grey"
+                    android:letterSpacing="-0.02"
+                    android:lineSpacingExtra="4dp"
+                    android:text="@={viewModel.contents}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/travelCardEnrollImageList"
+                    android:background="@null"
+                    tools:ignore="Autofill,SpUsage"/>
+
+            <TextView
+                    android:id="@id/travelingStart"
+                    style="@style/ViewStyle.Viaggio.Btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="@string/travel_card_start"
+                    android:onClick="@{()->viewHandler.save()}"
+                    tools:background="@color/very_light_pink"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

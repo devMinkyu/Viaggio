@@ -18,7 +18,7 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_detail.*
-import kotlinx.android.synthetic.main.fragment_traveling_of_day_enroll.*
+import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_pager_img.view.*
 import java.io.File
 

@@ -199,4 +199,5 @@
     <item name="countrySpinner" type="id"/>
     <item name="travelMore" type="id"/>
     <item name="travelingItemIndicator" type="id"/>
+    <item name="travelCardEnrollImageList" type="id"/>
 </resources>
