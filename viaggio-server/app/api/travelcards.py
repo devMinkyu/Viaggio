@@ -9,9 +9,10 @@ from ..errors import bad_request
 @api.route('/my/travelcards/<int:travelId>', methods=['POST'])
 def create_travelCard(travelId):
     travelCard = TravelCard(travelId=travelId,
+                            localId=request.form.get('localId'),
+                            travelLocalId=request.form.get('travelLocalId'),
                             travelOfDay=request.form.get('travelOfDay'),
                             country=request.form.get('country'),
-                            title=request.form.get('title'),
                             content=request.form.get('content'),
                             imageName=request.form.get('imageName'),
                             imageUrl=request.form.get('imageUrl'),
@@ -44,8 +45,6 @@ def update_travelCard(travelCardId):
         travelCard.travelOfDay = request.form.get('travelOfDay')
     if request.form.get('country') is not None:
         travelCard.country = request.form.get('country')
-    if request.form.get('title') is not None:
-        travelCard.title = request.form.get('title')
     if request.form.get('content') is not None:
         travelCard.content = request.form.get('content')
     if request.form.get('imageName') is not None:

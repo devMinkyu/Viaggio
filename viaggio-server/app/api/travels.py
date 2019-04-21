@@ -19,8 +19,8 @@ def create_travel():
                         entireCountry=entireCountries,
                         title=request.form.get('title'),
                         theme=request.form.get('theme'),
-                        backgroundImageName=request.form.get('backgroundImageName'),
-                        backgroundImageUrl=request.form.get('backgroundImageUrl'),
+                        imageName=request.form.get('imageName'),
+                        imageUrl=request.form.get('imageUrl'),
                         share=request.form.get('share'),
                         isDelete=request.form.get('isDelete'))
         db.session.add(travel)
@@ -78,8 +78,8 @@ def update_travel(id):
             tempTheme = list(trave.theme)
             tempTheme.append(request.form.get('addTheme'))
             travel.theme = tempTheme
-        travel.backgroundImageName = request.form.get('backgroundImageName')
-        travel.backgroundImageUrl = request.form.get('backgroundImageUrl')
+        travel.imageName = request.form.get('imageName')
+        travel.imageUrl = request.form.get('imageUrl')
         if request.form.get('share'):
             travel.share = True
         else:

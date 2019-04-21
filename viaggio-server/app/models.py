@@ -51,8 +51,8 @@ class Travel(db.Model):
     entireCountry = db.Column(db.PickleType)
     title = db.Column(db.String(64))
     theme = db.Column(db.PickleType)
-    backgroundImageName = db.Column(db.String(32))
-    backgroundImageUrl = db.Column(db.String(128))
+    imageName = db.Column(db.String(32))
+    imageUrl = db.Column(db.String(128))
     share = db.Column(db.Boolean, default=False)
     isDelete = db.Column(db.Boolean, default=False)
     travlecard = db.relationship('TravelCard', backref='travel', lazy='dynamic')
@@ -62,7 +62,7 @@ class Travel(db.Model):
 
     def __repr__(self):
         return '<Travel %r>' % self.startDate, self.endDate, self.title, self.theme,\
-            self.backgroundImageName, self.backgroundImageUrl, self.share, self.isDelete
+            self.imageName, self.imageUrl, self.share, self.isDelete
 
     def as_dict(self):
         return {x.name: getattr(self, x.name) for x in self.__table__.columns}
@@ -78,8 +78,8 @@ class Travel(db.Model):
             'entireCountry': self.entireCountry,
             'title': self.title,
             'theme': self.theme,
-            'backgroundImageName': self.backgroundImageName,
-            'backgroundImageUrl': self.backgroundImageUrl,
+            'imageName': self.imageName,
+            'imageUrl': self.imageUrl,
             'share': self.share,
             'isDelete': self.isDelete
         }
@@ -95,7 +95,6 @@ class TravelCard(db.Model):
     travelLocalId = db.Column(db.Integer, nullable=False)
     travelOfDay = db.Column(db.Integer, default=1)
     country = db.Column(db.String(32))
-    title = db.Column(db.String(32))
     content = db.Column(db.String(1024))
     imageName = db.Column(db.String(32))
     imageUrl = db.Column(db.String(128))
@@ -106,7 +105,7 @@ class TravelCard(db.Model):
         super(TravelCard, self).__init__(**kwargs)
 
     def __repr__(self):
-        return '<TravelCard %r' % self.travelId, self.travelOfDay, self.country, self.title, \
+        return '<TravelCard %r' % self.travelId, self.travelOfDay, self.country, \
             self.content, self.imageName, self.imageUrl, self.date
 
     def as_dict(self):
@@ -116,9 +115,10 @@ class TravelCard(db.Model):
         json_travelCard = {
             'id': self.id,
             'travelId': self.travelId,
+            'localId': self.localId,
+            'travelLocalId': self.travelLocalId,
             'travelOfDay': self.travelOfDay,
             'country': self.country,
-            'title': self.title,
             'content': self.content,
             'imageName': self.imageName,
             'imageUrl': self.imageUrl,
