@@ -1,4 +1,4 @@
-<resources>
+ <resources>
     <string name="travel_theme_json">theme.json</string>
     <string name="travel_country_json">country.json</string>
     <string name="travel_tutorial_json">tutorial.json</string>
@@ -35,7 +35,7 @@
     <string name="setting_sign">Sign</string>
     <string name="date_format">EE, MMM d, yyyy</string>
     <string name="date_time_format">HH:MM</string>
-    <string name="travel_count">%dDAY</string>
+    <string name="travel_count">DAY %d</string>
     <string name="over_image_count">+%d</string>
     <string name="travel_card_choose_count">%d</string>
     <string name="travel_of_day_country">%s -> %s</string>

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.google.gson.Gson
+import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
@@ -25,7 +26,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val showTravelCard = MutableLiveData<Event<Boolean>>()
     val completeLiveData = MutableLiveData<Event<Any>>()
-    lateinit var travelOfDayPagedLiveData: LiveData<PagedList<TravelOfDay>>
+    lateinit var travelCardPagedLiveData: LiveData<PagedList<TravelCard>>
 
     override fun initialize() {
         super.initialize()
@@ -34,7 +35,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             .subscribeOn(Schedulers.io())
             .subscribe({
                 if (it) {
-                    travelOfDayPagedLiveData.value?.dataSource?.invalidate()
+                    travelCardPagedLiveData.value?.dataSource?.invalidate()
                     rxEventBus.travelOfDayChange.onNext(false)
                 }
             }) {
@@ -53,7 +54,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(travelingFinishDisposable)
         val countryDisposable = rxEventBus.travelOfCountry.subscribe { t ->
             if (TextUtils.isEmpty(t).not()) {
-                travelOfDayPagedLiveData.value?.dataSource?.invalidate()
+                travelCardPagedLiveData.value?.dataSource?.invalidate()
                 rxEventBus.travelOfCountry.onNext("")
             }
         }
@@ -61,25 +62,25 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     }
 
     private fun loadTravelOfDayPaged() {
-        val factory = travelLocalModel.getTravelOfDays()
-        val pagedListBuilder = LivePagedListBuilder<Int, TravelOfDay>(
+        val factory = travelLocalModel.getTravelCardsPaging()
+        val pagedListBuilder = LivePagedListBuilder<Int, TravelCard>(
             factory,
             10
         )
-        travelOfDayPagedLiveData = pagedListBuilder.build()
+        travelCardPagedLiveData = pagedListBuilder.build()
     }
 
-    fun setSelectedTravelingOfDay(travelOfDayId: Long?) {
-        travelOfDayId?.let {
-            prefUtilService.putLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID, it).blockingAwait()
-            val disposable = travelLocalModel.getTravelCard()
-                .observeOn(Schedulers.io())
-                .subscribe({
-                    showTravelCard.postValue(Event(true))
-                }) {
-                    showTravelCard.postValue(Event(false))
-                }
-            addDisposable(disposable)
+    fun setSelectedTravelCard(travelCardId: Long?) {
+        travelCardId?.let {
+//            prefUtilService.putLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID, it).blockingAwait()
+//            val disposable = travelLocalModel.getTravelCard()
+//                .observeOn(Schedulers.io())
+//                .subscribe({
+//                    showTravelCard.postValue(Event(true))
+//                }) {
+//                    showTravelCard.postValue(Event(false))
+//                }
+//            addDisposable(disposable)
         }
     }
 }

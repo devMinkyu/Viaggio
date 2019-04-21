@@ -41,7 +41,7 @@ class PageIndicatorView : LinearLayout {
         removeAllViews()
         viewSparseArray.clear()
         var imageView: ImageView
-        var lp: LinearLayout.LayoutParams
+        var lp: LayoutParams
         val maxCount = if (totalPageCount > 5) 9 else totalPageCount
         var state: Drawable?
         mTotalPageCount = totalPageCount
@@ -50,9 +50,9 @@ class PageIndicatorView : LinearLayout {
             imageView = ImageView(context)
             state = mIndicatorImg?.constantState?.newDrawable()
             state?.let {
-                lp = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                lp = LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT
                 )
                 imageView.layoutParams = lp
                 imageView.setImageDrawable(it.mutate())

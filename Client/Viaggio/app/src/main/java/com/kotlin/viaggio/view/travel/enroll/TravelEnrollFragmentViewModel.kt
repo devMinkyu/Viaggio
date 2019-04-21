@@ -131,8 +131,11 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     @SuppressLint("RestrictedApi")
     fun travelStart(): Boolean {
+        val city = chooseCountry.map { it.city }
+        val country = chooseCountry.map { it.country }
         val travel = Travel(
-            entireCountries = arrayListOf(travelingStartOfCountry.get()!!),
+            entireCountries = country as ArrayList<String>,
+            city = city as ArrayList<String>,
             startDate = startDate,
             endDate = endDate,
             theme = travelThemeList.toMutableList() as ArrayList<String>,

@@ -36,11 +36,11 @@ interface TravelDao {
     @Insert
     fun insertAllTravelOfDay(vararg travelOfDay: TravelOfDay): Single<MutableList<Long>>
 
-    @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY date Asc")
-    fun getTravelOfDays(travelId: Long): DataSource.Factory<Int, TravelOfDay>
+    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelId) ORDER BY date Asc")
+    fun getTravelCardAsc(travelId: Long): DataSource.Factory<Int, TravelCard>
 
-    @Query("SELECT * FROM travelOfDays WHERE travelId IN(:travelId) ORDER BY date DESC")
-    fun getTravelingOfDays(travelId: Long): DataSource.Factory<Int, TravelOfDay>
+    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelId) ORDER BY date DESC")
+    fun getTravelCardDes(travelId: Long): DataSource.Factory<Int, TravelCard>
 
     @Query("SELECT * FROM travelOfDays WHERE id = :id limit 1")
     fun getTravelOfDay(id: Long): Single<TravelOfDay>

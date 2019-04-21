@@ -20,4 +20,6 @@
     <dimen name="country_top_margin">56.5dp</dimen>
     <dimen name="theme_height">200dp</dimen>
     <dimen name="common_top">15dp</dimen>
+    <dimen name="travel_card_start">60dp</dimen>
+    <dimen name="travel_card_end">140dp</dimen>
 </resources>

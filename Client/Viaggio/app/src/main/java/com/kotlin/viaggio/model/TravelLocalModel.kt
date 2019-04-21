@@ -47,7 +47,7 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
             }).flatMap { t ->
                 localDataSource.cacheFile(t)
                     .flatMap { uri ->
-                        travel.backgroundImageName = Uri.parse(uri[0]).lastPathSegment!!
+                        travel.imageName = Uri.parse(uri[0]).lastPathSegment!!
                         db.get().travelDao().insertTravel(travel).subscribeOn(Schedulers.io())
                     }
             }.subscribeOn(Schedulers.io())
@@ -96,13 +96,13 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
         return db.get().travelDao().insertAllTravelOfDay(*travelOfDay.toTypedArray()).subscribeOn(Schedulers.io())
     }
 
-    fun getTravelOfDays(): DataSource.Factory<Int, TravelOfDay> {
+    fun getTravelCardsPaging(): DataSource.Factory<Int, TravelCard> {
         val travelingId = getTravelingId().blockingGet()
         val selectedTravelingId = getSelectedTravelingId().blockingGet()
         return if (travelingId != selectedTravelingId) {
-            db.get().travelDao().getTravelOfDays(selectedTravelingId)
+            db.get().travelDao().getTravelCardAsc(selectedTravelingId)
         } else {
-            db.get().travelDao().getTravelingOfDays(selectedTravelingId)
+            db.get().travelDao().getTravelCardDes(selectedTravelingId)
         }
     }
 

@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
+import com.kotlin.viaggio.data.`object`.Error
 import com.kotlin.viaggio.data.`object`.SignError
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
@@ -17,8 +19,12 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
-//    @Inject
-//    lateinit var userModel: UserModel
+    @Inject
+    lateinit var userModel: UserModel
+    @Inject
+    lateinit var encryption: Encryption
+    @Inject
+    lateinit var gson: Gson
 
     val email = ObservableField<String>().apply {
         addOnPropertyChangedCallback(object :androidx.databinding.Observable.OnPropertyChangedCallback(){
@@ -66,18 +72,19 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
         }
     }
     fun validateSignIn() {
-//        val encryptionPassword = Encryption().encryptionValue(password.get()!!)
-//        error.value = null
-//        val disposable = userModel.signIn(email.get()!!, encryptionPassword)
-//            .subscribe { t1, t2 ->
-//                if(t1.isSuccessful){
-//                    complete.value = Event(Any())
-//                }else{
-//                    when(t1.code()){
-//                        HttpURLConnection.HTTP_NOT_FOUND -> error.value = SignError.EMAIL_NOT_FOUND
-//                    }
-//                }
-//            }
-//        addDisposable(disposable)
+        val encryptionPassword = encryption.encryptionValue(password.get()!!)
+        error.value = null
+        val disposable = userModel.signIn(email.get()!!, encryptionPassword)
+            .subscribe { t1, t2 ->
+                if(t1.isSuccessful){
+                    complete.value = Event(Any())
+                }else{
+                    val errorMsg: Error = gson.fromJson(t1.errorBody()?.string(), Error::class.java)
+                    when(errorMsg.message){
+                        401 -> error.postValue(Event(SignError.EMAIL_NOT_FOUND))
+                    }
+                }
+            }
+        addDisposable(disposable)
     }
 }

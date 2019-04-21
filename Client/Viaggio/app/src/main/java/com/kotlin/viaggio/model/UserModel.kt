@@ -1,6 +1,5 @@
 package com.kotlin.viaggio.model
 
-import com.kotlin.viaggio.data.`object`.SignInBody
 import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.ViaggioApiService
@@ -19,12 +18,14 @@ class UserModel @Inject constructor() :BaseModel(){
     lateinit var pref: AndroidPrefUtilService
 
     fun signIn(email:String, password:String):Single<Response<ViaggioApiAuth>> =
-            api.signIn(SignInBody(email, password))
+            api.signIn(email = email, passwordHash = password)
                 .doOnSuccess {
                     it.body()?.also {auth ->
-                        pref.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token).subscribe()
-                        pref.putString(AndroidPrefUtilService.Key.USER_ID, auth.email).subscribe()
-                        pref.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).subscribe()
+                        pref.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token).blockingAwait()
+                        pref.putString(AndroidPrefUtilService.Key.USER_ID, auth.email).blockingAwait()
+                        pref.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).blockingAwait()
+                        pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId).blockingAwait()
+                        pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token).blockingAwait()
                     }
                 }
                 .subscribeOn(Schedulers.io())
@@ -33,9 +34,11 @@ class UserModel @Inject constructor() :BaseModel(){
         return api.signUp(name = name, email = email, passwordHash2 = password2, passwordHash = password)
             .doOnSuccess {
                 it.body()?.also {auth ->
-                    pref.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token).subscribe()
-                    pref.putString(AndroidPrefUtilService.Key.USER_ID, auth.email).subscribe()
-                    pref.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).subscribe()
+                    pref.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token).blockingAwait()
+                    pref.putString(AndroidPrefUtilService.Key.USER_ID, auth.email).blockingAwait()
+                    pref.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).blockingAwait()
+                    pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId).blockingAwait()
+                    pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token).blockingAwait()
                 }
             }
             .subscribeOn(Schedulers.io())

@@ -66,4 +66,12 @@
         <item name="android:textSize" tools:ignore="SpUsage">16.2dp</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
+    <style name="TextAppearance.Viaggio.Travel.Card">
+        <item name="android:textColor">@color/almost_black</item>
+        <item name="android:textSize" tools:ignore="SpUsage">13dp</item>
+        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">5.3dp</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
 </resources>

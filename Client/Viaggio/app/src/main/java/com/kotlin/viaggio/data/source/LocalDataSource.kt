@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.core.content.FileProvider
 import com.kotlin.viaggio.android.ClearCache
+import com.kotlin.viaggio.view.sign.common.Encryption
 import dagger.Lazy
 import io.fotoapparat.result.PhotoResult
 import io.fotoapparat.result.WhenDoneListener
@@ -30,6 +31,8 @@ class LocalDataSource @Inject constructor() {
     lateinit var appCtx: Lazy<Context>
     @Inject
     lateinit var clearCache: ClearCache
+    @Inject
+    lateinit var encryption: Encryption
 
     companion object {
         const val CACHE_IMG_FOLDER = "images/"
@@ -78,8 +81,8 @@ class LocalDataSource @Inject constructor() {
         }
         if (isDirExist) {
             for (i in 0..99) {
-                val imgName =
-                    String.format(Locale.getDefault(), IMG_NAME_FORMAT, System.currentTimeMillis(), i, extension)
+                val imgName = String.format(Locale.getDefault(), IMG_NAME_FORMAT, System.currentTimeMillis(), i, extension)
+                val imgNameHash = encryption.encryptionValue(imgName)
                 result = File(dir, imgName)
                 if (!result.exists()) {
                     break

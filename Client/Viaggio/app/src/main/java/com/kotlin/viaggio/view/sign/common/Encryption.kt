@@ -3,12 +3,13 @@ package com.kotlin.viaggio.view.sign.common
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
+import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.experimental.and
 
 
 @Singleton
-class Encryption {
+class Encryption @Inject constructor()  {
     fun encryptionValue(value: String) = encryptionMD5(value)
 
     private fun encryptionMD5(value: String):String{

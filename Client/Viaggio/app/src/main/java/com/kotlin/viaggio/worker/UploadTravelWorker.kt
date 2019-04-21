@@ -7,6 +7,7 @@ import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.model.TravelModel
+import io.reactivex.Completable
 import javax.inject.Inject
 
 class UploadTravelWorker @Inject constructor(context: Context, params: WorkerParameters) : BaseWorker(context, params) {
@@ -22,11 +23,23 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
         val travel = gson.fromJson(toJson, Travel::class.java)
 
         travelModel.uploadTravel(travel)
-            .andThen {
-                travel.userExist = true
-                travelLocalModel.updateTravel(travel)
-            }
-            .blockingAwait()
+            .flatMapCompletable {
+                if(it.isSuccessful){
+                    travel.userExist = true
+                    travelLocalModel.updateTravel(travel)
+                }else{
+                    travelModel.uploadTravel(travel)
+                        .flatMapCompletable {sec ->
+                            if(sec.isSuccessful){
+                                travel.userExist = true
+                                travelLocalModel.updateTravel(travel)
+                            }else{
+                                // 처리 부
+                                Completable.complete()
+                            }
+                        }
+                }
+            }.blockingAwait()
         return Result.success()
     }
 }

@@ -2,7 +2,7 @@
   {
     "continent": "아메리카",
     "country": "멕시코",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EB%A9%94%EB%A6%AC%EC%B9%B4/%E1%84%86%E1%85%A6%E1%86%A8%E1%84%89%E1%85%B5%E1%84%8F%E1%85%A9.jpg",
     "area": [
       "멕시코 시티",
       "칸쿤"
@@ -11,7 +11,7 @@
   {
     "continent": "아메리카",
     "country": "미국",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EB%A9%94%EB%A6%AC%EC%B9%B4/%E1%84%86%E1%85%B5%E1%84%80%E1%85%AE%E1%86%A8.jpeg",
     "area": [
       "뉴욕",
       "로스앤젤로스",
@@ -32,7 +32,7 @@
   {
     "continent": "아메리카",
     "country": "브라질",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EB%A9%94%EB%A6%AC%EC%B9%B4/%E1%84%87%E1%85%B3%E1%84%85%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AF.jpg",
     "area": [
       "리우데자이네이루",
       "상파울루"
@@ -41,7 +41,7 @@
   {
     "continent": "아메리카",
     "country": "캐나다",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EB%A9%94%EB%A6%AC%EC%B9%B4/%E1%84%8F%E1%85%A2%E1%84%82%E1%85%A1%E1%84%83%E1%85%A1.jpg",
     "area": [
       "토론토",
       "벤쿠버",
@@ -52,7 +52,7 @@
   {
     "continent": "아시아",
     "country": "대만",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%83%E1%85%A2%E1%84%86%E1%85%A1%E1%86%AB.jpg",
     "area": [
       "타이페이",
       "신베이 시 지우펀",
@@ -64,7 +64,7 @@
   {
     "continent": "아시아",
     "country": "라오스",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%85%E1%85%A1%E1%84%8B%E1%85%A9%E1%84%89%E1%85%B3.jpg",
     "area": [
       "비엔티엔",
       "방비엥",
@@ -74,7 +74,7 @@
   {
     "continent": "아시아",
     "country": "마카오",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%86%E1%85%A1%E1%84%8F%E1%85%A1%E1%84%8B%E1%85%A9.jpg",
     "area": [
       "마카오"
     ]
@@ -82,7 +82,7 @@
   {
     "continent": "아시아",
     "country": "말레이시아",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%86%E1%85%A1%E1%86%AF%E1%84%85%E1%85%A6%E1%84%8B%E1%85%B5%E1%84%89%E1%85%B5%E1%84%8B%E1%85%A1.jpg",
     "area": [
       "쿠알라룸푸르",
       "코타키나발루",
@@ -94,7 +94,7 @@
   {
     "continent": "아시아",
     "country": "몰디브",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%86%E1%85%A9%E1%86%AF%E1%84%83%E1%85%B5%E1%84%87%E1%85%B3.jpg",
     "area": [
       "몰디브"
     ]
@@ -102,7 +102,7 @@
   {
     "continent": "아시아",
     "country": "몽골",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%86%E1%85%A9%E1%86%BC%E1%84%80%E1%85%A9%E1%86%AF.jpg",
     "area": [
       "울란바토르",
       "고비사막"
@@ -111,7 +111,7 @@
   {
     "continent": "아시아",
     "country": "미얀마",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%86%E1%85%B5%E1%84%8B%E1%85%A3%E1%86%AB%E1%84%86%E1%85%A1.jpg",
     "area": [
       "양곤",
       "바간"
@@ -120,7 +120,7 @@
   {
     "continent": "아시아",
     "country": "베트남",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%87%E1%85%A6%E1%84%90%E1%85%B3%E1%84%82%E1%85%A1%E1%86%B7.jpg",
     "area": [
       "하노이",
       "호이안",
@@ -134,7 +134,7 @@
   {
     "continent": "아시아",
     "country": "싱가포르",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%89%E1%85%B5%E1%86%BC%E1%84%80%E1%85%A1%E1%84%91%E1%85%A9%E1%84%85%E1%85%B3.jpg",
     "area": [
       "싱가포르"
     ]
@@ -142,7 +142,7 @@
   {
     "continent": "아시아",
     "country": "아랍에미리트",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%8B%E1%85%A1%E1%84%85%E1%85%A1%E1%86%B8%E1%84%8B%E1%85%A6%E1%84%86%E1%85%B5%E1%84%85%E1%85%B5%E1%84%90%E1%85%B3.jpg",
     "area": [
       "두바이",
       "아부다비"
@@ -150,8 +150,17 @@
   },
   {
     "continent": "아시아",
+    "country": "이스라엘",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%8B%E1%85%B5%E1%84%89%E1%85%B3%E1%84%85%E1%85%A1%E1%84%8B%E1%85%A6%E1%86%AF.jpg",
+    "area": [
+      "예루살렘",
+      "아인버켁"
+    ]
+  },
+  {
+    "continent": "아시아",
     "country": "인도",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%83%E1%85%A9.jpeg",
     "area": [
       "바라나시",
       "델리",
@@ -161,7 +170,7 @@
   {
     "continent": "아시아",
     "country": "인도네시아",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%8B%E1%85%B5%E1%86%AB%E1%84%83%E1%85%A9%E1%84%82%E1%85%A6%E1%84%89%E1%85%B5%E1%84%8B%E1%85%A1.jpg",
     "area": [
       "발리",
       "자카르타",
@@ -170,24 +179,15 @@
   },
   {
     "continent": "아시아",
-    "country": "이스라엘",
-    "url": "",
-    "area": [
-      "예루살렘",
-      "아인버켁"
-    ]
-  },
-  {
-    "continent": "아시아",
     "country": "일본",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%87%E1%85%A9%E1%86%AB.jpg",
     "area": [
       "도쿄",
       "오사카",
       "교토 & 간사이",
       "오키나와",
       "후쿠오카 & 큐슈",
-      "기타큐슈",
+      "기타큐슈",
       "삿포르",
       "나고야 & 시즈오카",
       "훗카이도",
@@ -197,7 +197,7 @@
   {
     "country": "중국",
     "continent": "아시아",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%8C%E1%85%AE%E1%86%BC%E1%84%80%E1%85%AE%E1%86%A8.jpg",
     "area": [
       "베이징",
       "상해",
@@ -208,7 +208,7 @@
   {
     "continent": "아시아",
     "country": "캄보디아",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%8F%E1%85%A1%E1%86%B7%E1%84%87%E1%85%A9%E1%84%83%E1%85%B5%E1%84%8B%E1%85%A1.jpg",
     "area": [
       "프놈펜",
       "씨엠립"
@@ -217,7 +217,7 @@
   {
     "continent": "아시아",
     "country": "태국",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%90%E1%85%A2%E1%84%80%E1%85%AE%E1%86%A8.jpg",
     "area": [
       "방콕",
       "푸켓",
@@ -232,7 +232,7 @@
   {
     "continent": "아시아",
     "country": "필리핀",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%91%E1%85%B5%E1%86%AF%E1%84%85%E1%85%B5%E1%84%91%E1%85%B5%E1%86%AB.jpg",
     "area": [
       "보라카이",
       "세부",
@@ -245,7 +245,7 @@
   {
     "continent": "아시아",
     "country": "홍콩",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%EC%8B%9C%EC%95%84/%E1%84%92%E1%85%A9%E1%86%BC%E1%84%8F%E1%85%A9%E1%86%BC.jpg",
     "area": [
       "홍콩"
     ]
@@ -253,7 +253,7 @@
   {
     "continent": "오세아니아",
     "country": "뉴질랜드",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%98%A4%EC%84%B8%EC%95%84%EB%8B%88%EC%95%84/%E1%84%82%E1%85%B2%E1%84%8C%E1%85%B5%E1%86%AF%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B3.jpg",
     "area": [
       "오클랜드 & 북섬",
       "퀸즈타운 & 남섬"
@@ -262,7 +262,7 @@
   {
     "continent": "오세아니아",
     "country": "팔라우",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%98%A4%EC%84%B8%EC%95%84%EB%8B%88%EC%95%84/%E1%84%91%E1%85%A1%E1%86%AF%E1%84%85%E1%85%A1%E1%84%8B%E1%85%AE.jpg",
     "area": [
       "팔라우"
     ]
@@ -270,7 +270,7 @@
   {
     "continent": "오세아니아",
     "country": "호주",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%98%A4%EC%84%B8%EC%95%84%EB%8B%88%EC%95%84/%E1%84%92%E1%85%A9%E1%84%8C%E1%85%AE.jpeg",
     "area": [
       "시드니",
       "멜버른",
@@ -282,7 +282,7 @@
   {
     "continent": "유럽",
     "country": "그리스",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%80%E1%85%B3%E1%84%85%E1%85%B5%E1%84%89%E1%85%B3.jpg",
     "area": [
       "산토리니",
       "아테네"
@@ -291,7 +291,7 @@
   {
     "continent": "유럽",
     "country": "네덜란드",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%82%E1%85%A6%E1%84%83%E1%85%A5%E1%86%AF%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B3.jpg",
     "area": [
       "암스테르담"
     ]
@@ -299,7 +299,7 @@
   {
     "continent": "유럽",
     "country": "노르웨이",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%82%E1%85%A9%E1%84%85%E1%85%B3%E1%84%8B%E1%85%B0%E1%84%8B%E1%85%B5.jpg",
     "area": [
       "오슬로",
       "트롬쇠",
@@ -309,7 +309,7 @@
   {
     "continent": "유럽",
     "country": "덴마크",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%83%E1%85%A6%E1%86%AB%E1%84%86%E1%85%A1%E1%84%8F%E1%85%B3.jpg",
     "area": [
       "코펜하겐"
     ]
@@ -317,7 +317,7 @@
   {
     "continent": "유럽",
     "country": "독일",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%83%E1%85%A9%E1%86%A8%E1%84%8B%E1%85%B5%E1%86%AF.jpg",
     "area": [
       "베를린",
       "하이델부르크",
@@ -330,7 +330,7 @@
   {
     "continent": "유럽",
     "country": "러시아",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%85%E1%85%A5%E1%84%89%E1%85%B5%E1%84%8B%E1%85%A1.jpeg",
     "area": [
       "모스크바",
       "상트페트르부르크",
@@ -339,17 +339,8 @@
   },
   {
     "continent": "유럽",
-    "country": "보스니아 헤르체코비나",
-    "url": "",
-    "area": [
-      "사라예보",
-      "모스타르"
-    ]
-  },
-  {
-    "continent": "유럽",
     "country": "벨기에",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%87%E1%85%A6%E1%86%AF%E1%84%80%E1%85%B5%E1%84%8B%E1%85%A6.jpg",
     "area": [
       "브뤼셀",
       "브뤼헤"
@@ -357,17 +348,17 @@
   },
   {
     "continent": "유럽",
-    "country": "슬로베니아",
-    "url": "",
+    "country": "보스니아 헤르체코비나",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%87%E1%85%A9%E1%84%89%E1%85%B3%E1%84%82%E1%85%B5%E1%84%8B%E1%85%A1.jpg",
     "area": [
-      "류블랴나",
-      "블레드"
+      "사라예보",
+      "모스타르"
     ]
   },
   {
     "continent": "유럽",
     "country": "스위스",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%89%E1%85%B3%E1%84%8B%E1%85%B1%E1%84%89%E1%85%B3.jpg",
     "area": [
       "인터라켄",
       "루체른"
@@ -376,7 +367,7 @@
   {
     "continent": "유럽",
     "country": "스페인",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%89%E1%85%B3%E1%84%91%E1%85%A6%E1%84%8B%E1%85%B5%E1%86%AB.jpg",
     "area": [
       "바르셀로나",
       "발렌시아",
@@ -388,8 +379,17 @@
   },
   {
     "continent": "유럽",
+    "country": "슬로베니아",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%89%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A9%E1%84%87%E1%85%A6%E1%84%82%E1%85%B5%E1%84%8B%E1%85%A1.jpg",
+    "area": [
+      "류블랴나",
+      "블레드"
+    ]
+  },
+  {
+    "continent": "유럽",
     "country": "아이슬란드",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%8B%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%89%E1%85%B3%E1%86%AF%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B3.jpg",
     "area": [
       "레이갸비크"
     ]
@@ -397,7 +397,7 @@
   {
     "continent": "유럽",
     "country": "아일랜드",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%8B%E1%85%A1%E1%84%8B%E1%85%B5%E1%86%AF%E1%84%85%E1%85%A2%E1%86%AB%E1%84%83%E1%85%B3.jpg",
     "area": [
       "더블린"
     ]
@@ -405,7 +405,7 @@
   {
     "continent": "유럽",
     "country": "영국",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%8B%E1%85%A7%E1%86%BC%E1%84%80%E1%85%AE%E1%86%A8.jpg",
     "area": [
       "런던",
       "에든버러",
@@ -416,7 +416,7 @@
   {
     "continent": "유럽",
     "country": "오스트리아",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%8B%E1%85%A9%E1%84%89%E1%85%B3%E1%84%90%E1%85%B3%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A1.jpg",
     "area": [
       "비엔나",
       "할슈타트",
@@ -426,7 +426,7 @@
   {
     "continent": "유럽",
     "country": "이탈리아",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%8B%E1%85%B5%E1%84%90%E1%85%A1%E1%86%AF%E1%84%85%E1%85%B5%E1%84%8B%E1%85%A1.jpg",
     "area": [
       "로마",
       "베니스",
@@ -439,7 +439,7 @@
   {
     "continent": "유럽",
     "country": "체코",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%8E%E1%85%A6%E1%84%8F%E1%85%A9.jpg",
     "area": [
       "프라하",
       "체스키크룸로프",
@@ -449,7 +449,7 @@
   {
     "continent": "유럽",
     "country": "크로아티아",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%8F%E1%85%B3%E1%84%85%E1%85%A9%E1%84%8B%E1%85%A1%E1%84%90%E1%85%B5%E1%84%8B%E1%85%A1.jpg",
     "area": [
       "자그레브",
       "스폴리트",
@@ -459,7 +459,7 @@
   {
     "continent": "유럽",
     "country": "터키",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%90%E1%85%A5%E1%84%8F%E1%85%B5.jpg",
     "area": [
       "이스탄불",
       "카파도키아"
@@ -468,7 +468,7 @@
   {
     "continent": "유럽",
     "country": "포르투갈",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%91%E1%85%A9%E1%84%85%E1%85%B3%E1%84%90%E1%85%AE%E1%84%8F%E1%85%A1%E1%86%AF.jpg",
     "area": [
       "리스본",
       "포르투"
@@ -476,8 +476,16 @@
   },
   {
     "continent": "유럽",
+    "country": "폴란드",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%91%E1%85%A9%E1%86%AF%E1%84%85%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3.jpg",
+    "area": [
+      "크라쿠프"
+    ]
+  },
+  {
+    "continent": "유럽",
     "country": "프랑스",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%91%E1%85%B3%E1%84%85%E1%85%A1%E1%86%BC%E1%84%89%E1%85%B3.jpg",
     "area": [
       "파리",
       "니스",
@@ -489,7 +497,7 @@
   {
     "continent": "유럽",
     "country": "핀란드",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%91%E1%85%B5%E1%86%AB%E1%84%85%E1%85%A1%E1%86%AB%E1%84%83%E1%85%B3.jpg",
     "area": [
       "헬싱키",
       "로바니에미"
@@ -497,16 +505,8 @@
   },
   {
     "continent": "유럽",
-    "country": "폴란드",
-    "url": "",
-    "area": [
-      "크라쿠프"
-    ]
-  },
-  {
-    "continent": "유럽",
     "country": "헝가리",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%9C%A0%EB%9F%BD/%E1%84%92%E1%85%A5%E1%86%BC%E1%84%80%E1%85%A1%E1%84%85%E1%85%B5.jpg",
     "area": [
       "부다페스트"
     ]
@@ -514,7 +514,7 @@
   {
     "continent": "아프리카",
     "country": "남아프리카공화국",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4/%E1%84%82%E1%85%A1%E1%86%B7%E1%84%8B%E1%85%A1%E1%84%91%E1%85%B3%E1%84%85%E1%85%B5%E1%84%8F%E1%85%A1%E1%84%80%E1%85%A9%E1%86%BC%E1%84%92%E1%85%AA%E1%84%80%E1%85%AE%E1%86%A8.jpg",
     "area": [
       "케이프타운"
     ]
@@ -522,7 +522,7 @@
   {
     "continent": "아프리카",
     "country": "이집트",
-    "url": "",
+    "url": "https://s3.us-east-2.amazonaws.com/viaggio.dev.com/country/%EC%95%84%ED%94%84%EB%A6%AC%EC%B9%B4/%E1%84%8B%E1%85%B5%E1%84%8C%E1%85%B5%E1%86%B8%E1%84%90%E1%85%B3.jpeg",
     "area": [
       "카이로"
     ]

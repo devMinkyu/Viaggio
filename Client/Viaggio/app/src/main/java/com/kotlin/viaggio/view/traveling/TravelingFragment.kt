@@ -14,8 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.`object`.TravelOfDay
-import com.kotlin.viaggio.data.`object`.TravelOfDayVal
+import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
@@ -24,9 +23,8 @@ import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling.*
 import kotlinx.android.synthetic.main.item_traveling.view.*
+import kotlinx.android.synthetic.main.item_traveling_pager_img.view.*
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
@@ -63,9 +61,9 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         travelingList.layoutManager = LinearLayoutManager(context)
-        val adapter = TravelOfDayAdapter()
+        val adapter = TravelCardAdapter()
         travelingList.adapter = adapter
-        getViewModel().travelOfDayPagedLiveData.observe(this, Observer(adapter::submitList))
+        getViewModel().travelCardPagedLiveData.observe(this, Observer(adapter::submitList))
 
         getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
@@ -88,58 +86,65 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             fragmentPopStack()
         }
     }
-    inner class TravelOfDayAdapter :
-        PagedListAdapter<TravelOfDay, TravelOfDayViewHolder>(object :
-            DiffUtil.ItemCallback<TravelOfDay>() {
-            override fun areItemsTheSame(oldItem: TravelOfDay, newItem: TravelOfDay) = oldItem.id == newItem.id
-            override fun areContentsTheSame(oldItem: TravelOfDay, newItem: TravelOfDay) = oldItem == newItem
+    inner class TravelCardAdapter :
+        PagedListAdapter<TravelCard, TravelCardViewHolder>(object :
+            DiffUtil.ItemCallback<TravelCard>() {
+            override fun areItemsTheSame(oldItem: TravelCard, newItem: TravelCard) = oldItem.id == newItem.id
+            override fun areContentsTheSame(oldItem: TravelCard, newItem: TravelCard) = oldItem == newItem
         }) {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TravelOfDayViewHolder(
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TravelCardViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_traveling, parent, false)
         )
 
-        override fun onBindViewHolder(holder: TravelOfDayViewHolder, position: Int) {
-            holder.binding?.data = converter(getItem(position)!!)
-            holder.binding?.viewHandler = holder.TravelOfDayViewHandler()
-            holder.loadImage(getItem(position)?.themeImageName)
-        }
-
-        private fun converter(travelOfDay: TravelOfDay):TravelOfDayVal{
-            val cal = Calendar.getInstance()
-            cal.time = travelOfDay.date
-            val item = TravelOfDayVal()
-            item.id = travelOfDay.id
-            item.countries = travelOfDay.dayCountries.joinToString {
-                it
-            }
-            item.dayCount = travelOfDay.travelOfDay
-            item.weekend = cal.get(Calendar.DAY_OF_WEEK)
-            item.day = SimpleDateFormat("EEE",Locale.ENGLISH).format(cal.time).toUpperCase()
-            item.week = SimpleDateFormat("MMM d",Locale.ENGLISH).format(cal.time).toUpperCase()
-            return item
+        override fun onBindViewHolder(holder: TravelCardViewHolder, position: Int) {
+            holder.binding?.data = getItem(position)
+            holder.binding?.viewHandler = holder.TravelCardViewHandler()
+            holder.loadViewPager(getItem(position)?.imageNames)
         }
     }
 
-    inner class TravelOfDayViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class TravelCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = DataBindingUtil.bind<ItemTravelingBinding>(view)
-        fun loadImage(imageName:String?){
-            val imgDir = File(context?.filesDir, "images/")
-            imageName?.let { themeImageName ->
-                if(TextUtils.isEmpty(themeImageName).not()){
-                    val imgFile = File(imgDir, themeImageName)
-                    if (imgFile.exists()) {
-                        Uri.fromFile(imgFile).let { uri ->
-                            Glide.with(itemView.travelingItemThemeImg)
-                                .load(uri)
-                                .into(itemView.travelingItemThemeImg)
+        fun loadViewPager(imageNames:ArrayList<String>?){
+            if(imageNames.isNullOrEmpty()){
+                itemView.travelingItemThemeImg.visibility = View.GONE
+            }else{
+                itemView.travelingItemThemeImg.visibility = View.VISIBLE
+                val params = itemView.travelingItemThemeImg.layoutParams
+                params.width = width
+                params.height = width
+                itemView.travelingItemThemeImg.layoutParams = params
+
+                itemView.travelingItemIndicator.setTotalPageNumber(imageNames.size)
+                itemView.travelingItemIndicator.setCurrPageNumber(0)
+                itemView.travelingItemThemeImg.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                        object : RecyclerView.ViewHolder(
+                            LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_pager_img, parent,false)
+                        ){}
+                    override fun getItemCount() = imageNames.size
+                    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                        val imgDir = File(context?.filesDir, "images/")
+                        imageNames[position].let { themeImageName ->
+                            if(TextUtils.isEmpty(themeImageName).not()){
+                                val imgFile = File(imgDir, themeImageName)
+                                if (imgFile.exists()) {
+                                    Uri.fromFile(imgFile).let { uri ->
+                                        Glide.with(holder.itemView)
+                                            .load(uri)
+                                            .into(holder.itemView.travelingPagerImg)
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+
             }
         }
-        inner class TravelOfDayViewHandler{
+        inner class TravelCardViewHandler{
             fun detail(){
-                getViewModel().setSelectedTravelingOfDay(binding?.data?.id)
+                getViewModel().setSelectedTravelCard(binding?.data?.id)
             }
         }
     }

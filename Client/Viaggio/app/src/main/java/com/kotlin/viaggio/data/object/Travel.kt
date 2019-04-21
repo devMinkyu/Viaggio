@@ -8,6 +8,7 @@ import java.util.*
 data class Travel(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
     @Suppress("ArrayInDataClass") var entireCountries: ArrayList<String> = arrayListOf(),
+    @Suppress("ArrayInDataClass") var city: ArrayList<String> = arrayListOf(),
     var userExist: Boolean = false,
     var title: String = "재미있는 여행",
     // 0 해외여행, 1 국내여행
@@ -15,8 +16,8 @@ data class Travel(
     var startDate: Date? = null,
     var endDate: Date? = null,
     @Suppress("ArrayInDataClass") var theme: ArrayList<String> = arrayListOf(),
-    var backgroundImageName: String = "",
-    var backgroundImageUrl: String = "",
+    var imageName: String = "",
+    var imageUrl: String = "",
     var share: Boolean = false,
     var isDelete:Boolean = false
 )
@@ -38,16 +39,6 @@ data class TravelOfDay(
     var date: Date = Date(),
     var travelOfDay: Int = 1,
     var themeImageName: String = ""
-)
-
-data class TravelOfDayVal(
-    var id:Long = 0,
-    var dayCount:Int = 0,
-    var week:String = "",
-    var day:String = "",
-    var countries: String = "",
-    var weather:String = "",
-    var weekend:Int = -1
 )
 
 @Entity(tableName = "travelCards")

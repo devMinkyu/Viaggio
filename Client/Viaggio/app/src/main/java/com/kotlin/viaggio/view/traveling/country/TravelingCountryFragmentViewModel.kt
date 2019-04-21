@@ -22,7 +22,7 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
     private val countryList:MutableList<Country> = mutableListOf()
     val continentList:MutableList<String> = mutableListOf()
 
-    val countryLiveData:MutableLiveData<Event<List<String>>> = MutableLiveData()
+    val countryLiveData:MutableLiveData<Event<List<Country>>> = MutableLiveData()
     val continentLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
     val completeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
 
@@ -40,15 +40,14 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
         countryList.addAll(countries)
 
         continentList.add(appCtx.get().resources.getString(R.string.total))
-        val list = countries.map {
+        countries.map {
             continentList.add(it.continent)
-            it.country
         }
         val result = continentList.distinct()
         continentList.clear()
         continentList.addAll(result)
 
-        countryLiveData.value = Event(list)
+        countryLiveData.value = Event(countryList)
         continentLiveData.value = Event(Any())
 
         val typeDisposable = rxEventBus.travelType.subscribe {
@@ -80,15 +79,11 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
         val continent = continentList[position]
         when(position){
             0 ->{
-                countryLiveData.value = Event(countryList.map {
-                    it.country
-                })
+                countryLiveData.value = Event(countryList)
             }
             else ->{
                 val list = countryList.filter {
                     it.continent == continent
-                }.map {
-                    it.country
                 }
                 countryLiveData.value = Event(list)
             }

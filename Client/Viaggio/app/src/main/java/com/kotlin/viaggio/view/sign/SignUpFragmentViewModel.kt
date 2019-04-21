@@ -24,6 +24,8 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
     lateinit var userModel: UserModel
     @Inject
     lateinit var gson:Gson
+    @Inject
+    lateinit var encryption: Encryption
     val name = ObservableField<String>().apply {
         addOnPropertyChangedCallback(object : androidx.databinding.Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: androidx.databinding.Observable?, propertyId: Int) {
@@ -94,8 +96,8 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
         }
 
-        val encryptionPassword = Encryption().encryptionValue(password.get()!!)
-        val encryptionPassword2 = Encryption().encryptionValue(confirmPassword.get()!!)
+        val encryptionPassword = encryption.encryptionValue(password.get()!!)
+        val encryptionPassword2 = encryption.encryptionValue(confirmPassword.get()!!)
 
         val disposable = userModel.signUp(name = name.get()!!, email = email.get()!!, password = encryptionPassword, password2 = encryptionPassword2)
             .subscribe ({ t1->
@@ -108,7 +110,7 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
                     }
                 }
             }){
-                Log.d("hoho", "$it")
+
             }
         addDisposable(disposable)
         return true

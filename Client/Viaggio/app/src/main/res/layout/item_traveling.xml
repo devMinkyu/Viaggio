@@ -1,98 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
     <data>
-        <import type="com.kotlin.viaggio.data.object.TravelOfDayVal"/>
-        <import type="com.kotlin.viaggio.view.traveling.TravelingFragment.TravelOfDayViewHolder.TravelOfDayViewHandler"/>
+        <import type="com.kotlin.viaggio.data.object.TravelCard"/>
+        <import type="com.kotlin.viaggio.view.traveling.TravelingFragment.TravelCardViewHolder.TravelCardViewHandler"/>
         <import type="android.view.View"/>
 
 
-        <variable name="data" type="TravelOfDayVal"/>
-        <variable name="viewHandler" type="TravelOfDayViewHandler"/>
+        <variable name="data" type="TravelCard"/>
+        <variable name="viewHandler" type="TravelCardViewHandler"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
+            android:background="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
     >
-        <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:cardUseCompatPadding="true"
-                app:cardElevation="10dp"
-                android:onClick="@{()->viewHandler.detail()}"
+        <androidx.viewpager2.widget.ViewPager2
+                android:id="@id/travelingItemThemeImg"
+                android:layout_width="0dp"
+                android:layout_height="300dp"
+                android:background="@drawable/background"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-        >
-            <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@id/travelingItemInfo"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        app:layout_constraintHorizontal_weight="1"
-                        app:layout_constraintEnd_toStartOf="@id/travelingItemThemeImg"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside">
-                    <TextView
-                            android:id="@id/TravelingItemDayCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toTopOf="@id/TravelingItemDay"
-                            android:textSize="30sp"
-                            android:text="@{String.format(@string/travel_count, data.dayCount)}"
-                            tools:text="1DAY"
-                            app:layout_constraintVertical_chainStyle="packed"
-                    />
-                    <TextView
-                            android:id="@id/TravelingItemDay"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            app:layout_constraintTop_toBottomOf="@id/TravelingItemDayCount"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toTopOf="@id/TravelingItemWeek"
-                            android:text="@{data.week}"
-                            tools:text="JUL.7"
-                            android:textSize="12sp"
-                            android:textColor="@color/pinkish_grey"
-                    />
-                    <TextView
-                            android:id="@id/TravelingItemWeek"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            app:layout_constraintTop_toBottomOf="@id/TravelingItemDay"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:text="@{data.day}"
-                            tools:text="WED"
-                            android:textSize="12sp"
-                            android:textColor="@{data.weekend == 1 ? @color/coral:@color/black}"
-                    />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                <ImageView
-                        android:id="@id/travelingItemThemeImg"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:scaleType="fitXY"
-                        tools:src="@drawable/background"
-                        app:layout_constraintHorizontal_weight="2.5"
-                        app:layout_constraintStart_toEndOf="@id/travelingItemInfo"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        />
+        <com.kotlin.viaggio.widget.PageIndicatorView
+                android:id="@id/travelingItemIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/common_margin"
+                app:layout_constraintStart_toStartOf="@id/travelingItemThemeImg"
+                app:layout_constraintEnd_toEndOf="@id/travelingItemThemeImg"
+                app:layout_constraintBottom_toBottomOf="@id/travelingItemThemeImg"
+        />
+
+        <TextView
+                android:id="@id/travelingItemInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:layout_marginTop="@dimen/common_top"
+                android:layout_marginStart="@dimen/travel_card_start"
+                android:layout_marginEnd="@dimen/travel_card_end"
+                android:textAppearance="@style/TextAppearance.Viaggio.Travel.Card"
+                android:lineSpacingExtra="10.3dp"
+                android:layout_marginBottom="50dp"
+                android:text="@{data.content}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelingItemThemeImg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="설레는 출발입니다 드디어 스페인을 가다니 너무나 기가 되는데요 껄껄무나 기가 되는데요 껄껄무나 기가 되는데요 껄껄무나 기가 되는데요 껄껄껄껄껄"
+        />
+        <View
+                android:id="@+id/bar"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@color/brown_grey"
+                android:alpha="0.6"
+                android:layout_marginStart="@dimen/top_height"
+                app:layout_constraintStart_toEndOf="@id/travelingItemInfo"
+                app:layout_constraintTop_toBottomOf="@id/travelingItemThemeImg"
+                app:layout_constraintBottom_toBottomOf="parent"
+        />
+        <TextView
+                android:id="@id/TravelingItemDayCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/travelingItemThemeImg"
+                app:layout_constraintStart_toEndOf="@id/travelingItemInfo"
+                android:textAppearance="@style/TextAppearance.Viaggio.Travel"
+                android:textSize="35dp"
+                android:text="@{String.format(@string/travel_count, data.travelOfDay)}"
+                android:rotation="90"
+                android:letterSpacing="-0.05"
+                android:textColor="@color/brown_grey"
+                android:alpha="0.3"
+                android:layout_marginTop="30dp"
+                tools:text="DAY 1"
+                tools:ignore="SpUsage"/>
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_margin="10dp"
+                app:layout_constraintTop_toBottomOf="@id/travelingItemThemeImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp"
+
+        />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

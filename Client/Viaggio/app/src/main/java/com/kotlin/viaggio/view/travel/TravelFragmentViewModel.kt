@@ -28,6 +28,7 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
             .subscribe({
+                travelList.clear()
                 travelList.addAll(it)
                 travelListLiveData.postValue(Event(travelList))
             }){

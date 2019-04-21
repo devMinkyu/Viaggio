@@ -79,7 +79,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                 }
                 binding.data = travel
                 val imgDir = File(context?.filesDir, "images/")
-                travelList[position].backgroundImageName.let { themeImageName ->
+                travelList[position].imageName.let { themeImageName ->
                     val imgFile = File(imgDir, themeImageName)
                     if (imgFile.exists()) {
                         Uri.fromFile(imgFile).let { uri ->
