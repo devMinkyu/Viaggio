@@ -43,10 +43,11 @@ class Travel(db.Model):
     __tablename__ = 'travels'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
     id = db.Column(db.Integer, primary_key=True)
+    localId = db.Column(db.Integer, nullable=False, unique=True)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     startDate = db.Column(db.DateTime)
     endDate = db.Column(db.DateTime)
-    travelType = db.Column(db.String(16))
+    travelKind = db.Column(db.Integer)
     entireCountry = db.Column(db.PickleType)
     title = db.Column(db.String(64))
     theme = db.Column(db.PickleType)
@@ -69,9 +70,11 @@ class Travel(db.Model):
     def to_json(self):
         json_travel = {
             'id': self.id,
+            'localId': self.localId,
             'userId': self.userId,
             'startDate': self.startDate,
             'endDate': self.endDate,
+            'travelKind': self.travelKind,
             'entireCountry': self.entireCountry,
             'title': self.title,
             'theme': self.theme,
@@ -88,6 +91,8 @@ class TravelCard(db.Model):
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
     id = db.Column(db.Integer, primary_key=True)
     travelId = db.Column(db.Integer, db.ForeignKey('travels.id'), nullable=False)
+    localId = db.Column(db.Integer, nullable=False, unique=True)
+    travelLocalId = db.Column(db.Integer, nullable=False)
     travelOfDay = db.Column(db.Integer, default=1)
     country = db.Column(db.String(32))
     title = db.Column(db.String(32))
@@ -120,3 +125,62 @@ class TravelCard(db.Model):
             'date': self.date
         }
         return json_travelCard
+
+
+class AnalysisTheme(db.Model):
+    __tablename__ = 'analysisthemes'
+    __table_args__ = {'mysql_collate': 'utf8_general_ci'}
+    id = db.Column(db.Integer, primary_key=True)
+    theme = db.Column(db.String(16))
+    count = db.Column(db.Integer, default=0)
+
+    def __init__(self, **kwargs):
+        super(AnalysisTheme, self).__init__(**kwargs)
+
+
+class AnalysisContinent(db.Model):
+    __tablename__ = 'analysiscontinents'
+    __table_args__ = {'mysql_collate': 'utf8_general_ci'}
+    id = db.Column(db.Integer, primary_key=True)
+    continent = db.Column(db.String(32))
+    count = db.Column(db.Integer, default=0)
+    analysisCountry = db.relationship('AnalysisCountry', backref='analysiscontinent', lazy='dynamic')
+
+    def __init__(self, **kwargs):
+        super(AnalysisContinent, self).__init__(**kwargs)
+
+
+class AnalysisCountry(db.Model):
+    __tablename__ = 'analysiscountries'
+    __table_args__ = {'mysql_collate': 'utf8_general_ci'}
+    id = db.Column(db.Integer, primary_key=True)
+    analysisContinentId = db.Column(db.Integer, db.ForeignKey('analysiscontinents.id'), nullable=False)
+    country = db.Column(db.String(32))
+    count = db.Column(db.Integer, default=0)
+
+    def __init__(self, **kwargs):
+        super(AnalysisCountry, self).__init__(**kwargs)
+
+
+class AnalysisCity(db.Model):
+    __tablename__ = 'analysiscities'
+    __table_args__ = {'mysql_collate': 'utf8_general_ci'}
+    id = db.Column(db.Integer, primary_key=True)
+    city = db.Column(db.String(16))
+    count = db.Column(db.Integer, default=0)
+    analysisCity = db.relationship('AnalysisSubCity', backref='analysisCity', lazy='dynamic')
+
+    def __init__(self, **kwargs):
+        super(AnalysisCity, self).__init__(**kwargs)
+
+
+class AnalysisSubCity(db.Model):
+    __tablename__ = 'analysissubcities'
+    __table_args__ = {'mysql_collate': 'utf8_general_ci'}
+    id = db.Column(db.Integer, primary_key=True)
+    analysisCityId = db.Column(db.Integer, db.ForeignKey('analysiscities.id'), nullable=False)
+    subCity = db.Column(db.String(16))
+    count = db.Column(db.Integer, default=0)
+
+    def __init__(self, **kwargs):
+        super(AnalysisSubCity, self).__init__(**kwargs)

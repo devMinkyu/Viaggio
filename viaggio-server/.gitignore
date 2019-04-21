@@ -49,3 +49,9 @@ venv
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+# Json Files
+*.json
+
+# Data
+data
