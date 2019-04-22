@@ -8,33 +8,36 @@ from ..errors import bad_request
 
 @api.route('/my/travels', methods=['POST'])
 def create_travel():
-    # TODO: Change Request Theme from form to json array
     form = CreateTravelForm(request.form)
     if form.validate():
         entireCountries = [request.form.get('entireCountry')]
         travel = Travel(userId=request.user.id,
+                        localId=request.form.get('localId'),
                         startDate=request.form.get('startDate'),
                         endDate=request.form.get('endDate'),
-                        travelType=request.form.get('travelType'),
+                        travelKind=request.form.get('travelKind'),
                         entireCountry=entireCountries,
                         title=request.form.get('title'),
                         theme=request.form.get('theme'),
-                        backgroundImageName=request.form.get('backgroundImageName'),
-                        backgroundImageUrl=request.form.get('backgroundImageUrl'),
+                        imageName=request.form.get('imageName'),
+                        imageUrl=request.form.get('imageUrl'),
                         share=request.form.get('share'),
                         isDelete=request.form.get('isDelete'))
         db.session.add(travel)
         db.session.commit()
         return jsonify({ 'travel': travel.as_dict() }), 200
 
-    if form.startDate.errors:
-        return bad_request(401, 'StartDate validation error.')
+    if form.localId.errors:
+        return bad_request(401, form.localId.errors[0])
 
-    if form.travelType.errors:
-        return bad_request(402, form.travelType.errors[0])
+    if form.startDate.errors:
+        return bad_request(402, 'StartDate validation error.')
+
+    if form.travelKind.errors:
+        return bad_request(403, form.travelKind.errors[0])
 
     if form.entireCountry.errors:
-        return bad_request(403, 'Country validation error.')
+        return bad_request(404, 'Country validation error.')
     
     return bad_request(400, 'CreateTravelForm validation error.')
 
@@ -57,14 +60,13 @@ def get_specific_travel(id):
 
 @api.route('/my/travels/<int:id>', methods=['PUT'])
 def update_travel(id):
-    # TODO: Change Request Theme from form to json array
     form = UpdateTravelForm(request.form)
     if form.validate():
         travel = Travel.query.get_or_404(id)
         if request.form.get('title') is not None:
             travel.title = request.form.get('title')
-        if request.form.get('travelType') and request.form.get('travelType') != travel.travelType:
-            travel.travelType = request.form.get('travelType')
+        if request.form.get('travelKind') and request.form.get('travelKind') != travel.travelKind:
+            travel.travelKind = request.form.get('travelKind')
         if request.form.get('addCountry') is not None \
             and request.form.get('addCountry') not in travel.entireCountry:
             tempData = list(travel.entireCountry)
@@ -76,8 +78,8 @@ def update_travel(id):
             tempTheme = list(trave.theme)
             tempTheme.append(request.form.get('addTheme'))
             travel.theme = tempTheme
-        travel.backgroundImageName = request.form.get('backgroundImageName')
-        travel.backgroundImageUrl = request.form.get('backgroundImageUrl')
+        travel.imageName = request.form.get('imageName')
+        travel.imageUrl = request.form.get('imageUrl')
         if request.form.get('share'):
             travel.share = True
         else:
@@ -85,10 +87,12 @@ def update_travel(id):
         db.session.commit()
         return jsonify({ 'travel': travel.as_dict() })
 
-    if form.travelType.errors:
-        return bad_request(401, 'TravelType validation error.')
+    if form.travelKind.errors:
+        return bad_request(401, 'TravelKind validation error.')
     if form.endDate.errors:
         return bad_request(402, 'EndDate validation error.')
+
+    return bad_request(400, 'Update Travel validation is failed.')
 
 
 @api.route('/my/travels/<int:id>', methods=['DELETE'])
