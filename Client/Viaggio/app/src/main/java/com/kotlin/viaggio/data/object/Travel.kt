@@ -49,7 +49,6 @@ data class TravelCard(
     var country:String = "",
     @Suppress("ArrayInDataClass") var imageNames: ArrayList<String> = arrayListOf(),
     @Suppress("ArrayInDataClass") var imageUrl: ArrayList<String> = arrayListOf(),
-    var title: String = "",
     var content: String = "",
     var date: Date = Date()
 )

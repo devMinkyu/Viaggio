@@ -7,6 +7,6 @@
             android:width="131dp"
             android:height="35dp"/>
     <solid
-            android:color="@color/very_light_pink_three"
+            android:color="@color/colorPrimary"
     />
 </shape>

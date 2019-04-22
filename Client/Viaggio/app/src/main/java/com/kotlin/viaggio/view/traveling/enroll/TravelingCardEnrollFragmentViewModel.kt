@@ -4,12 +4,14 @@ import android.graphics.Bitmap
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
 import java.util.*
@@ -20,8 +22,9 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     lateinit var travelLocalModel: TravelLocalModel
 
     val complete: MutableLiveData<Event<Any>> = MutableLiveData()
-    val imageFirstLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
-//    val changeCursor:MutableLiveData<Event<Any>> = MutableLiveData()
+    val imageLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
+    val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
+    val imageViewShow: MutableLiveData<Event<Any>> = MutableLiveData()
 
     val contents = ObservableField<String>("")
     val title = ObservableField<String>("")
@@ -33,44 +36,30 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
 
     override fun initialize() {
         super.initialize()
-        val disposable = travelLocalModel.getTravelCard()
-            .observeOn(Schedulers.io())
-            .subscribe({
-                travelCard = it
-                val date = SimpleDateFormat(appCtx.get().resources.getString(R.string.travel_of_day_pattern), Locale.ENGLISH).format(it.date).toUpperCase()
-                this.date.set(date)
-                this.contents.set(it.content)
-                this.title.set(it.title)
-                if(it.imageNames.size > 0){
-                    imageFirstLiveData.postValue(Event(it.imageNames[0]))
-                }
-            }){
-            }
-        addDisposable(disposable)
-
-        val travelOfDayDisposable = travelLocalModel.getTravelOfDay()
-            .observeOn(Schedulers.io())
-            .subscribe { t ->
-                travelOfDay = t
-                val date = SimpleDateFormat(appCtx.get().resources.getString(R.string.travel_of_day_pattern), Locale.ENGLISH).format(t.date).toUpperCase()
-                this.date.set(date)
-            }
-        addDisposable(travelOfDayDisposable)
-
         val imageDisposable = rxEventBus.travelOfDayImages
             .subscribeOn(Schedulers.io())
             .subscribe {
-                imageFirstLiveData.postValue(Event(it[0]))
+                imageLiveData.postValue(Event(it[0]))
                 imageList = it
             }
         addDisposable(imageDisposable)
+    }
+
+    fun permissionCheck(request: Observable<Boolean>?) {
+        val disposable = request?.subscribe { t ->
+            if (t) {
+                imageViewShow.value = Event(Any())
+            } else {
+                permissionRequestMsg.value = Event(PermissionError.STORAGE_PERMISSION)
+            }
+        }
+        disposable?.let { addDisposable(it) }
     }
 
     fun saveCard(){
         if(travelCard.id == 0L){
             travelCard.travelId = travelOfDay.id
             travelCard.content = contents.get()!!
-            travelCard.title = contents.get()!!
             travelCard.date = travelOfDay.date
             if (imageList.isNotEmpty()){
                 val disposable = travelLocalModel.imagePathList(imageList)
@@ -102,7 +91,6 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
             }
         }else{
             travelCard.content = contents.get()!!
-            travelCard.title = title.get()!!
 
             travelLocalModel.updateTravelCard(travelCard)
             rxEventBus.travelCardUpdate.onNext(Any())

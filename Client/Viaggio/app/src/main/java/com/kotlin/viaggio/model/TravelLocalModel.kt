@@ -24,7 +24,6 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
     lateinit var prefUtilService: AndroidPrefUtilService
 
     private fun getTravelingId() = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID)
-    private fun getTravelingOfDayId() = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_ID)
     private fun getSelectedTravelingId() = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID)
     private fun getSelectedTravelingOfDayId() =
         prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID)
@@ -55,7 +54,7 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
     }
 
     fun getTravel(): Single<Travel> {
-        return db.get().travelDao().getTravel(getTravelingId().blockingGet()).subscribeOn(Schedulers.io())
+        return db.get().travelDao().getTravel(getSelectedTravelingId().blockingGet()).subscribeOn(Schedulers.io())
     }
 
     fun getTravels(): Single<List<Travel>> {
@@ -86,14 +85,6 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
 
     fun imagePathList(imageChooseList: List<Bitmap>): Single<List<String>> {
         return localDataSource.cacheFile(imageChooseList)
-    }
-
-    fun createTravelOfDay(travelOfDay: TravelOfDay): Single<Long> {
-        return db.get().travelDao().insertTravelOfDay(travelOfDay).subscribeOn(Schedulers.io())
-    }
-
-    fun createTravelOfDays(travelOfDay: MutableList<TravelOfDay>): Single<MutableList<Long>> {
-        return db.get().travelDao().insertAllTravelOfDay(*travelOfDay.toTypedArray()).subscribeOn(Schedulers.io())
     }
 
     fun getTravelCardsPaging(): DataSource.Factory<Int, TravelCard> {
@@ -128,7 +119,7 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
             .subscribeOn(Schedulers.io())
     }
     fun getTravelCard(): Single<TravelCard> {
-        return db.get().travelDao().getTravelCard(getSelectedTravelingOfDayId().blockingGet())
+        return db.get().travelDao().getTravelCard(getSelectedTravelingId().blockingGet())
             .subscribeOn(Schedulers.io())
     }
 }

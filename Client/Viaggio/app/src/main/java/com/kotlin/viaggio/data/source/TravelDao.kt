@@ -61,8 +61,8 @@ interface TravelDao {
     @Query("SELECT * FROM travelCards")
     fun getTravelCards(): Single<MutableList<TravelCard>>
 
-    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelOfDayId) limit 1")
-    fun getTravelCard(travelOfDayId: Long): Single<TravelCard>
+    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelId) limit 1")
+    fun getTravelCard(travelId: Long): Single<TravelCard>
 
     @Update
     fun updateTravelCard(travelCard: TravelCard)

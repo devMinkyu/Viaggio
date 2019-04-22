@@ -30,10 +30,46 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
             />
+            <TextView
+                    android:id="@id/travelAdd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="@drawable/traveling_card_create_btn"
+                    android:alpha="0.9"
+                    android:fontFamily="sans-serif-black"
+                    android:textSize="15dp"
+                    android:textColor="@color/almost_black"
+                    android:text="@string/travel_card_enroll_notice"
+                    android:layout_marginTop="@dimen/common_top"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:layout_marginEnd="@dimen/common_margin"
+                    android:onClick="@{()->viewHandler.enroll()}"
+                    app:layout_constraintTop_toBottomOf="@id/travelAppBar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="SpUsage"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13.5sp"
+                    android:textColor="@color/very_light_pink"
+                    android:lineSpacingExtra="2.5sp"
+                    android:gravity="center_horizontal"
+                    android:fontFamily="sans-serif-medium"
+                    android:visibility="@{viewModel.notEmpty ? View.GONE:View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="@string/travel_card_empty_notice"
+            />
             <View
                     android:id="@+id/tgl"
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
+                    android:background="@android:color/white"
+                    android:alpha="0.9"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -42,6 +78,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/AppTheme.AppBarOverlay"
+                    android:background="@android:color/white"
+                    android:alpha="0.9"
                     app:layout_constraintTop_toBottomOf="@id/tgl"
                     app:elevation="0dp">
                 <androidx.appcompat.widget.Toolbar
@@ -50,6 +88,8 @@
                         android:layout_height="?attr/actionBarSize"
                         android:gravity="center"
                         app:titleTextColor="@color/black"
+                        android:background="@android:color/white"
+                        android:alpha="0.9"
                         app:popupTheme="@style/AppTheme.PopupOverlay"
                         tools:ignore="UnusedAttribute">
                     <androidx.appcompat.widget.AppCompatImageView
@@ -66,17 +106,12 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:maxLength="10"
+                            android:text="@{viewModel.title}"
                             android:textAppearance="@style/TextAppearance.Viaggio.Navigation.Scroll"
                             tools:text="재미가 있는 여행입니다"
                     />
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.AppBarLayout>
-            <androidx.constraintlayout.widget.Group
-                    android:layout_width="0dp" android:layout_height="0dp"
-                    android:background="@android:color/white"
-                    android:alpha="0.9"
-                    app:constraint_referenced_ids="tgl, travelAppBar"
-                    tools:ignore="UnknownId"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

@@ -85,6 +85,9 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         fun close(){
             fragmentPopStack()
         }
+        fun enroll(){
+            baseIntent("http://viaggio.kotlin.com/traveling/enroll/card/")
+        }
     }
     inner class TravelCardAdapter :
         PagedListAdapter<TravelCard, TravelCardViewHolder>(object :
@@ -97,6 +100,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         )
 
         override fun onBindViewHolder(holder: TravelCardViewHolder, position: Int) {
+            getViewModel().notEmpty.set(true)
             holder.binding?.data = getItem(position)
             holder.binding?.viewHandler = holder.TravelCardViewHandler()
             holder.loadViewPager(getItem(position)?.imageNames)

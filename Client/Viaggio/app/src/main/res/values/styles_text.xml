@@ -23,7 +23,7 @@
     </style>
 
     <style name="TextAppearance.Viaggio.Navigation">
-        <item name="android:fontFamily">sans-serif-black</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize" tools:ignore="SpUsage">20.3dp</item>
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:textColor">@color/almost_black</item>

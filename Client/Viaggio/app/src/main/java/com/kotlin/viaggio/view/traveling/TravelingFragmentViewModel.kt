@@ -1,15 +1,14 @@
 package com.kotlin.viaggio.view.traveling
 
-import android.annotation.SuppressLint
 import android.text.TextUtils
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.google.gson.Gson
 import com.kotlin.viaggio.data.`object`.TravelCard
-import com.kotlin.viaggio.data.`object`.TravelOfDay
-import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -17,7 +16,6 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-@SuppressLint("SimpleDateFormat")
 class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
@@ -28,9 +26,20 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     val completeLiveData = MutableLiveData<Event<Any>>()
     lateinit var travelCardPagedLiveData: LiveData<PagedList<TravelCard>>
 
+    val title:ObservableField<String> = ObservableField("")
+    val notEmpty:ObservableBoolean = ObservableBoolean(false)
     override fun initialize() {
         super.initialize()
         loadTravelOfDayPaged()
+        val travelDisposable = travelLocalModel.getTravel()
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                title.set(it.title)
+            }){
+
+            }
+        addDisposable(travelDisposable)
+
         val disposable = rxEventBus.travelOfDayChange
             .subscribeOn(Schedulers.io())
             .subscribe({
