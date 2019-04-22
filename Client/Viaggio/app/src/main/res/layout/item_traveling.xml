@@ -70,6 +70,7 @@
                 app:layout_constraintTop_toBottomOf="@id/travelingItemThemeImg"
                 app:layout_constraintStart_toEndOf="@id/travelingItemInfo"
                 android:textAppearance="@style/TextAppearance.Viaggio.Travel.Card.Day"
+                android:visibility="@{data.travelOfDay == 0 ? View.GONE:View.VISIBLE}"
                 android:text="@{String.format(@string/travel_count, data.travelOfDay)}"
                 android:rotation="90"
                 android:layout_marginTop="30dp"

@@ -36,7 +36,7 @@ class LocalDataSource @Inject constructor() {
 
     companion object {
         const val CACHE_IMG_FOLDER = "images/"
-        const val IMG_NAME_FORMAT = "viaggio_%d%d.%s"
+        const val IMG_NAME_FORMAT = "viaggio_%d%d"
         const val FILE_PROVIDER_AUTHORITY = "com.kotlin.viaggio.fileprovider"
         const val IMG_FOLDER = "images/"
     }
@@ -81,9 +81,9 @@ class LocalDataSource @Inject constructor() {
         }
         if (isDirExist) {
             for (i in 0..99) {
-                val imgName = String.format(Locale.getDefault(), IMG_NAME_FORMAT, System.currentTimeMillis(), i, extension)
+                val imgName = String.format(Locale.getDefault(), IMG_NAME_FORMAT, System.currentTimeMillis(), i)
                 val imgNameHash = encryption.encryptionValue(imgName)
-                result = File(dir, imgNameHash)
+                result = File(dir, "$imgNameHash.$extension")
                 if (!result.exists()) {
                     break
                 }
@@ -209,9 +209,9 @@ class LocalDataSource @Inject constructor() {
                         if(imageDir.exists()){
                             val imgName = String.format(
                                 Locale.getDefault(),
-                                IMG_NAME_FORMAT, System.currentTimeMillis(), index, "jpg")
+                                IMG_NAME_FORMAT, System.currentTimeMillis(), index)
                             val imgNameHash = encryption.encryptionValue(imgName)
-                            val localFile = File(imageDir, imgNameHash)
+                            val localFile = File(imageDir, "$imgNameHash.jpg")
                             localFile.createNewFile()
 
                             val out = FileOutputStream(localFile)

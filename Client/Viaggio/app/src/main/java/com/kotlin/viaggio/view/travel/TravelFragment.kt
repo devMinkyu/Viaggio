@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.PagerAdapter
@@ -16,6 +17,7 @@ import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_travel.*
 import kotlinx.android.synthetic.main.item_travel.view.*
+import org.jetbrains.anko.support.v4.toast
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -94,6 +96,9 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                     getViewModel().selectedTravelId(travelList[position].id)
                     baseIntent("http://viaggio.kotlin.com/traveling/days/")
                 }
+            }
+            view.travelMore.setOnClickListener {
+                toast("변경")
             }
             container.addView(view)
             return view

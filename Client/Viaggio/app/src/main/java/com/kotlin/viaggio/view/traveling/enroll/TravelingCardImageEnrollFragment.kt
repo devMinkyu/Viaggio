@@ -47,7 +47,7 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
         params.height = width
         travelingOfDayEnrollImageView.layoutParams = params
 
-        travelingOfDayEnrollImageView.setOnTouchListener { v, event ->
+        travelingOfDayEnrollImageView.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> enableSliding(false)
                 MotionEvent.ACTION_UP -> {
@@ -83,7 +83,7 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
             }
             travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList[0])
         })
-        travelingOfDayEnrollImageList.setOnScrollChangeListener { v, _, _, _, _ ->
+        travelingOfDayEnrollImageList.setOnScrollChangeListener { _, _, _, _, _ ->
             travelingOfDayEnrollImageList?.let {
                 if (travelingOfDayEnrollImageList.canScrollVertically(-1).not()) {
                     enableSliding(true)

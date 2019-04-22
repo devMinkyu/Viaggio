@@ -6,7 +6,7 @@
             android:angle="270"
             android:startColor="@color/almost_black_90"
             android:centerColor="@color/charcoal"
-            android:endColor="@android:color/transparent"
+            android:endColor="#88ffffff"
     />
     <size
             android:height="500dp"

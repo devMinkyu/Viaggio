@@ -101,10 +101,18 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TravelCardViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.item_traveling, parent, false)
         )
-
+        var count = 0
         override fun onBindViewHolder(holder: TravelCardViewHolder, position: Int) {
             getViewModel().notEmpty.set(true)
-            holder.binding?.data = getItem(position)
+            val travelCardVal = getItem(position)
+            travelCardVal?.let {
+                if(count != it.travelOfDay){
+                    count = it.travelOfDay
+                }else{
+                    it.travelOfDay = 0
+                }
+            }
+            holder.binding?.data = travelCardVal
             holder.binding?.viewHandler = holder.TravelCardViewHandler()
             holder.loadViewPager(getItem(position)?.imageNames)
         }
