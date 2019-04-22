@@ -200,4 +200,5 @@
     <item name="travelMore" type="id"/>
     <item name="travelingItemIndicator" type="id"/>
     <item name="travelCardEnrollImageList" type="id"/>
+    <item name="travelingOfDayEnrollCountry" type="id"/>
 </resources>

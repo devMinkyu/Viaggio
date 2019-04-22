@@ -32,7 +32,7 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
     }
 
     fun selectImage() {
-        rxEventBus.travelOfDayImages.onNext(imageBitmapChooseList)
+        rxEventBus.travelCardImages.onNext(imageBitmapChooseList)
     }
 
 }

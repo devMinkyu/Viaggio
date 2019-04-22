@@ -39,6 +39,9 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
                         selected.theme == it.theme
                     }
                     item.select.set(true)
+                    if(selectedTheme.contains(item).not()){
+                        selectedTheme.add(item)
+                    }
                 }
                 themesListLiveData.value = Event(list)
             }
@@ -49,5 +52,3 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
         rxEventBus.travelOfTheme.onNext(selectedTheme)
     }
 }
-
-

@@ -15,11 +15,12 @@
     <dimen name="common_margin">22dp</dimen>
     <dimen name="title_start">31.7dp</dimen>
     <dimen name="tool_bar">102dp</dimen>
-    <dimen name="tool_bar_title">59dp</dimen>
+    <dimen name="tool_bar_title">55dp</dimen>
     <dimen name="app_bar_height">126dp</dimen>
     <dimen name="country_top_margin">56.5dp</dimen>
-    <dimen name="theme_height">200dp</dimen>
+    <dimen name="theme_height">190dp</dimen>
     <dimen name="common_top">15dp</dimen>
     <dimen name="travel_card_start">60dp</dimen>
     <dimen name="travel_card_end">140dp</dimen>
+    <dimen name="traveling_top">150dp</dimen>
 </resources>

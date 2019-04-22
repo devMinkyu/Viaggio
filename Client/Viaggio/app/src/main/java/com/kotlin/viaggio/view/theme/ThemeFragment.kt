@@ -1,6 +1,5 @@
 package com.kotlin.viaggio.view.theme
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +12,9 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_theme.*
 
 
@@ -20,10 +22,10 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentThemeBinding
     override fun onResume() {
         super.onResume()
-//        if(sliderInterface == null)
-//            sliderInterface = Slidr.replace(container, SlidrConfig.Builder().position(
-//                SlidrPosition.TOP)
-//                .build())
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(container, SlidrConfig.Builder().position(
+                SlidrPosition.TOP)
+                .build())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,7 +41,6 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
         layoutManager.flexWrap = FlexWrap.WRAP
         layoutManager.justifyContent = JustifyContent.CENTER
         themeList.layoutManager = layoutManager
-        themeList.addItemDecoration(ThemeItemDecoration())
 
         getViewModel().themesListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { theme ->
@@ -55,6 +56,16 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
                 }
             }
         })
+
+//        themeList.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+//            themeList?.let {
+//                if (themeList.canScrollVertically(-1).not()) {
+//                    enableSliding(true)
+//                } else {
+//                    enableSliding(false)
+//                }
+//            }
+//        }
     }
 
     inner class ViewHandler{
@@ -73,27 +84,15 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
             fun selected(){
                 binding?.let {
                     if(it.data!!.select.get()){
-                        getViewModel().selectedTheme.remove(it.data)
+                        if(getViewModel().selectedTheme.contains(it.data)){
+                            getViewModel().selectedTheme.remove(it.data)
+                        }
                     }else{
                         getViewModel().selectedTheme.add(it.data)
                     }
                     it.data!!.select.set(it.data!!.select.get().not())
                 }
             }
-        }
-    }
-}
-
-class ThemeItemDecoration :
-    RecyclerView.ItemDecoration() {
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
-        super.getItemOffsets(outRect, view, parent, state)
-        val adapterPos = parent.getChildAdapterPosition(view)
-
-        if (adapterPos < 3) {
-                val firstHorMarginVal1 = (parent.context.resources.getDimension(R.dimen.theme_height))
-                outRect.top = firstHorMarginVal1.toInt()
-
         }
     }
 }

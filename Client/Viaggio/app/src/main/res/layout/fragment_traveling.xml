@@ -18,13 +18,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@id/travelingContainer"
-                android:background="@android:color/white">
+                android:background="@color/white_three">
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@id/travelingList"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:clipToPadding="false"
+                    android:scrollbarSize="5dp"
+                    android:scrollbarThumbVertical="@color/brown_grey"
+                    android:scrollbars="vertical"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +71,7 @@
                     android:id="@+id/tgl"
                     android:layout_width="match_parent"
                     android:layout_height="24dp"
-                    android:background="@android:color/white"
+                    android:background="@color/white_three"
                     android:alpha="0.9"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:theme="@style/AppTheme.AppBarOverlay"
-                    android:background="@android:color/white"
+                    android:background="@color/white_three"
                     android:alpha="0.9"
                     app:layout_constraintTop_toBottomOf="@id/tgl"
                     app:elevation="0dp">
@@ -88,7 +91,7 @@
                         android:layout_height="?attr/actionBarSize"
                         android:gravity="center"
                         app:titleTextColor="@color/black"
-                        android:background="@android:color/white"
+                        android:background="@color/white_three"
                         android:alpha="0.9"
                         app:popupTheme="@style/AppTheme.PopupOverlay"
                         tools:ignore="UnusedAttribute">

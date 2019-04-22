@@ -18,6 +18,9 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.databinding.ItemCityBinding
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_city.*
 
 
@@ -32,6 +35,14 @@ class TravelingCityFragment:BaseFragment<TravelingCityFragmentViewModel>(){
             getViewModel().travelType = it.getInt(ArgName.TRAVEL_TYPE.name, 0)
         }
     }
+    override fun onResume() {
+        super.onResume()
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(container_view, SlidrConfig.Builder().position(
+                SlidrPosition.TOP)
+                .build())
+    }
+
 
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentTravelingCityBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

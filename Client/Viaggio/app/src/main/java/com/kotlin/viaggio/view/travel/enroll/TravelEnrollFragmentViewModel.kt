@@ -197,4 +197,8 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, day + 1)
             .observeOn(Schedulers.io()).blockingAwait()
     }
+
+    fun init() {
+        rxEventBus.travelOfTheme.onNext(listOf())
+    }
 }

@@ -78,18 +78,11 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                     }
                 }
                 binding.data = travel
-                val imgDir = File(context?.filesDir, "images/")
-                travelList[position].imageName.let { themeImageName ->
-                    val imgFile = File(imgDir, themeImageName)
-                    if (imgFile.exists()) {
-                        Uri.fromFile(imgFile).let { uri ->
-                            Glide.with(view.travelBackground)
-                                .load(uri)
-                                .centerCrop()
-                                .into(view.travelBackground)
-                        }
-                    }
-                }
+
+                Glide.with(view.travelBackground)
+                    .load(travelList[position].imageName)
+                    .centerCrop()
+                    .into(view.travelBackground)
             } else {
                 binding.data = null
             }

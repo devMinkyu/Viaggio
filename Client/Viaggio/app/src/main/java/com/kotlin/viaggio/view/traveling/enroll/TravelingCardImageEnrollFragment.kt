@@ -59,7 +59,7 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
             false
         }
 
-        travelingOfDayEnrollImageList.layoutManager = GridLayoutManager(context, 5, RecyclerView.VERTICAL, false)
+        travelingOfDayEnrollImageList.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
         getViewModel().imagePathList.observe(this, Observer {
             it.getContentIfNotHandled()?.let { list ->
                 travelingOfDayEnrollImageList.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -83,7 +83,7 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
             }
             travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList[0])
         })
-        travelingOfDayEnrollImageList.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+        travelingOfDayEnrollImageList.setOnScrollChangeListener { v, _, _, _, _ ->
             travelingOfDayEnrollImageList?.let {
                 if (travelingOfDayEnrollImageList.canScrollVertically(-1).not()) {
                     enableSliding(true)
@@ -116,8 +116,8 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
         fun imageBinding(string: String) {
             fileNamePath = string
             val layoutParams = itemView.travelingCardContainer.layoutParams
-            layoutParams.width = width / 5
-            layoutParams.height = width / 5
+            layoutParams.width = width / 4
+            layoutParams.height = width / 4
             itemView.travelingCardContainer.layoutParams = layoutParams
 
             binding?.let {

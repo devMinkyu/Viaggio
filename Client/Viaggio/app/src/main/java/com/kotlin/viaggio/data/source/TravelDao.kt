@@ -27,7 +27,7 @@ interface TravelDao {
     fun getTravel(id: Long): Single<Travel>
 
     @Update
-    fun updateTravel(travel: Travel):Completable
+    fun updateTravel(travel: Travel)
 
     // travelOfDay
     @Insert
