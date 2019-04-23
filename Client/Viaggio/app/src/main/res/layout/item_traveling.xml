@@ -35,7 +35,7 @@
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
                 android:layout_marginStart="@dimen/common_top"
-                android:elevation="5dp"
+                android:elevation="10dp"
                 app:layout_constraintTop_toTopOf="@id/item_container"
                 app:layout_constraintBottom_toBottomOf="@id/item_container"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,5 +82,12 @@
                 tools:lineSpacingExtra="4.3dp"
                 tools:text="설레는 출발입니다 드디어 스페인을 가다니 너무나 기가 되는데요 껄껄무나 기가 되는데요 껄껄무나 기가 되는데요 껄껄무되는데요 껄껄무나 기가 되는데요 껄껄무dsaadsda나 기assad가 되는데요 껄껄껄껄껄"
         />
+
+        <androidx.constraintlayout.widget.Group
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:elevation="5dp"
+                app:constraint_referenced_ids="travelingItemInfo, TravelingItemTheme, TravelingItemDayCount"
+                tools:ignore="UnknownId"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

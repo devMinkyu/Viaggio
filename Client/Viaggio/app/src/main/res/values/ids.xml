@@ -206,4 +206,5 @@
     <item name="travelingDelete" type="id"/>
     <item name="TravelingItemTheme" type="id"/>
     <item name="selectedCityList" type="id"/>
+    <item name="travelingEnrollThemeList" type="id"/>
 </resources>

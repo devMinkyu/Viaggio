@@ -136,7 +136,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
             theme = travelThemeList.toMutableList() as ArrayList<String>,
             travelKind = travelKind
         )
-        prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, travelingStartOfCountry.get()!!)
+        prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, "${chooseCountry[0].country}_${chooseCountry[0].city}")
             .observeOn(Schedulers.io()).blockingAwait()
 
         val disposable = travelLocalModel.createTravel(travel)

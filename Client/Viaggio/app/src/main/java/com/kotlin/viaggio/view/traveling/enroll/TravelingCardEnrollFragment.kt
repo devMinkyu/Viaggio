@@ -21,7 +21,9 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
+import kotlinx.android.synthetic.main.item_travel_card_theme.view.*
 import kotlinx.android.synthetic.main.item_traveling_card_img.view.*
+import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import java.text.SimpleDateFormat
 import java.util.*
@@ -100,6 +102,26 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                 baseIntent("http://viaggio.kotlin.com/traveling/enroll/image/")
             }
         })
+        loadView()
+    }
+
+    fun loadView(){
+        val main = travelingEnrollThemeList as ViewGroup
+
+        if (main.childCount > 0) {
+            main.removeAllViews()
+        }
+        if(getViewModel().themeList.isNullOrEmpty()){
+            val inflater = layoutInflater
+            val themeListView = inflater.inflate(R.layout.item_travel_card_theme, null)
+            themeListView.themeName.text = resources.getString(R.string.theme_start)
+            themeListView.themeName.setOnClickListener {
+                toast("add theme")
+            }
+            main.addView(themeListView)
+        }
+
+
     }
 
     inner class ViewHandler {

@@ -46,6 +46,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     var travelCard= TravelCard()
     var travel = Travel()
     val imageList = mutableListOf<Bitmap>()
+    val themeList = mutableListOf<String>()
     val isFormValid = ObservableBoolean(false)
 
     override fun initialize() {

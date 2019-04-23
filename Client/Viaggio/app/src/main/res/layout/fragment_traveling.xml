@@ -97,12 +97,10 @@
                         tools:ignore="UnusedAttribute">
                     <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/back"
-                            android:layout_width="@dimen/back_size"
-                            android:layout_height="@dimen/back_size"
+                            style="@style/ViewStyle.Viaggio.Back"
                             android:layout_gravity="start"
-                            android:onClick="@{()->viewHandler.close()}"
-                            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"
                             android:layout_marginStart="16dp"
+                            android:onClick="@{()->viewHandler.close()}"
                     />
                     <TextView
                             android:layout_width="wrap_content"
