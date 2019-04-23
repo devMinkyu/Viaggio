@@ -1,8 +1,8 @@
 package com.kotlin.viaggio.view.traveling.enroll
 
 import android.graphics.Bitmap
-import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
+import com.kotlin.viaggio.data.`object`.ImageData
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -12,27 +12,59 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
 
-    val imagePathList: MutableLiveData<Event<MutableList<String>>> = MutableLiveData()
+    val imagePathList: MutableLiveData<Event<List<ImageData>>> = MutableLiveData()
 
-    var entireChooseCount:Int = 1
-    val chooseCountList: MutableList<ObservableInt> = mutableListOf()
-    val imageAllList: MutableList<String> = mutableListOf()
+    var entireChooseCount: Int = 1
+
+    var imageAllList: List<ImageData> = listOf()
     val imageChooseList: MutableList<String> = mutableListOf()
-    val imageBitmapChooseList: MutableList<Bitmap> = mutableListOf()
+    var imageBitmapChooseList: MutableList<Bitmap> = mutableListOf()
 
     override fun initialize() {
         super.initialize()
-        for (s in travelLocalModel.imageAllPath()) {
-            imageAllList.add(s)
-            chooseCountList.add(ObservableInt(0))
+        val disposable = rxEventBus.travelCacheImages
+            .subscribe {
+                imageAllList = it
+                imagePathList.value = Event(imageAllList)
+
+                val result = imageAllList.filter { imageDataVal ->
+                    imageDataVal.chooseCountList.get() != 0
+                }.sortedBy { imageDataVal ->
+                    imageDataVal.chooseCountList.get()
+                }.map { imageDataVal ->
+                    imageDataVal.imageName
+                }
+                imageChooseList.clear()
+                imageChooseList.addAll(result)
+                entireChooseCount = if (imageChooseList.isEmpty()) {
+                    1
+                } else {
+                    imageChooseList.size
+                }
+            }
+        addDisposable(disposable)
+
+        val bitmapDisposable = rxEventBus.travelCardImages
+            .subscribe {
+                imageBitmapChooseList = it.toMutableList()
+                imageBitmapChooseList.remove(imageBitmapChooseList.last())
+            }
+        addDisposable(bitmapDisposable)
+
+        if (imageAllList.isEmpty()) {
+            val result = travelLocalModel.imageAllPath()
+                .map {
+                    ImageData(imageName = it)
+                }
+            imageAllList = result
+            imageChooseList.add(imageAllList[0].imageName)
+            imageAllList[0].chooseCountList.set(1)
+            imagePathList.value = Event(imageAllList)
         }
-        imageChooseList.add(imageAllList[0])
-        chooseCountList[0].set(1)
-        imagePathList.value = Event(imageAllList)
     }
 
     fun selectImage() {
         rxEventBus.travelCardImages.onNext(imageBitmapChooseList)
+        rxEventBus.travelCacheImages.onNext(imageAllList)
     }
-
 }

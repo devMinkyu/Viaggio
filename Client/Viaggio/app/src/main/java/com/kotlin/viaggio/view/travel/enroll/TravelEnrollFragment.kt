@@ -87,11 +87,6 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
         })
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        getViewModel().init()
-    }
-
     inner class ViewHandler{
         fun cameraOpen(){
             getViewModel().permissionCheck(

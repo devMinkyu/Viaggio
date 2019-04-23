@@ -15,7 +15,7 @@
                  android:background="@android:color/transparent">
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/enroll_container"
-                android:background="@color/white_two"
+                android:background="@color/white_three"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <View
@@ -25,18 +25,29 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
-            <TextView
+            <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/back"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
+                    android:onClick="@{()->viewHandler.back()}"
+                    app:layout_constraintTop_toBottomOf="@id/tgl"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                    android:id="@+id/confirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_keyboard_arrow_left_black_24dp"
                     android:textColor="@android:color/black"
-                    android:text="@string/back"
+                    android:text="@string/image_start"
                     android:gravity="center"
-                    android:padding="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/tgl"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:onClick="@{()->viewHandler.back()}"
+                    android:padding="15dp"
+                    android:fontFamily="sans-serif-black"
+                    android:onClick="@{()->viewHandler.confirm()}"
+                    app:layout_constraintTop_toTopOf="@id/back"
+                    app:layout_constraintBottom_toBottomOf="@id/back"
+                    app:layout_constraintEnd_toEndOf="parent"
             />
             <com.naver.android.helloyako.imagecrop.view.ImageCropView
                     android:id="@id/travelingOfDayEnrollImageView"
@@ -58,19 +69,10 @@
                     android:layout_height="0dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/confirm"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/travelingOfDayEnrollImageView"
             />
 
-            <TextView
-                    android:id="@+id/confirm"
-                    style="@style/ViewStyle.Viaggio.Btn"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:background="@color/colorPrimary"
-                    android:onClick="@{()->viewHandler.confirm()}"
-                    android:text="@string/image_start"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

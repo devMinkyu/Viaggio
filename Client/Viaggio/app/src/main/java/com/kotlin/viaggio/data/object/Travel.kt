@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.data.`object`
 
+import androidx.databinding.ObservableInt
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
@@ -51,4 +52,9 @@ data class TravelCard(
     @Suppress("ArrayInDataClass") var imageUrl: ArrayList<String> = arrayListOf(),
     var content: String = "",
     var date: Date = Date()
+)
+
+data class ImageData(
+    var imageName: String = "",
+    var chooseCountList:ObservableInt = ObservableInt(0)
 )

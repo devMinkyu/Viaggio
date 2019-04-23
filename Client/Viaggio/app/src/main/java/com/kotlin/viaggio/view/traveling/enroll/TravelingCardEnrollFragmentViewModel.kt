@@ -45,7 +45,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
 
     var travelCard= TravelCard()
     var travel = Travel()
-    var imageList = listOf<Bitmap>()
+    val imageList = mutableListOf<Bitmap>()
     val isFormValid = ObservableBoolean(false)
 
     override fun initialize() {
@@ -55,7 +55,8 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
             .subscribeOn(Schedulers.io())
             .subscribe {
                 imageLiveData.postValue(Event(it))
-                imageList = it
+                imageList.clear()
+                imageList.addAll(it)
                 validateForm()
             }
         addDisposable(imageDisposable)
@@ -135,4 +136,9 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         }
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        rxEventBus.travelCacheImages.onNext(listOf())
+        rxEventBus.travelCardImages.onNext(listOf())
+    }
 }

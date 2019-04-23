@@ -71,17 +71,16 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                                 false
                             )
                         )
-
                     override fun getItemCount() = list.size
                     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
                         holder as TravelingOfDayImgViewHolder
-                        holder.imageBinding(list[position])
+                        holder.imageBinding(list[position].imageName)
                         holder.binding?.viewHandler = holder.TravelingOfDayImgViewHandler()
-                        holder.binding?.chooseCount = getViewModel().chooseCountList[position]
+                        holder.binding?.chooseCount = list[position].chooseCountList
                     }
                 }
             }
-            travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList[0])
+            travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
         })
         travelingOfDayEnrollImageList.setOnScrollChangeListener { _, _, _, _, _ ->
             travelingOfDayEnrollImageList?.let {
@@ -152,8 +151,10 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                         binding?.chooseCount?.set(0)
 
                         for ((i, s) in getViewModel().imageChooseList.withIndex()) {
-                            val index = getViewModel().imageAllList.indexOf(s)
-                            getViewModel().chooseCountList[index].set(i + 1)
+                            val item = getViewModel().imageAllList.firstOrNull {
+                                it.imageName == s
+                            }
+                            item?.chooseCountList?.set(i+1)
                         }
                         if (getViewModel().imageChooseList.isNotEmpty()) {
                             travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
@@ -163,7 +164,6 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                                 getViewModel().imageBitmapChooseList.remove(bitmap)
                             }
                         }
-
                     }
                 }
             }

@@ -198,7 +198,8 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
             .observeOn(Schedulers.io()).blockingAwait()
     }
 
-    fun init() {
+    override fun onCleared() {
+        super.onCleared()
         rxEventBus.travelOfTheme.onNext(listOf())
     }
 }

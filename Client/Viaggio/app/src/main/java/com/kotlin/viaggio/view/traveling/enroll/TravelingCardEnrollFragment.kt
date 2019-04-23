@@ -2,13 +2,12 @@ package com.kotlin.viaggio.view.traveling.enroll
 
 import android.Manifest
 import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,13 +23,13 @@ import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_card_img.view.*
 import org.jetbrains.anko.support.v4.toast
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentViewModel>() {
     lateinit var binding: FragmentTravelingCardEnrollBinding
+    lateinit var adapter: RecyclerView.Adapter<TravelCardEnrollViewHolder>
     override fun onResume() {
         super.onResume()
         if(sliderInterface == null)
@@ -47,7 +46,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         getViewModel().complete.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 stopLoading()
@@ -58,24 +57,26 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         travelCardEnrollImageList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         getViewModel().imageLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {list ->
-                travelCardEnrollImageList.adapter = object : RecyclerView.Adapter<TravelCardEnrollViewHolder>(){
+                adapter = object : RecyclerView.Adapter<TravelCardEnrollViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
                         TravelCardEnrollViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_card_img, parent, false))
-                    override fun getItemCount() = list.size + 1
+                    override fun getItemCount() = getViewModel().imageList.size + 1
                     override fun onBindViewHolder(holder: TravelCardEnrollViewHolder, position: Int) {
                         holder.binding?.viewHandler = holder.TravelCardEnrollViewHandler()
                         if(position > 0){
                             holder.itemView.travelingPagerImg.visibility = View.VISIBLE
-                            holder.loadImage(list[position - 1])
+                            holder.loadImage(getViewModel().imageList[position - 1])
                         }else{
                             holder.itemView.travelingPagerImg.visibility = View.GONE
                         }
                     }
                 }
+
+                travelCardEnrollImageList.adapter = adapter
             }
         })
 
-        travelCardEnrollImageList.setOnScrollChangeListener { v, _, _, _, _ ->
+        travelCardEnrollImageList.setOnScrollChangeListener { _, _, _, _, _ ->
             travelCardEnrollImageList?.let {
                 if (travelCardEnrollImageList.canScrollHorizontally(-1).not()) {
                     enableSliding(true)
@@ -128,25 +129,30 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
     inner class TravelCardEnrollViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingCardImgBinding>(view)
 
+        var selectedImage:Bitmap? = null
         fun loadImage(image:Any){
             when (image) {
                 is Bitmap -> {
+                    selectedImage = image
                     Glide.with(context!!)
                         .load(image)
                         .into(itemView.travelingPagerImg)
                 }
                 is String -> {
-                    val imgDir = File(context?.filesDir, "images/")
-                    if (TextUtils.isEmpty(image).not()) {
-                        val imgFile = File(imgDir, image)
-                        if (imgFile.exists()) {
-                            Uri.fromFile(imgFile).let { uri ->
-                                Glide.with(itemView)
-                                    .load(uri)
-                                    .into(itemView.travelingPagerImg)
-                            }
-                        } else { }
-                    } else { }
+                    Glide.with(itemView)
+                        .load(image)
+                        .into(itemView.travelingPagerImg)
+//                    val imgDir = File(context?.filesDir, "images/")
+//                    if (TextUtils.isEmpty(image).not()) {
+//                        val imgFile = File(imgDir, image)
+//                        if (imgFile.exists()) {
+//                            Uri.fromFile(imgFile).let { uri ->
+//                                Glide.with(itemView)
+//                                    .load(uri)
+//                                    .into(itemView.travelingPagerImg)
+//                            }
+//                        } else { }
+//                    } else { }
                 }
                 else -> { }
             }

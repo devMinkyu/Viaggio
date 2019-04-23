@@ -203,4 +203,5 @@
     <item name="travelingOfDayEnrollCountry" type="id"/>
     <item name="menuCountry" type="id"/>
     <item name="menuTitle" type="id"/>
+    <item name="travelingDelete" type="id"/>
 </resources>

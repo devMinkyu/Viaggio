@@ -5,6 +5,7 @@ package com.kotlin.viaggio.event
 import android.graphics.Bitmap
 import com.kotlin.viaggio.data.`object`.Area
 import com.kotlin.viaggio.data.`object`.Country
+import com.kotlin.viaggio.data.`object`.ImageData
 import com.kotlin.viaggio.data.`object`.ThemeData
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
@@ -26,7 +27,8 @@ class RxEventBus @Inject constructor() {
     val travelOfCountryChange:BehaviorSubject<Any> = BehaviorSubject.create()
     val travelFinish:BehaviorSubject<Boolean> = BehaviorSubject.create()
 
-    val travelCardImages: PublishSubject<List<Bitmap>> = PublishSubject.create()
+    val travelCardImages: BehaviorSubject<List<Bitmap>> = BehaviorSubject.create()
+    val travelCacheImages: BehaviorSubject<List<ImageData>> = BehaviorSubject.create()
     val travelingStartOfDay:BehaviorSubject<List<Date>> = BehaviorSubject.create()
     val travelType:BehaviorSubject<Int> = BehaviorSubject.create()
     val travelCountry:BehaviorSubject<Country> = BehaviorSubject.create()
