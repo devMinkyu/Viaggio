@@ -18,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@id/travelingContainer"
-                android:background="@color/white_five">
+                android:background="@color/white_three">
             <View
                     android:id="@+id/tgl"
                     android:layout_width="match_parent"
@@ -30,8 +30,8 @@
             />
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/back"
-                    android:layout_width="46dp"
-                    android:layout_height="46dp"
+                    android:layout_width="@dimen/back_size"
+                    android:layout_height="@dimen/back_size"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
                     android:onClick="@{()->viewHandler.back()}"

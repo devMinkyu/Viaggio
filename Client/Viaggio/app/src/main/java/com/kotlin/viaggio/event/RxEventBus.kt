@@ -15,7 +15,6 @@ import javax.inject.Singleton
 
 @Singleton
 class RxEventBus @Inject constructor() {
-    val travelOfCountry:BehaviorSubject<String> = BehaviorSubject.create()
     val travelOfGo:BehaviorSubject<Any> = BehaviorSubject.create()
     val travelOfFirstImage: BehaviorSubject<Bitmap> = BehaviorSubject.create()
     val travelOfTheme: BehaviorSubject<List<ThemeData>> = BehaviorSubject.create()
@@ -33,4 +32,5 @@ class RxEventBus @Inject constructor() {
     val travelType:BehaviorSubject<Int> = BehaviorSubject.create()
     val travelCountry:BehaviorSubject<Country> = BehaviorSubject.create()
     val travelCity:PublishSubject<List<Area>> = PublishSubject.create()
+    val travelSelectedCity:BehaviorSubject<List<Area>> = BehaviorSubject.create()
 }

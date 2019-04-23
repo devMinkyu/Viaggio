@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
@@ -31,6 +32,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
                 .build())
     }
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingCountryBinding
+    lateinit var adapter: RecyclerView.Adapter<TravelingSelectedCountryViewHolder>
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_country, container, false)
         binding.viewModel = getViewModel()
@@ -82,9 +84,22 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
             }
         })
 
+        getViewModel().chooseAreaLiveData.observe(this, Observer {
+            selectedCityList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            adapter = object : RecyclerView.Adapter<TravelingSelectedCountryViewHolder>(){
+                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                    TravelingSelectedCountryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_selected_city, parent, false))
+                override fun getItemCount() = getViewModel().chooseArea.size
+                override fun onBindViewHolder(holder: TravelingSelectedCountryViewHolder, position: Int) {
+                    holder.binding?.data = getViewModel().chooseArea[position]
+                    holder.binding?.viewHandler = holder.TravelingSelectedCountryViewHandler()
+                }
+            }
+            selectedCityList.adapter = adapter
+        })
+
         getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                stopLoading()
                 fragmentPopStack()
             }
         })
@@ -94,10 +109,12 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         fun back() {
             fragmentPopStack()
         }
+        fun confirm(){
+            getViewModel().confirm()
+        }
     }
     inner class TravelingCountryViewHolder(view:View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingCountryBinding>(view)
-
         fun round(){
             val drawable = context?.getDrawable(R.drawable.round_bg) as GradientDrawable
             itemView.countryItem.background = drawable
@@ -107,6 +124,22 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
             fun selected(){
                 getViewModel().selectedCountry(binding?.data)
                 baseIntent("http://viaggio.kotlin.com/traveling/${getViewModel().travelType.get()}/city/")
+            }
+        }
+    }
+    inner class TravelingSelectedCountryViewHolder(view:View): RecyclerView.ViewHolder(view){
+        val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemSelectedCityBinding>(view)
+        inner class TravelingSelectedCountryViewHandler{
+            fun delete(){
+                binding?.data?.let {
+                    val index = getViewModel().chooseArea.indexOf(it)
+                    getViewModel().chooseArea.remove(it)
+                    adapter.notifyItemRemoved(index)
+                }
+
+                if(getViewModel().chooseArea.isNullOrEmpty()){
+                    getViewModel().empty()
+                }
             }
         }
     }

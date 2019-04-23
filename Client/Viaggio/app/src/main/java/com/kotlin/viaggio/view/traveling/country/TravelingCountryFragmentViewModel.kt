@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.traveling.country
 
+import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -25,10 +26,11 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
     val countryLiveData:MutableLiveData<Event<List<Country>>> = MutableLiveData()
     val continentLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
     val completeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
+    val chooseAreaLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
 
     var travelType = ObservableInt(0)
 
-    val chooseArea = mutableListOf<Area>()
+    val chooseArea:ObservableArrayList<Area> = ObservableArrayList()
     override fun initialize() {
         super.initialize()
 
@@ -43,12 +45,12 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
         countryList.addAll(list)
 
         continentList.add(appCtx.get().resources.getString(R.string.total))
-        countries.map {
-            continentList.add(it.continent)
+        val list1= countries.distinctBy {
+            it.continent
+        }.map {
+            it.continent
         }
-        val result = continentList.distinct()
-        continentList.clear()
-        continentList.addAll(result)
+        continentList.addAll(list1)
 
         countryLiveData.value = Event(countryList)
         continentLiveData.value = Event(Any())
@@ -60,11 +62,22 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
 
         val areaDisposable = rxEventBus.travelCity.subscribe {
             chooseArea.addAll(it)
-            val disList = chooseArea.distinct()
+            val disList = chooseArea.distinctBy {arraVal ->
+                arraVal.city
+            }
             chooseArea.clear()
             chooseArea.addAll(disList)
+            chooseAreaLiveData.value = Event(Any())
         }
         addDisposable(areaDisposable)
+
+        val selectedCityDisposable = rxEventBus.travelSelectedCity.subscribe {
+            if(chooseArea.isNullOrEmpty()){
+                chooseArea.addAll(it)
+                chooseAreaLiveData.value = Event(Any())
+            }
+        }
+        addDisposable(selectedCityDisposable)
     }
 
     fun selectedCountry(country: String?) {
@@ -91,5 +104,14 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
                 countryLiveData.value = Event(list)
             }
         }
+    }
+
+    fun confirm(){
+        rxEventBus.travelSelectedCity.onNext(chooseArea)
+        completeLiveData.value = Event(Any())
+    }
+
+    fun empty() {
+        rxEventBus.travelSelectedCity.onNext(listOf())
     }
 }

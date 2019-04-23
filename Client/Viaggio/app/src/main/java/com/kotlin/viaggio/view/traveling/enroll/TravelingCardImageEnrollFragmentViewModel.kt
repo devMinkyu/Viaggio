@@ -24,30 +24,33 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
         super.initialize()
         val disposable = rxEventBus.travelCacheImages
             .subscribe {
-                imageAllList = it
-                imagePathList.value = Event(imageAllList)
-
-                val result = imageAllList.filter { imageDataVal ->
-                    imageDataVal.chooseCountList.get() != 0
-                }.sortedBy { imageDataVal ->
-                    imageDataVal.chooseCountList.get()
-                }.map { imageDataVal ->
-                    imageDataVal.imageName
-                }
-                imageChooseList.clear()
-                imageChooseList.addAll(result)
-                entireChooseCount = if (imageChooseList.isEmpty()) {
-                    1
-                } else {
-                    imageChooseList.size
+                if(it.isNotEmpty()){
+                    imageAllList = it
+                    imagePathList.value = Event(imageAllList)
+                    val result = imageAllList.filter { imageDataVal ->
+                        imageDataVal.chooseCountList.get() != 0
+                    }.sortedBy { imageDataVal ->
+                        imageDataVal.chooseCountList.get()
+                    }.map { imageDataVal ->
+                        imageDataVal.imageName
+                    }
+                    imageChooseList.clear()
+                    imageChooseList.addAll(result)
+                    entireChooseCount = if (imageChooseList.isEmpty()) {
+                        1
+                    } else {
+                        imageChooseList.size
+                    }
                 }
             }
         addDisposable(disposable)
 
         val bitmapDisposable = rxEventBus.travelCardImages
             .subscribe {
-                imageBitmapChooseList = it.toMutableList()
-                imageBitmapChooseList.remove(imageBitmapChooseList.last())
+                if(it.isNotEmpty()){
+                    imageBitmapChooseList = it.toMutableList()
+                    imageBitmapChooseList.remove(imageBitmapChooseList.last())
+                }
             }
         addDisposable(bitmapDisposable)
 

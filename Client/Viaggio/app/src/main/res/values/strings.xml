@@ -38,7 +38,7 @@
     <string name="travel_count">DAY %d</string>
     <string name="over_image_count">+%d</string>
     <string name="travel_card_choose_count">%d</string>
-    <string name="travel_of_day_country">%s -> %s</string>
+    <string name="travel_of_day_country">%s_%s</string>
     <string name="format">%1$tY/%1$tm/%1$td</string>
     <string name="back">Back</string>
     <string name="done">| DONE |</string>
@@ -81,6 +81,7 @@
     <string name="travel_enroll_theme_hint">터치하여 테마를 골라주세요.</string>
     <string name="travel_country_notice">여행지</string>
     <string name="total">전체</string>
+    <string name="total_image">모든 사진</string>
     <string name="travel_country_choice_notice">원하는 나라를 클릭 해주세요.</string>
     <string name="travel_country_add_notice">더 많은 도시가 추가될 예정이에요.</string>
     <string name="city_notice">여행 도시를\n선택을 해주세요.</string>

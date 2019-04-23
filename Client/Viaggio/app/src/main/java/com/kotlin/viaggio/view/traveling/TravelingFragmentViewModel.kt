@@ -61,13 +61,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             }
         addDisposable(travelingFinishDisposable)
-        val countryDisposable = rxEventBus.travelOfCountry.subscribe { t ->
-            if (TextUtils.isEmpty(t).not()) {
-                travelCardPagedLiveData.value?.dataSource?.invalidate()
-                rxEventBus.travelOfCountry.onNext("")
-            }
-        }
-        addDisposable(countryDisposable)
     }
 
     private fun loadTravelOfDayPaged() {

@@ -48,6 +48,7 @@ data class TravelCard(
     var travelId: Long = 0,
     var travelOfDay: Int = 1,
     var country:String = "",
+    @Suppress("ArrayInDataClass") var theme: ArrayList<String> = arrayListOf(),
     @Suppress("ArrayInDataClass") var imageNames: ArrayList<String> = arrayListOf(),
     @Suppress("ArrayInDataClass") var imageUrl: ArrayList<String> = arrayListOf(),
     var content: String = "",
@@ -57,4 +58,14 @@ data class TravelCard(
 data class ImageData(
     var imageName: String = "",
     var chooseCountList:ObservableInt = ObservableInt(0)
+)
+
+data class TravelCardValue(
+    var id: Long = 0,
+    var travelId: Long = 0,
+    var travelOfDay: Int = 1,
+    var country:String = "",
+    var theme: String = "",
+    var imageName: String = "",
+    var content: String = ""
 )

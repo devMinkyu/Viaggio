@@ -204,4 +204,6 @@
     <item name="menuCountry" type="id"/>
     <item name="menuTitle" type="id"/>
     <item name="travelingDelete" type="id"/>
+    <item name="TravelingItemTheme" type="id"/>
+    <item name="selectedCityList" type="id"/>
 </resources>

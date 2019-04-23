@@ -19,7 +19,8 @@
                 android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white_five" android:focusable="true">
+                android:background="@color/white_three"
+                android:focusable="true">
             <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

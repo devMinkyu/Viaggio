@@ -68,7 +68,7 @@ class CameraFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
         }.addOnCompleteListener {
             complete.value = Event(Any())
-            rxEventBus.travelOfCountry.onNext("미국")
+//            rxEventBus.travelSelectedCity.onNext("미국")
             isVisionTextRecognizer.set(true)
         }.addOnFailureListener {}
     }

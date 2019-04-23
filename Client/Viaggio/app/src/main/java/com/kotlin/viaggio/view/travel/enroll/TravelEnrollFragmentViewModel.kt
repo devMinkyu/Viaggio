@@ -46,9 +46,9 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     val travelingStartOfCountry = ObservableField<String>("")
     val travelThemes = ObservableField<String>("")
 
-    var startDate = Date()
+    private var startDate = Date()
     var endDate:Date? = null
-    val chooseCountry = mutableListOf<Area>()
+    private val chooseCountry = mutableListOf<Area>()
     var travelKind: Int= 0
 
     override fun initialize() {
@@ -87,24 +87,19 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             }
         addDisposable(travelingStartOfDayDisposable)
-        val countryDisposable = rxEventBus.travelCity.subscribe { t ->
-            countryExist.set(true)
-            val cities = if(endDate == null){
+        val countryDisposable = rxEventBus.travelSelectedCity.subscribe { t ->
+            if(t.isNotEmpty()){
+                countryExist.set(true)
                 chooseCountry.clear()
                 chooseCountry.addAll(t)
-                chooseCountry.map {
+                val cities = chooseCountry.map {
                     "${it.country}_${it.city}"
                 }
+                travelingStartOfCountry.set(cities.joinToString(","))
             }else{
-                chooseCountry.addAll(t)
-                val result = chooseCountry.distinct()
-                chooseCountry.clear()
-                chooseCountry.addAll(result)
-                chooseCountry.map {
-                    "${it.country}_${it.city}"
-                }
+                countryExist.set(false)
+                travelingStartOfCountry.set("")
             }
-            travelingStartOfCountry.set(cities.joinToString(","))
         }
         addDisposable(countryDisposable)
     }

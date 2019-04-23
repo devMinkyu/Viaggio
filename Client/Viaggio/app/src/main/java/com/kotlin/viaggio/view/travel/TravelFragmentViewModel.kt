@@ -7,6 +7,7 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
 class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
@@ -32,7 +33,7 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
                 travelList.addAll(it)
                 travelListLiveData.postValue(Event(travelList))
             }){
-                travelListLiveData.postValue(Event(travelList))
+                Timber.d(it)
             }
 
         addDisposable(disposable)
