@@ -14,8 +14,8 @@ data class Country(
 )
 
 data class Area(
-    var continent: String,
-    var country: String,
-    var city:String,
+    var continent: String = "",
+    var country: String ="",
+    var city:String ="",
     var selected: ObservableBoolean = ObservableBoolean(false)
 )

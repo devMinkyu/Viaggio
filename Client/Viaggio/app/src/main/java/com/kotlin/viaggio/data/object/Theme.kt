@@ -9,6 +9,8 @@ data class Theme(
 )
 
 data class ThemeData(
-    var theme:Theme,
+    var id: Long = 0,
+    var theme: String = "",
+    var authority:Boolean = false,
     var select:ObservableBoolean = ObservableBoolean(false)
 )

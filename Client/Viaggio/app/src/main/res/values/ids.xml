@@ -207,4 +207,10 @@
     <item name="TravelingItemTheme" type="id"/>
     <item name="selectedCityList" type="id"/>
     <item name="travelingEnrollThemeList" type="id"/>
+    <item name="travelingCitiesActionPop" type="id"/>
+    <item name="travelingCitiesActionTitle" type="id"/>
+    <item name="travelingCitiesActionList" type="id"/>
+    <item name="travelingThemesActionPop" type="id"/>
+    <item name="travelingThemesActionTitle" type="id"/>
+    <item name="travelingThemesActionList" type="id"/>
 </resources>

@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.data.source
 
 import androidx.annotation.Keep
+import com.kotlin.viaggio.data.`object`.Area
 import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -41,11 +42,10 @@ interface ViaggioApiService {
     fun uploadTravel(
         @Header("Authorization") token:String,
         @Field("localId") id:Long,
-        @Field("entireCountry") entireCountries: ArrayList<String>,
-        @Field("city") city: ArrayList<String>,
+        @Field("area") area: MutableList<Area>,
         @Field("title") title:String,
         @Field("travelKind") travelKind:Int,
-        @Field("theme") theme:ArrayList<String>,
+        @Field("theme") theme:MutableList<String>,
         @Field("startDate") startDate:Date,
         @Field("endDate") endDate:Date?
     ): Single<Response<Any>>

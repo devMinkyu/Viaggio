@@ -19,20 +19,11 @@
                 android:layout_height="match_parent"
                 android:id="@id/travelingContainer"
                 android:background="@color/white_three">
-            <View
-                    android:id="@+id/tgl"
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/back"
-            />
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/back"
                     style="@style/ViewStyle.Viaggio.Back"
                     android:onClick="@{()->viewHandler.back()}"
-                    app:layout_constraintTop_toBottomOf="@id/tgl"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:textColor="@android:color/black"/>
             <TextView
@@ -43,7 +34,7 @@
                     android:layout_marginStart="31.7dp"
                     android:layout_marginTop="@dimen/tool_bar_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tgl"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/verticalSpace3"
                     android:text="@string/travel_enroll_notice"
                     tools:ignore="SpUsage"/>

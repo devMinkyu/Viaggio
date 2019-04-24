@@ -6,10 +6,7 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
-import com.kotlin.viaggio.data.`object`.PermissionError
-import com.kotlin.viaggio.data.`object`.Travel
-import com.kotlin.viaggio.data.`object`.TravelCard
-import com.kotlin.viaggio.data.`object`.TravelOfDay
+import com.kotlin.viaggio.data.`object`.*
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
@@ -30,6 +27,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
 
     val complete: MutableLiveData<Event<Any>> = MutableLiveData()
     val imageLiveData:MutableLiveData<Event<List<Any>>> = MutableLiveData()
+    val themeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
     val imageViewShow: MutableLiveData<Event<Any>> = MutableLiveData()
 
@@ -72,6 +70,24 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
 
         dayCount.set(prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet())
         country.set(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
+
+        val optionDisposable = rxEventBus.travelingOption.subscribe {
+            when(it){
+                is Area -> {
+                    country.set("${it.country}_${it.city}")
+                }
+                is List<*> ->{
+                    val list = it.map { data ->
+                        data as ThemeData
+                        data.theme
+                    }
+                    themeList.clear()
+                    themeList.addAll(list)
+                    themeLiveData.value = Event(Any())
+                }
+            }
+        }
+        addDisposable(optionDisposable)
     }
 
     private fun validateForm() {

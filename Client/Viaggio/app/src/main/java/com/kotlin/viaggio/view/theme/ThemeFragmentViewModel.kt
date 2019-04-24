@@ -28,7 +28,7 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
         val themes: List<Theme> = gson.fromJson(inputStream, type)
 
         val list = themes.map {
-            ThemeData(theme = it)
+            ThemeData(theme = it.theme, id = it.id, authority = it.authority)
         }
         themesListLiveData.value = Event(list)
 

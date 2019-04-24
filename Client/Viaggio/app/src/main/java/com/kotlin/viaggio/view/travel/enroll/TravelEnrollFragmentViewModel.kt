@@ -67,7 +67,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                 if (t.isNotEmpty()) {
                     themeExist.set(true)
                     travelThemeList = t.map {
-                        it.theme.theme
+                        it.theme
                     }
                     travelThemes.set(travelThemeList.joinToString(", "))
                 }
@@ -126,14 +126,11 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     @SuppressLint("RestrictedApi")
     fun travelStart(): Boolean {
-        val city = chooseCountry.map { it.city }
-        val country = chooseCountry.map { it.country }
         val travel = Travel(
-            entireCountries = country as ArrayList<String>,
-            city = city as ArrayList<String>,
+            area = chooseCountry,
             startDate = startDate,
             endDate = endDate,
-            theme = travelThemeList.toMutableList() as ArrayList<String>,
+            theme = travelThemeList.toMutableList(),
             travelKind = travelKind
         )
         prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, "${chooseCountry[0].country}_${chooseCountry[0].city}")

@@ -71,28 +71,18 @@
                         app:layout_constraintTop_toBottomOf="@id/toolbar"
                 />
                 <View
-                        android:id="@+id/tgl"
-                        android:layout_width="match_parent"
-                        android:layout_height="24dp"
-                        android:background="@color/white_three"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/back"
-                />
-                <View
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/tool_bar"
                         android:background="@color/white_three"
                         android:alpha="0.9"
-                        app:layout_constraintTop_toBottomOf="@id/tgl"
+                        app:layout_constraintTop_toTopOf="parent"
                 />
                 <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/back"
                         style="@style/ViewStyle.Viaggio.Back"
                         android:onClick="@{()->viewHandler.back()}"
-                        app:layout_constraintTop_toBottomOf="@id/tgl"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                 />
                 <TextView
@@ -120,7 +110,7 @@
                         android:layout_marginStart="31.7dp"
                         android:layout_marginTop="@dimen/tool_bar_title"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tgl"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:text="@string/travel_country_notice"
                         tools:ignore="SpUsage"/>
 

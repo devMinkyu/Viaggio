@@ -8,15 +8,14 @@ import java.util.*
 @Entity(tableName = "travels")
 data class Travel(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
-    @Suppress("ArrayInDataClass") var entireCountries: ArrayList<String> = arrayListOf(),
-    @Suppress("ArrayInDataClass") var city: ArrayList<String> = arrayListOf(),
+    @Suppress("ArrayInDataClass") var area: MutableList<Area> = mutableListOf(),
     var userExist: Boolean = false,
     var title: String = "재미있는 여행",
     // 0 해외여행, 1 국내여행
     var travelKind:Int =0,
     var startDate: Date? = null,
     var endDate: Date? = null,
-    @Suppress("ArrayInDataClass") var theme: ArrayList<String> = arrayListOf(),
+    @Suppress("ArrayInDataClass") var theme: MutableList<String> = mutableListOf(),
     var imageName: String = "",
     var imageUrl: String = "",
     var share: Boolean = false,

@@ -17,6 +17,8 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.databinding.FragmentTravelingCardEnrollBinding
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.kotlin.viaggio.view.traveling.option.TravelingCitiesActionDialogFragment
+import com.kotlin.viaggio.view.traveling.option.TravelingThemesActionDialogFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
@@ -58,7 +60,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
 
         travelCardEnrollImageList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         getViewModel().imageLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {list ->
+            it.getContentIfNotHandled()?.let {
                 adapter = object : RecyclerView.Adapter<TravelCardEnrollViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
                         TravelCardEnrollViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_card_img, parent, false))
@@ -103,25 +105,39 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
             }
         })
         loadView()
+
+        getViewModel().themeLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                loadView()
+            }
+        })
     }
 
-    fun loadView(){
+    private fun loadView(){
         val main = travelingEnrollThemeList as ViewGroup
 
         if (main.childCount > 0) {
-            main.removeAllViews()
+            main.removeViews(2, main.childCount - 2)
         }
         if(getViewModel().themeList.isNullOrEmpty()){
             val inflater = layoutInflater
             val themeListView = inflater.inflate(R.layout.item_travel_card_theme, null)
             themeListView.themeName.text = resources.getString(R.string.theme_start)
             themeListView.themeName.setOnClickListener {
-                toast("add theme")
+                TravelingThemesActionDialogFragment().show(fragmentManager!!, TravelingThemesActionDialogFragment.TAG)
             }
             main.addView(themeListView)
+        }else{
+            getViewModel().themeList.map {
+                val inflater = layoutInflater
+                val themeListView = inflater.inflate(R.layout.item_travel_card_theme, null)
+                themeListView.themeName.text = it
+                themeListView.themeName.setOnClickListener {
+                    TravelingThemesActionDialogFragment().show(fragmentManager!!, TravelingThemesActionDialogFragment.TAG)
+                }
+                main.addView(themeListView)
+            }
         }
-
-
     }
 
     inner class ViewHandler {
@@ -140,11 +156,11 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         }
 
         fun changeCountry(){
-
+            TravelingCitiesActionDialogFragment().show(fragmentManager!!, TravelingCitiesActionDialogFragment.TAG)
         }
 
         fun changeDayCount(){
-
+            TravelingThemesActionDialogFragment().show(fragmentManager!!, TravelingThemesActionDialogFragment.TAG)
         }
     }
 

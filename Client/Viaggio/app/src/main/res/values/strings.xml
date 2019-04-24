@@ -88,4 +88,6 @@
     <string name="theme_notice">여행 테마를\n선택을 해주세요.</string>
      <string name="travel_card_count">%d일차</string>
      <string name="travel_card_empty_notice">포스팅이 존재 하지 않습니다.\n포스팅을 작성해주세요</string>
+     <string name="traveling_city">여행중인 나라</string>
+     <string name="traveling_theme">여행테마</string>
 </resources>

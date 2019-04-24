@@ -51,7 +51,7 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
 
                     override fun onBindViewHolder(holder: ThemeViewHolder, position: Int) {
                         holder.binding?.data = theme[position]
-                        holder.binding?.viewHandler = holder.ThemeViewHandler()
+                        holder.binding?.viewHandler = holder.ThemesViewHandler()
                     }
                 }
             }
@@ -80,8 +80,8 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
     inner class ThemeViewHolder(view:View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemThemeBinding>(view)
 
-        inner class ThemeViewHandler{
-            fun selected(){
+        inner class ThemesViewHandler: ThemeViewHandler{
+            override fun selected(){
                 binding?.let {
                     if(it.data!!.select.get()){
                         if(getViewModel().selectedTheme.contains(it.data)){

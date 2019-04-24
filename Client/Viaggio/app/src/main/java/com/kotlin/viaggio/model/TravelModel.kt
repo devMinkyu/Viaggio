@@ -23,8 +23,7 @@ class TravelModel @Inject constructor() : BaseModel() {
         return api.uploadTravel(
             token = token,
             id = travel.id,
-            entireCountries = travel.entireCountries,
-            city = travel.city,
+            area = travel.area,
             title = travel.title,
             travelKind = travel.travelKind,
             startDate = travel.startDate!!,

@@ -24,18 +24,11 @@
                     android:background="@color/white_three"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <View
-                        android:id="@+id/tgl"
-                        android:layout_width="match_parent"
-                        android:layout_height="24dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
                 <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/back"
                         style="@style/ViewStyle.Viaggio.Back"
                         android:onClick="@{()->viewHandler.back()}"
-                        app:layout_constraintTop_toBottomOf="@id/tgl"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                 />
                 <TextView
@@ -46,64 +39,61 @@
                         android:layout_marginStart="31.7dp"
                         android:layout_marginTop="@dimen/tool_bar_title"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tgl"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:text="@string/travel_card_enroll_notice"
-                        tools:ignore="SpUsage"/>
-                <TextView
-                        android:id="@id/travelingOfDayEnrollDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:textColor="@color/almost_black"
-                        android:letterSpacing="-0.02"
-                        android:layout_marginEnd="@dimen/common_margin"
-                        android:padding="5dp"
-                        android:gravity="center"
-                        android:background="@drawable/travel_card_option_btn"
-                        android:text="@{@string/travel_card_count(viewModel.dayCount)}"
-                        android:onClick="@{() -> viewHandler.changeDayCount()}"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/enroll_title"
-                        app:layout_constraintBottom_toBottomOf="@id/enroll_title"
-                        tools:text="1일차"
-                        tools:ignore="SpUsage"/>
-                <TextView
-                        android:id="@id/travelingOfDayEnrollCountry"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:textColor="@color/almost_black"
-                        android:letterSpacing="-0.02"
-                        android:layout_marginEnd="@dimen/common_margin"
-                        android:layout_marginTop="10dp"
-                        android:padding="5dp"
-                        android:gravity="center"
-                        android:background="@drawable/travel_card_option_btn"
-                        android:text="@{viewModel.country}"
-                        android:onClick="@{() -> viewHandler.changeCountry()}"
-                        app:layout_constraintTop_toBottomOf="@id/travelingOfDayEnrollDate"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/travelCardEnrollImageList"
-                        tools:text="보스니아카르비아수_아테나"
                         tools:ignore="SpUsage"/>
                 <androidx.recyclerview.widget.RecyclerView
                         android:id="@id/travelCardEnrollImageList"
                         android:layout_width="match_parent"
-                        android:layout_height="130dp"
+                        android:layout_height="@dimen/travel_card_image_size"
                         android:layout_marginTop="@dimen/common_margin"
                         android:layout_marginStart="@dimen/title_start"
-                        app:layout_constraintTop_toBottomOf="@id/travelingOfDayEnrollCountry"
+                        app:layout_constraintTop_toBottomOf="@id/enroll_title"
                 />
                 <com.google.android.flexbox.FlexboxLayout
                         android:id="@id/travelingEnrollThemeList"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:flexWrap="wrap"
+                        android:layout_marginEnd="@dimen/common_top"
                         android:layout_marginTop="6.5dp"
                         app:layout_constraintStart_toStartOf="@id/travelCardEnrollImageList"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/travelCardEnrollImageList"
-                />
+                >
+                    <TextView
+                            android:id="@id/travelingOfDayEnrollDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14dp"
+                            android:textColor="@color/almost_black"
+                            android:letterSpacing="-0.02"
+                            android:layout_margin="5dp"
+                            android:padding="5dp"
+                            android:gravity="center"
+                            android:background="@drawable/travel_card_option_btn"
+                            android:text="@{@string/travel_card_count(viewModel.dayCount)}"
+                            android:onClick="@{() -> viewHandler.changeDayCount()}"
+                            tools:text="1일차"
+                            tools:ignore="SpUsage"/>
+                    <TextView
+                            android:id="@id/travelingOfDayEnrollCountry"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14dp"
+                            android:textColor="@color/almost_black"
+                            android:letterSpacing="-0.02"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:padding="5dp"
+                            android:gravity="center"
+                            android:background="@drawable/travel_card_option_btn"
+                            android:text="@{viewModel.country}"
+                            android:onClick="@{() -> viewHandler.changeCountry()}"
+                            tools:text="보스니아카르비아수_아테나"
+                            tools:ignore="SpUsage"/>
+                </com.google.android.flexbox.FlexboxLayout>
                 <EditText
                         android:id="@id/travelingOfDayEnrollContents"
                         android:layout_width="0dp"
