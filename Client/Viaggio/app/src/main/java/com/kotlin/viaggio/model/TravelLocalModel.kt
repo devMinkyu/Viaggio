@@ -75,12 +75,11 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
             .subscribeOn(Schedulers.io())
     }
 
-    fun updateTravelCard(travelCard: TravelCard){
-        Completable.create {
+    fun updateTravelCard(travelCard: TravelCard):Completable{
+        return Completable.fromAction {
             db.get().travelDao().updateTravelCard(travelCard)
         }
             .subscribeOn(Schedulers.io())
-            .subscribe()
     }
 
     fun imagePathList(imageChooseList: List<Bitmap>): Single<List<String>> {

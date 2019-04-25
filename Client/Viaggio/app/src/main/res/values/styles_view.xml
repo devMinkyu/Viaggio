@@ -58,4 +58,15 @@
         <item name="android:layout_marginBottom">@dimen/common_margin</item>
         <item name="android:textAppearance">@style/TextAppearance.Viaggio.Option</item>
     </style>
+
+    <style name="ViewStyle.Viaggio.Sign">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/sign_height</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/sign_normal_btn_bg</item>
+        <item name="android:layout_marginStart">@dimen/common_margin</item>
+        <item name="android:layout_marginEnd">@dimen/common_margin</item>
+        <item name="android:layout_marginTop">@dimen/common_top</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Sign</item>
+    </style>
 </resources>

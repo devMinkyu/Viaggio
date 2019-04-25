@@ -4,16 +4,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.databinding.FragmentSignBinding
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrListener
+import com.r0adkll.slidr.model.SlidrPosition
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.fragment_sign.*
 
 class SignFragment : BaseFragment<SignFragmentViewModel>() {
+
+    override fun onResume() {
+        super.onResume()
+        if (sliderInterface == null)
+            sliderInterface = Slidr.replace(
+                sign_container, SlidrConfig.Builder()
+                    .position(SlidrPosition.LEFT)
+                    .build()
+            )
+    }
     lateinit var binding: FragmentSignBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign, container, false)
@@ -24,10 +39,11 @@ class SignFragment : BaseFragment<SignFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         context?.let { context ->
             Glide.with(context)
                 .load(R.drawable.background)
-                .apply(bitmapTransform(BlurTransformation(20, 3)))
+                .apply(bitmapTransform(BlurTransformation(20, 1)))
                 .into(signContainer)
         }
     }
@@ -41,5 +57,10 @@ class SignFragment : BaseFragment<SignFragmentViewModel>() {
         fun back(){
             fragmentPopStack()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 }

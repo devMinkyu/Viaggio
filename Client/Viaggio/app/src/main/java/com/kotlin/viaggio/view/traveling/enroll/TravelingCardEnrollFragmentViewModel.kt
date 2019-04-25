@@ -108,17 +108,17 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     }
 
     fun saveCard(){
-        if(travelCard.id == 0L){
+        travelCard.content = contents.get()!!
+        val disposable = if(travelCard.id == 0L){
             val travelId = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()
             travelCard.travelId = travelId
-            travelCard.content = contents.get()!!
             travelCard.date = Calendar.getInstance().time
             travelCard.country = country.get()?:""
             travelCard.travelOfDay = dayCount.get()
+            travelCard.theme = themeList
             if (imageList.isNotEmpty()){
-                val disposable = travelLocalModel.imagePathList(imageList)
+                travelLocalModel.imagePathList(imageList)
                     .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.io())
                     .flatMapCompletable {
                         travelCard.imageNames = it as ArrayList<String>
 
@@ -132,25 +132,18 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                         completables.add(travelCardCompletable)
                         Completable.merge(completables)
                     }
-                    .subscribe {
-                        complete.postValue(Event(Any()))
-                    }
-                addDisposable(disposable)
             }else{
-                val disposable = travelLocalModel.createTravelCard(travelCard)
-                    .observeOn(Schedulers.io())
-                    .subscribe {
-                        complete.postValue(Event(Any()))
-                    }
-                addDisposable(disposable)
+                travelLocalModel.createTravelCard(travelCard)
             }
         }else{
-            travelCard.content = contents.get()!!
-
             travelLocalModel.updateTravelCard(travelCard)
-            rxEventBus.travelCardUpdate.onNext(Any())
-            complete.postValue(Event(Any()))
         }
+            .observeOn(Schedulers.io())
+            .subscribe {
+                complete.postValue(Event(Any()))
+                rxEventBus.travelCardUpdate.onNext(Any())
+            }
+        addDisposable(disposable)
     }
 
     override fun onCleared() {

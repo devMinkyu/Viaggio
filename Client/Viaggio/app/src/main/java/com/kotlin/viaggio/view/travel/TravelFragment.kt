@@ -1,11 +1,10 @@
 package com.kotlin.viaggio.view.travel
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.PagerAdapter
@@ -18,7 +17,6 @@ import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_travel.*
 import kotlinx.android.synthetic.main.item_travel.view.*
 import org.jetbrains.anko.support.v4.toast
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 

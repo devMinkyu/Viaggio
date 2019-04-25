@@ -11,10 +11,21 @@ import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.SignError
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.r0adkll.slidr.Slidr
+import com.r0adkll.slidr.model.SlidrConfig
+import com.r0adkll.slidr.model.SlidrPosition
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
-class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
+class SignInFragment : BaseFragment<SignInFragmentViewModel>() {    override fun onResume() {
+    super.onResume()
+    if (sliderInterface == null)
+        sliderInterface = Slidr.replace(
+            sign_container, SlidrConfig.Builder()
+                .position(SlidrPosition.LEFT)
+                .build()
+        )
+}
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSignInBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
@@ -29,7 +40,7 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
         context?.let { context ->
             Glide.with(context)
                 .load(R.drawable.background)
-                .apply(bitmapTransform(BlurTransformation(20, 3)))
+                .apply(bitmapTransform(BlurTransformation(20, 1)))
                 .into(signInContainer)
         }
 

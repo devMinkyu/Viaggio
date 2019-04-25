@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.traveling
 
 import android.graphics.Rect
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelCardValue
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
+import com.kotlin.viaggio.databinding.ItemTravelingDayCountBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
@@ -38,15 +40,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             sliderInterface = Slidr.replace(
                 travelingContainer, SlidrConfig.Builder()
                     .position(SlidrPosition.LEFT)
-                    .listener(object : SlidrListener {
-                        override fun onSlideClosed() {
-                            fragmentPopStack()
-                        }
-
-                        override fun onSlideStateChanged(state: Int) {}
-                        override fun onSlideChange(percent: Float) {}
-                        override fun onSlideOpened() {}
-                    })
                     .build()
             )
     }
@@ -95,26 +88,36 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
     }
 
     inner class TravelCardAdapter :
-        PagedListAdapter<TravelCard, TravelCardViewHolder>(object :
+        PagedListAdapter<TravelCard, RecyclerView.ViewHolder>(object :
             DiffUtil.ItemCallback<TravelCard>() {
             override fun areItemsTheSame(oldItem: TravelCard, newItem: TravelCard) = oldItem.id == newItem.id
             override fun areContentsTheSame(oldItem: TravelCard, newItem: TravelCard) = oldItem == newItem
         }) {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TravelCardViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_traveling, parent, false)
-        )
-
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+            when(viewType){
+                0 -> TravelCardViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling, parent, false))
+                else -> TravelCardCountViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_day_count, parent, false))
+            }
         var count = 0
-        override fun onBindViewHolder(holder: TravelCardViewHolder, position: Int) {
+        override fun getItemViewType(position: Int): Int {
+            return if(position == 0){
+                count = getItem(position)?.travelOfDay?:0
+                1
+            }else{
+                if(count != getItem(position)?.travelOfDay?:0){
+                    count = getItem(position)?.travelOfDay?:0
+                    1
+                }else{
+                    0
+                }
+            }
+        }
+
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             getViewModel().notEmpty.set(true)
             val travelCardVal = getItem(position)
             val item = travelCardVal?.let {
-                if (count != it.travelOfDay) {
-                    count = it.travelOfDay
-                } else {
-                    it.travelOfDay = 0
-                }
-
                 TravelCardValue().apply {
                     id = it.id
                     content = it.content
@@ -126,16 +129,31 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                     travelOfDay = it.travelOfDay
                 }
             }
-
-            holder.binding?.data = item
-            holder.binding?.viewHandler = holder.TravelCardViewHandler()
-            holder.loadViewPager(item?.imageName)
+            when(holder){
+                is TravelCardViewHolder ->{
+                    holder.binding?.data = item
+                    holder.binding?.viewHandler = holder.TravelCardViewHandlerImp()
+                    holder.round()
+                    holder.loadImage(item?.imageName)
+                }
+                is TravelCardCountViewHolder ->{
+                    holder.binding?.data = item
+                    holder.binding?.viewHandler = holder.TravelCardCountViewHandlerImp()
+                    holder.round()
+                    holder.loadImage(item?.imageName)
+                }
+            }
         }
     }
 
     inner class TravelCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = DataBindingUtil.bind<ItemTravelingBinding>(view)
-        fun loadViewPager(imageName: String?) {
+        fun round(){
+            val drawable = context?.getDrawable(R.drawable.round_bg) as GradientDrawable
+            itemView.travelingItemThemeImg.background = drawable
+            itemView.travelingItemThemeImg.clipToOutline = true
+        }
+        fun loadImage(imageName: String?) {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
                     .load(imageName)
@@ -143,12 +161,35 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             }
         }
 
-        inner class TravelCardViewHandler {
-            fun detail() {
+        inner class TravelCardViewHandlerImp:TravelCardViewHandler {
+            override fun detail() {
                 getViewModel().setSelectedTravelCard(binding?.data?.id)
             }
         }
     }
+    inner class TravelCardCountViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val binding = DataBindingUtil.bind<ItemTravelingDayCountBinding>(view)
+        fun round(){
+            val drawable = context?.getDrawable(R.drawable.round_bg) as GradientDrawable
+            itemView.travelingItemThemeImg.background = drawable
+            itemView.travelingItemThemeImg.clipToOutline = true
+        }
+        fun loadImage(imageName: String?) {
+            if (TextUtils.isEmpty(imageName).not()) {
+                Glide.with(itemView)
+                    .load(imageName)
+                    .into(itemView.travelingItemThemeImg)
+            }
+        }
+        inner class TravelCardCountViewHandlerImp:TravelCardViewHandler {
+            override fun detail() {
+                getViewModel().setSelectedTravelCard(binding?.data?.id)
+            }
+        }
+    }
+}
+interface TravelCardViewHandler{
+    fun detail()
 }
 
 
@@ -161,7 +202,7 @@ class TravelingItemDecoration :
 
         if (parent.getChildAdapterPosition(view) == 0) {
             val firstHorMarginVal1 = firstHorMargin
-                ?: (parent.context.resources.getDimension(R.dimen.traveling_top))
+                ?: (parent.context.resources.getDimension(R.dimen.title_start))
             firstHorMargin = firstHorMarginVal1
             outRect.top = firstHorMarginVal1.toInt()
         }

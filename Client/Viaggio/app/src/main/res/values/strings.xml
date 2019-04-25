@@ -1,4 +1,4 @@
- <resources>
+<resources>
     <string name="travel_theme_json">theme.json</string>
     <string name="travel_country_json">country.json</string>
     <string name="travel_tutorial_json">tutorial.json</string>
@@ -13,8 +13,6 @@
     <string name="app_name">Viaggio</string>
     <string name="tutorial_skip">Skip</string>
     <string name="tutorial_login">Login</string>
-    <string name="normal_sign">Login by Email</string>
-    <string name="sign_sign_up">Create Account</string>
     <string name="sign_in_email">Email</string>
     <string name="sign_in_password">Password</string>
     <string name="sign_in_sign">Login</string>
@@ -35,13 +33,11 @@
     <string name="setting_sign">Sign</string>
     <string name="date_format">EE, MMM d, yyyy</string>
     <string name="date_time_format">HH:MM</string>
-    <string name="travel_count">DAY %d</string>
     <string name="over_image_count">+%d</string>
     <string name="travel_card_choose_count">%d</string>
     <string name="travel_of_day_country">%s_%s</string>
     <string name="format">%1$tY/%1$tm/%1$td</string>
     <string name="back">Back</string>
-    <string name="done">| DONE |</string>
     <string name="traveling_of_day_theme">Theme Choose</string>
     <string name="traveling_card_contents_hint">Enter description..</string>
     <string name="enterTravelCardNotice">Please enter place, time, and transportation of travel.</string>
@@ -53,6 +49,9 @@
     <string name="home_setting">Setting</string>
     <string name="enroll_title">Title</string>
 
+    <string name="normal_sign">이메일로 로그인하기</string>
+    <string name="sign_sign_up">회원가입</string>
+    <string name="travel_count">DAY %d</string>
     <string name="travel_of_day_pattern">EEEE / MMMM d / yyyy</string>
     <string name="travel_of_day_time_pattern">h:mm a</string>
     <string name="non_travel_notice">터치하여\n새로운 여행을\n시작하세요!</string>
@@ -86,8 +85,8 @@
     <string name="travel_country_add_notice">더 많은 도시가 추가될 예정이에요.</string>
     <string name="city_notice">여행 도시를\n선택을 해주세요.</string>
     <string name="theme_notice">여행 테마를\n선택을 해주세요.</string>
-     <string name="travel_card_count">%d일차</string>
-     <string name="travel_card_empty_notice">포스팅이 존재 하지 않습니다.\n포스팅을 작성해주세요</string>
-     <string name="traveling_city">여행중인 나라</string>
-     <string name="traveling_theme">여행테마</string>
+    <string name="travel_card_count">%d일차</string>
+    <string name="travel_card_empty_notice">포스팅이 존재 하지 않습니다.\n포스팅을 작성해주세요</string>
+    <string name="traveling_city">여행중인 나라</string>
+    <string name="traveling_theme">여행테마</string>
 </resources>

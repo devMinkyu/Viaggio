@@ -15,6 +15,13 @@
     <style name="TextAppearance.Viaggio.Calendar">
         <item name="android:textColor">@color/black</item>
     </style>
+    <style name="TextAppearance.Viaggio.Sign">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:letterSpacing">-0.02</item>
+        <item name="android:textSize" tools:ignore="SpUsage">16dp</item>
+        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3dp</item>
+    </style>
     <style name="TextAppearance.Viaggio.Btn">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:fontFamily">sans-serif-light</item>
@@ -87,8 +94,7 @@
     </style>
     <style name="TextAppearance.Viaggio.Travel.Card.Day">
         <item name="android:textColor">@color/almost_black</item>
-        <item name="android:textSize" tools:ignore="SpUsage">18dp</item>
-        <item name="android:letterSpacing">-0.04</item>
+        <item name="android:textSize" tools:ignore="SpUsage">30dp</item>
         <item name="android:fontFamily">sans-serif-condensed-medium</item>
         <item name="android:alpha">0.3</item>
     </style>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -50,7 +51,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         getViewModel().complete.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 stopLoading()
@@ -135,6 +136,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                 themeListView.themeName.setOnClickListener {
                     TravelingThemesActionDialogFragment().show(fragmentManager!!, TravelingThemesActionDialogFragment.TAG)
                 }
+                themeListView.right = resources.getDimension(R.dimen.theme_traveling_card).toInt()
                 main.addView(themeListView)
             }
         }

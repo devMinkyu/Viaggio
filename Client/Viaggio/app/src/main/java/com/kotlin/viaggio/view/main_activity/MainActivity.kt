@@ -182,14 +182,14 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showSign() {
-        baseShowLeftAddBackFragment(SignFragment())
+        baseShowAddLeftAddBackFragment(SignFragment())
     }
 
     private fun showSignNormalIn() {
-        baseShowLeftAddBackFragment(SignInFragment())
+        baseShowAddLeftAddBackFragment(SignInFragment())
     }
 
     private fun showSignCreate() {
-        baseShowLeftAddBackFragment(SignUpFragment())
+        baseShowAddLeftAddBackFragment(SignUpFragment())
     }
 }

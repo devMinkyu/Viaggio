@@ -23,6 +23,11 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
     override fun initialize() {
         super.initialize()
         fetchData()
+        val disposable = rxEventBus.travelCardUpdate
+            .subscribe {
+                fetchData()
+            }
+        addDisposable(disposable)
     }
     fun fetchData(){
         val disposable = travelLocalModel.getTravels()

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        xmlns:bind="http://schemas.android.com/apk/res-auto"
+>
     <data>
         <import type="com.kotlin.viaggio.data.object.TravelCardValue"/>
         <import type="com.kotlin.viaggio.view.traveling.TravelCardViewHandler"/>
@@ -14,7 +16,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
     >
-
+        <TextView
+                android:id="@id/TravelingItemDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{@string/travel_count(data.travelOfDay)}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textAppearance="@style/TextAppearance.Viaggio.Travel.Card.Day"
+                tools:text="DAY 1"
+                tools:ignore="SpUsage" android:fontFamily="@font/rajdhani_bold"/>
         <View
                 android:id="@+id/item_container"
                 android:layout_width="0dp"
@@ -23,10 +35,11 @@
                 android:background="@drawable/round_bg"
                 android:layout_marginEnd="@dimen/common_margin"
                 android:layout_marginStart="@dimen/title_start"
+                android:layout_marginTop="@dimen/common_margin"
                 android:layout_marginBottom="@dimen/common_margin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/TravelingItemDay"
                 app:layout_constraintBottom_toBottomOf="parent"
         />
 

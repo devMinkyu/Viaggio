@@ -34,8 +34,8 @@ data class Traveled(
 data class TravelOfDay(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
     var travelId: Long = 0,
-    @Suppress("ArrayInDataClass") var dayCountries: ArrayList<String> = arrayListOf(),
-    @Suppress("ArrayInDataClass") var theme: ArrayList<String> = arrayListOf(),
+    @Suppress("ArrayInDataClass") var dayCountries: MutableList<String> = mutableListOf(),
+    @Suppress("ArrayInDataClass") var theme: MutableList<String> = mutableListOf(),
     var date: Date = Date(),
     var travelOfDay: Int = 1,
     var themeImageName: String = ""
@@ -47,9 +47,9 @@ data class TravelCard(
     var travelId: Long = 0,
     var travelOfDay: Int = 1,
     var country:String = "",
-    @Suppress("ArrayInDataClass") var theme: ArrayList<String> = arrayListOf(),
-    @Suppress("ArrayInDataClass") var imageNames: ArrayList<String> = arrayListOf(),
-    @Suppress("ArrayInDataClass") var imageUrl: ArrayList<String> = arrayListOf(),
+    @Suppress("ArrayInDataClass") var theme: MutableList<String> = mutableListOf(),
+    @Suppress("ArrayInDataClass") var imageNames: MutableList<String> = mutableListOf(),
+    @Suppress("ArrayInDataClass") var imageUrl: MutableList<String> = mutableListOf(),
     var content: String = "",
     var date: Date = Date()
 )
