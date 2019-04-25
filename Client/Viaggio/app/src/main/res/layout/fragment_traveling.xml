@@ -54,7 +54,7 @@
                     android:layout_marginStart="@dimen/common_margin"
                     android:layout_marginEnd="@dimen/common_margin"
                     android:onClick="@{()->viewHandler.enroll()}"
-                    app:layout_constraintTop_toBottomOf="@id/travelAppBar"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:ignore="SpUsage"/>
@@ -74,48 +74,36 @@
                     android:text="@string/travel_card_empty_notice"
             />
             <View
-                    android:id="@+id/tgl"
+                    android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    android:background="@color/white_three"
+                    android:layout_height="48dp"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-            <com.google.android.material.appbar.AppBarLayout
-                    android:id="@id/travelAppBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:theme="@style/AppTheme.AppBarOverlay"
                     android:background="@color/white_three"
-                    app:layout_constraintTop_toBottomOf="@id/tgl"
-                    app:elevation="0dp">
-                <androidx.appcompat.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="?attr/actionBarSize"
-                        android:gravity="center"
-                        app:titleTextColor="@color/black"
-                        android:background="@color/white_three"
-                        app:popupTheme="@style/AppTheme.PopupOverlay"
-                        tools:ignore="UnusedAttribute">
-                    <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/back"
-                            style="@style/ViewStyle.Viaggio.Back"
-                            android:layout_gravity="start"
-                            android:layout_marginStart="16dp"
-                            android:onClick="@{()->viewHandler.close()}"
-                    />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:maxLength="10"
-                            android:text="@{viewModel.title}"
-                            android:textAppearance="@style/TextAppearance.Viaggio.Navigation.Scroll"
-                            tools:text="재미가 있는 여행입니다"
-                    />
-                </androidx.appcompat.widget.Toolbar>
-            </com.google.android.material.appbar.AppBarLayout>
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/back"
+                    style="@style/ViewStyle.Viaggio.Back"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="0dp"
+                    android:onClick="@{()->viewHandler.close()}"
+                    app:layout_constraintTop_toTopOf="@id/toolbar"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                    app:layout_constraintStart_toStartOf="parent"
+            />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLength="10"
+                    android:text="@{viewModel.title}"
+                    android:textAppearance="@style/TextAppearance.Viaggio.Navigation.Scroll"
+                    tools:text="재미가 있는 여행입니다"
+                    app:layout_constraintTop_toTopOf="@id/toolbar"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+            />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

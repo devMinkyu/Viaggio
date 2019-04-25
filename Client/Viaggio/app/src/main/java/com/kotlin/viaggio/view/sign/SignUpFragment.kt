@@ -1,9 +1,11 @@
 package com.kotlin.viaggio.view.sign
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -15,6 +17,11 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+    }
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSignUpBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
@@ -29,7 +36,7 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
         context?.let { context ->
             Glide.with(context)
                 .load(R.drawable.background)
-                .apply(bitmapTransform(BlurTransformation(20, 3)))
+                .apply(bitmapTransform(BlurTransformation(20, 1)))
                 .into(signUpContainer)
         }
 
@@ -38,9 +45,9 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
             it.getContentIfNotHandled()?.let {
                 baseIntent("http://viaggio.kotlin.com/home/main/")
 
-                fragmentManager?.let {fm->
+                fragmentManager?.let { fm ->
                     val cnt = fm.backStackEntryCount
-                    for(i in 0 until cnt){
+                    for (i in 0 until cnt) {
                         fm.popBackStackImmediate()
                     }
                 }
@@ -48,7 +55,7 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
         })
         getViewModel().error.observe(this, Observer {
             stopLoading()
-            it.getContentIfNotHandled()?.let {signError ->
+            it.getContentIfNotHandled()?.let { signError ->
                 getViewModel().errorMsg.set(
                     when (signError) {
                         SignError.PW_MISMATCH -> {
@@ -60,24 +67,27 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
                         SignError.EXIST_EMAIL -> {
                             getString(R.string.err_exist_email)
                         }
-                        else -> {null}
+                        else -> {
+                            null
+                        }
                     }
                 )
-            }?: getViewModel().errorMsg.set(null)
+            } ?: getViewModel().errorMsg.set(null)
         })
     }
 
     inner class ViewHandler {
         fun signUp() {
-            if(checkInternet()){
-                if(getViewModel().validateSignUp()){
+            if (checkInternet()) {
+                if (getViewModel().validateSignUp()) {
                     showLoading()
                 }
-            }else{
+            } else {
 
             }
         }
-        fun back(){
+
+        fun back() {
             fragmentPopStack()
         }
     }

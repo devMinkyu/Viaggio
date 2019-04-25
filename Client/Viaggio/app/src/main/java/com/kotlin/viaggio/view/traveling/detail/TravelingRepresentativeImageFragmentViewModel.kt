@@ -41,20 +41,20 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
         val index = chooseIndex
         val imageName = list[index]
 
-        val disposable = travelLocalModel.getTravelOfDay()
-            .observeOn(Schedulers.io())
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                it.themeImageName = imageName
-                travelLocalModel.updateTravelOfDay(it)
-                    .observeOn(Schedulers.io())
-                    .subscribe()
-                rxEventBus.travelOfDayImage.onNext(imageName)
-                completeLiveDate.postValue(Event(Any()))
-            }){
-
-            }
-        addDisposable(disposable = disposable)
+//        val disposable = travelLocalModel.getTravelOfDay()
+//            .observeOn(Schedulers.io())
+//            .subscribeOn(Schedulers.io())
+//            .subscribe({
+//                it.themeImageName = imageName
+//                travelLocalModel.updateTravelOfDay(it)
+//                    .observeOn(Schedulers.io())
+//                    .subscribe()
+//                rxEventBus.travelOfDayImage.onNext(imageName)
+//                completeLiveDate.postValue(Event(Any()))
+//            }){
+//
+//            }
+//        addDisposable(disposable = disposable)
     }
 
 }

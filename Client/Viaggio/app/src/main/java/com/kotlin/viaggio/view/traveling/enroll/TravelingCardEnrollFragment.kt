@@ -51,7 +51,6 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         getViewModel().complete.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 stopLoading()

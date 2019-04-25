@@ -12,6 +12,7 @@
     </data>
     <FrameLayout android:layout_width="match_parent"
                  android:layout_height="match_parent"
+                 android:fitsSystemWindows="true"
                  android:background="@android:color/transparent">
         <ScrollView
                 android:id="@+id/enroll_container"
@@ -95,11 +96,11 @@
                 <EditText
                         android:id="@id/travelingOfDayEnrollContents"
                         android:layout_width="0dp"
-                        android:layout_height="0dp"
+                        android:layout_height="350dp"
                         android:paddingTop="6.5dp"
                         android:paddingStart="@dimen/title_start"
                         android:paddingEnd="@dimen/title_start"
-                        android:paddingBottom="10dp"
+                        android:paddingBottom="100dp"
                         android:inputType="textMultiLine"
                         android:gravity="start"
                         android:textSize="15.7dp"
@@ -113,7 +114,6 @@
                         android:text="@={viewModel.contents}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/travelingStart"
                         app:layout_constraintTop_toBottomOf="@id/travelingEnrollThemeList"
                         android:background="@null"
                         tools:ignore="Autofill,SpUsage"/>

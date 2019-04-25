@@ -25,8 +25,8 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
 
     private fun getTravelingId() = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID)
     private fun getSelectedTravelingId() = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID)
-    private fun getSelectedTravelingOfDayId() =
-        prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID)
+    private fun getSelectedTravelingCardId() =
+        prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_CARD_ID)
 
     fun savePicture(photoResult: PhotoResult) =
         localDataSource.savePhotoResult(photoResult)
@@ -96,29 +96,12 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
         }
     }
 
-    fun getTravelOfDay(): Single<TravelOfDay> {
-        return db.get().travelDao().getTravelOfDay(getSelectedTravelingOfDayId().blockingGet())
-            .subscribeOn(Schedulers.io())
-    }
-
-    fun getTravelOfDayCount(day: Int): Single<TravelOfDay> {
-        return db.get().travelDao().getTravelOfDayCount(day, getTravelingId().blockingGet())
-    }
-
-    fun updateTravelOfDay(travelOfDay: TravelOfDay):Completable {
-        return Completable.create {
-            db.get().travelDao().updateTravelOfDay(travelOfDay)
-            it.onComplete()
-        }
-            .subscribeOn(Schedulers.io())
-    }
-
     fun getTravelCards(): Single<MutableList<TravelCard>> {
         return db.get().travelDao().getTravelCards()
             .subscribeOn(Schedulers.io())
     }
-    fun getTravelCard(): Single<TravelCard> {
-        return db.get().travelDao().getTravelCard(getSelectedTravelingId().blockingGet())
+    fun getTravelCard(): Single<List<TravelCard>> {
+        return db.get().travelDao().getTravelCard(getSelectedTravelingCardId().blockingGet())
             .subscribeOn(Schedulers.io())
     }
 }

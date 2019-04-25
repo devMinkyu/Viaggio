@@ -42,13 +42,4 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
             .toSerialized()
 
     fun checkTutorial() = prefUtilService.getBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK).blockingGet() ?: false
-
-    fun setSelectedTravelingOfDay(travelOfDayId: String?) {
-        travelOfDayId?.let {
-            val disposable
-                    = prefUtilService.putLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID, it.toLong())
-                .observeOn(Schedulers.io()).subscribe()
-            addDisposable(disposable)
-        }
-    }
 }

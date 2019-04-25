@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.sign
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +31,11 @@ class SignFragment : BaseFragment<SignFragmentViewModel>() {
             )
     }
     lateinit var binding: FragmentSignBinding
+    override fun onAttach(context: Context) {
+        activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        super.onAttach(context)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign, container, false)
         binding.viewModel = getViewModel()
@@ -39,7 +45,6 @@ class SignFragment : BaseFragment<SignFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         context?.let { context ->
             Glide.with(context)
                 .load(R.drawable.background)
@@ -47,6 +52,11 @@ class SignFragment : BaseFragment<SignFragmentViewModel>() {
                 .into(signContainer)
         }
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    }
+
     inner class ViewHandler{
         fun normalSign(){
             baseIntent("http://viaggio.kotlin.com/login/normal/")
@@ -57,10 +67,5 @@ class SignFragment : BaseFragment<SignFragmentViewModel>() {
         fun back(){
             fragmentPopStack()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
     }
 }

@@ -9,6 +9,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.google.gson.Gson
 import com.kotlin.viaggio.data.`object`.TravelCard
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -74,15 +75,7 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     fun setSelectedTravelCard(travelCardId: Long?) {
         travelCardId?.let {
-//            prefUtilService.putLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_OF_DAY_ID, it).blockingAwait()
-//            val disposable = travelLocalModel.getTravelCard()
-//                .observeOn(Schedulers.io())
-//                .subscribe({
-//                    showTravelCard.postValue(Event(true))
-//                }) {
-//                    showTravelCard.postValue(Event(false))
-//                }
-//            addDisposable(disposable)
+            prefUtilService.putLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_CARD_ID, it).blockingAwait()
         }
     }
 }

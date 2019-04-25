@@ -1,9 +1,11 @@
 package com.kotlin.viaggio.view.sign
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
@@ -17,15 +19,22 @@ import com.r0adkll.slidr.model.SlidrPosition
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
-class SignInFragment : BaseFragment<SignInFragmentViewModel>() {    override fun onResume() {
-    super.onResume()
-    if (sliderInterface == null)
-        sliderInterface = Slidr.replace(
-            sign_container, SlidrConfig.Builder()
-                .position(SlidrPosition.LEFT)
-                .build()
-        )
-}
+class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
+    override fun onResume() {
+        super.onResume()
+        if (sliderInterface == null)
+            sliderInterface = Slidr.replace(
+                sign_container, SlidrConfig.Builder()
+                    .position(SlidrPosition.LEFT)
+                    .build()
+            )
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+    }
+
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSignInBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)
@@ -36,7 +45,6 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {    override fun
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         context?.let { context ->
             Glide.with(context)
                 .load(R.drawable.background)
@@ -49,9 +57,9 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {    override fun
             it.getContentIfNotHandled()?.let {
                 baseIntent("http://viaggio.kotlin.com/home/main/")
 
-                fragmentManager?.let {fm ->
+                fragmentManager?.let { fm ->
                     val cnt = fm.backStackEntryCount
-                    for(i in 0 until cnt){
+                    for (i in 0 until cnt) {
                         fm.popBackStackImmediate()
                     }
                 }
@@ -59,7 +67,7 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {    override fun
         })
         getViewModel().error.observe(this, Observer {
             stopLoading()
-            it.getContentIfNotHandled()?.let {signError ->
+            it.getContentIfNotHandled()?.let { signError ->
                 getViewModel().errorMsg.set(
                     when (signError) {
                         SignError.EMAIL_NOT_FOUND -> {
@@ -71,10 +79,12 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {    override fun
                         SignError.DELETE_ID -> {
                             getString(R.string.err_delete_id)
                         }
-                        else -> { null }
+                        else -> {
+                            null
+                        }
                     }
                 )
-            }?:getViewModel().errorMsg.set(null)
+            } ?: getViewModel().errorMsg.set(null)
         })
     }
 
@@ -82,7 +92,8 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {    override fun
         fun signIn() {
             getViewModel().validateSignIn()
         }
-        fun back(){
+
+        fun back() {
             fragmentPopStack()
         }
     }

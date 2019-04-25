@@ -98,14 +98,11 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 0 -> TravelCardViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling, parent, false))
                 else -> TravelCardCountViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_day_count, parent, false))
             }
-        var count = 0
         override fun getItemViewType(position: Int): Int {
             return if(position == 0){
-                count = getItem(position)?.travelOfDay?:0
                 1
             }else{
-                if(count != getItem(position)?.travelOfDay?:0){
-                    count = getItem(position)?.travelOfDay?:0
+                if(getItem(position - 1)?.travelOfDay?:0 != getItem(position)?.travelOfDay?:0){
                     1
                 }else{
                     0
@@ -164,6 +161,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         inner class TravelCardViewHandlerImp:TravelCardViewHandler {
             override fun detail() {
                 getViewModel().setSelectedTravelCard(binding?.data?.id)
+                baseIntent("http://viaggio.kotlin.com/traveling/detail/")
             }
         }
     }
@@ -184,6 +182,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         inner class TravelCardCountViewHandlerImp:TravelCardViewHandler {
             override fun detail() {
                 getViewModel().setSelectedTravelCard(binding?.data?.id)
+                baseIntent("http://viaggio.kotlin.com/traveling/detail/")
             }
         }
     }
@@ -202,7 +201,7 @@ class TravelingItemDecoration :
 
         if (parent.getChildAdapterPosition(view) == 0) {
             val firstHorMarginVal1 = firstHorMargin
-                ?: (parent.context.resources.getDimension(R.dimen.title_start))
+                ?: (parent.context.resources.getDimension(R.dimen.common_margin))
             firstHorMargin = firstHorMarginVal1
             outRect.top = firstHorMarginVal1.toInt()
         }
