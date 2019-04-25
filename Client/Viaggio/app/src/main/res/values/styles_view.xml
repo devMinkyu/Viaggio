@@ -69,4 +69,14 @@
         <item name="android:layout_marginTop">@dimen/common_top</item>
         <item name="android:textAppearance">@style/TextAppearance.Viaggio.Sign</item>
     </style>
+    <style name="ViewStyle.Viaggio.Travel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/sign_height</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Travel.Option">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginStart">@dimen/common_margin</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Travel.Option</item>
+    </style>
 </resources>

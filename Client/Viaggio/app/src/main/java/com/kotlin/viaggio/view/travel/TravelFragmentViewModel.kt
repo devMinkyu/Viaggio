@@ -28,6 +28,11 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
                 fetchData()
             }
         addDisposable(disposable)
+        val travelUpdateDisposable = rxEventBus.travelUpdate
+            .subscribe {
+                fetchData()
+            }
+        addDisposable(travelUpdateDisposable)
     }
     fun fetchData(){
         val disposable = travelLocalModel.getTravels()

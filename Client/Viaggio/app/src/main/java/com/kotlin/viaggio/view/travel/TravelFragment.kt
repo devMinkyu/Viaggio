@@ -14,6 +14,7 @@ import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.Traveled
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
+import com.kotlin.viaggio.view.travel.option.TravelOptionBottomSheetDialogFragment
 import kotlinx.android.synthetic.main.fragment_travel.*
 import kotlinx.android.synthetic.main.item_travel.view.*
 import org.jetbrains.anko.support.v4.toast
@@ -96,7 +97,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                 }
             }
             view.travelMore.setOnClickListener {
-                toast("변경")
+                TravelOptionBottomSheetDialogFragment().show(fragmentManager!!, TravelOptionBottomSheetDialogFragment.TAG)
             }
             container.addView(view)
             return view

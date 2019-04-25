@@ -47,14 +47,16 @@
             />
             <TextView
                     android:id="@id/travelTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:maxLength="10"
                     android:alpha="0.75"
                     android:text="@{data.title}"
                     android:layout_marginStart="16dp"
+                    android:layout_marginEnd="@dimen/common_margin"
                     android:textAppearance="@style/TextAppearance.Viaggio.Travel"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tgl"
                     app:layout_constraintBottom_toTopOf="@id/space"
                     tools:text="즐거운 나의 여행"

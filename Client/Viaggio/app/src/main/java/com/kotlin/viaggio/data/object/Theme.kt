@@ -1,9 +1,13 @@
 package com.kotlin.viaggio.data.`object`
 
 import androidx.databinding.ObservableBoolean
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+
+@Entity(tableName = "themes")
 data class Theme(
-    var id: Long = 0,
+    @PrimaryKey(autoGenerate = true) var id: Long = 0,
     var theme: String = "",
     var authority:Boolean = false
 )

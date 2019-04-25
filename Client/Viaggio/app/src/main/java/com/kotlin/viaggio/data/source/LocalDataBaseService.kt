@@ -7,10 +7,7 @@ import com.kotlin.viaggio.converters.AreaConverters
 import com.kotlin.viaggio.converters.DateTypeConverters
 import com.kotlin.viaggio.converters.StringConverters
 import com.kotlin.viaggio.converters.StringOfListConverters
-import com.kotlin.viaggio.data.`object`.Travel
-import com.kotlin.viaggio.data.`object`.TravelCard
-import com.kotlin.viaggio.data.`object`.TravelOfDay
-import com.kotlin.viaggio.data.`object`.User
+import com.kotlin.viaggio.data.`object`.*
 
 
 @Suppress("unused")

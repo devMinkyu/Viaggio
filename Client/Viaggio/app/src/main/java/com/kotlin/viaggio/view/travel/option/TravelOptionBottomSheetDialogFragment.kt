@@ -28,8 +28,12 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
         return binding.root
     }
     inner class ViewHandler{
+        fun close(){
+            dismiss()
+        }
         fun changeTitle(){
-
+            TravelTitleBottomSheetDialogFragment().show(fragmentManager!!, TravelTitleBottomSheetDialogFragment.TAG)
+            dismiss()
         }
         fun addCountry(){
 

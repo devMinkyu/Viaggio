@@ -14,7 +14,86 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white_three"
+            android:onClick="@{()->viewHandler.close()}"
     >
+        <View
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                app:layout_constraintTop_toTopOf="parent"
+        />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_margin"
+                android:onClick="@{()->viewHandler.close()}"
+                app:srcCompat="@drawable/ic_clear_black_24dp"
+                app:layout_constraintTop_toTopOf="@id/toolbar"
+                app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                app:layout_constraintStart_toStartOf="@id/toolbar"
+        />
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/almost_black"
+                android:text="@string/travel_option"
+                android:fontFamily="sans-serif-light"
+                android:textSize="14dp"
+                app:layout_constraintTop_toTopOf="@id/toolbar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                app:layout_constraintStart_toStartOf="@id/toolbar"
+                tools:ignore="SpUsage"/>
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/very_light_pink"
+                android:alpha="0.8"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+        />
+
+        <TextView
+                android:id="@id/travelOptionTitle"
+                style="@style/ViewStyle.Viaggio.Travel.Option"
+                android:text="@string/travel_option_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                android:onClick="@{()->viewHandler.changeTitle()}"
+        />
+
+        <TextView
+                android:id="@id/travelOptionAddCountry"
+                style="@style/ViewStyle.Viaggio.Travel.Option"
+                android:text="@string/travel_option_country"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelOptionTitle"
+                android:onClick="@{()->viewHandler.addCountry()}"
+        />
+
+        <TextView
+                android:id="@id/travelOptionAddTheme"
+                style="@style/ViewStyle.Viaggio.Travel.Option"
+                android:text="@string/travel_option_theme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelOptionAddCountry"
+                android:onClick="@{()->viewHandler.addTheme()}"
+        />
+
+        <TextView
+                android:id="@id/travelOptionRepresentativeIamge"
+                style="@style/ViewStyle.Viaggio.Travel.Option"
+                android:text="@string/travel_option_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelOptionAddTheme"
+                android:onClick="@{()->viewHandler.changeRepresentativeImage()}"
+        />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

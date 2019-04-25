@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.travel.option.TravelTitleBottomSheetDialogFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.travel.option.TravelTitleBottomSheetDialogFragmentViewModel"/>
+
+        <variable name="viewModel" type="TravelTitleBottomSheetDialogFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+    >
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white_three"
+                android:onClick="@{() -> viewHandler.close()}"
+        >
+            <View
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    app:layout_constraintTop_toTopOf="parent"
+            />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:onClick="@{() -> viewHandler.close()}"
+                    app:srcCompat="@drawable/ic_clear_black_24dp"
+                    app:layout_constraintTop_toTopOf="@id/toolbar"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                    app:layout_constraintStart_toStartOf="@id/toolbar"
+            />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/almost_black"
+                    android:text="@string/travel_title"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="14dp"
+                    app:layout_constraintTop_toTopOf="@id/toolbar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                    app:layout_constraintStart_toStartOf="@id/toolbar"
+                    tools:ignore="SpUsage"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/confirm"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="14dp"
+                    android:padding="14dp"
+                    android:onClick="@{() -> viewHandler.confirm()}"
+                    app:layout_constraintTop_toTopOf="@id/toolbar"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                    tools:ignore="SpUsage"/>
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/very_light_pink"
+                    android:alpha="0.8"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+            />
+
+            <EditText
+                    android:id="@id/travelOptionTitle"
+                    style="@style/ViewStyle.Viaggio.Travel.Option"
+                    android:layout_height="100dp"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:maxLength="10"
+                    android:hint="@string/empty_hint"
+                    android:textColor="@color/almost_black"
+                    android:background="@null"
+                    android:layout_marginStart="0dp"
+                    android:padding="@dimen/common_margin"
+                    android:text="@={viewModel.travelTitle}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    tools:text="안녕하세요 저는 정말 최고입니다 킥킥킥"
+                    tools:ignore="Autofill"/>
+
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/init"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/common_margin"
+                    android:onClick="@{()->viewHandler.init()}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    app:srcCompat="@drawable/icon_add_answer"
+            />
+            <TextView
+                    android:id="@id/travelOptionTitleCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toStartOf="@id/init"
+                    app:layout_constraintBottom_toBottomOf="@id/init"
+                    android:text="@{@string/travel_title_count(viewModel.travelTitle.length)}"
+                    android:textColor="@color/brown_grey_two"
+                    android:fontFamily="sans-serif"
+                    android:textSize="12dp"
+                    tools:text="0 / 10자"
+                    tools:ignore="SpUsage"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+
+</layout>
