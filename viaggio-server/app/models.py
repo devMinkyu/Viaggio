@@ -48,7 +48,7 @@ class Travel(db.Model):
     startDate = db.Column(db.DateTime)
     endDate = db.Column(db.DateTime)
     travelKind = db.Column(db.Integer)
-    entireCountry = db.Column(db.PickleType)
+    area = db.Column(db.PickleType)
     title = db.Column(db.String(64))
     theme = db.Column(db.PickleType)
     imageName = db.Column(db.String(32))
@@ -75,7 +75,7 @@ class Travel(db.Model):
             'startDate': self.startDate,
             'endDate': self.endDate,
             'travelKind': self.travelKind,
-            'entireCountry': self.entireCountry,
+            'area': self.area,
             'title': self.title,
             'theme': self.theme,
             'imageName': self.imageName,
@@ -95,9 +95,10 @@ class TravelCard(db.Model):
     travelLocalId = db.Column(db.Integer, nullable=False)
     travelOfDay = db.Column(db.Integer, default=1)
     country = db.Column(db.String(32))
+    theme = db.Column(db.PickleType)
     content = db.Column(db.String(1024))
-    imageName = db.Column(db.String(32))
-    imageUrl = db.Column(db.String(128))
+    imageName = db.Column(db.PickleType)
+    imageUrl = db.Column(db.PickleType)
     date = db.Column(db.DateTime)
     isDelete = db.Column(db.Boolean, default=False)
 
@@ -119,6 +120,7 @@ class TravelCard(db.Model):
             'travelLocalId': self.travelLocalId,
             'travelOfDay': self.travelOfDay,
             'country': self.country,
+            'theme': self.theme,
             'content': self.content,
             'imageName': self.imageName,
             'imageUrl': self.imageUrl,
@@ -136,6 +138,14 @@ class AnalysisTheme(db.Model):
 
     def __init__(self, **kwargs):
         super(AnalysisTheme, self).__init__(**kwargs)
+
+    def to_json(self):
+        json_analysisTheme = {
+            'id': self.id,
+            'theme': self.theme,
+            'count': self.count
+        }
+        return json_analysisTheme
 
 
 class AnalysisContinent(db.Model):

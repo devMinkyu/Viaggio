@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from . import api
 from .. import db
-from ..models import Travel, TravelCard
+from ..models import Travel, TravelCard, AnalysisTheme, AnalysisContinent, AnalysisCountry, AnalysisCity, AnalysisSubCity
 from ..forms.travel import CreateTravelForm, UpdateTravelForm
 from ..errors import bad_request
 
@@ -10,13 +10,12 @@ from ..errors import bad_request
 def create_travel():
     form = CreateTravelForm(request.form)
     if form.validate():
-        entireCountries = [request.form.get('entireCountry')]
         travel = Travel(userId=request.user.id,
                         localId=request.form.get('localId'),
                         startDate=request.form.get('startDate'),
                         endDate=request.form.get('endDate'),
                         travelKind=request.form.get('travelKind'),
-                        entireCountry=entireCountries,
+                        area=request.form.get('area'),
                         title=request.form.get('title'),
                         theme=request.form.get('theme'),
                         imageName=request.form.get('imageName'),
@@ -35,9 +34,6 @@ def create_travel():
 
     if form.travelKind.errors:
         return bad_request(403, form.travelKind.errors[0])
-
-    if form.entireCountry.errors:
-        return bad_request(404, 'Country validation error.')
     
     return bad_request(400, 'CreateTravelForm validation error.')
 
@@ -67,19 +63,18 @@ def update_travel(id):
             travel.title = request.form.get('title')
         if request.form.get('travelKind') and request.form.get('travelKind') != travel.travelKind:
             travel.travelKind = request.form.get('travelKind')
-        if request.form.get('addCountry') is not None \
-            and request.form.get('addCountry') not in travel.entireCountry:
-            tempData = list(travel.entireCountry)
-            tempData.append(request.form.get('addCountry'))
-            travel.entireCountry = tempData
-        travel.endDate = request.form.get('endDate')
-        if request.form.get('addTheme') is not None \
-            and request.form.get('addTheme') not in travel.theme:
-            tempTheme = list(trave.theme)
-            tempTheme.append(request.form.get('addTheme'))
+        if request.form.get('area') is not None:
+            tempArea = request.form.get('area')
+            travel.area = tempArea
+        if request.form.get('endDate') is not None:
+            travel.endDate = request.form.get('endDate')
+        if request.form.get('theme') is not None:
+            tempTheme = list(request.form.get('theme'))
             travel.theme = tempTheme
-        travel.imageName = request.form.get('imageName')
-        travel.imageUrl = request.form.get('imageUrl')
+        if request.form.get('imageName'):
+            travel.imageName = request.form.get('imageName')
+        if request.form.get('imageUrl'):
+            travel.imageUrl = request.form.get('imageUrl')
         if request.form.get('share'):
             travel.share = True
         else:
