@@ -126,6 +126,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                         val travelCardCompletable = travelLocalModel.createTravelCard(travelCard)
                         if(travel.id != 0L && TextUtils.isEmpty(travel.imageName)){
                             travel.imageName = it[0]
+                            travel.userExist = false
                             val travelCompletable = travelLocalModel.updateTravel(travel)
                             completables.add(travelCompletable)
                         }

@@ -17,9 +17,9 @@
 
         <View
                 android:id="@id/travelingFinishActionPop"
-                android:layout_width="272dp"
-                android:layout_height="146.5dp"
-                android:background="@android:color/white"
+                android:layout_width="300dp"
+                android:layout_height="180dp"
+                android:background="@drawable/dialog_bg"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -32,39 +32,49 @@
                 android:layout_marginTop="32dp"
                 android:gravity="center_horizontal"
                 android:textColor="@android:color/black"
-                android:text="여행 끝?"
-                android:textSize="26sp"
+                android:text="@string/travel_finish"
+                android:lineSpacingExtra="7.5sp"
+                android:textSize="14dp"
+                android:fontFamily="sans-serif-medium"
                 app:layout_constraintTop_toTopOf="@id/travelingFinishActionPop"
                 app:layout_constraintStart_toStartOf="@id/travelingFinishActionPop"
                 app:layout_constraintEnd_toEndOf="@id/travelingFinishActionPop"
-        />
-
-        <ImageView
+                tools:ignore="SpUsage"/>
+        <TextView
                 android:id="@id/travelingFinishCancelBtn"
                 android:layout_width="0dp"
-                android:layout_height="47dp"
-                android:src="@drawable/ic_icon_close"
-                android:background="@color/pinkish_grey"
+                android:layout_height="46dp"
+                android:background="@drawable/stroke_primary_bg"
+                android:text="@string/finish_no"
+                android:textSize="16dp"
+                android:lineSpacingExtra="2.8sp"
+                android:textColor="@color/colorPrimary"
                 android:gravity="center"
                 android:onClick="@{()->viewHandler.cancel()}"
+                android:layout_marginBottom="28dp"
+                android:layout_marginStart="28dp"
                 app:layout_constraintStart_toStartOf="@id/travelingFinishActionPop"
                 app:layout_constraintEnd_toStartOf="@id/travelingFinishYesBtn"
                 app:layout_constraintBottom_toBottomOf="@id/travelingFinishActionPop"
-        />
+                tools:ignore="SpUsage"/>
         <TextView
                 android:id="@id/travelingFinishYesBtn"
                 android:layout_width="0dp"
-                android:layout_height="47dp"
-                android:text="@string/yes"
-                android:textSize="16sp"
+                android:layout_height="46dp"
+                android:text="@string/finish_yes"
+                android:textSize="16dp"
                 android:lineSpacingExtra="2.8sp"
                 android:gravity="center"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/sign_normal_btn_bg"
+                android:backgroundTint="@color/colorPrimary"
                 android:textColor="@android:color/white"
                 android:onClick="@{()->viewHandler.finish()}"
+                android:layout_marginBottom="28dp"
+                android:layout_marginEnd="28dp"
+                android:layout_marginStart="10dp"
                 app:layout_constraintStart_toEndOf="@id/travelingFinishCancelBtn"
                 app:layout_constraintEnd_toEndOf="@id/travelingFinishActionPop"
                 app:layout_constraintBottom_toBottomOf="@id/travelingFinishActionPop"
-        />
+                tools:ignore="SpUsage"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

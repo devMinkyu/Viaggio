@@ -7,13 +7,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "themes")
 data class Theme(
-    @PrimaryKey(autoGenerate = true) var id: Long = 0,
-    var theme: String = "",
+     @PrimaryKey var theme: String = "",
     var authority:Boolean = false
 )
 
 data class ThemeData(
-    var id: Long = 0,
     var theme: String = "",
     var authority:Boolean = false,
     var select:ObservableBoolean = ObservableBoolean(false)

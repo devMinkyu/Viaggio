@@ -1,12 +1,10 @@
 package com.kotlin.viaggio.view.traveling.detail
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,27 +32,36 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
             it.getContentIfNotHandled()?.let { imageNames ->
                 val imgDir = File(context?.filesDir, "images/")
                 if (imgDir.exists()) {
-                    if(imageNames.isNotEmpty()){
-                        val imgFile = File(imgDir, imageNames[0])
-                        if (imgFile.exists()) {
-                            Uri.fromFile(imgFile).let { uri ->
-                                Glide.with(travelingRepresentativeImage)
-                                    .load(uri)
-                                    .into(travelingRepresentativeImage)
-                            }
+                    if (imageNames.isNotEmpty()) {
+                        travelingRepresentativeImage.layoutParams.also { parms ->
+                            parms.width = width
+                            parms.height = width
                         }
-                        travelingRepresentativeImageList.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-                            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                                TravelingRepresentativeImageViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_representative_image, parent, false))
-                            override fun getItemCount() = imageNames.size
+                        Glide.with(travelingRepresentativeImage)
+                            .load(imageNames[0])
+                            .into(travelingRepresentativeImage)
+                        getViewModel().choose[0].set(true)
+                        getViewModel().chooseIndex = 0
 
-                            override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                                holder as TravelingRepresentativeImageViewHolder
-                                holder.binding?.viewHandler = holder.TravelingRepresentativeImageViewHandler()
-                                holder.binding?.choose = getViewModel().choose[position]
-                                holder.imageBinding(imageNames[position])
+                        travelingRepresentativeImageList.adapter =
+                            object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                                    TravelingRepresentativeImageViewHolder(
+                                        LayoutInflater.from(parent.context).inflate(
+                                            R.layout.item_traveling_representative_image,
+                                            parent,
+                                            false
+                                        )
+                                    )
+
+                                override fun getItemCount() = imageNames.size
+                                override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+                                    holder as TravelingRepresentativeImageViewHolder
+                                    holder.binding?.viewHandler = holder.TravelingRepresentativeImageViewHandler()
+                                    holder.binding?.choose = getViewModel().choose[position]
+                                    holder.imageBinding(imageNames[position])
+                                }
                             }
-                        }
                     }
                 }
             }
@@ -91,32 +98,24 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
             layoutParams.height = width / 4
             itemView.travelingRepresentativeContainer.layoutParams = layoutParams
 
-            val imgFile = File(imgDir, string)
-            if (imgFile.exists()) {
-                Uri.fromFile(imgFile).let { uri ->
-                    Glide.with(itemView.travelingRepresentativeListImage)
-                        .load(uri)
-                        .into(itemView.travelingRepresentativeListImage)
-                }
-            }
+            Glide.with(itemView.travelingRepresentativeListImage)
+                .load(string)
+                .into(itemView.travelingRepresentativeListImage)
+
         }
 
-        inner class TravelingRepresentativeImageViewHandler{
-            fun imagePicker(){
+        inner class TravelingRepresentativeImageViewHandler {
+            fun imagePicker() {
                 val index = getViewModel().list.indexOf(fileNamePath)
-                if(index != getViewModel().chooseIndex){
+                if (index != getViewModel().chooseIndex) {
                     getViewModel().choose[index].set(true)
                     getViewModel().choose[getViewModel().chooseIndex].set(false)
                     getViewModel().chooseIndex = index
 
-                    val imgFile = File(imgDir, fileNamePath)
-                    if (imgFile.exists()) {
-                        Uri.fromFile(imgFile).let { uri ->
-                            Glide.with(travelingRepresentativeImage)
-                                .load(uri)
-                                .into(travelingRepresentativeImage)
-                        }
-                    }
+                    Glide.with(travelingRepresentativeImage)
+                        .load(fileNamePath)
+                        .into(travelingRepresentativeImage)
+
                 }
             }
         }

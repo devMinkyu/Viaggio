@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.traveling.country
 
+import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
@@ -21,15 +23,25 @@ import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_country.*
 import kotlinx.android.synthetic.main.item_traveling_country.view.*
 import org.jetbrains.anko.support.v4.dip
+import org.jetbrains.anko.support.v4.toast
 
 
 class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>() {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        arguments?.let {
+            getViewModel().option = it.getBoolean(ArgName.TRAVEL_OPTION.name, false)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        if(sliderInterface == null)
-            sliderInterface = Slidr.replace(travelingCountryContainer, SlidrConfig.Builder().position(
-                SlidrPosition.LEFT)
-                .build())
+        if(getViewModel().option.not()){
+            if(sliderInterface == null)
+                sliderInterface = Slidr.replace(travelingCountryContainer, SlidrConfig.Builder().position(
+                    SlidrPosition.LEFT)
+                    .build())
+        }
     }
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingCountryBinding
     lateinit var adapter: RecyclerView.Adapter<TravelingSelectedCountryViewHolder>
@@ -100,6 +112,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
 
         getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
+                stopLoading()
                 fragmentPopStack()
             }
         })
@@ -110,7 +123,16 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
             fragmentPopStack()
         }
         fun confirm(){
-            getViewModel().confirm()
+            if(getViewModel().option){
+                if(getViewModel().chooseArea.isEmpty()){
+                    toast(resources.getString(R.string.empty_country_hint))
+                }else{
+                    showLoading()
+                    getViewModel().confirm()
+                }
+            }else{
+                getViewModel().confirm()
+            }
         }
     }
     inner class TravelingCountryViewHolder(view:View): RecyclerView.ViewHolder(view){

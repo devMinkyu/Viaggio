@@ -1,34 +1,29 @@
 package com.kotlin.viaggio.model
 
-import com.kotlin.viaggio.data.`object`.Theme
+import com.kotlin.viaggio.data.`object`.Country
 import io.reactivex.Completable
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ThemeModel @Inject constructor() : BaseModel() {
+class CountryModel @Inject constructor() : BaseModel() {
 
-    fun createThemes(thems: List<Theme>) =
+    fun createCountries(countries: List<Country>) =
         Completable.fromAction {
             db.get()
         }
 
-    fun createTheme(theme: Theme) =
+    fun createCountry(country: Country) =
         Completable.fromAction {
             db.get()
         }
 
-    fun getThemes() {
+    fun getCountries() {
 
     }
 
-    fun getThemes(themes: List<String>) {
-
-    }
-
-    fun updateTheme(theme: Theme) =
+    fun updateCountry(country: Country) =
         Completable.fromAction {
 
         }
-
 }

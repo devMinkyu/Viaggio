@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.theme
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,21 +12,31 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_theme.*
+import org.jetbrains.anko.support.v4.toast
 
 
 class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentThemeBinding
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        arguments?.let {
+            getViewModel().option = it.getBoolean(ArgName.TRAVEL_OPTION.name, false)
+        }
+    }
     override fun onResume() {
         super.onResume()
-        if(sliderInterface == null)
-            sliderInterface = Slidr.replace(container, SlidrConfig.Builder().position(
-                SlidrPosition.TOP)
-                .build())
+        if(getViewModel().option.not()){
+            if(sliderInterface == null)
+                sliderInterface = Slidr.replace(container, SlidrConfig.Builder().position(
+                    SlidrPosition.TOP)
+                    .build())
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,6 +53,10 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
         layoutManager.justifyContent = JustifyContent.CENTER
         themeList.layoutManager = layoutManager
 
+        if(getViewModel().option){
+            enableSliding(false)
+        }
+
         getViewModel().themesListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { theme ->
                 themeList.adapter = object : RecyclerView.Adapter<ThemeViewHolder>(){
@@ -54,6 +69,13 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
                         holder.binding?.viewHandler = holder.ThemesViewHandler()
                     }
                 }
+            }
+        })
+
+        getViewModel().completeLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                stopLoading()
+                fragmentPopStack()
             }
         })
 
@@ -70,8 +92,16 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
 
     inner class ViewHandler{
         fun confirm(){
-            getViewModel().sendTheme()
-            fragmentPopStack()
+            if(getViewModel().option){
+                if(getViewModel().selectedTheme.isEmpty()){
+                    toast(resources.getString(R.string.empty_country_hint))
+                }else{
+                    showLoading()
+                    getViewModel().sendTheme()
+                }
+            }else{
+                getViewModel().sendTheme()
+            }
         }
         fun close(){
             fragmentPopStack()

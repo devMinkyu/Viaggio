@@ -10,6 +10,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.view.common.BaseBottomDialogFragment
 import com.kotlin.viaggio.view.common.BaseViewModel
+import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
 import org.jetbrains.anko.support.v4.toast
 import ru.slybeaver.slycalendarview.SlyCalendarDialog
 import java.util.*
@@ -36,13 +37,21 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
             dismiss()
         }
         fun addCountry(){
-
+            baseIntent("http://viaggio.kotlin.com/option/country/")
+            dismiss()
         }
         fun addTheme(){
-
+            baseIntent("http://viaggio.kotlin.com/option/theme/")
+            dismiss()
         }
         fun changeRepresentativeImage(){
+            baseIntent("http://viaggio.kotlin.com/option/image/")
+            dismiss()
+        }
 
+        fun finish(){
+            TravelingFinishActionDialogFragment().show(fragmentManager!!, TravelingFinishActionDialogFragment.TAG)
+            dismiss()
         }
     }
 }

@@ -216,6 +216,7 @@
     <item name="travelOptionTitle" type="id"/>
     <item name="travelOptionAddCountry" type="id"/>
     <item name="travelOptionAddTheme" type="id"/>
-    <item name="travelOptionRepresentativeIamge" type="id"/>
+    <item name="travelOptionRepresentativeImage" type="id"/>
     <item name="travelOptionTitleCount" type="id"/>
+    <item name="travelOptionFinish" type="id"/>
 </resources>

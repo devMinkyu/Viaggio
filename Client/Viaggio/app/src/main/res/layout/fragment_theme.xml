@@ -45,7 +45,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:onClick="@{()->viewHandler.close()}"
-                    android:padding="36dp"
+                    android:padding="@dimen/common_margin"
                     android:src="@drawable/ic_clear_black_24dp"
                     android:textSize="20sp"
                     android:textColor="@android:color/black"/>

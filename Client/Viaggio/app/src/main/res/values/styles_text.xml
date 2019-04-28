@@ -29,7 +29,7 @@
         <item name="android:textSize" tools:ignore="SpUsage">20.3dp</item>
     </style>
     <style name="TextAppearance.Viaggio.Option">
-        <item name="android:textColor">@color/almost_black</item>
+        <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:textSize" tools:ignore="SpUsage">13.5dp</item>

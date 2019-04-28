@@ -43,6 +43,7 @@ class TravelTitleBottomSheetDialogFragmentViewModel @Inject constructor() : Base
     fun confirm() {
         if(travel.id != 0L){
             travel.title = travelTitle.get()!!
+            travel.userExist = false
             val disposable = travelLocalModel.updateTravel(travel)
                 .subscribe {
                     rxEventBus.travelUpdate.onNext(Any())

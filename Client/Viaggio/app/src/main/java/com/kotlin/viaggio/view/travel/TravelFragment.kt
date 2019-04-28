@@ -97,7 +97,10 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                 }
             }
             view.travelMore.setOnClickListener {
-                TravelOptionBottomSheetDialogFragment().show(fragmentManager!!, TravelOptionBottomSheetDialogFragment.TAG)
+                if (travelList.size > position) {
+                    getViewModel().selectedTravelId(travelList[position].id)
+                    TravelOptionBottomSheetDialogFragment().show(fragmentManager!!, TravelOptionBottomSheetDialogFragment.TAG)
+                }
             }
             container.addView(view)
             return view

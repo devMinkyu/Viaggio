@@ -8,9 +8,11 @@ import com.google.gson.reflect.TypeToken
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.Area
 import com.kotlin.viaggio.data.`object`.Country
+import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import timber.log.Timber
 import java.io.InputStreamReader
 import javax.inject.Inject
 
@@ -29,8 +31,10 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
     val chooseAreaLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
 
     var travelType = ObservableInt(0)
-
     val chooseArea:ObservableArrayList<Area> = ObservableArrayList()
+
+    var option = false
+    var travel = Travel()
     override fun initialize() {
         super.initialize()
 
@@ -55,6 +59,28 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
         countryLiveData.value = Event(countryList)
         continentLiveData.value = Event(Any())
 
+        if(option){
+            val disposable = travelLocalModel.getTravel()
+                .subscribe({
+                    travel = it
+                    if(chooseArea.isNullOrEmpty()){
+                        chooseArea.addAll(it.area)
+                        chooseAreaLiveData.postValue(Event(Any()))
+                    }
+                }){
+                    Timber.d(it)
+                }
+            addDisposable(disposable)
+        }else{
+            val selectedCityDisposable = rxEventBus.travelSelectedCity.subscribe {
+                if(chooseArea.isNullOrEmpty()){
+                    chooseArea.addAll(it)
+                    chooseAreaLiveData.value = Event(Any())
+                }
+            }
+            addDisposable(selectedCityDisposable)
+        }
+
         val typeDisposable = rxEventBus.travelType.subscribe {
             travelType.set(it)
         }
@@ -70,14 +96,6 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
             chooseAreaLiveData.value = Event(Any())
         }
         addDisposable(areaDisposable)
-
-        val selectedCityDisposable = rxEventBus.travelSelectedCity.subscribe {
-            if(chooseArea.isNullOrEmpty()){
-                chooseArea.addAll(it)
-                chooseAreaLiveData.value = Event(Any())
-            }
-        }
-        addDisposable(selectedCityDisposable)
     }
 
     fun selectedCountry(country: String?) {
@@ -107,8 +125,20 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
     }
 
     fun confirm(){
-        rxEventBus.travelSelectedCity.onNext(chooseArea)
-        completeLiveData.value = Event(Any())
+        if(option){
+            if(travel.id != 0L){
+                travel.area = chooseArea
+                travel.userExist = false
+                val disposable = travelLocalModel.updateTravel(travel)
+                    .subscribe {
+                        completeLiveData.postValue(Event(Any()))
+                    }
+                addDisposable(disposable)
+            }
+        }else{
+            rxEventBus.travelSelectedCity.onNext(chooseArea)
+            completeLiveData.value = Event(Any())
+        }
     }
 
     fun empty() {

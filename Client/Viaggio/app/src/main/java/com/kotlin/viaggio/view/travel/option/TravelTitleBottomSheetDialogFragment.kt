@@ -30,8 +30,8 @@ class TravelTitleBottomSheetDialogFragment : BaseBottomDialogFragment<TravelTitl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         travelOptionTitle.requestFocus()
-        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+//        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
 
         getViewModel().confirmLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
@@ -51,16 +51,10 @@ class TravelTitleBottomSheetDialogFragment : BaseBottomDialogFragment<TravelTitl
         })
     }
 
-    override fun onStop() {
-        super.onStop()
-        hide()
-    }
-
-    private fun hide(){
-        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
-
-    }
+//    private fun hide(){
+//        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+//    }
 
     inner class ViewHandler{
         fun close(){

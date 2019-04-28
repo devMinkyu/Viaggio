@@ -75,7 +75,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             val firstPath = appLinkData?.pathSegments?.get(0)
             when (firstPath) {
                 "home" -> {
-                    when (appLinkData.pathSegments?.last()) {
+                    when (appLinkData.lastPathSegment) {
                         "main" -> showHome()
                         "login" -> showSign()
                         "camera" -> showCamera()
@@ -84,20 +84,21 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                     }
                 }
                 "login" -> {
-                    when (appLinkData.pathSegments?.last()) {
+                    when (appLinkData.lastPathSegment) {
                         "normal" -> showSignNormalIn()
                         "create" -> showSignCreate()
                     }
                 }
 
                 "traveling" ->
-                    when (appLinkData.pathSegments?.last()) {
+                    when (appLinkData.lastPathSegment) {
                         "days" -> showTraveling()
                         "start" -> showTraveling()
                         "detail" -> {
                             showTravelingDetail()
                         }
-                        "theme" -> {}
+                        "theme" -> {
+                        }
                         "enroll" -> showTravelEnroll()
                         "representative" -> showTravelingRepresentative()
                         "image" -> showTravelingEnrollImage()
@@ -110,15 +111,46 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         }
                         "card" -> showTravelingEnroll()
                     }
-                "setting" -> {
-                    when (appLinkData.pathSegments?.last()) {
+                "setting" ->
+                    when (appLinkData.lastPathSegment) {
 
                     }
-                }
+                "option" ->
+                    when (appLinkData.lastPathSegment) {
+                        "country" -> {
+                            showOptionCountry()
+                        }
+                        "theme" -> {
+                            showOptionTheme()
+                        }
+                        "image" -> {
+                            showOptionImage()
+                        }
+                    }
                 else -> {
                 }
             }
         }
+    }
+
+    private fun showOptionImage() {
+        baseShowLeftAddBackFragment(TravelingRepresentativeImageFragment())
+    }
+
+    private fun showOptionCountry() {
+        val frag = TravelingCountryFragment()
+        val arg = Bundle()
+        arg.putBoolean(ArgName.TRAVEL_OPTION.name, true)
+        frag.arguments = arg
+        baseShowLeftAddBackFragment(frag)
+    }
+
+    private fun showOptionTheme() {
+        val frag = ThemeFragment()
+        val arg = Bundle()
+        arg.putBoolean(ArgName.TRAVEL_OPTION.name, true)
+        frag.arguments = arg
+        baseShowLeftAddBackFragment(frag)
     }
 
     private fun showTravelingCity() {

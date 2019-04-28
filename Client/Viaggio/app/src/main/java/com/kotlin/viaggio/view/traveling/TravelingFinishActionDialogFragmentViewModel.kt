@@ -10,6 +10,7 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.TimeCheckWorker
+import io.reactivex.Completable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.util.*
@@ -26,17 +27,18 @@ class TravelingFinishActionDialogFragmentViewModel @Inject constructor() : BaseV
             .observeOn(Schedulers.io())
             .subscribeOn(Schedulers.io())
             .flatMapCompletable {
-                prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, false).blockingAwait()
-
-                prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 0).blockingAwait()
-                prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, 0).blockingAwait()
-
-                prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, "").blockingAwait()
-
-                prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, 0).blockingAwait()
+                val completables = mutableListOf<Completable>()
+                completables.add(prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, false))
+                completables.add(prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 0))
+                completables.add(prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, 0))
+                completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, ""))
+                completables.add(prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, 0))
 
                 it.endDate = Date(System.currentTimeMillis())
-                travelLocalModel.updateTravel(it)
+                it.userExist = false
+                completables.add(travelLocalModel.updateTravel(it))
+
+                Completable.merge(completables)
             }
             .subscribe({
                 val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()

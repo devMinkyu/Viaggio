@@ -10,7 +10,7 @@ import io.reactivex.Single
 @Dao
 interface ThemeDao {
     @Insert
-    fun insertTheme(theme: Theme): Single<Long>
+    fun insertTheme(theme: Theme)
 
     @Insert
     fun insertAllTheme(vararg Theme: Theme)
@@ -18,8 +18,8 @@ interface ThemeDao {
     @Query("SELECT * FROM themes")
     fun getThemes(): Single<List<Theme>>
 
-    @Query("SELECT * FROM themes Where id In(:id)")
-    fun getThemes(vararg id:Long): Single<List<Theme>>
+    @Query("SELECT * FROM themes Where theme In(:theme)")
+    fun getThemes(vararg theme:String): Single<List<Theme>>
 
     @Update
     fun updateTheme(theme: Theme)

@@ -44,7 +44,6 @@
     <string name="next">Next</string>
     <string name="confirm">확인</string>
     <string name="traveling_card_create">Create</string>
-    <string name="yes">Yes</string>
     <string name="traveling_country">Country</string>
     <string name="home_setting">Setting</string>
     <string name="enroll_title">Title</string>
@@ -88,13 +87,18 @@
     <string name="travel_card_count">%d일차</string>
     <string name="travel_card_empty_notice">포스팅이 존재 하지 않습니다.\n포스팅을 작성해주세요</string>
     <string name="traveling_city">여행중인 나라</string>
-    <string name="traveling_theme">여행테마</string>
+    <string name="traveling_theme">여행테마 (최대 3개)</string>
     <string name="travel_option">여행 설정</string>
     <string name="travel_title">여행 이름</string>
     <string name="travel_option_title">이름 변경</string>
     <string name="travel_option_country">도시 변경</string>
     <string name="travel_option_theme">테마 변경</string>
     <string name="travel_option_image">대표 사진 변경</string>
+    <string name="travel_option_finish">여행 종료</string>
     <string name="empty_hint">입력해 주세요.</string>
+    <string name="empty_country_hint">최소 한개이상을 선택해 주세요.</string>
     <string name="travel_title_count">%d / 10자</string>
+    <string name="travel_finish">여행을\n종료 하시겠습니까?</string>
+    <string name="finish_yes">네</string>
+    <string name="finish_no">아니요</string>
 </resources>
