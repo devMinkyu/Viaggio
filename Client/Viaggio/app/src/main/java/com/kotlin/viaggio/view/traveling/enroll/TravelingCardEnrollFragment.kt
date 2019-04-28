@@ -19,6 +19,7 @@ import com.kotlin.viaggio.data.`object`.PermissionError
 import com.kotlin.viaggio.databinding.FragmentTravelingCardEnrollBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingCitiesActionDialogFragment
+import com.kotlin.viaggio.view.traveling.option.TravelingDayCountActionDialogFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingThemesActionDialogFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
@@ -161,7 +162,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         }
 
         fun changeDayCount(){
-            TravelingThemesActionDialogFragment().show(fragmentManager!!, TravelingThemesActionDialogFragment.TAG)
+            TravelingDayCountActionDialogFragment().show(fragmentManager!!, TravelingDayCountActionDialogFragment.TAG)
         }
     }
 

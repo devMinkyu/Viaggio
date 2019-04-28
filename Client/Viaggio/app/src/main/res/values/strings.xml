@@ -65,6 +65,7 @@
     <string name="travel_before_domestic_subtitle">다녀왔던 해외 여행의 기억을 남기세요!</string>
     <string name="travel_start">여행 시작</string>
     <string name="theme_start">테마 선택</string>
+    <string name="day_start">일차 선택</string>
     <string name="travel_card_start">등록</string>
     <string name="city_start">도시 선택</string>
     <string name="image_start">사진 선택</string>

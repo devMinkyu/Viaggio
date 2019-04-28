@@ -3,6 +3,7 @@ package com.kotlin.viaggio.ioc.module.common
 import android.util.Log
 import androidx.fragment.app.Fragment
 import dagger.android.support.HasSupportFragmentInjector
+import timber.log.Timber
 
 class AndroidXInjection{
     companion object {
@@ -34,8 +35,7 @@ class AndroidXInjection{
             val hasAndroidXFragmentInjector =
                 findHasFragmentInjector(fragment)
 
-            Log.d(
-                TAG,
+            Timber.tag(TAG).d(
                 String.format(
                     "An injector for %s was found in %s",
                     fragment.javaClass.canonicalName,

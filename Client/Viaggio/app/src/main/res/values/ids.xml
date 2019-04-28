@@ -219,4 +219,6 @@
     <item name="travelOptionRepresentativeImage" type="id"/>
     <item name="travelOptionTitleCount" type="id"/>
     <item name="travelOptionFinish" type="id"/>
+    <item name="travelingDayCountActionList" type="id"/>
+    <item name="dayCountName" type="id"/>
 </resources>

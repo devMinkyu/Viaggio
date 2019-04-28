@@ -85,6 +85,9 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                     themeList.addAll(list)
                     themeLiveData.value = Event(Any())
                 }
+                is Int ->{
+                    dayCount.set(it)
+                }
             }
         }
         addDisposable(optionDisposable)

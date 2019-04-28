@@ -37,14 +37,16 @@ class TravelingCitiesActionDialogFragment:BaseDialogFragment<TravelingCitiesActi
         }
 
         getViewModel().areaListLiveData.observe(this, Observer {
-            travelingCitiesActionList.adapter = object : RecyclerView.Adapter<TravelingCitiesViewHolder>(){
-                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                    TravelingCitiesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_option_city, parent, false))
-                override fun getItemCount() = getViewModel().areaList.size
+            it.getContentIfNotHandled()?.let {
+                travelingCitiesActionList.adapter = object : RecyclerView.Adapter<TravelingCitiesViewHolder>(){
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                        TravelingCitiesViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_option_city, parent, false))
+                    override fun getItemCount() = getViewModel().areaList.size
 
-                override fun onBindViewHolder(holder: TravelingCitiesViewHolder, position: Int) {
-                    holder.binding?.data = getViewModel().areaList[position]
-                    holder.binding?.viewHandler = holder.TravelingCitiesViewHandler()
+                    override fun onBindViewHolder(holder: TravelingCitiesViewHolder, position: Int) {
+                        holder.binding?.data = getViewModel().areaList[position]
+                        holder.binding?.viewHandler = holder.TravelingCitiesViewHandler()
+                    }
                 }
             }
         })
