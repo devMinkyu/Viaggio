@@ -228,4 +228,8 @@
     <item name="settingAutoUploadCheck" type="id"/>
     <item name="settingSync" type="id"/>
     <item name="settingLogout" type="id"/>
+    <item name="settingEntire" type="id"/>
+    <item name="settingImage" type="id"/>
+    <item name="settingAppVersion" type="id"/>
+    <item name="network_anim" type="id"/>
 </resources>

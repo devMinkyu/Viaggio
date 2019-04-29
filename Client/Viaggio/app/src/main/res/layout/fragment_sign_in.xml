@@ -19,7 +19,7 @@
                 android:fillViewport="true"
         >
             <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/sign_container"
+                    android:id="@+id/sign_in_container"
                     android:background="@color/white_three"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -57,7 +57,8 @@
                         android:id="@id/signInEmailEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
                         android:layout_marginTop="50dp"
-                        android:textColorHint="@android:color/white"
+                        android:textColorHint="@color/very_light_pink"
+                        android:textColor="@android:color/white"
                         android:hint="@string/sign_in_email"
                         android:inputType="textWebEmailAddress"
                         android:background="@drawable/sign_edit_txt_bg"
@@ -69,7 +70,8 @@
                 <EditText
                         android:id="@id/signInPasswordEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
-                        android:textColorHint="@android:color/white"
+                        android:textColorHint="@color/very_light_pink"
+                        android:textColor="@android:color/white"
                         android:layout_marginTop="15dp"
                         android:hint="@string/sign_in_password"
                         android:inputType="textWebPassword"
@@ -82,10 +84,8 @@
                 <TextView
                         android:id="@id/signInBtn"
                         style="@style/ViewStyle.Viaggio.Sign"
-                        android:layout_marginTop="@dimen/common_top"
                         android:text="@string/sign_in_sign"
-                        android:gravity="center"
-                        android:backgroundTint="@{viewModel.isFormValid ? @color/colorPrimary:@color/white_two}"
+                        android:backgroundTint="@{viewModel.isFormValid ? @color/colorPrimary:@color/brown_grey}"
                         android:onClick="@{() -> viewHandler.signIn()}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

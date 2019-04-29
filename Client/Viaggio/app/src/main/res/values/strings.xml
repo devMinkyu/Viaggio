@@ -41,8 +41,8 @@
     <string name="enroll_title">Title</string>
 
     <string name="tutorial_skip">건너뛰기</string>
-    <string name="sign_in_sign">로그인 하기.</string>
-    <string name="tutorial_login">로그인 하기.</string>
+    <string name="sign_in_sign">로그인 하기</string>
+    <string name="tutorial_login">로그인 하기</string>
     <string name="sign_in_email">이메일</string>
     <string name="sign_in_password">비밀번호</string>
     <string name="sign_up">회원가입</string>
@@ -54,7 +54,9 @@
     <string name="setting_sync">서버와 싱크하기</string>
     <string name="setting_my_profile">여행자 정보 등록</string>
     <string name="setting_logout">로그아웃</string>
-    <string name="normal_sign">이메일로 로그인하기.</string>
+    <string name="setting_image">이미지 화질</string>
+    <string name="setting_app_version">앱 버젼 정보</string>
+    <string name="normal_sign">이메일로 로그인하기</string>
     <string name="sign_sign_up">회원가입</string>
     <string name="travel_count">DAY %d</string>
     <string name="travel_of_day_pattern">EEEE / MMMM d / yyyy</string>
@@ -108,4 +110,5 @@
     <string name="travel_finish">여행을\n종료 하시겠습니까?</string>
     <string name="finish_yes">네</string>
     <string name="finish_no">아니요</string>
+    <string name="network_error">인터넷 연결을\n 확인해 주세요.</string>
 </resources>
