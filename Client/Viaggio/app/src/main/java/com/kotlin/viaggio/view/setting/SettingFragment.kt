@@ -29,12 +29,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        context?.let { context ->
-            Glide.with(context)
-                .load(R.drawable.empty_gallery)
-                .apply(RequestOptions().circleCrop())
-                .into(settingUserProfile)
-        }
+
     }
 
     override fun onResume() {

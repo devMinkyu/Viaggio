@@ -63,13 +63,18 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         val disposable = travelLocalModel.getTravel()
             .subscribe({
                 travel = it
+                dayCount.set(1)
+                val area = it.area.first()
+                country.set("${area.country}_${area.city}")
             }){
                 Timber.d(it)
             }
         addDisposable(disposable)
 
-        dayCount.set(prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet())
-        country.set(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
+        if(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()){
+            dayCount.set(prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet())
+            country.set(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
+        }
 
         val optionDisposable = rxEventBus.travelingOption.subscribe {
             when(it){
@@ -154,5 +159,9 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         super.onCleared()
         rxEventBus.travelCacheImages.onNext(listOf())
         rxEventBus.travelCardImages.onNext(listOf())
+    }
+
+    fun selectedCountry() {
+        prefUtilService.putString(AndroidPrefUtilService.Key.SELECTED_COUNTRY, country.get()!!).blockingAwait()
     }
 }

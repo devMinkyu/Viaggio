@@ -46,7 +46,7 @@ class TravelingFinishActionDialogFragmentViewModel @Inject constructor() : BaseV
                     WorkerName.TRAVELING_OF_DAY_CHECK.name,
                     ExistingPeriodicWorkPolicy.REPLACE, timeCheckWork
                 )
-                rxEventBus.travelFinish.onNext(true)
+                rxEventBus.travelUpdate.onNext(Any())
                 completeLiveDate.postValue(Event(Any()))
             }){
                 Timber.e(it)

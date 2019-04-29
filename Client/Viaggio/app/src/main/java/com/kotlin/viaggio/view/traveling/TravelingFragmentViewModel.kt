@@ -52,16 +52,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
             }
         addDisposable(disposable)
-        val travelingFinishDisposable = rxEventBus.travelFinish
-            .subscribe({
-                if (it) {
-                    rxEventBus.travelFinish.onNext(it.not())
-                    completeLiveData.postValue(Event(Any()))
-                }
-            }) {
-
-            }
-        addDisposable(travelingFinishDisposable)
     }
 
     private fun loadTravelOfDayPaged() {

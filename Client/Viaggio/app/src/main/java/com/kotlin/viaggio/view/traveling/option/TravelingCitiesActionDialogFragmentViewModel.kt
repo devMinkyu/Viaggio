@@ -37,8 +37,7 @@ class TravelingCitiesActionDialogFragmentViewModel @Inject constructor() : BaseV
                     area.selected.set(false)
                     area
                 })
-
-                val country = prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet()
+                val country = prefUtilService.getString(AndroidPrefUtilService.Key.SELECTED_COUNTRY).blockingGet()
 
                 val item = areaList.first{area ->
                     "${area.country}_${area.city}" == country
@@ -53,7 +52,9 @@ class TravelingCitiesActionDialogFragmentViewModel @Inject constructor() : BaseV
     }
 
     fun confirm() {
-        prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, "${chooseArea.get()!!.country}_${chooseArea.get()!!.city}").blockingAwait()
+        if(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()){
+            prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, "${chooseArea.get()!!.country}_${chooseArea.get()!!.city}").blockingAwait()
+        }
         rxEventBus.travelingOption.onNext(chooseArea.get()!!)
         completeLiveDate.value = Event(Any())
     }

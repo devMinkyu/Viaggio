@@ -12,7 +12,7 @@ import com.kotlin.viaggio.data.`object`.*
 
 @Suppress("unused")
 @Database(
-    entities = [User::class, Travel::class, TravelOfDay::class, TravelCard::class],
+    entities = [User::class, Travel::class, TravelCard::class],
     version = 1,
     exportSchema = false
 )

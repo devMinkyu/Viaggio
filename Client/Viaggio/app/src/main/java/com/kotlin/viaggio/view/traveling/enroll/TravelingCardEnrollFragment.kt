@@ -158,6 +158,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         }
 
         fun changeCountry(){
+            getViewModel().selectedCountry()
             TravelingCitiesActionDialogFragment().show(fragmentManager!!, TravelingCitiesActionDialogFragment.TAG)
         }
 

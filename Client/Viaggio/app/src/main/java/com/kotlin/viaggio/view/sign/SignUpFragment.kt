@@ -17,7 +17,6 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)

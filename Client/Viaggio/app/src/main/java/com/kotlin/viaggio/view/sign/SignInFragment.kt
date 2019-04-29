@@ -35,6 +35,11 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
         activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
     }
 
+    override fun onStop() {
+        super.onStop()
+        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+    }
+
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSignInBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_in, container, false)

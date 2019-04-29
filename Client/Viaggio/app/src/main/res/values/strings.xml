@@ -11,14 +11,6 @@
     <string name="necessary_permission">You have to allow camera, storage access in Settings.</string>
 
     <string name="app_name">Viaggio</string>
-    <string name="tutorial_skip">Skip</string>
-    <string name="tutorial_login">Login</string>
-    <string name="sign_in_email">Email</string>
-    <string name="sign_in_password">Password</string>
-    <string name="sign_in_sign">Login</string>
-    <string name="sign_up">Create Account</string>
-    <string name="sign_up_name">Name</string>
-    <string name="sign_up_confirm_password">Confirm Password</string>
 
     <string name="err_pw_mismatch">Password Mismatch</string>
     <string name="err_pw_same">Same Password</string>
@@ -30,7 +22,7 @@
     <string name="home_traveling">Traveling</string>
     <string name="home_travel">Traveled</string>
     <string name="finish_of_msg">Please press back button one more time to exit the app</string>
-    <string name="setting_sign">Sign</string>
+
     <string name="date_format">EE, MMM d, yyyy</string>
     <string name="date_time_format">HH:MM</string>
     <string name="over_image_count">+%d</string>
@@ -48,7 +40,21 @@
     <string name="home_setting">Setting</string>
     <string name="enroll_title">Title</string>
 
-    <string name="normal_sign">이메일로 로그인하기</string>
+    <string name="tutorial_skip">건너뛰기</string>
+    <string name="sign_in_sign">로그인 하기.</string>
+    <string name="tutorial_login">로그인 하기.</string>
+    <string name="sign_in_email">이메일</string>
+    <string name="sign_in_password">비밀번호</string>
+    <string name="sign_up">회원가입</string>
+    <string name="sign_up_name">이름</string>
+    <string name="sign_up_confirm_password">비밀번호 확인하기</string>
+    <string name="setting_sign">로그인 해주세요.</string>
+    <string name="setting_upload">자동 업로드</string>
+    <string name="setting_upload_check">클라우드의 저장 되어있는지 검사</string>
+    <string name="setting_sync">서버와 싱크하기</string>
+    <string name="setting_my_profile">여행자 정보 등록</string>
+    <string name="setting_logout">로그아웃</string>
+    <string name="normal_sign">이메일로 로그인하기.</string>
     <string name="sign_sign_up">회원가입</string>
     <string name="travel_count">DAY %d</string>
     <string name="travel_of_day_pattern">EEEE / MMMM d / yyyy</string>

@@ -221,4 +221,11 @@
     <item name="travelOptionFinish" type="id"/>
     <item name="travelingDayCountActionList" type="id"/>
     <item name="dayCountName" type="id"/>
+    <item name="settingSign" type="id"/>
+    <item name="settingEtc" type="id"/>
+    <item name="settingMyProfile" type="id"/>
+    <item name="settingAutoUpload" type="id"/>
+    <item name="settingAutoUploadCheck" type="id"/>
+    <item name="settingSync" type="id"/>
+    <item name="settingLogout" type="id"/>
 </resources>

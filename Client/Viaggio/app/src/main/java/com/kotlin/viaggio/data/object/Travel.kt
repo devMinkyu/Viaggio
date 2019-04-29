@@ -30,17 +30,6 @@ data class Traveled(
     var countries:String = ""
 )
 
-@Entity(tableName = "travelOfDays")
-data class TravelOfDay(
-    @PrimaryKey(autoGenerate = true) var id: Long = 0,
-    var travelId: Long = 0,
-    @Suppress("ArrayInDataClass") var dayCountries: MutableList<String> = mutableListOf(),
-    @Suppress("ArrayInDataClass") var theme: MutableList<String> = mutableListOf(),
-    var date: Date = Date(),
-    var travelOfDay: Int = 1,
-    var themeImageName: String = ""
-)
-
 @Entity(tableName = "travelCards")
 data class TravelCard(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,

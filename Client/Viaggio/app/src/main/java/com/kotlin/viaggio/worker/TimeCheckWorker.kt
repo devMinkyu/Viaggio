@@ -2,15 +2,9 @@ package com.kotlin.viaggio.worker
 
 import android.content.Context
 import androidx.work.WorkerParameters
-import com.kotlin.viaggio.data.`object`.TravelOfDay
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
-import com.kotlin.viaggio.event.RxEventBus
-import com.kotlin.viaggio.model.TravelLocalModel
-import dagger.Lazy
-import io.reactivex.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 class TimeCheckWorker @Inject constructor(context: Context, parameters: WorkerParameters) :
     BaseWorker(context, parameters) {

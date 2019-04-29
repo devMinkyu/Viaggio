@@ -16,6 +16,7 @@
     >
         <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/sign_container"
+                android:background="@color/white_three"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
             <androidx.appcompat.widget.AppCompatImageView
@@ -38,38 +39,41 @@
             />
             <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/logo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="250dp"
+                    android:layout_height="200dp"
                     app:srcCompat="@drawable/logo"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/signNormalBtn"
-                    app:layout_constraintVertical_chainStyle="packed"
-                    android:layout_marginBottom="60dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="150dp"
             />
 
             <TextView
                     android:id="@id/signNormalBtn"
                     android:background="@drawable/sign_normal_btn_bg"
                     android:backgroundTint="@color/colorPrimary"
+                    android:layout_height="50dp"
                     style="@style/ViewStyle.Viaggio.Sign"
                     android:text="@string/normal_sign"
                     android:onClick="@{() -> viewHandler.normalSign()}"
+                    android:layout_marginTop="50dp"
+                    android:layout_marginBottom="@dimen/common_top"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/logo"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/signCreateAccountBtn"
             />
             <TextView
                     android:id="@id/signCreateAccountBtn"
                     android:background="@drawable/sign_normal_btn_bg"
                     android:backgroundTint="@android:color/white"
+                    android:layout_height="50dp"
                     style="@style/ViewStyle.Viaggio.Sign"
                     android:text="@string/sign_sign_up"
                     android:textColor="@color/colorPrimary"
                     android:onClick="@{() -> viewHandler.createAccount()}"
-                    android:layout_marginTop="@dimen/common_top"
+                    android:layout_marginBottom="@dimen/common_top"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/signNormalBtn"
