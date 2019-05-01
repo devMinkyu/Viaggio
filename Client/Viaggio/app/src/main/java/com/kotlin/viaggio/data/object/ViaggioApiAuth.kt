@@ -6,3 +6,7 @@ data class ViaggioApiAuth(
     val token: String, val AWS_IdentityId: String, val AWS_Token: String
 )
 
+data class ViaggioResult(
+    var result: String = ""
+)
+

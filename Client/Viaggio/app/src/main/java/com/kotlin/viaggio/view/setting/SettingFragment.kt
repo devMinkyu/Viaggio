@@ -58,10 +58,21 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
             }
         }
         fun myProfile(){
-
+            if(checkInternet()){
+                baseIntent("http://viaggio.kotlin.com/setting/profile/")
+            }else{
+                showNetWorkError()
+            }
         }
         fun uploadCheck(){
 
+        }
+        fun password() {
+            if(checkInternet()){
+                baseIntent("http://viaggio.kotlin.com/setting/password/")
+            }else{
+                showNetWorkError()
+            }
         }
         fun sync(){
 

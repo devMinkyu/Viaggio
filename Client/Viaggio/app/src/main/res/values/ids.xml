@@ -237,4 +237,8 @@
     <item name="settingName" type="id"/>
     <item name="settingProfileImg" type="id"/>
     <item name="settingEmail" type="id"/>
+    <item name="settingCurrentPassword" type="id"/>
+    <item name="settingNewPassword" type="id"/>
+    <item name="settingNewPasswordConfirm" type="id"/>
+    <item name="settingPassword" type="id"/>
 </resources>

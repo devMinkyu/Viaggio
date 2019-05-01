@@ -125,6 +125,7 @@
                     android:drawableStart="@drawable/icon_my_profile"
                     app:layout_constraintStart_toStartOf="@id/settingEtc"
                     app:layout_constraintTop_toTopOf="@id/settingEtc"
+                    app:layout_constraintEnd_toEndOf="parent"
                     android:onClick="@{()->viewHandler.myProfile()}"
             />
             <TextView
@@ -150,13 +151,24 @@
                     android:onClick="@{()->viewHandler.sync()}"
             />
             <TextView
+                    android:id="@id/settingPassword"
+                    android:text="@string/setting_password"
+                    style="@style/ViewStyle.Viaggio.Setting"
+                    android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:drawableStart="@drawable/ic_vpn_key"
+                    app:layout_constraintStart_toStartOf="@id/settingEtc"
+                    app:layout_constraintEnd_toEndOf="@id/settingEtc"
+                    app:layout_constraintTop_toBottomOf="@id/settingSync"
+                    android:onClick="@{()->viewHandler.password()}"
+            />
+            <TextView
                     android:id="@id/settingLogout"
                     android:text="@string/setting_logout"
                     style="@style/ViewStyle.Viaggio.Setting"
                     android:drawableStart="@drawable/ic_logout"
                     app:layout_constraintStart_toStartOf="@id/settingEtc"
                     app:layout_constraintEnd_toEndOf="@id/settingEtc"
-                    app:layout_constraintTop_toBottomOf="@id/settingSync"
+                    app:layout_constraintTop_toBottomOf="@id/settingPassword"
                     android:onClick="@{()->viewHandler.logout()}"
             />
 

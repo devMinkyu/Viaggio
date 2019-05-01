@@ -101,4 +101,8 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
             (it as LoadingDialogFragment).dismiss()
         }
     }
+
+    fun showNetWorkError(){
+        NetworkDialogFragment().show(supportFragmentManager, NetworkDialogFragment.TAG)
+    }
 }

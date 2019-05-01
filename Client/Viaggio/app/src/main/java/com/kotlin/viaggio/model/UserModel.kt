@@ -1,8 +1,10 @@
 package com.kotlin.viaggio.model
 
 import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
+import com.kotlin.viaggio.data.`object`.ViaggioResult
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.ViaggioApiService
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -41,6 +43,17 @@ class UserModel @Inject constructor() :BaseModel(){
                     pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token).blockingAwait()
                 }
             }
+            .subscribeOn(Schedulers.io())
+    }
+
+    fun updateUser(name:String, profileName:String): Single<Response<ViaggioResult>>{
+        return api.updateUserName(
+            name = name, profileImageName = profileName, profileImageUrl = ""
+        ).subscribeOn(Schedulers.io())
+    }
+
+    fun updatePassword(oldPassword: String, password: String, password2: String): Single<Response<ViaggioResult>>{
+        return api.updateUserPaswword(oldPasswordHash = oldPassword, passwordHash = password, passwordHash2 = password2)
             .subscribeOn(Schedulers.io())
     }
 }

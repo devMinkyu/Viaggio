@@ -3,9 +3,7 @@
 package com.kotlin.viaggio.ioc.module.injector.activity
 
 import com.kotlin.viaggio.view.camera.CameraFragment
-import com.kotlin.viaggio.view.setting.SettingAutoBottomSheetDialogFragment
-import com.kotlin.viaggio.view.setting.SettingFragment
-import com.kotlin.viaggio.view.setting.SettingImageBottomSheetDialogFragment
+import com.kotlin.viaggio.view.setting.*
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
@@ -109,4 +107,10 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun settingAutoBottomSheetDialogFragment(): SettingAutoBottomSheetDialogFragment
+
+    @ContributesAndroidInjector
+    fun settingMyProfileFragment(): SettingMyProfileFragment
+
+    @ContributesAndroidInjector
+    fun settingPasswordFragment(): SettingPasswordFragment
 }

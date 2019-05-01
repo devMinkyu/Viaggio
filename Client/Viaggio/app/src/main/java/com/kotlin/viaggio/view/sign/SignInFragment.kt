@@ -103,7 +103,7 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
                 getViewModel().validateSignIn()
                 showLoading()
             } else {
-                NetworkDialogFragment().show(fragmentManager!!, NetworkDialogFragment.TAG)
+                showNetWorkError()
             }
         }
 

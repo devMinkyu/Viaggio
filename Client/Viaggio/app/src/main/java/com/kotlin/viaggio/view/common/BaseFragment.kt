@@ -121,4 +121,9 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
             (it as BaseActivity<*>).stopLoading()
         }
     }
+    fun showNetWorkError(){
+        activity?.let {
+            (it as BaseActivity<*>).showNetWorkError()
+        }
+    }
 }

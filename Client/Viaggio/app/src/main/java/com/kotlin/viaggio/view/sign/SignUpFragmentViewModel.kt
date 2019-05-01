@@ -55,7 +55,6 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
         })
     }
     val isFormValid = ObservableBoolean(false)
-    val errorMsg = ObservableField<String?>()
 
     private var validateFormDisposable: Disposable? = null
     val error: MutableLiveData<Event<SignError>> = MutableLiveData()

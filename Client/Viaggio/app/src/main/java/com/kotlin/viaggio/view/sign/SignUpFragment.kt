@@ -106,7 +106,7 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
                     showLoading()
                 }
             } else {
-                NetworkDialogFragment().show(fragmentManager!!, NetworkDialogFragment.TAG)
+                showNetWorkError()
             }
         }
 

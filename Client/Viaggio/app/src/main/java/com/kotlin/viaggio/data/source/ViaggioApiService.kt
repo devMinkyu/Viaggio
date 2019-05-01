@@ -3,6 +3,7 @@ package com.kotlin.viaggio.data.source
 import androidx.annotation.Keep
 import com.kotlin.viaggio.data.`object`.Area
 import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
+import com.kotlin.viaggio.data.`object`.ViaggioResult
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.Response
@@ -11,6 +12,7 @@ import java.util.*
 
 @Keep
 interface ViaggioApiService {
+    // user
     @POST("api/v1/auth/signup")
     @FormUrlEncoded
     fun signUp(@Field("email") email:String,
@@ -26,13 +28,25 @@ interface ViaggioApiService {
         @Field("passwordHash") passwordHash:String
     ): Single<Response<ViaggioApiAuth>>
 
-//    @POST("/api/v1/users/changepwd")
-//    @Headers(
-//        "Content-Type: application/x-www-form-urlencoded",
-//        "Authorization: ${1}"
-//    )
-//    @FormUrlEncoded
-//    fun updateUserPaswword(@Body body: SignInBody): Single<Response<ViaggioApiAuth>>
+    @POST("api/v1/users/changeinfo")
+    @FormUrlEncoded
+    fun updateUserName(
+        @Field("name") name:String,
+        @Field("profileImageName") profileImageName:String,
+        @Field("profileImageUrl") profileImageUrl:String
+    ): Single<Response<ViaggioResult>>
+
+    @POST("api/v1/users/changepwd")
+    @FormUrlEncoded
+    fun updateUserPaswword(
+        @Field("oldPasswordHash") oldPasswordHash:String,
+        @Field("passwordHash") passwordHash:String,
+        @Field("passwordHash2") passwordHash2:String
+    ): Single<Response<ViaggioResult>>
+
+
+
+
 
     @POST("api/v1/my/travels")
     @Headers(
@@ -50,3 +64,9 @@ interface ViaggioApiService {
         @Field("endDate") endDate:Date?
     ): Single<Response<Any>>
 }
+
+
+//@Headers(
+//    "Content-Type: application/x-www-form-urlencoded",
+//    "Authorization: ${1}"
+//)

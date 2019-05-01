@@ -35,6 +35,7 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
                 }
             }
         addDisposable(disposable)
+
     }
 
     val backButtonSubject: Subject<Long> =
@@ -42,4 +43,8 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
             .toSerialized()
 
     fun checkTutorial() = prefUtilService.getBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK).blockingGet() ?: false
+    fun initSetting() {
+        prefUtilService.putInt(AndroidPrefUtilService.Key.IMAGE_MODE, 0).blockingAwait()
+        prefUtilService.putInt(AndroidPrefUtilService.Key.UPLOAD_MODE, 0).blockingAwait()
+    }
 }
