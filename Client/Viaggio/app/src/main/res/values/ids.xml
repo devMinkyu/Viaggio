@@ -232,4 +232,9 @@
     <item name="settingImage" type="id"/>
     <item name="settingAppVersion" type="id"/>
     <item name="network_anim" type="id"/>
+    <item name="settingSignNotice" type="id"/>
+    <item name="settingSignIn" type="id"/>
+    <item name="settingName" type="id"/>
+    <item name="settingProfileImg" type="id"/>
+    <item name="settingEmail" type="id"/>
 </resources>

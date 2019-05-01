@@ -33,6 +33,8 @@ class LocalDataSource @Inject constructor() {
     lateinit var clearCache: ClearCache
     @Inject
     lateinit var encryption: Encryption
+    @Inject
+    lateinit var prefUtilService: AndroidPrefUtilService
 
     companion object {
         const val CACHE_IMG_FOLDER = "images/"
@@ -190,7 +192,17 @@ class LocalDataSource @Inject constructor() {
                     options.inSampleSize = 2
                     val cameraImg = BitmapFactory.decodeFile(fileName, options)
 
-                    val sampleSize = normalQualitySizeCalculation(fileName)
+                    val sampleSize = when(prefUtilService.getInt(AndroidPrefUtilService.Key.IMAGE_MODE).blockingGet()){
+                        0 ->{
+                            normalQualitySizeCalculation(fileName)
+                        }
+                        1->{
+                            highQualitySizeCalculation(fileName)
+                        }
+                        else ->{
+                            normalQualitySizeCalculation(fileName)
+                        }
+                    }
 
                     val exit = ExifInterface(fileName)
                     val rotate = exifOrientationToDegrees(exit.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL))

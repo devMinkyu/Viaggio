@@ -111,4 +111,11 @@
     <string name="finish_yes">네</string>
     <string name="finish_no">아니요</string>
     <string name="network_error">인터넷 연결을\n 확인해 주세요.</string>
+    <string name="image_setting">화질</string>
+    <string name="image_high">고화질</string>
+    <string name="image_low">일반 화질</string>
+    <string name="auto_upload_setting">업로드</string>
+    <string name="auto_upload">자동 업로드</string>
+    <string name="auto_upload_condition">자동 업로드(충전하고 있을 경우)</string>
+    <string name="no_auto_upload">직접 업로드</string>
 </resources>

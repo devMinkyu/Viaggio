@@ -65,9 +65,13 @@ class AndroidPrefUtilService @Inject constructor() {
         return Completable.fromAction { sp.edit().putLong(key.name, value).apply() }
     }
 
+    // upload mode 0 자동, 1 충전 자동, 2 직접 업로드
+    // image mode 0 일반 1 고화질
     enum class Key {
         USER_ID, TOKEN_ID, TUTORIAL_CHECK, TRAVELING, LAST_CONNECT_OF_DAY, TRAVELING_OF_DAY_COUNT
         ,TRAVELING_ID, TRAVELING_LAST_COUNTRIES, SELECTED_TRAVELING_CARD_ID,
-        SELECT_TRAVEL_ID, TRAVEL_KINDS, USER_NAME, AWS_ID, AWS_TOKEN, SELECTED_COUNTRY
+        SELECT_TRAVEL_ID, TRAVEL_KINDS, USER_NAME, AWS_ID, AWS_TOKEN, SELECTED_COUNTRY,
+
+        IMAGE_MODE, UPLOAD_MODE
     }
 }

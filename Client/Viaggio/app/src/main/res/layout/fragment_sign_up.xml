@@ -71,6 +71,7 @@
                 <EditText
                         android:id="@id/signUpEmailEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
+                        android:fontFamily="@font/comfortaa"
                         android:textColorHint="@color/very_light_pink"
                         android:textColor="@android:color/white"
                         android:hint="@string/sign_in_email"
@@ -88,6 +89,7 @@
                         android:textColor="@android:color/white"
                         android:maxLength="20"
                         android:hint="@string/sign_in_password"
+                        android:fontFamily="@font/comfortaa"
                         android:inputType="textWebPassword"
                         android:background="@drawable/sign_edit_txt_bg"
                         android:text="@={viewModel.password}"
@@ -102,6 +104,7 @@
                         android:textColor="@android:color/white"
                         android:maxLength="20"
                         android:hint="@string/sign_up_confirm_password"
+                        android:fontFamily="@font/comfortaa"
                         android:inputType="textWebPassword"
                         android:background="@drawable/sign_edit_txt_bg"
                         android:text="@={viewModel.confirmPassword}"

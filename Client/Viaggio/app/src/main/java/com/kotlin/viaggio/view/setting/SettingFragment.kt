@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
@@ -20,6 +22,13 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
     companion object {
         val TAG:String = SettingFragment::class.java.simpleName
     }
+    override fun onResume() {
+        super.onResume()
+        if(sliderInterface == null)
+            sliderInterface = Slidr.replace(setting_container, SlidrConfig.Builder()
+                .position(SlidrPosition.TOP)
+                .build())
+    }
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSettingBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_setting, container, false)
@@ -31,28 +40,34 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
     }
-
-    override fun onResume() {
-        super.onResume()
-        if(sliderInterface == null)
-            sliderInterface = Slidr.replace(setting_container, SlidrConfig.Builder()
-                .position(SlidrPosition.TOP)
-                .listener(object : SlidrListener {
-                    override fun onSlideClosed() {
-                        fragmentPopStack()
-                    }
-                    override fun onSlideStateChanged(state: Int) {}
-                    override fun onSlideChange(percent: Float) {}
-                    override fun onSlideOpened() {}
-                })
-                .build())
-    }
     inner class ViewHandler{
         fun close(){
             fragmentPopStack()
         }
         fun sign(){
             baseIntent("http://viaggio.kotlin.com/home/login/")
+        }
+        fun imageSetting(){
+            SettingImageBottomSheetDialogFragment().show(fragmentManager!!, SettingImageBottomSheetDialogFragment.TAG)
+        }
+        fun autoUpload(){
+            if(getViewModel().isLogin.get()){
+                SettingAutoBottomSheetDialogFragment().show(fragmentManager!!, SettingAutoBottomSheetDialogFragment.TAG)
+            }else{
+                baseIntent("http://viaggio.kotlin.com/home/login/")
+            }
+        }
+        fun myProfile(){
+
+        }
+        fun uploadCheck(){
+
+        }
+        fun sync(){
+
+        }
+        fun logout(){
+
         }
     }
 }
