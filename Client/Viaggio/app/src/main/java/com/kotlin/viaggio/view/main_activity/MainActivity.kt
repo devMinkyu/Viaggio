@@ -21,7 +21,7 @@ import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
-import com.kotlin.viaggio.view.traveling.detail.TravelingRepresentativeImageFragment
+import com.kotlin.viaggio.view.travel.option.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment

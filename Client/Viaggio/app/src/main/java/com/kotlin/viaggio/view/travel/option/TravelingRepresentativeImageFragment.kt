@@ -1,4 +1,4 @@
-package com.kotlin.viaggio.view.traveling.detail
+package com.kotlin.viaggio.view.travel.option
 
 import android.os.Bundle
 import android.view.LayoutInflater

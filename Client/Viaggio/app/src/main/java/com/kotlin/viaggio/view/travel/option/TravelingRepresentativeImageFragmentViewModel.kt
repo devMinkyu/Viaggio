@@ -1,4 +1,4 @@
-package com.kotlin.viaggio.view.traveling.detail
+package com.kotlin.viaggio.view.travel.option
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData

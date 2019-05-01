@@ -54,6 +54,7 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
             .subscribe({
                 if(it.isSuccessful){
                     prefUtilService.putString(AndroidPrefUtilService.Key.USER_NAME, name.get()!!).blockingAwait()
+                    rxEventBus.userUpdate.onNext(Any())
                     completeLiveData.postValue(Event(Any()))
                 }
             }){

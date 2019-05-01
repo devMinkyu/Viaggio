@@ -38,11 +38,14 @@ interface ViaggioApiService {
 
     @POST("api/v1/users/changepwd")
     @FormUrlEncoded
-    fun updateUserPaswword(
+    fun updateUserPassword(
         @Field("oldPasswordHash") oldPasswordHash:String,
         @Field("passwordHash") passwordHash:String,
         @Field("passwordHash2") passwordHash2:String
     ): Single<Response<ViaggioResult>>
+    @POST("api/v1/users/logout")
+    @FormUrlEncoded
+    fun logOut(): Single<Response<ViaggioResult>>
 
 
 

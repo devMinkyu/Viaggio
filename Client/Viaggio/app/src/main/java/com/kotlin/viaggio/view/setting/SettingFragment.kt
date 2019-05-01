@@ -64,9 +64,6 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
                 showNetWorkError()
             }
         }
-        fun uploadCheck(){
-
-        }
         fun password() {
             if(checkInternet()){
                 baseIntent("http://viaggio.kotlin.com/setting/password/")
@@ -74,10 +71,13 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
                 showNetWorkError()
             }
         }
+        fun logout(){
+            LogoutActionDialogFragment().show(fragmentManager!!, LogoutActionDialogFragment.TAG)
+        }
         fun sync(){
 
         }
-        fun logout(){
+        fun uploadCheck(){
 
         }
     }

@@ -12,7 +12,7 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel(){
 
     val name = ObservableField<String>("")
     val email = ObservableField<String>("")
-    val isLogin = ObservableBoolean(true)
+    val isLogin = ObservableBoolean(false)
     val appVersion = ObservableField<String>("")
     override fun initialize() {
         super.initialize()
@@ -23,6 +23,14 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel(){
             name.set(prefUtilService.getString(AndroidPrefUtilService.Key.USER_NAME).blockingGet())
         }
 
-        name.set(prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet())
+        val disposable = rxEventBus.userUpdate
+            .subscribe {
+                if(TextUtils.isEmpty(prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet())){
+                    isLogin.set(false)
+                }else{
+                    name.set(prefUtilService.getString(AndroidPrefUtilService.Key.USER_NAME).blockingGet())
+                }
+            }
+        addDisposable(disposable)
     }
 }

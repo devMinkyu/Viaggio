@@ -53,7 +53,10 @@ class UserModel @Inject constructor() :BaseModel(){
     }
 
     fun updatePassword(oldPassword: String, password: String, password2: String): Single<Response<ViaggioResult>>{
-        return api.updateUserPaswword(oldPasswordHash = oldPassword, passwordHash = password, passwordHash2 = password2)
+        return api.updateUserPassword(oldPasswordHash = oldPassword, passwordHash = password, passwordHash2 = password2)
             .subscribeOn(Schedulers.io())
     }
+
+    fun logOut(): Single<Response<ViaggioResult>> =
+            api.logOut().subscribeOn(Schedulers.io())
 }

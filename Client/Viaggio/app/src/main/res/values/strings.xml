@@ -126,4 +126,5 @@
     <string name="profile_password">비밀번호</string>
     <string name="profile_new_password">새로운 비밀번호</string>
     <string name="profile_new_password_confirm">새로운 비밀번호 확인</string>
+    <string name="logout">로그아웃 하시겠습니까?</string>
 </resources>

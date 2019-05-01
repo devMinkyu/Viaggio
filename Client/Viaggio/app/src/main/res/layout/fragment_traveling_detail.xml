@@ -20,10 +20,11 @@
                 android:id="@id/travelingDetailLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@android:color/white"
+                android:background="@color/white_three"
                 android:fitsSystemWindows="true">
             <androidx.core.widget.NestedScrollView
                     android:id="@+id/scrollContainer"
+                    android:background="@color/white_three"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 <TextView
@@ -80,14 +81,6 @@
                                 android:gravity="center"
                                 android:layout_marginStart="16dp"
                                 android:onClick="@{()->viewHandler.back()}"
-                        />
-                        <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:src="@drawable/ic_add_black_24dp"
-                                android:layout_marginEnd="16dp"
-                                android:onClick="@{()->viewHandler.add()}"
                         />
                     </androidx.appcompat.widget.Toolbar>
                 </com.google.android.material.appbar.CollapsingToolbarLayout>
