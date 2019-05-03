@@ -67,15 +67,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 baseIntent("http://viaggio.kotlin.com/home/main/")
             }
         })
-        getViewModel().showTravelCard.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {
-                if (it) {
-                    baseIntent("http://viaggio.kotlin.com/traveling/detail/")
-                } else {
-                    baseIntent("http://viaggio.kotlin.com/traveling/enroll/card/")
-                }
-            }
-        })
 
         getViewModel().changeCardLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {

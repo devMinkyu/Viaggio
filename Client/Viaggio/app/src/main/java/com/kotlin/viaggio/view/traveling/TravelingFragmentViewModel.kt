@@ -23,7 +23,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var gson: Gson
 
-    val showTravelCard = MutableLiveData<Event<Boolean>>()
     val completeLiveData = MutableLiveData<Event<Any>>()
     val changeCardLiveData = MutableLiveData<Event<Any>>()
     lateinit var travelCardPagedLiveData: LiveData<PagedList<TravelCard>>

@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:background="@drawable/traveling_card_create_btn"
-                    android:fontFamily="sans-serif-black"
+                    android:fontFamily="sans-serif-light"
                     android:textSize="15dp"
                     android:textColor="@color/almost_black"
                     android:text="@string/travel_card_enroll_notice"

@@ -3,6 +3,7 @@ package com.kotlin.viaggio.view.traveling.detail
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -38,12 +39,19 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val params = appBar.layoutParams
-        params.width = width
-        params.height = width
         val imgDir = File(context?.filesDir, "images/")
         getViewModel().travelOfDayCardImageListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { imageNames ->
+                if(imageNames.isNotEmpty()){
+                    val params = appBar.layoutParams
+                    params.width = width
+                    params.height = width
+                    getViewModel().imageShow.set(true)
+                }else{
+                    val params = appBar.layoutParams
+                    params.width = width
+                    params.height = resources.getDimension(R.dimen.traveling_floating_size).toInt()
+                }
                 travelingDetailDayImg.adapter = object :RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
                         object :RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_pager_img, parent, false)){}
@@ -54,14 +62,6 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                                 Glide.with(holder.itemView.travelingPagerImg)
                                     .load(themeImageName)
                                     .into(holder.itemView.travelingPagerImg)
-//                                val imgFile = File(imgDir, themeImageName)
-//                                if (imgFile.exists()) {
-//                                    Uri.fromFile(imgFile).let { uri ->
-//                                        Glide.with(holder.itemView.travelingPagerImg)
-//                                            .load(uri)
-//                                            .into(holder.itemView.travelingPagerImg)
-//                                    }
-//                                }
                             }
                         }
                     }
@@ -71,6 +71,10 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
         travelingDetailDayImg.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                getViewModel().currentImageSize.set(position + 1)
+                getViewModel().timeDisposable?.dispose()
+                getViewModel().imageShow.set(true)
+                getViewModel().showNotice()
                 if(position == 0){
                     enableSliding(true)
                 }else{
@@ -78,25 +82,10 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                 }
             }
         })
-//        scrollContainer.setOnTouchListener { v, event ->
-//            when(event.action){
-//                MotionEvent.ACTION_DOWN -> enableSliding(true)
-//                MotionEvent.ACTION_UP ->{
-//                    if(travelingDetailDayImg.currentItem != 0){
-//                        enableSliding(false)
-//                    }
-//                }
-//            }
-//            false
-//        }
-
     }
     inner class ViewHandler{
         fun back(){
             fragmentPopStack()
         }
-//        fun modify(){
-//            baseIntent("http://viaggio.kotlin.com/traveling/enroll/card/")
-//        }
     }
 }
