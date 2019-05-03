@@ -11,7 +11,7 @@ import com.kotlin.viaggio.model.TravelModel
 import io.reactivex.Completable
 import javax.inject.Inject
 
-class UploadTravelWorker @Inject constructor(context: Context, params: WorkerParameters) : BaseWorker(context, params) {
+class UpdateTravelWorker @Inject constructor(context: Context, params: WorkerParameters) : BaseWorker(context, params) {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
     @Inject
@@ -27,28 +27,19 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
         val travelCard = gson.fromJson(toJson1, TravelCard::class.java) ?: TravelCard()
 
         if(travel.id != 0L){
-            travelModel.uploadTravel(travel)
+            travelModel.updateTravel(travel)
                 .flatMapCompletable {
                     if(it.isSuccessful){
                         travel.userExist = true
                         travelLocalModel.updateTravel(travel)
                     }else{
-                        travelModel.uploadTravel(travel)
-                            .flatMapCompletable {sec ->
-                                if(sec.isSuccessful){
-                                    travel.userExist = true
-                                    travelLocalModel.updateTravel(travel)
-                                }else{
-                                    // 처리 부
-                                    Completable.complete()
-                                }
-                            }
+                        Completable.complete()
                     }
                 }.blockingAwait()
         }
 
         if(travelCard.id != 0L){
-            travelModel.uploadTravelCard(travelCard)
+            travelModel.updateTravelCard(travelCard)
                 .flatMapCompletable {
                     if(it.isSuccessful){
                         travelCard.userExist = true
@@ -57,6 +48,7 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
                         Completable.complete()
                     }
                 }.blockingAwait()
+
         }
 
         return Result.success()

@@ -3,7 +3,9 @@ package com.kotlin.viaggio.ioc.module.injector
 import com.kotlin.viaggio.ioc.module.injector.activity.MainActivityInjectorModule
 import com.kotlin.viaggio.ioc.module.provider.AppProviderModule
 import com.kotlin.viaggio.view.main_activity.MainActivity
+import com.kotlin.viaggio.worker.DeleteTravelWorker
 import com.kotlin.viaggio.worker.TimeCheckWorker
+import com.kotlin.viaggio.worker.UpdateTravelWorker
 import com.kotlin.viaggio.worker.UploadTravelWorker
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -27,4 +29,10 @@ interface AppInjectorModule {
 
     @ContributesAndroidInjector
     fun uploadTravelWorker():UploadTravelWorker
+
+    @ContributesAndroidInjector
+    fun updateTravelWorker():UpdateTravelWorker
+
+    @ContributesAndroidInjector
+    fun deleteTravelWorker():DeleteTravelWorker
 }

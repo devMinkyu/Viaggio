@@ -147,10 +147,19 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                 prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID)
             }
             .subscribe({ token ->
-                if (TextUtils.isEmpty(token).not()) {
-                    val constraints = Constraints.Builder()
-                        .setRequiredNetworkType(NetworkType.CONNECTED)
-                        .build()
+                val mode = prefUtilService.getInt(AndroidPrefUtilService.Key.UPLOAD_MODE).blockingGet()
+                if (TextUtils.isEmpty(token).not() && mode != 2) {
+                    val constraints =
+                        if (mode == 0) {
+                            Constraints.Builder()
+                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                .build()
+                        } else {
+                            Constraints.Builder()
+                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                .setRequiresCharging(true)
+                                .build()
+                        }
 
                     val resultJsonTravel = gson.toJson(travel)
 

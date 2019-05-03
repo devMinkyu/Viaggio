@@ -69,11 +69,8 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
         }.subscribeOn(Schedulers.io())
     }
 
-    fun createTravelCard(travelCard: TravelCard): Completable {
-        return Completable.create {
-            db.get().travelDao().insertTravelCard(travelCard)
-            it.onComplete()
-        }
+    fun createTravelCard(travelCard: TravelCard): Single<Long> {
+        return db.get().travelDao().insertTravelCard(travelCard)
             .subscribeOn(Schedulers.io())
     }
 
