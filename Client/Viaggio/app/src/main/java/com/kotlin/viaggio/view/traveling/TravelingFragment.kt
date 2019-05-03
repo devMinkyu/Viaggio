@@ -163,6 +163,11 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 getViewModel().setSelectedTravelCard(binding?.data?.id)
                 baseIntent("http://viaggio.kotlin.com/traveling/detail/")
             }
+            override fun more() {
+                getViewModel().modifyContentXVal = itemView.travelingItemInfo.x
+                getViewModel().modifyContentYVal = itemView.travelingItemInfo.y
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
         }
     }
     inner class TravelCardCountViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -184,11 +189,16 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 getViewModel().setSelectedTravelCard(binding?.data?.id)
                 baseIntent("http://viaggio.kotlin.com/traveling/detail/")
             }
+
+            override fun more() {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
         }
     }
 }
 interface TravelCardViewHandler{
     fun detail()
+    fun more()
 }
 
 

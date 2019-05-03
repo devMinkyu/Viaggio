@@ -55,6 +55,9 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
     fun getTravel(): Single<Travel> {
         return db.get().travelDao().getTravel(getSelectedTravelingId().blockingGet()).subscribeOn(Schedulers.io())
     }
+    fun getTravel(travelId:Long): Single<Travel> {
+        return db.get().travelDao().getTravel(travelId)
+    }
 
     fun getTravels(): Single<List<Travel>> {
         return db.get().travelDao().getTravels()

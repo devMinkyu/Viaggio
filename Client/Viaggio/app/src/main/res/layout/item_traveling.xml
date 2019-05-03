@@ -86,5 +86,14 @@
                 tools:lineSpacingExtra="4.3dp"
                 tools:text="설레는 출발입니다 드디어 스페인을 가다니 너무나 기가 되는데요 껄껄무나 기가 되는데요 껄껄무나 기가 되는데요 껄껄무되는데요 껄껄무나 기가 되는데요 껄껄무dsaadsda나 기assad가 되는데요 껄껄껄껄껄"
         />
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/common_margin"
+                android:onClick="@{()->viewHandler.more()}"
+                app:srcCompat="@drawable/icon_more_2"
+                app:layout_constraintBottom_toBottomOf="@id/item_container"
+                app:layout_constraintEnd_toEndOf="@id/item_container"
+        />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

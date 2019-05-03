@@ -241,4 +241,8 @@
     <item name="settingNewPassword" type="id"/>
     <item name="settingNewPasswordConfirm" type="id"/>
     <item name="settingPassword" type="id"/>
+    <item name="travelingDetailDayTravelCardDay" type="id"/>
+    <item name="travelingDetailDayTravelCardCountry" type="id"/>
+    <item name="travelingDetailDayTravelCardDate" type="id"/>
+    <item name="travelingDetailDayTravelCardTheme" type="id"/>
 </resources>

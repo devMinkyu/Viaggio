@@ -1,6 +1,5 @@
 package com.kotlin.viaggio.view.traveling
 
-import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
@@ -29,6 +28,9 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val title:ObservableField<String> = ObservableField("")
     val notEmpty:ObservableBoolean = ObservableBoolean(false)
+
+    var modifyContentXVal = 0f
+    var modifyContentYVal = 0f
     override fun initialize() {
         super.initialize()
         loadTravelOfDayPaged()

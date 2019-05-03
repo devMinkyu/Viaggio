@@ -1,10 +1,8 @@
 package com.kotlin.viaggio.view.traveling.detail
 
-import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -18,7 +16,6 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_detail.*
-import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_pager_img.view.*
 import java.io.File
 
@@ -54,14 +51,17 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
                         imageNames[position].let { themeImageName ->
                             if(TextUtils.isEmpty(themeImageName).not()){
-                                val imgFile = File(imgDir, themeImageName)
-                                if (imgFile.exists()) {
-                                    Uri.fromFile(imgFile).let { uri ->
-                                        Glide.with(holder.itemView.travelingPagerImg)
-                                            .load(uri)
-                                            .into(holder.itemView.travelingPagerImg)
-                                    }
-                                }
+                                Glide.with(holder.itemView.travelingPagerImg)
+                                    .load(themeImageName)
+                                    .into(holder.itemView.travelingPagerImg)
+//                                val imgFile = File(imgDir, themeImageName)
+//                                if (imgFile.exists()) {
+//                                    Uri.fromFile(imgFile).let { uri ->
+//                                        Glide.with(holder.itemView.travelingPagerImg)
+//                                            .load(uri)
+//                                            .into(holder.itemView.travelingPagerImg)
+//                                    }
+//                                }
                             }
                         }
                     }
@@ -95,11 +95,8 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
         fun back(){
             fragmentPopStack()
         }
-        fun add(){
-            TravelingDetailActionDialogFragment().show(fragmentManager!!,TravelingDetailActionDialogFragment.TAG)
-        }
-        fun modify(){
-            baseIntent("http://viaggio.kotlin.com/traveling/enroll/card/")
-        }
+//        fun modify(){
+//            baseIntent("http://viaggio.kotlin.com/traveling/enroll/card/")
+//        }
     }
 }

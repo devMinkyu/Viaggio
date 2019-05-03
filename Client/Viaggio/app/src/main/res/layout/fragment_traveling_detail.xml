@@ -20,25 +20,91 @@
                 android:id="@id/travelingDetailLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white_three"
-                android:fitsSystemWindows="true">
+                android:background="@color/white_three">
             <androidx.core.widget.NestedScrollView
                     android:id="@+id/scrollContainer"
                     android:background="@color/white_three"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                <TextView
-                        android:id="@id/travelingDetailDayTravelCardList"
+                    android:layout_height="match_parent"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:fillViewport="true">
+                <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="25dp"
-                        android:onClick="@{()->viewHandler.modify()}"
-                        tools:text="saddsadsad4s5a6d4s5a4d56asd4sad4asdsadasdasdsadsasdassaasassaasasddsadsaaddsadsadadaddsadsadsadsadsadasdsadasdass"/>
+                        android:layout_height="match_parent">
+                    <TextView
+                            android:id="@id/travelingDetailDayTravelCardCountry"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/common_margin"
+                            android:textSize="18dp"
+                            android:textColor="@color/almost_black"
+                            android:letterSpacing="-0.02"
+                            app:layout_constraintTop_toTopOf="@id/travelingDetailDayTravelCardDay"
+                            app:layout_constraintBottom_toBottomOf="@id/travelingDetailDayTravelCardTheme"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:text="@{viewModel.country}"
+                            android:fontFamily="sans-serif-black"
+                            tools:text="스페인_마드리드"
+                            tools:ignore="SpUsage"/>
+                    <TextView
+                            android:id="@id/travelingDetailDayTravelCardDay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/common_margin"
+                            android:textSize="15.7dp"
+                            android:textColor="@color/brown_grey_two"
+                            android:letterSpacing="-0.02"
+                            android:fontFamily="sans-serif-black"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:text="@{@string/travel_card_count(viewModel.dayCount)}"
+                            tools:text="1일차"
+                            tools:ignore="SpUsage"/>
+                    <TextView
+                            android:id="@id/travelingDetailDayTravelCardDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4.5dp"
+                            android:textSize="12dp"
+                            android:textColor="@color/brown_grey_two"
+                            android:letterSpacing="-0.02"
+                            android:fontFamily="sans-serif-light"
+                            android:text="@{viewModel.date}"
+                            app:layout_constraintEnd_toEndOf="@id/travelingDetailDayTravelCardDay"
+                            app:layout_constraintTop_toBottomOf="@id/travelingDetailDayTravelCardDay"
+                            tools:text="2017년 10월 20일"
+                            tools:ignore="SpUsage"/>
+                    <TextView
+                            android:id="@id/travelingDetailDayTravelCardTheme"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4.5dp"
+                            android:textSize="12dp"
+                            android:textColor="@color/colorPrimary"
+                            android:letterSpacing="-0.02"
+                            android:fontFamily="sans-serif-light"
+                            android:text="@{viewModel.theme}"
+                            app:layout_constraintEnd_toEndOf="@id/travelingDetailDayTravelCardDate"
+                            app:layout_constraintTop_toBottomOf="@id/travelingDetailDayTravelCardDate"
+                            tools:text="#신혼, #식도락, #와이너리"
+                            tools:ignore="SpUsage"/>
+                    <TextView
+                            android:id="@id/travelingDetailDayTravelCardList"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:padding="@dimen/common_margin"
+                            android:text="@{viewModel.content}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/travelingDetailDayTravelCardTheme"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            tools:text="saddsadsad4s5a6d4s5a4d56asd4sad4asdsadasdasdsadsasdassaasassaasasddsadsaaddsadsadadaddsadsadsadsadsadasdsadasdass"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
             <com.google.android.material.appbar.AppBarLayout
                     android:id="@+id/appBar"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp"
+                    android:layout_height="300dp"
                     android:fitsSystemWindows="true"
             >
                 <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -71,15 +137,9 @@
                             android:layout_height="?attr/actionBarSize"
                             android:layout_marginTop="24dp"
                             app:layout_collapseMode="pin">
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="start"
-                                android:drawableStart="@drawable/ic_keyboard_arrow_left_white_24dp"
-                                android:text="@string/back"
-                                android:textColor="@android:color/white"
-                                android:gravity="center"
-                                android:layout_marginStart="16dp"
+                        <androidx.appcompat.widget.AppCompatImageView
+                                style="@style/ViewStyle.Viaggio.Back"
+                                android:layout_marginStart="0dp"
                                 android:onClick="@{()->viewHandler.back()}"
                         />
                     </androidx.appcompat.widget.Toolbar>

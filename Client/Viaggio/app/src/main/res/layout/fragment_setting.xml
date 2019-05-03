@@ -180,7 +180,7 @@
                     app:constraint_referenced_ids="settingMyProfile,
                     settingEtc,settingAutoUploadCheck, settingSync,
                     settingLogout, settingSignIn, settingProfileImg,
-                    settingName, settingEmail"
+                    settingName, settingEmail, settingPassword"
                     tools:ignore="UnknownId"/>
             <View
                     android:id="@id/settingEntire"
