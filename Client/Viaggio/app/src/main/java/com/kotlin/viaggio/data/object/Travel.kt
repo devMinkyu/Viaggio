@@ -33,6 +33,7 @@ data class Traveled(
 @Entity(tableName = "travelCards")
 data class TravelCard(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
+    var userExist: Boolean = false,
     var travelId: Long = 0,
     var travelOfDay: Int = 1,
     var country:String = "",

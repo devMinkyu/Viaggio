@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelCardValue
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
@@ -73,6 +74,16 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 } else {
                     baseIntent("http://viaggio.kotlin.com/traveling/enroll/card/")
                 }
+            }
+        })
+
+        getViewModel().changeCardLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                val frag = TravelingDetailActionDialogFragment()
+                val arg = Bundle()
+                arg.putIntArray(ArgName.TRAVEL_CARD_LOCATION.name, getViewModel().modifyLocation)
+                frag.arguments = arg
+                frag.show(fragmentManager!!, TravelingDetailActionDialogFragment.TAG)
             }
         })
     }
@@ -164,9 +175,11 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 baseIntent("http://viaggio.kotlin.com/traveling/detail/")
             }
             override fun more() {
-                getViewModel().modifyContentXVal = itemView.travelingItemInfo.x
-                getViewModel().modifyContentYVal = itemView.travelingItemInfo.y
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                getViewModel().setSelectedTravelCard(binding?.data?.id)
+                val location = IntArray(2)
+                itemView.travelingItemInfo.getLocationOnScreen(location)
+                getViewModel().modifyLocation = location
+                TravelCardBottomSheetDialogFragment().show(fragmentManager!!, TravelCardBottomSheetDialogFragment.TAG)
             }
         }
     }
@@ -191,7 +204,11 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             }
 
             override fun more() {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                getViewModel().setSelectedTravelCard(binding?.data?.id)
+                val location = IntArray(2)
+                itemView.travelingItemInfo.getLocationOnScreen(location)
+                getViewModel().modifyLocation = location
+                TravelCardBottomSheetDialogFragment().show(fragmentManager!!, TravelCardBottomSheetDialogFragment.TAG)
             }
         }
     }

@@ -71,7 +71,9 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
                             selectedTheme.add(item)
                         }
                     }
-                    themesListLiveData.value = Event(list)
+                    if(option.not()){
+                        themesListLiveData.value = Event(list)
+                    }
                 }
             addDisposable(disposable)
         }
@@ -90,6 +92,7 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
                 addDisposable(disposable)
             }
         } else {
+            option = true
             rxEventBus.travelOfTheme.onNext(selectedTheme)
             completeLiveData.value = Event(Any())
         }

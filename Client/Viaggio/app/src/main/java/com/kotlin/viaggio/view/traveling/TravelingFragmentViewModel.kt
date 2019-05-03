@@ -13,6 +13,7 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -24,13 +25,13 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val showTravelCard = MutableLiveData<Event<Boolean>>()
     val completeLiveData = MutableLiveData<Event<Any>>()
+    val changeCardLiveData = MutableLiveData<Event<Any>>()
     lateinit var travelCardPagedLiveData: LiveData<PagedList<TravelCard>>
 
     val title:ObservableField<String> = ObservableField("")
     val notEmpty:ObservableBoolean = ObservableBoolean(false)
 
-    var modifyContentXVal = 0f
-    var modifyContentYVal = 0f
+    var modifyLocation = IntArray(2)
     override fun initialize() {
         super.initialize()
         loadTravelOfDayPaged()
@@ -39,21 +40,24 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
             .subscribe({
                 title.set(it.title)
             }){
-
+                Timber.d(it)
             }
         addDisposable(travelDisposable)
 
-        val disposable = rxEventBus.travelOfDayChange
+        val disposable = rxEventBus.travelCardUpdate
             .subscribeOn(Schedulers.io())
             .subscribe({
-                if (it) {
-                    travelCardPagedLiveData.value?.dataSource?.invalidate()
-                    rxEventBus.travelOfDayChange.onNext(false)
-                }
+                travelCardPagedLiveData.value?.dataSource?.invalidate()
             }) {
-
+                Timber.d(it)
             }
         addDisposable(disposable)
+
+        val changeDisposable = rxEventBus.travelCardChange
+            .subscribe {
+                changeCardLiveData.value = Event(Any())
+            }
+        addDisposable(changeDisposable)
     }
 
     private fun loadTravelOfDayPaged() {

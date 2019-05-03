@@ -12,11 +12,13 @@ import com.kotlin.viaggio.data.`object`.*
 
 @Suppress("unused")
 @Database(
-    entities = [User::class, Travel::class, TravelCard::class],
+    entities = [User::class, Travel::class, TravelCard::class, Theme::class, Country::class],
     version = 1,
     exportSchema = false
 )
 @TypeConverters(StringConverters::class, DateTypeConverters::class, StringOfListConverters::class, AreaConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun travelDao(): TravelDao
+    abstract fun themeDao(): ThemeDao
+    abstract fun countryDao(): CountryDao
 }
