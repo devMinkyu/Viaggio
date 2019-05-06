@@ -37,7 +37,11 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
             dismiss()
         }
         fun addCountry(){
-            baseIntent("http://viaggio.kotlin.com/option/country/")
+            if(getViewModel().travel.travelKind == 0){
+                baseIntent("http://viaggio.kotlin.com/option/country/")
+            }else{
+                baseIntent("http://viaggio.kotlin.com/option/domestics/")
+            }
             dismiss()
         }
         fun addTheme(){

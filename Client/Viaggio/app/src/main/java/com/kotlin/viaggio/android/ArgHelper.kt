@@ -4,7 +4,7 @@ sealed class ComponentArg
 
 enum class ArgName {
     OCR_IMAGE_URI, EXTRA_TRANSITION_NAME, TRAVEL_TYPE, TRAVEL_OPTION,
-    TRAVEL_CARD_LOCATION
+    TRAVEL_CARD_LOCATION, TRAVEL_CALENDAR
 }
 
 enum class WorkerName {

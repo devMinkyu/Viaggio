@@ -131,4 +131,5 @@
     <string name="travel_card_delete">삭제</string>
     <string name="travel_card_close">종료</string>
     <string name="travel_card_image_count">%d / %d</string>
+    <string name="calendar_save">등록</string>
 </resources>

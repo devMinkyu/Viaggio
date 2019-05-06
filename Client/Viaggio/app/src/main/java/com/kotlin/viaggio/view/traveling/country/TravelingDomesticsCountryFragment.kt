@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.traveling.country
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.data.`object`.Area
 import com.kotlin.viaggio.databinding.ItemDomesticsBinding
 import com.kotlin.viaggio.view.common.BaseFragment
@@ -17,9 +19,16 @@ import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_domestics_country.*
 import kotlinx.android.synthetic.main.item_domestics.view.*
+import org.jetbrains.anko.support.v4.toast
 
 
 class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountryFragmentViewModel>() {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        arguments?.let {
+            getViewModel().option = it.getBoolean(ArgName.TRAVEL_OPTION.name, false)
+        }
+    }
     override fun onResume() {
         super.onResume()
         if(sliderInterface == null)
@@ -56,6 +65,13 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
                 }
             }
         })
+
+        getViewModel().completeLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                stopLoading()
+                fragmentPopStack()
+            }
+        })
     }
 
     inner class ViewHandler{
@@ -63,8 +79,16 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
             fragmentPopStack()
         }
         fun confirm(){
-            getViewModel().selectedCity()
-            fragmentPopStack()
+            if(getViewModel().option){
+                if(getViewModel().selectedCities.isEmpty()){
+                    toast(resources.getString(R.string.empty_country_hint))
+                }else{
+                    showLoading()
+                    getViewModel().selectedCity()
+                }
+            }else{
+                getViewModel().selectedCity()
+            }
         }
     }
 

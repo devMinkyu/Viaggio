@@ -41,27 +41,30 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
         fun selectBeforeKinds(kinds: String){
             getViewModel().selectKind(kinds)
             getViewModel().travelType(1)
-            SlyCalendarDialog()
-                .setSingle(false)
-                .setTimeTheme(null)
-                .setCallback(object :SlyCalendarDialog.Callback{
-                    override fun onDataSelected(
-                        firstDate: Calendar?,
-                        secondDate: Calendar?,
-                        hours: Int,
-                        minutes: Int
-                    ) {
-                        if(firstDate != null && secondDate != null){
-                            getViewModel().travelTerm(firstDate.time, secondDate.time)
-                            baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
-                            dismiss()
-                        }else{
-                            toast("날짜를 다 선택해줘")
-                        }
-                    }
-                    override fun onCancelled() {}
-                })
-                .show(fragmentManager!!, null)
+
+            baseIntent("http://viaggio.kotlin.com/home/calendar/")
+            dismiss()
+//            SlyCalendarDialog()
+//                .setSingle(false)
+//                .setTimeTheme(null)
+//                .setCallback(object :SlyCalendarDialog.Callback{
+//                    override fun onDataSelected(
+//                        firstDate: Calendar?,
+//                        secondDate: Calendar?,
+//                        hours: Int,
+//                        minutes: Int
+//                    ) {
+//                        if(firstDate != null && secondDate != null){
+//                            getViewModel().travelTerm(firstDate.time, secondDate.time)
+//                            baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
+//                            dismiss()
+//                        }else{
+//                            toast("날짜를 다 선택해줘")
+//                        }
+//                    }
+//                    override fun onCancelled() {}
+//                })
+//                .show(fragmentManager!!, null)
         }
     }
 }

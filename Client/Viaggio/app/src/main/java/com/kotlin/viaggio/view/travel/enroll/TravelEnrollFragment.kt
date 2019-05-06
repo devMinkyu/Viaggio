@@ -111,26 +111,7 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
         }
         fun changeDate(){
             if(getViewModel().endDate == null){
-                alert {
-                    lateinit var datePicker: DatePicker
-                    customView {
-                        verticalLayout {
-                            datePicker = datePicker {
-                                this.maxDate = System.currentTimeMillis()
-                            }
-                        }
-                        okButton {
-                            val cal = Calendar.getInstance()
-                            cal.set(Calendar.YEAR, datePicker.year)
-                            cal.set(Calendar.MONTH, datePicker.month)
-                            cal.set(Calendar.DAY_OF_MONTH, datePicker.dayOfMonth)
-                            getViewModel().changeStartOfDay(cal.time)
-                        }
-                        cancelButton {
-                            it.dismiss()
-                        }
-                    }
-                }.show()
+                baseIntent("http://viaggio.kotlin.com/traveling/calendar/")
             }
         }
         fun travelStart(){

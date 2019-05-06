@@ -16,6 +16,7 @@ import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.travel.TravelFragment
+import com.kotlin.viaggio.view.travel.calendar.TravelCalendarFragment
 import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
@@ -84,6 +85,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "camera" -> showCamera()
                         "theme" -> showTheme()
                         "setting" -> showSetting()
+                        "calendar" -> showCalendar()
                     }
                 }
                 "login" -> {
@@ -114,6 +116,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                             showTravelingCity()
                         }
                         "card" -> showTravelingEnroll()
+                        "calendar" -> showTravelCalendar()
                     }
                 "setting" ->
                     when (appLinkData.lastPathSegment) {
@@ -124,6 +127,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                     when (appLinkData.lastPathSegment) {
                         "country" -> {
                             showOptionCountry()
+                        }
+                        "domestics" -> {
+                            showOptionDomestics()
                         }
                         "theme" -> {
                             showOptionTheme()
@@ -136,6 +142,19 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTravelCalendar() {
+        val frag = TravelCalendarFragment()
+        val arg = Bundle()
+        arg.putBoolean(ArgName.TRAVEL_CALENDAR.name, true)
+        frag.arguments = arg
+        baseShowBottomAddBackFragment(frag)
+    }
+
+
+    private fun showCalendar() {
+        baseShowBottomAddBackFragment(TravelCalendarFragment())
     }
 
     private fun showTravelingDomesticCountry() {
@@ -154,6 +173,13 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         baseShowLeftAddBackFragment(TravelingRepresentativeImageFragment())
     }
 
+    private fun showOptionDomestics() {
+        val frag = TravelingDomesticsCountryFragment()
+        val arg = Bundle()
+        arg.putBoolean(ArgName.TRAVEL_OPTION.name, true)
+        frag.arguments = arg
+        baseShowLeftAddBackFragment(frag)
+    }
     private fun showOptionCountry() {
         val frag = TravelingCountryFragment()
         val arg = Bundle()

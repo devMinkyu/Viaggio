@@ -76,15 +76,23 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         val travelingStartOfDayDisposable = rxEventBus.travelingStartOfDay
             .subscribe({
                 if(it.isNotEmpty()){
-                    startDate = it[0]
-                    endDate = it[1]
-                    travelingStartOfDay.set(
-                        "${DateFormat.getDateInstance(DateFormat.LONG).format(startDate)} ~ ${DateFormat.getDateInstance(DateFormat.LONG).format(endDate)}"
-                    )
-                    rxEventBus.travelingStartOfDay.onNext(listOf())
+                    if(it.size > 1){
+                        startDate = it[0]
+                        endDate = it[1]
+                        travelingStartOfDay.set(
+                            "${DateFormat.getDateInstance(DateFormat.LONG).format(startDate)} ~ ${DateFormat.getDateInstance(DateFormat.LONG).format(endDate)}"
+                        )
+                        rxEventBus.travelingStartOfDay.onNext(listOf())
+                    }else{
+                        startDate = it[0]
+                        travelingStartOfDay.set(
+                            DateFormat.getDateInstance(DateFormat.LONG).format(startDate)
+                        )
+                        rxEventBus.travelingStartOfDay.onNext(listOf())
+                    }
                 }
             }) {
-
+                Timber.d(it)
             }
         addDisposable(travelingStartOfDayDisposable)
         val countryDisposable = rxEventBus.travelSelectedCity.subscribe { t ->
@@ -114,15 +122,6 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         }
         disposable?.let { addDisposable(it) }
     }
-
-    fun changeStartOfDay(startOfDay: Date) {
-        startDate = startOfDay
-        travelingStartOfDay.set(
-            DateFormat.getDateInstance(DateFormat.LONG).format(startDate)
-        )
-    }
-
-
 
     @SuppressLint("RestrictedApi")
     fun travelStart(): Boolean {

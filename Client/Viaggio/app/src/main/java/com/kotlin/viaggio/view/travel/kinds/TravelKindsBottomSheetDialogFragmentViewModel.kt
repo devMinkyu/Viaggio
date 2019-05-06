@@ -24,10 +24,6 @@ class TravelKindsBottomSheetDialogFragmentViewModel @Inject constructor() : Base
         }
     }
 
-    fun travelTerm(startTime: Date, endTime: Date) {
-        rxEventBus.travelingStartOfDay.onNext(listOf(startTime, endTime))
-    }
-
     fun travelType(i: Int) {
         rxEventBus.travelType.onNext(i)
     }

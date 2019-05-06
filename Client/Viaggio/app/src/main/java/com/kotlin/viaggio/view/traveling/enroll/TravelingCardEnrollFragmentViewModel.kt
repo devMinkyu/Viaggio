@@ -75,8 +75,10 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         addDisposable(disposable)
 
         if(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()){
-            dayCount.set(prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet())
-            country.set(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
+            if(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet() == prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()){
+                dayCount.set(prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet())
+                country.set(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
+            }
         }
 
         val optionDisposable = rxEventBus.travelingOption.subscribe {

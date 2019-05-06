@@ -82,6 +82,13 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
             .add(R.id.content_frame, fragment, null)
             .commit()
     }
+    fun baseShowBottomAddBackFragment(fragment:BaseFragment<*>){
+        supportFragmentManager.beginTransaction()
+            .addToBackStack(null)
+            .setCustomAnimations(R.anim.layout_bottom_in, R.anim.layout_bottom_out,R.anim.layout_pop_bottom_in, R.anim.layout_pop_bottom_out)
+            .add(R.id.content_frame, fragment, null)
+            .commit()
+    }
 
     fun showLoading() {
         val loadingDialogFragment1Val = loadingDialogFragment?.run {

@@ -66,7 +66,15 @@
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
+                        android:pathPattern="/traveling/calendar/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
                         android:pathPattern="/home/login/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/home/calendar/"/>
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
@@ -123,6 +131,10 @@
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
                         android:pathPattern="/option/country/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/option/domestics/"/>
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
