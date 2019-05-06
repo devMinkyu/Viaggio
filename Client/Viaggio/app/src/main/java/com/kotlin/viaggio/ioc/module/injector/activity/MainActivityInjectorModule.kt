@@ -21,6 +21,7 @@ import com.kotlin.viaggio.view.traveling.TravelingDetailActionDialogFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.travel.option.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragment
+import com.kotlin.viaggio.view.traveling.country.TravelingDomesticsCountryFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingCitiesActionDialogFragment
@@ -121,4 +122,7 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun travelCardBottomSheetDialogFragment(): TravelCardBottomSheetDialogFragment
+
+    @ContributesAndroidInjector
+    fun travelingDomesticsCountryFragment(): TravelingDomesticsCountryFragment
 }

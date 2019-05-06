@@ -87,6 +87,8 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             } else {
                 binding.data = null
             }
+
+
             view.travelNonBack.setOnClickListener {
                 TravelKindsBottomSheetDialogFragment().show(fragmentManager!!, TravelKindsBottomSheetDialogFragment.TAG)
             }

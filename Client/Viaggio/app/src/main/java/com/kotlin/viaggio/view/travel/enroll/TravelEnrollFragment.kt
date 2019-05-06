@@ -103,7 +103,7 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
             if(getViewModel().travelKind == 0){
                 baseIntent("http://viaggio.kotlin.com/traveling/country/")
             }else{
-//                baseIntent("http://viaggio.kotlin.com/traveling/country/domestic/")
+                baseIntent("http://viaggio.kotlin.com/traveling/country/domestic/")
             }
         }
         fun addTheme(){

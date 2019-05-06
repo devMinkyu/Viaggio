@@ -106,6 +106,7 @@
                     android:layout_width="match_parent"
                     android:elevation="0dp"
                     android:layout_height="300dp"
+                    android:theme="@style/AppTheme.AppBarOverlay"
                     android:background="@color/white_three"
             >
                 <com.google.android.material.appbar.CollapsingToolbarLayout

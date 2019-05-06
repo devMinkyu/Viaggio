@@ -8,9 +8,9 @@ import java.util.*
 @Entity(tableName = "countries")
 data class Country(
     @PrimaryKey(autoGenerate = true) var id:Long = 0,
-    var continent: String,
+    var continent: String = "",
     var country: String,
-    var url: String,
+    var url: String = "",
     @Suppress("ArrayInDataClass") var area: ArrayList<String>
 )
 

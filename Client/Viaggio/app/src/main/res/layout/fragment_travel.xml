@@ -39,6 +39,14 @@
                         android:layout_marginStart="16dp"
                         android:onClick="@{()->viewHandler.setting()}"
                 />
+                <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/tool_bar_title"
+                        android:layout_marginStart="16dp"
+                        android:onClick="@{()->viewHandler.setting()}"
+                />
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
         <Spinner

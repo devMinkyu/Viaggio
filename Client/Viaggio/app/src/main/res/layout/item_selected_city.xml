@@ -24,7 +24,6 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="30dp"
                 android:background="@drawable/city_btn_bg"
-                android:backgroundTint="@color/colorPrimary"
                 android:textColor="@android:color/white"
                 android:text="@{@string/travel_of_day_country(data.country, data.city)}"
                 android:textSize="12dp"

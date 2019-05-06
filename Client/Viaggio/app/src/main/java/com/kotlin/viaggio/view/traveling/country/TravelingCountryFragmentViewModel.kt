@@ -88,8 +88,8 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
 
         val areaDisposable = rxEventBus.travelCity.subscribe {
             chooseArea.addAll(it)
-            val disList = chooseArea.distinctBy {arraVal ->
-                arraVal.city
+            val disList = chooseArea.distinctBy {areaVal ->
+                areaVal.city
             }
             chooseArea.clear()
             chooseArea.addAll(disList)

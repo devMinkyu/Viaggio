@@ -85,12 +85,6 @@ class TravelingCityFragment:BaseFragment<TravelingCityFragmentViewModel>(){
         fun choose(){
             getViewModel().selectedCity()
             fragmentPopStack()
-//            if(getViewModel().travelType == 0){
-//                fragmentManager?.popBackStackImmediate()
-//                fragmentPopStack()
-//            }else{
-//                fragmentPopStack()
-//            }
         }
     }
 
@@ -108,22 +102,6 @@ class TravelingCityFragment:BaseFragment<TravelingCityFragmentViewModel>(){
                         getViewModel().selectedCities.add(binding.data)
                     }
                 }
-//                if(getViewModel().travelType == 0){
-//                    binding?.data?.selected?.let {
-//                        binding.data!!.selected.set(it.get().not())
-//                        if(getViewModel().selectedCities.contains(binding.data)){
-//                            getViewModel().selectedCities.remove(binding.data)
-//                        }else{
-//                            if(getViewModel().selectedCities.size > 0){
-//                                getViewModel().selectedCities[0].selected.set(false)
-//                                getViewModel().selectedCities.clear()
-//                            }
-//                            getViewModel().selectedCities.add(binding.data)
-//                        }
-//                    }
-//                }else{
-//
-//                }
             }
         }
     }

@@ -22,6 +22,7 @@ import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.travel.option.TravelingRepresentativeImageFragment
+import com.kotlin.viaggio.view.traveling.country.TravelingDomesticsCountryFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
@@ -75,8 +76,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         val appLinkAction = intent.action
         val appLinkData: Uri? = intent.data
         if (Intent.ACTION_VIEW == appLinkAction) {
-            val firstPath = appLinkData?.pathSegments?.get(0)
-            when (firstPath) {
+            when (appLinkData?.pathSegments?.get(0)) {
                 "home" -> {
                     when (appLinkData.lastPathSegment) {
                         "main" -> showHome()
@@ -108,6 +108,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "country" -> {
                             showTravelingCountry()
                         }
+                        "domestic" -> showTravelingDomesticCountry()
                         "city" -> {
                             getViewModel().travelType = appLinkData.pathSegments[1].toInt()
                             showTravelingCity()
@@ -135,6 +136,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTravelingDomesticCountry() {
+        baseShowAddLeftAddBackFragment(TravelingDomesticsCountryFragment())
     }
 
     private fun showChangePassword() {
