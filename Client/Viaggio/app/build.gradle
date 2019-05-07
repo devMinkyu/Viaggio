@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
+apply plugin: 'com.amazonaws.appsync'
 //apply plugin: "androidx.navigation.safeargs.kotlin"
 android {
     compileSdkVersion rootProject.targetSdkVersion
@@ -22,6 +23,8 @@ android {
         buildConfigField("String", "OPEN_WEATHER", "\"${viaggio_open_weather}\"")
         buildConfigField("String", "OPEN_WEATHER_API_KEY", "\"${viaggio_open_weather_api_key}\"")
         buildConfigField("String", "SERVER_HOST", "\"${viaggio_dev_server_host}\"")
+        buildConfigField("String", "S3_UPLOAD_BUCKET", "\"${viaggio_bucket}\"")
+        buildConfigField("String", "S3_POOL_ID", "\"${aws_s3_pool_id}\"")
         multiDexEnabled true
     }
     buildTypes {
@@ -86,8 +89,8 @@ dependencies {
 //    implementation "androidx.navigation:navigation-ui:$nav_version"
 
     //firebase
-    implementation 'com.google.firebase:firebase-core:16.0.8'
-    implementation 'com.google.firebase:firebase-ml-vision:19.0.3'
+    implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.google.firebase:firebase-ml-vision:20.0.0'
 
     // viewPager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha03'
@@ -134,5 +137,16 @@ dependencies {
     debugImplementation 'com.facebook.stetho:stetho:1.5.1'
     debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 
+    // aws
+    //Base SDK
+    implementation 'com.amazonaws:aws-android-sdk-core:2.13.3'
+    //AppSync SDK
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.2'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.8.5'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.8.5'
 }
 apply plugin: 'com.google.gms.google-services'

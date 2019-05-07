@@ -1,10 +1,10 @@
 package com.kotlin.viaggio.model
 
+import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
 import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
 import com.kotlin.viaggio.data.`object`.ViaggioResult
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.ViaggioApiService
-import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -18,6 +18,8 @@ class UserModel @Inject constructor() :BaseModel(){
     lateinit var api: ViaggioApiService
     @Inject
     lateinit var pref: AndroidPrefUtilService
+    @Inject
+    lateinit var config: DeveloperAuthenticationProvider
 
     fun signIn(email:String, password:String):Single<Response<ViaggioApiAuth>> =
             api.signIn(email = email, passwordHash = password)
@@ -28,6 +30,7 @@ class UserModel @Inject constructor() :BaseModel(){
                         pref.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).blockingAwait()
                         pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId).blockingAwait()
                         pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token).blockingAwait()
+                        config.setInfo(auth.AWS_IdentityId, auth.AWS_Token)
                     }
                 }
                 .subscribeOn(Schedulers.io())
@@ -41,6 +44,7 @@ class UserModel @Inject constructor() :BaseModel(){
                     pref.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).blockingAwait()
                     pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId).blockingAwait()
                     pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token).blockingAwait()
+                    config.setInfo(auth.AWS_IdentityId, auth.AWS_Token)
                 }
             }
             .subscribeOn(Schedulers.io())
