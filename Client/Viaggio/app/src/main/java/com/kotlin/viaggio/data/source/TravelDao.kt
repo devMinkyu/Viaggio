@@ -21,6 +21,9 @@ interface TravelDao {
     @Query("SELECT * FROM travels Order By startDate Asc")
     fun getTravels(): Single<List<Travel>>
 
+    @Query("SELECT * FROM travels Where userExist = 0")
+    fun getNotUploadTravels(): Single<List<Travel>>
+
     @Query("SELECT * FROM travels WHERE id IN(:id) limit 1")
     fun getTravel(id: Long): Single<Travel>
 
@@ -42,6 +45,9 @@ interface TravelDao {
 
     @Query("SELECT * FROM travelCards")
     fun getTravelCards(): Single<MutableList<TravelCard>>
+
+    @Query("SELECT * FROM travelCards Where userExist = 0")
+    fun getNotUploadTravelCards(): Single<MutableList<TravelCard>>
 
     @Query("SELECT * FROM travelCards WHERE id IN(:travelCardId) limit 1")
     fun getTravelCard(travelCardId: Long): Single<List<TravelCard>>

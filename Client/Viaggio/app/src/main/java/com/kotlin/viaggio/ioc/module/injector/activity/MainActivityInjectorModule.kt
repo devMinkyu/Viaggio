@@ -129,4 +129,7 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun travelCalendarFragment(): TravelCalendarFragment
+
+    @ContributesAndroidInjector
+    fun uploadCheckActionDialogFragment(): UploadCheckActionDialogFragment
 }

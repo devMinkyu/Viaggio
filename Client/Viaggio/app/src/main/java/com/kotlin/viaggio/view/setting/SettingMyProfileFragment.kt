@@ -51,6 +51,9 @@ class SettingMyProfileFragment : BaseFragment<SettingMyProfileFragmentViewModel>
             showLoading()
             getViewModel().save()
         }
+        fun changeProfileImg(){
+
+        }
     }
 }
 

@@ -62,6 +62,9 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
     fun getTravels(): Single<List<Travel>> {
         return db.get().travelDao().getTravels()
     }
+    fun getNotUploadTravels(): Single<List<Travel>> {
+        return db.get().travelDao().getNotUploadTravels()
+    }
 
     fun updateTravel(travel: Travel):Completable {
         return Completable.fromAction {
@@ -97,6 +100,11 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
 
     fun getTravelCards(): Single<MutableList<TravelCard>> {
         return db.get().travelDao().getTravelCards()
+            .subscribeOn(Schedulers.io())
+    }
+
+    fun getNotUploadTravelCards(): Single<MutableList<TravelCard>> {
+        return db.get().travelDao().getNotUploadTravelCards()
             .subscribeOn(Schedulers.io())
     }
     fun getTravelCard(): Single<List<TravelCard>> {

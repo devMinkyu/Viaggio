@@ -64,14 +64,14 @@
     <string name="travel_of_day_time_pattern">h:mm a</string>
     <string name="non_travel_notice">터치하여\n새로운 여행을\n시작하세요!</string>
     <string name="travel_kind_notice">어떤 여행을 등록하시나요?</string>
-    <string name="travel_overseas">해외 여행</string>
+    <string name="travel_overseas">🌎 해외 여행</string>
     <string name="travel_overseas_subtitle">인증샷으로 해외 여행의 기억을 남기세요!</string>
-    <string name="travel_domestic">국내 여행</string>
+    <string name="travel_domestic">🇰🇷 국내 여행</string>
     <string name="travel_domestic_subtitle">인증샷으로 국내 여행의 기억을 남기세요!</string>
     <string name="travel_before_overseas">다녀온 해외 여행</string>
     <string name="travel_before_overseas_subtitle">다녀왔던 해외 여행의 기억을 남기세요!</string>
     <string name="travel_before_domestic">다녀온 국내 여행</string>
-    <string name="travel_before_domestic_subtitle">다녀왔던 해외 여행의 기억을 남기세요!</string>
+    <string name="travel_before_domestic_subtitle">다녀왔던 국내 여행의 기억을 남기세요!</string>
     <string name="travel_start">여행 시작</string>
     <string name="theme_start">테마 선택</string>
     <string name="day_start">일차 선택</string>
@@ -95,7 +95,7 @@
     <string name="city_notice">여행 도시를\n선택을 해주세요.</string>
     <string name="theme_notice">여행 테마를\n선택을 해주세요.</string>
     <string name="travel_card_count">%d일차</string>
-    <string name="travel_card_empty_notice">포스팅이 존재 하지 않습니다.\n포스팅을 작성해주세요</string>
+    <string name="travel_card_empty_notice">포스팅이 존재 하지 않습니다.\n포스팅을 작성해주세요. 🙏</string>
     <string name="traveling_city">여행중인 나라</string>
     <string name="traveling_theme">여행테마 (최대 3개)</string>
     <string name="travel_option">여행 설정</string>
@@ -127,9 +127,12 @@
     <string name="profile_new_password">새로운 비밀번호</string>
     <string name="profile_new_password_confirm">새로운 비밀번호 확인</string>
     <string name="logout">로그아웃 하시겠습니까?</string>
+    <string name="upload_check">동기화를\n검사하시겠습니까?</string>
     <string name="travel_card_modify">수정</string>
     <string name="travel_card_delete">삭제</string>
     <string name="travel_card_close">종료</string>
     <string name="travel_card_image_count">%d / %d</string>
     <string name="calendar_save">등록</string>
+    <string name="traveling_notice">👣 여행 중이예요!</string>
+    <string name="travel_notice">💤 여행 준비 중이예요!</string>
 </resources>

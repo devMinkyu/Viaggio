@@ -6,5 +6,7 @@
         <item>@font/rajdhani_bold</item>
         <item>@font/rajdhani_light</item>
         <item>@font/rajdhani_medium</item>
+        <item>@font/rubik</item>
+        <item>@font/rubik_medium</item>
     </array>
 </resources>

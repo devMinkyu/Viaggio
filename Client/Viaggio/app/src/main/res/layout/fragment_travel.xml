@@ -44,15 +44,50 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         app:srcCompat="@drawable/tool_bar_title"
-                        android:layout_marginStart="16dp"
-                        android:onClick="@{()->viewHandler.setting()}"
                 />
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
-        <Spinner
-                android:id="@id/travelSpinner"
+
+        <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="15dp"
+                android:lineSpacingExtra="3.8dp"
+                android:textColor="@color/almost_black"
+                android:fontFamily="sans-serif"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelAppBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/title_sub"
+                android:text="@{viewModel.travelingKind}"
+                android:visibility="@{viewModel.travelingKind == `` ? View.GONE:View.VISIBLE}"
+                tools:text="@string/travel_overseas"
+                tools:ignore="SpUsage"/>
+        <TextView
+                android:id="@+id/title_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="10dp"
+                android:lineSpacingExtra="2.8dp"
+                android:textColor="@color/pinkish_grey"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="6.5dp"
+                app:layout_constraintStart_toStartOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintEnd_toEndOf="@id/title"
+                android:text="@{viewModel.traveling}"
+                tools:text="@string/traveling_notice"
+                tools:ignore="SpUsage"/>
+        <Spinner
+                android:id="@id/travelSpinner"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_bg"
+                android:backgroundTint="@color/white_three"
                 android:layout_marginBottom="25dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

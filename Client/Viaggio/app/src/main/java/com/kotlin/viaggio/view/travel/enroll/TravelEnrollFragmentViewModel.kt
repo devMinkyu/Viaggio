@@ -186,6 +186,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     private fun travelingSetting(){
         val cal = Calendar.getInstance()
         prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).observeOn(Schedulers.io()).blockingAwait()
+        prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_KINDS, travelKind).observeOn(Schedulers.io()).blockingAwait()
         val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
         prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay)
             .observeOn(Schedulers.io()).blockingAwait()

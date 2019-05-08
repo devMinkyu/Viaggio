@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.PagerAdapter
@@ -35,6 +37,16 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val spinnerAdapter = ArrayAdapter<String>(context!!, R.layout.spinner_continent_item, getViewModel().travelOption)
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
+
+        travelSpinner.adapter = spinnerAdapter
+        travelSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                getViewModel().optionCheck(position)
+            }
+        }
 
         getViewModel().travelListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { travelList ->
