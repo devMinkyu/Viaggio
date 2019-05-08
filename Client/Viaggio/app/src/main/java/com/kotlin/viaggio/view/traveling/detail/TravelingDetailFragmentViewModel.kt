@@ -35,12 +35,31 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
     val imageShow = ObservableBoolean(false)
 
     val travelOfDayCardImageListLiveData = MutableLiveData<Event<List<String>>>()
+    val changeCardLiveData = MutableLiveData<Event<Any>>()
 
     var timeDisposable:Disposable? = null
+
+    var modifyLocation = IntArray(2)
     override fun initialize() {
         super.initialize()
         fetchData()
         showNotice()
+
+        val changeDisposable = rxEventBus.travelCardChange
+            .subscribe {
+                changeCardLiveData.value = Event(Any())
+            }
+        addDisposable(changeDisposable)
+
+
+        val disposable = rxEventBus.travelCardUpdate
+            .subscribeOn(Schedulers.io())
+            .subscribe({
+                fetchData()
+            }) {
+                Timber.d(it)
+            }
+        addDisposable(disposable)
     }
 
     private fun fetchData(){

@@ -1,4 +1,4 @@
-package com.kotlin.viaggio.view.traveling
+package com.kotlin.viaggio.view.traveling.detail
 
 import android.content.Context
 import android.os.Bundle
@@ -7,15 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseDialogFragment
-import com.kotlin.viaggio.view.common.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_action_dialog_traveling_detail.*
-import javax.inject.Inject
 
 class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActionDialogFragmentViewModel>(){
     companion object {
@@ -25,6 +22,7 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
     override fun onAttach(context: Context) {
         super.onAttach(context)
         activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         arguments?.let {
             getViewModel().location = it.getIntArray(ArgName.TRAVEL_CARD_LOCATION.name)
         }
@@ -44,10 +42,8 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
             val clp = detailDialogChangeCountry.layoutParams as ConstraintLayout.LayoutParams
             clp.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
             clp.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
-            clp.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
             clp.leftMargin = it[0]
             clp.topMargin = it[1]
-            clp.rightMargin = resources.getDimension(R.dimen.tool_bar_title).toInt()
             detailDialogChangeCountry.layoutParams = clp
         }
 

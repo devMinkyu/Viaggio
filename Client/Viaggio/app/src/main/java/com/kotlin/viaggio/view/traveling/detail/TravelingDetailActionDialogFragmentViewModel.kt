@@ -1,22 +1,12 @@
-package com.kotlin.viaggio.view.traveling
+package com.kotlin.viaggio.view.traveling.detail
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.`object`.TravelCard
-import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
-import com.kotlin.viaggio.worker.TimeCheckWorker
-import io.reactivex.Completable
-import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TravelingDetailActionDialogFragmentViewModel @Inject constructor() : BaseViewModel() {

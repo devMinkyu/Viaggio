@@ -18,7 +18,7 @@ import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment
-import com.kotlin.viaggio.view.traveling.TravelingDetailActionDialogFragment
+import com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.travel.option.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragment

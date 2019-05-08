@@ -24,13 +24,12 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
     lateinit var gson: Gson
 
     val completeLiveData = MutableLiveData<Event<Any>>()
-    val changeCardLiveData = MutableLiveData<Event<Any>>()
+
     lateinit var travelCardPagedLiveData: LiveData<PagedList<TravelCard>>
 
     val title:ObservableField<String> = ObservableField("")
     val notEmpty:ObservableBoolean = ObservableBoolean(false)
 
-    var modifyLocation = IntArray(2)
     override fun initialize() {
         super.initialize()
         loadTravelOfDayPaged()
@@ -51,12 +50,6 @@ class TravelingFragmentViewModel @Inject constructor() : BaseViewModel() {
                 Timber.d(it)
             }
         addDisposable(disposable)
-
-        val changeDisposable = rxEventBus.travelCardChange
-            .subscribe {
-                changeCardLiveData.value = Event(Any())
-            }
-        addDisposable(changeDisposable)
     }
 
     private fun loadTravelOfDayPaged() {

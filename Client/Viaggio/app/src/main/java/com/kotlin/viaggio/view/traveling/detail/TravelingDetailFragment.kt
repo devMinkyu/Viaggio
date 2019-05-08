@@ -3,7 +3,6 @@ package com.kotlin.viaggio.view.traveling.detail
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -12,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
@@ -82,10 +83,26 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                 }
             }
         })
+
+        getViewModel().changeCardLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                val frag = TravelingDetailActionDialogFragment()
+                val arg = Bundle()
+                arg.putIntArray(ArgName.TRAVEL_CARD_LOCATION.name, getViewModel().modifyLocation)
+                frag.arguments = arg
+                frag.show(fragmentManager!!, TravelingDetailActionDialogFragment.TAG)
+            }
+        })
     }
     inner class ViewHandler{
         fun back(){
             fragmentPopStack()
+        }
+        fun more(){
+            val location = IntArray(2)
+            travelingDetailDayTravelCardList.getLocationOnScreen(location)
+            getViewModel().modifyLocation = location
+            TravelCardBottomSheetDialogFragment().show(fragmentManager!!, TravelCardBottomSheetDialogFragment.TAG)
         }
     }
 }

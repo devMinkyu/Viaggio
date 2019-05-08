@@ -94,11 +94,15 @@
                             android:layout_height="0dp"
                             android:padding="@dimen/common_margin"
                             android:text="@{viewModel.content}"
+                            android:fontFamily="sans-serif"
+                            android:textSize="15dp"
+                            android:textColor="@color/almost_black"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/travelingDetailDayTravelCardTheme"
                             app:layout_constraintBottom_toBottomOf="parent"
-                            tools:text="saddsadsad4s5a6d4s5a4d56asd4sad4asdsadasdasdsadsasdassaasassaasasddsadsaaddsadsadadaddsadsadsadsadsadasdsadasdass"/>
+                            tools:text="saddsadsad4s5a6d4s5a4d56asd4sad4asdsadasdasdsadsasdassaasassaasasddsadsaaddsadsadadaddsadsadsadsadsadasdsadasdass"
+                            tools:ignore="SpUsage"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.core.widget.NestedScrollView>
             <com.google.android.material.appbar.AppBarLayout
@@ -129,7 +133,8 @@
                             android:textSize="14dp"
                             android:textColor="@android:color/white"
                             android:background="@drawable/traveling_card_detail_imgae_count_bg"
-                            android:layout_margin="@dimen/common_margin"
+                            android:layout_marginEnd="@dimen/common_margin"
+                            android:layout_marginTop="60dp"
                             android:paddingTop="5dp"
                             android:paddingBottom="5dp"
                             android:paddingStart="13dp"
@@ -158,6 +163,14 @@
                                 style="@style/ViewStyle.Viaggio.Back"
                                 android:layout_marginStart="0dp"
                                 android:onClick="@{()->viewHandler.back()}"
+                        />
+                        <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/icon_more_2"
+                                android:padding="@dimen/common_top"
+                                android:layout_gravity="end"
+                                android:onClick="@{()->viewHandler.more()}"
                         />
                     </androidx.appcompat.widget.Toolbar>
                 </com.google.android.material.appbar.CollapsingToolbarLayout>

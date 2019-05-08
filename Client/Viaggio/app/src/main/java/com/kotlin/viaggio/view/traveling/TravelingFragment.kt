@@ -67,16 +67,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 baseIntent("http://viaggio.kotlin.com/home/main/")
             }
         })
-
-        getViewModel().changeCardLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {
-                val frag = TravelingDetailActionDialogFragment()
-                val arg = Bundle()
-                arg.putIntArray(ArgName.TRAVEL_CARD_LOCATION.name, getViewModel().modifyLocation)
-                frag.arguments = arg
-                frag.show(fragmentManager!!, TravelingDetailActionDialogFragment.TAG)
-            }
-        })
     }
 
     inner class ViewHandler {
@@ -165,13 +155,6 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 getViewModel().setSelectedTravelCard(binding?.data?.id)
                 baseIntent("http://viaggio.kotlin.com/traveling/detail/")
             }
-            override fun more() {
-                getViewModel().setSelectedTravelCard(binding?.data?.id)
-                val location = IntArray(2)
-                itemView.travelingItemInfo.getLocationOnScreen(location)
-                getViewModel().modifyLocation = location
-                TravelCardBottomSheetDialogFragment().show(fragmentManager!!, TravelCardBottomSheetDialogFragment.TAG)
-            }
         }
     }
     inner class TravelCardCountViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -193,20 +176,11 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
                 getViewModel().setSelectedTravelCard(binding?.data?.id)
                 baseIntent("http://viaggio.kotlin.com/traveling/detail/")
             }
-
-            override fun more() {
-                getViewModel().setSelectedTravelCard(binding?.data?.id)
-                val location = IntArray(2)
-                itemView.travelingItemInfo.getLocationOnScreen(location)
-                getViewModel().modifyLocation = location
-                TravelCardBottomSheetDialogFragment().show(fragmentManager!!, TravelCardBottomSheetDialogFragment.TAG)
-            }
         }
     }
 }
 interface TravelCardViewHandler{
     fun detail()
-    fun more()
 }
 
 
