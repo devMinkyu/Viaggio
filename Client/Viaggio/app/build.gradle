@@ -25,6 +25,7 @@ android {
         buildConfigField("String", "SERVER_HOST", "\"${viaggio_dev_server_host}\"")
         buildConfigField("String", "S3_UPLOAD_BUCKET", "\"${viaggio_bucket}\"")
         buildConfigField("String", "S3_POOL_ID", "\"${aws_s3_pool_id}\"")
+        buildConfigField("String", "AWS_LOGIN_PROVIDER", "\"${aws_login_provider_dev}\"")
         multiDexEnabled true
     }
     buildTypes {

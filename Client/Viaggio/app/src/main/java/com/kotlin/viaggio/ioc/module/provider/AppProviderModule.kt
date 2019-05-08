@@ -94,8 +94,8 @@ class AppProviderModule {
     @Singleton
     internal fun provideAmazonS3(credential: CognitoCachingCredentialsProvider) :AmazonS3Client{
         val s3 = AmazonS3Client(credential)
-        s3.setRegion(Region.getRegion(Regions.AP_NORTHEAST_2))
-        s3.endpoint = "s3.ap-northeast-2.amazonaws.com"
+        s3.setRegion(Region.getRegion(Regions.US_EAST_2))
+        s3.endpoint = "s3.us-east-2.amazonaws.com"
         return s3
     }
 
