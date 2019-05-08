@@ -96,7 +96,7 @@ class TravelCard(db.Model):
     travelOfDay = db.Column(db.Integer, default=1)
     country = db.Column(db.String(32))
     theme = db.Column(db.PickleType)
-    content = db.Column(db.String(1024))
+    content = db.Column(db.String(1024)) # TODO: Change to textarea.
     imageName = db.Column(db.PickleType)
     imageUrl = db.Column(db.PickleType)
     date = db.Column(db.DateTime)
@@ -159,6 +159,14 @@ class AnalysisContinent(db.Model):
     def __init__(self, **kwargs):
         super(AnalysisContinent, self).__init__(**kwargs)
 
+    def to_json(self):
+        json_analysisContinent = {
+            'id': self.id,
+            'continent': self.continent,
+            'count': self.count
+        }
+        return json_analysisContinent
+
 
 class AnalysisCountry(db.Model):
     __tablename__ = 'analysiscountries'
@@ -170,6 +178,15 @@ class AnalysisCountry(db.Model):
 
     def __init__(self, **kwargs):
         super(AnalysisCountry, self).__init__(**kwargs)
+
+    def to_json(self):
+        json_analysisCountry = {
+            'id': self.id,
+            'analysisContinentId': self.analysisContinentId,
+            'country': self.country,
+            'count': self.count
+        }
+        return json_analysisCountry
 
 
 class AnalysisCity(db.Model):
@@ -183,6 +200,14 @@ class AnalysisCity(db.Model):
     def __init__(self, **kwargs):
         super(AnalysisCity, self).__init__(**kwargs)
 
+    def to_json(self):
+        json_analysisCity = {
+            'id': self.id,
+            'city': self.city,
+            'count': self.count
+        }
+        return json_analysisCity
+
 
 class AnalysisSubCity(db.Model):
     __tablename__ = 'analysissubcities'
@@ -194,3 +219,12 @@ class AnalysisSubCity(db.Model):
 
     def __init__(self, **kwargs):
         super(AnalysisSubCity, self).__init__(**kwargs)
+
+    def to_json(self):
+        json_analysisSubCity = {
+            'id': self.id,
+            'analysisCityId': self.analysisCityId,
+            'subCity': self.subCity,
+            'count': self.count
+        }
+        return json_analysisSubCity
