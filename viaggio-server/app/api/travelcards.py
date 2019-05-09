@@ -2,25 +2,30 @@ from flask import jsonify, request
 from . import api
 from .. import db
 from ..models import Travel, TravelCard
-from ..forms.travel import CreateTravelForm
+from ..forms.travel import CreateTravelCardForm
 from ..errors import bad_request
 
 
 @api.route('/my/travelcards/<int:travelId>', methods=['POST'])
 def create_travelCard(travelId):
-    travelCard = TravelCard(travelId=travelId,
-                            localId=request.form.get('localId'),
-                            travelLocalId=request.form.get('travelLocalId'),
-                            travelOfDay=request.form.get('travelOfDay'),
-                            country=request.form.get('country'),
-                            theme=request.form.get('theme'),
-                            content=request.form.get('content'),
-                            imageName=request.form.get('imageName'),
-                            imageUrl=request.form.get('imageUrl'),
-                            date=request.form.get('date'))
-    db.session.add(travelCard)
-    db.session.commit()
-    return jsonify({ 'travelCard': travelCard.as_dict() }), 200
+    form = CreateTravelCardForm(request.form)
+    if form.validate():
+        travelCard = TravelCard(travelId=travelId,
+                                localId=request.form.get('localId'),
+                                travelLocalId=request.form.get('travelLocalId'),
+                                travelOfDay=request.form.get('travelOfDay'),
+                                country=request.form.get('country'),
+                                theme=request.form.get('theme'),
+                                content=request.form.get('content'),
+                                imageName=request.form.get('imageName'),
+                                imageUrl=request.form.get('imageUrl'),
+                                date=request.form.get('date'))
+        db.session.add(travelCard)
+        db.session.commit()
+        return jsonify({ 'travelCard': travelCard.as_dict() }), 200
+
+    if form.localId.errors:
+        return bad_request(401, form.localId.errors[0])
 
 
 @api.route('/my/travelcards/<int:travelId>')
