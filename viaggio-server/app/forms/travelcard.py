@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, DateTimeField, SelectField
+from wtforms import Form, StringField, DateTimeField, SelectField, IntegerField
 from wtforms import ValidationError
 from wtforms.validators import DataRequired, length
 from ..models import TravelCard

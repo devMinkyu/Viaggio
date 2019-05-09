@@ -2,7 +2,7 @@ from flask import jsonify, request
 from . import api
 from .. import db
 from ..models import Travel, TravelCard
-from ..forms.travel import CreateTravelCardForm
+from ..forms.travelcard import CreateTravelCardForm
 from ..errors import bad_request
 
 
