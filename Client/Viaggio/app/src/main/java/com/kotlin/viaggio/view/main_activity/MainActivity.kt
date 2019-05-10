@@ -11,6 +11,7 @@ import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.setting.SettingFragment
 import com.kotlin.viaggio.view.setting.SettingMyProfileFragment
 import com.kotlin.viaggio.view.setting.SettingPasswordFragment
+import com.kotlin.viaggio.view.setting.SettingProfileImageEnrollFragment
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
@@ -122,6 +123,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                     when (appLinkData.lastPathSegment) {
                         "profile" -> showMyProfile()
                         "password" -> showChangePassword()
+                        "image" -> showProfileImage()
                     }
                 "option" ->
                     when (appLinkData.lastPathSegment) {
@@ -142,6 +144,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showProfileImage() {
+        baseShowAddLeftAddBackFragment(SettingProfileImageEnrollFragment())
     }
 
     private fun showTravelCalendar() {

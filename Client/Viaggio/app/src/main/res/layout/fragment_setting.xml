@@ -176,11 +176,10 @@
                         app:layout_constraintTop_toBottomOf="@id/settingSync"
                         android:onClick="@{()->viewHandler.logout()}"
                 />
-                <!--android:visibility="@{viewModel.isLogin ? View.VISIBLE:View.GONE}"-->
                 <androidx.constraintlayout.widget.Group
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-
+                        android:visibility="@{viewModel.isLogin ? View.VISIBLE:View.GONE}"
                         app:constraint_referenced_ids="settingMyProfile,
                     settingEtc,settingAutoUploadCheck, settingSync,
                     settingLogout, settingSignIn, settingProfileImg,

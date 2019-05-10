@@ -132,4 +132,7 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun uploadCheckActionDialogFragment(): UploadCheckActionDialogFragment
+
+    @ContributesAndroidInjector
+    fun settingProfileImageEnrollFragment(): SettingProfileImageEnrollFragment
 }

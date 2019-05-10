@@ -7,13 +7,14 @@ import androidx.room.Query
 import androidx.room.Update
 import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelCard
+import io.reactivex.Completable
 import io.reactivex.Single
 
 @Dao
 interface TravelDao {
     // Travel
     @Insert
-    fun insertTravel(travel: Travel): Single<Long>
+    fun insertTravel(travel: Travel)
 
     @Insert
     fun insertAllTravel(vararg travel: Travel)
@@ -38,7 +39,7 @@ interface TravelDao {
     fun getTravelCardDes(travelId: Long): DataSource.Factory<Int, TravelCard>
 
     @Insert
-    fun insertTravelCard(travelCard: TravelCard):Single<Long>
+    fun insertTravelCard(travelCard: TravelCard)
 
     @Query("SELECT * FROM travelCards WHERE travelId IN(:travelOfDayId) ORDER BY date DESC")
     fun getTravelCardsPaged(travelOfDayId: Long): DataSource.Factory<Int, TravelCard>

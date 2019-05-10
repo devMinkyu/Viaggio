@@ -33,20 +33,25 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
     fun imageAllPath() =
         localDataSource.imageAllPath()
 
-    fun createTravel(travel: Travel): Single<Long> {
+    fun createTravel(travel: Travel): Completable {
         val bitmap = rxEventBus.travelOfFirstImage.value
         return if (bitmap == null) {
-            db.get().travelDao().insertTravel(travel).subscribeOn(Schedulers.io())
+            Completable.fromAction {
+                db.get().travelDao().insertTravel(travel)
+            }
+                .subscribeOn(Schedulers.io())
         } else {
             Single.create(SingleOnSubscribe<Bitmap> {
                 rxEventBus.travelOfFirstImage.subscribe { t ->
                     it.onSuccess(t)
                 }
-            }).flatMap { t ->
+            }).flatMapCompletable { t ->
                 localDataSource.cacheFile(t)
-                    .flatMap { uri ->
+                    .flatMapCompletable { uri ->
                         travel.imageName = Uri.parse(uri[0]).lastPathSegment!!
-                        db.get().travelDao().insertTravel(travel).subscribeOn(Schedulers.io())
+                        Completable.fromAction {
+                            db.get().travelDao().insertTravel(travel)
+                        }.subscribeOn(Schedulers.io())
                     }
             }.subscribeOn(Schedulers.io())
         }
@@ -72,8 +77,10 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
         }.subscribeOn(Schedulers.io())
     }
 
-    fun createTravelCard(travelCard: TravelCard): Single<Long> {
-        return db.get().travelDao().insertTravelCard(travelCard)
+    fun createTravelCard(travelCard: TravelCard): Completable {
+        return Completable.fromAction {
+            db.get().travelDao().insertTravelCard(travelCard)
+        }
             .subscribeOn(Schedulers.io())
     }
 

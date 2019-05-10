@@ -7,7 +7,8 @@ import java.util.*
 
 @Entity(tableName = "travels")
 data class Travel(
-    @PrimaryKey(autoGenerate = true) var id: Long = 0,
+    @PrimaryKey var id: Long = 0,
+    var serverTravelId: Int = 0,
     @Suppress("ArrayInDataClass") var area: MutableList<Area> = mutableListOf(),
     var userExist: Boolean = false,
     var title: String = "재미있는 여행",
@@ -19,7 +20,7 @@ data class Travel(
     var imageName: String = "",
     var imageUrl: String = "",
     var share: Boolean = false,
-    var isDelete:Boolean = false
+    @field:JvmField var isDelete:Boolean = false
 )
 
 data class Traveled(
@@ -32,7 +33,8 @@ data class Traveled(
 
 @Entity(tableName = "travelCards")
 data class TravelCard(
-    @PrimaryKey(autoGenerate = true) var id: Long = 0,
+    @PrimaryKey var id: Long = 0,
+    var serverTravelCardId: Int = 0,
     var userExist: Boolean = false,
     var travelId: Long = 0,
     var travelOfDay: Int = 1,
@@ -41,7 +43,8 @@ data class TravelCard(
     @Suppress("ArrayInDataClass") var imageNames: MutableList<String> = mutableListOf(),
     @Suppress("ArrayInDataClass") var imageUrl: MutableList<String> = mutableListOf(),
     var content: String = "",
-    var date: Date = Date()
+    var date: Date = Date(),
+    @field:JvmField var isDelete:Boolean = false
 )
 
 data class ImageData(

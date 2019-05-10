@@ -52,7 +52,7 @@ class SettingMyProfileFragment : BaseFragment<SettingMyProfileFragmentViewModel>
             getViewModel().save()
         }
         fun changeProfileImg(){
-
+            baseIntent("http://viaggio.kotlin.com/setting/profile/image/")
         }
     }
 }

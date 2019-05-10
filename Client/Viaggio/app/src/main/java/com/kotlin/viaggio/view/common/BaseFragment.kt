@@ -6,6 +6,8 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.SavedStateVMFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.OneTimeWorkRequestBuilder
@@ -71,6 +73,8 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
         }.get(viewModel::class.java)
 
     private fun getNewViewModelProvider(): ViewModelProvider {
+//        ViewModelProvider(this, SavedStateVMFactory(this))
+//        val nonNullViewModelProviderVal = ViewModelProvider(viewModelStore, SavedStateVMFactory(this))
         val nonNullViewModelProviderVal = ViewModelProvider(viewModelStore, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 try {

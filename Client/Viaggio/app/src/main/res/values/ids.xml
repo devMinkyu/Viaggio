@@ -248,4 +248,5 @@
     <item name="travelingDetailDayTravelCardTheme" type="id"/>
     <item name="domesticsName" type="id"/>
     <item name="travelingCalendarContainer" type="id"/>
+    <item name="profileListImage" type="id"/>
 </resources>

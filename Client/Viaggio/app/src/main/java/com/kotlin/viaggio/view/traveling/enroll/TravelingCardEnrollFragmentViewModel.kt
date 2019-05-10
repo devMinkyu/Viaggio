@@ -27,6 +27,7 @@ import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.UploadTravelWorker
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.io.File
@@ -139,6 +140,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     fun saveCard(){
         travelCard.content = contents.get()!!
         val travelId = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()
+        travelCard.id = Calendar.getInstance().time.time
         travelCard.travelId = travelId
         travelCard.date = Calendar.getInstance().time
         travelCard.country = country.get() ?: ""
@@ -147,7 +149,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         val disposable = if (imageList.isNotEmpty()) {
             travelLocalModel.imagePathList(imageList)
                 .subscribeOn(Schedulers.io())
-                .flatMap {
+                .flatMapCompletable {
                     travelCard.imageNames = it as ArrayList<String>
                     if (travel.id != 0L && TextUtils.isEmpty(travel.imageName)) {
                         travel.imageName = it[0]
@@ -158,12 +160,10 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                 }
         } else {
             travelLocalModel.createTravelCard(travelCard)
-        }.flatMapCompletable {
-                travelCard.id = it
+        }.andThen {
                 val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
                 val mode = prefUtilService.getInt(AndroidPrefUtilService.Key.UPLOAD_MODE).blockingGet()
                 if(TextUtils.isEmpty(token).not() && mode != 2){
-                    Completable.fromAction {
                         val constraints =
                             if (mode == 0) {
                                 Constraints.Builder()
@@ -187,26 +187,15 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                             .build()
 
                         WorkManager.getInstance().enqueue(travelWork)
-                    }
+                    it.onComplete()
                 }else{
-                    Completable.complete()
+                    it.onComplete()
                 }
             }
             .observeOn(Schedulers.io())
             .subscribe {
-                config.setInfo("ap-northeast-2:c7d4b95e-8611-495e-a182-0ee815896b0b", "eyJraWQiOiJhcC1ub3J0aGVhc3QtMjEiLCJ0eXAiOiJKV1MiLCJhbGciOiJSUzUxMiJ9.eyJzdWIiOiJhcC1ub3J0aGVhc3QtMjpjN2Q0Yjk1ZS04NjExLTQ5NWUtYTE4Mi0wZWU4MTU4OTZiMGIiLCJhdWQiOiJhcC1ub3J0aGVhc3QtMjozZjM3YmFiMy1lZjI5LTQ4YTktOTBmZS04YTIyMmRhMTg1OGMiLCJhbXIiOlsiYXV0aGVudGljYXRlZCIsImxvZ2luLnZpYWdnaW8udmlhZ2dpbyIsImxvZ2luLnZpYWdnaW8udmlhZ2dpbzphcC1ub3J0aGVhc3QtMjozZjM3YmFiMy1lZjI5LTQ4YTktOTBmZS04YTIyMmRhMTg1OGM6MSJdLCJpc3MiOiJodHRwczovL2NvZ25pdG8taWRlbnRpdHkuYW1hem9uYXdzLmNvbSIsImV4cCI6MTU1NzM2MTg0MCwiaWF0IjoxNTU3Mjc1NDQwfQ.KIpWsFh06GJ7kHTYb8cwSjB5yvnyeCmG2c45KepZ28tn4XC1KsPaNQK5hYBj14QzybWEc44o1M3j6myPqKAFtFkzY0t63NeFAxHCwMj0FpVJtCout6UTRBru-99XzgWmUZyRRkbmpt4msGgTWmZzbGzouAzSRklD8VaZO1n54OyiIBE6vGuGJIw1Ktl2jL2FBtS7EF6mqO-fPju8tbPKnanjlM_e0ejZUpUki9S_Wv2CTol4sMkydYJTAQvSFyezXt-F7225Ccu_CcToeofuBylKl8p9dzvK5owJI7VMVDnSRGBNB_-i-WGzYhV7d3qDSmpZOFjtoOijo1dZAyJzHw")
-                val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "image/${travelCard.imageNames.first().split("/").last()}", File(travelCard.imageNames.first()))
-                uploadObserver.setTransferListener(object : TransferListener {
-                    override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
-                    override fun onStateChanged(id: Int, state: TransferState?) {
-                        if(state == TransferState.COMPLETED){
-                            complete.postValue(Event(Any()))
-                            rxEventBus.travelCardUpdate.onNext(Any())
-                        }
-                    }
-                    override fun onError(id: Int, ex: Exception?) {
-                    }
-                })
+                complete.postValue(Event(Any()))
+                rxEventBus.travelCardUpdate.onNext(Any())
             }
         addDisposable(disposable)
     }

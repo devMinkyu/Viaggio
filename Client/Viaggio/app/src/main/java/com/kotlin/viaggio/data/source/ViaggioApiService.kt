@@ -1,18 +1,26 @@
 package com.kotlin.viaggio.data.source
 
+import android.text.TextUtils
 import androidx.annotation.Keep
 import com.kotlin.viaggio.data.`object`.Area
 import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
 import com.kotlin.viaggio.data.`object`.ViaggioResult
 import io.reactivex.Single
+import io.reactivex.subjects.BehaviorSubject
+import okhttp3.Interceptor
 import retrofit2.Response
 import retrofit2.http.*
+import java.io.IOException
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Named
+import javax.inject.Singleton
 
 @Keep
 interface ViaggioApiService {
     // user
     @POST("api/v1/auth/signup")
+    @Headers("No-Authentication: true")
     @FormUrlEncoded
     fun signUp(
         @Field("email") email: String,
@@ -22,6 +30,7 @@ interface ViaggioApiService {
     ): Single<Response<ViaggioApiAuth>>
 
     @POST("api/v1/auth/login")
+    @Headers("No-Authentication: true")
     @FormUrlEncoded
     fun signIn(
         @Field("email") email: String,
@@ -44,8 +53,10 @@ interface ViaggioApiService {
         @Field("passwordHash2") passwordHash2: String
     ): Single<Response<ViaggioResult>>
 
-    @POST("api/v1/users/logout")
-    @FormUrlEncoded
+    @GET("api/v1/users/logout")
+    @Headers(
+        "Content-Type: application/x-www-form-urlencoded"
+    )
     fun logOut(): Single<Response<ViaggioResult>>
 
     // travel
@@ -55,7 +66,6 @@ interface ViaggioApiService {
     )
     @FormUrlEncoded
     fun uploadTravel(
-        @Header("Authorization") token: String,
         @Field("localId") id: Long,
         @Field("area") area: MutableList<Area>,
         @Field("title") title: String,
@@ -128,4 +138,29 @@ interface ViaggioApiService {
         @Field("isDelete") isDelete: Boolean
     ):Single<Response<Any>>
 
+
+    @Singleton
+    class TokenInterceptor @Inject constructor(@Named("ApiToken") apiToken: String) : Interceptor {
+        private val mApiToken = BehaviorSubject.create<String>()
+
+        init {
+            if (!TextUtils.isEmpty(apiToken)) {
+                mApiToken.onNext(apiToken)
+            }
+        }
+
+        @Throws(IOException::class)
+        override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+            val request = chain.request()
+            return if (request.header("No-Authentication") == null) {
+                val newRequest = request.newBuilder()
+                    .addHeader("authorization", mApiToken.blockingFirst())
+                    .build()
+                val response: okhttp3.Response = chain.proceed(newRequest)
+                response
+            } else {
+                chain.proceed(request)
+            }
+        }
+    }
 }

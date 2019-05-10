@@ -156,6 +156,10 @@
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
                         android:pathPattern="/setting/password/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/setting/profile/image/"/>
             </intent-filter>
         </activity>
     </application>

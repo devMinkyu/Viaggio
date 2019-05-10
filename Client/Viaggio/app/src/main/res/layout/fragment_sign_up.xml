@@ -117,6 +117,7 @@
                         style="@style/ViewStyle.Viaggio.Sign"
                         android:text="@string/sign_up"
                         android:onClick="@{() -> viewHandler.signUp()}"
+                        android:enabled="@{viewModel.isFormValid}"
                         android:backgroundTint="@{viewModel.isFormValid ? @color/colorPrimary:@color/brown_grey}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

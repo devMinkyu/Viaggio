@@ -55,5 +55,4 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
             }
         addDisposable(disposable = disposable)
     }
-
 }

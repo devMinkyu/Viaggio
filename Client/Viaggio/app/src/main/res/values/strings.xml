@@ -15,6 +15,7 @@
     <string name="err_pw_mismatch">Password Mismatch</string>
     <string name="err_pw_same">Same Password</string>
     <string name="err_email_format">It is not an email form</string>
+    <string name="err_password_num">최소 8자리를 입력해주세요.</string>
     <string name="err_wrong_pw">Wrong Password</string>
     <string name="err_email_not_found">User with the entered email doesn\'t exist</string>
     <string name="err_exist_email">User with the entered email already exist</string>
@@ -64,7 +65,7 @@
     <string name="travel_of_day_time_pattern">h:mm a</string>
     <string name="non_travel_notice">터치하여\n새로운 여행을\n시작하세요!</string>
     <string name="travel_kind_notice">어떤 여행을 등록하시나요?</string>
-    <string name="travel_overseas">🌎 해외 여행</string>
+    <string name="travel_overseas">✈ 해외 여행</string>
     <string name="travel_overseas_subtitle">인증샷으로 해외 여행의 기억을 남기세요!</string>
     <string name="travel_domestic">🇰🇷 국내 여행</string>
     <string name="travel_domestic_subtitle">인증샷으로 국내 여행의 기억을 남기세요!</string>

@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.ioc.module.provider
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.data.source.OpenWeatherApiService
@@ -19,12 +20,15 @@ class NetworkProviderModule{
     @Singleton
     internal fun provideRemoteDataSource(
         client: OkHttpClient,
+        tokenInterceptor: ViaggioApiService.TokenInterceptor,
         gson: Gson
     ): ViaggioApiService {
         val gsonConverterFactory = GsonConverterFactory.create(gson)
 
         val tagClient = client.newBuilder()
             .retryOnConnectionFailure(true)
+            .addNetworkInterceptor(StethoInterceptor())
+            .addInterceptor(tokenInterceptor)
             .build()
 
         val baseUrl = BuildConfig.SERVER_HOST
@@ -35,7 +39,6 @@ class NetworkProviderModule{
             .addConverterFactory(gsonConverterFactory)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
-
 
         return retrofit.create(ViaggioApiService::class.java)
 

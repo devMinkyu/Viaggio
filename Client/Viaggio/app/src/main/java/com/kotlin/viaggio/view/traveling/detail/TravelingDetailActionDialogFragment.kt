@@ -42,6 +42,7 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
             val clp = detailDialogChangeCountry.layoutParams as ConstraintLayout.LayoutParams
             clp.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
             clp.startToStart = ConstraintLayout.LayoutParams.PARENT_ID
+            clp.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
             clp.leftMargin = it[0]
             clp.topMargin = it[1]
             detailDialogChangeCountry.layoutParams = clp

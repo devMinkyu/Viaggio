@@ -16,6 +16,7 @@ import com.kotlin.viaggio.view.sign.common.Encryption
 import com.tag_hive.saathi.saathi.error.InvalidFormException
 import io.reactivex.Maybe
 import io.reactivex.disposables.Disposable
+import timber.log.Timber
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
@@ -83,6 +84,10 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
         }
     }
     fun validateSignUp(): Boolean {
+        if(password.get()!!.length < 8){
+            error.value = Event(SignError.PW_NUM)
+            return false
+        }
         if (password.get() != confirmPassword.get()) {
             error.value = Event(SignError.PW_MISMATCH)
             return false
@@ -105,11 +110,13 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
                 }else{
                     val errorMsg: Error = gson.fromJson(t1.errorBody()?.string(), Error::class.java)
                     when(errorMsg.message){
+                        400 -> error.postValue(Event(SignError.EXIST_EMAIL))
                         401 -> error.postValue(Event(SignError.EXIST_EMAIL))
+                        402 -> error.postValue(Event(SignError.EXIST_EMAIL))
                     }
                 }
             }){
-
+                Timber.d(it)
             }
         addDisposable(disposable)
         return true

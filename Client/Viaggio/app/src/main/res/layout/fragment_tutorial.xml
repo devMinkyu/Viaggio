@@ -47,6 +47,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/loginBtn"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                android:layout_marginEnd="@dimen/common_margin"
         />
         <TextView
                 android:id="@id/loginBtn"

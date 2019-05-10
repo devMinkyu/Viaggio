@@ -21,7 +21,6 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun uploadTravel(travel: Travel): Single<Response<Any>> {
         val token = getToken().blockingGet()
         return api.uploadTravel(
-            token = token,
             id = travel.id,
             area = travel.area,
             title = travel.title,

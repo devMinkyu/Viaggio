@@ -83,6 +83,11 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
                         signUpConfirmPasswordEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red, null))
                         signUpConfirmPasswordEdit.hint = getString(R.string.err_pw_mismatch)
                     }
+                    SignError.PW_NUM -> {
+                        getViewModel().password.set("")
+                        signUpPasswordEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red, null))
+                        signUpPasswordEdit.hint = getString(R.string.err_password_num)
+                    }
                     SignError.INVALID_EMAIL_FORMAT -> {
                         getViewModel().email.set("")
                         signUpEmailEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red, null))

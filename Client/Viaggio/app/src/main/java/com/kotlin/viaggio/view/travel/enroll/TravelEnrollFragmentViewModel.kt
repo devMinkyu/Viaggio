@@ -19,6 +19,7 @@ import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.kotlin.viaggio.worker.UploadTravelWorker
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.text.DateFormat
@@ -126,6 +127,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     @SuppressLint("RestrictedApi")
     fun travelStart(): Boolean {
         val travel = Travel(
+            id = Calendar.getInstance().time.time,
             area = chooseCountry,
             startDate = startDate,
             endDate = endDate,
@@ -136,16 +138,13 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
             .observeOn(Schedulers.io()).blockingAwait()
 
         val disposable = travelLocalModel.createTravel(travel)
-            .flatMap { t ->
+            .andThen {
                 if(endDate == null){
                     travelingSetting()
-                    prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, t).observeOn(Schedulers.io())
+                    prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, travel.id).observeOn(Schedulers.io())
                         .blockingAwait()
                 }
-                travel.id = t
-                prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID)
-            }
-            .subscribe({ token ->
+                val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
                 val mode = prefUtilService.getInt(AndroidPrefUtilService.Key.UPLOAD_MODE).blockingGet()
                 if (TextUtils.isEmpty(token).not() && mode != 2) {
                     val constraints =
@@ -171,7 +170,12 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                         .build()
 
                     WorkManager.getInstance().enqueue(travelWork)
+                    it.onComplete()
+                }else{
+                    it.onComplete()
                 }
+            }
+            .subscribe({
                 completeLiveData.postValue(Event(Any()))
             }) {
                 Timber.e(it)

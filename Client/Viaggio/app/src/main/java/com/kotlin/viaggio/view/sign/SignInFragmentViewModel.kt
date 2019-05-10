@@ -47,10 +47,6 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
     val error: MutableLiveData<Event<SignError>> = MutableLiveData()
     var complete: MutableLiveData<Event<Any>> = MutableLiveData()
 
-    override fun initialize() {
-        super.initialize()
-    }
-
     private fun validateForm() {
         validateFormDisposable?.dispose()
         validateFormDisposable = Maybe
@@ -73,7 +69,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
     }
     fun validateSignIn() {
         val encryptionPassword = encryption.encryptionValue(password.get()!!)
-        error.value = null
+
         val disposable = userModel.signIn(email.get()!!, encryptionPassword)
             .subscribe ({ t1->
                 if(t1.isSuccessful){

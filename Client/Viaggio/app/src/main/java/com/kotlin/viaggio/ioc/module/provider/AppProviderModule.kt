@@ -17,6 +17,7 @@ import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.text.FirebaseVisionCloudTextRecognizerOptions
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.AppDatabase
 import com.kotlin.viaggio.view.App
 import dagger.Module
@@ -37,6 +38,12 @@ class AppProviderModule {
     @Named("Application")
     internal fun provideApplicationContext(app: App): Context {
         return app.baseContext
+    }
+
+    @Provides
+    @Named("ApiToken")
+    internal fun provideApiToken(sp: SharedPreferences): String {
+        return sp.getString(AndroidPrefUtilService.Key.TOKEN_ID.name , "")!!
     }
 
     @Provides
