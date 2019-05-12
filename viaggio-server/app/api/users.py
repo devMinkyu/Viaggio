@@ -8,6 +8,8 @@ from ..errors import bad_request, unauthorized
 
 @api.before_request
 def before_request():
+    if request.method == 'OPTIONS':
+        return ('', 204)
     if request.headers.get('authorization') is None:
         return unauthorized('Token is not exist.')
     if User.query.filter_by(token=request.headers['authorization']).first() is None:
