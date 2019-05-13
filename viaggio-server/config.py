@@ -24,6 +24,11 @@ class TestingConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL')
 
 
+class QaConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('QA_DATABASE_URL')
+
+
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('PROD_DATABASE_URL')
 
@@ -35,6 +40,7 @@ class ProductionConfig(Config):
 config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
+    'qa': QaConfig,
     'production': ProductionConfig,
 
     'default': DevelopmentConfig
