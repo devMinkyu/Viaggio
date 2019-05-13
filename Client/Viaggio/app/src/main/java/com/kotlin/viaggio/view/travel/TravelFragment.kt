@@ -1,12 +1,14 @@
 package com.kotlin.viaggio.view.travel
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.PagerAdapter
@@ -74,6 +76,15 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
     }
 
     inner class TravelPagerAdapter(private val travelList:List<Travel>):PagerAdapter(){
+        private val imageList = listOf(
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image1, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image2, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image3, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image4, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image5, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image6, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image7, null)
+        )
         override fun isViewFromObject(view: View, `object`: Any) = view == `object`
         override fun getCount() = travelList.size + 1
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -92,10 +103,17 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                 }
                 binding.data = travel
 
-                Glide.with(view.travelBackground)
-                    .load(travelList[position].imageName)
-                    .centerCrop()
-                    .into(view.travelBackground)
+                if(TextUtils.isEmpty(travelList[position].imageName)){
+                    Glide.with(view.travelBackground)
+                        .load(imageList[Random().nextInt(imageList.size)])
+                        .centerCrop()
+                        .into(view.travelBackground)
+                }else{
+                    Glide.with(view.travelBackground)
+                        .load(travelList[position].imageName)
+                        .centerCrop()
+                        .into(view.travelBackground)
+                }
             } else {
                 binding.data = null
             }

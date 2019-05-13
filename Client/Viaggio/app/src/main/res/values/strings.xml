@@ -22,7 +22,8 @@
     <string name="err_delete_id">The deleted Email</string>
     <string name="home_traveling">Traveling</string>
     <string name="home_travel">Traveled</string>
-    <string name="finish_of_msg">Please press back button one more time to exit the app</string>
+    <!--<string name="finish_of_msg">Please press back button one more time to exit the app</string>-->
+    <string name="finish_of_msg">뒤로가기 버튼을 한번 더 누르시면 종료됩니다.</string>
 
     <string name="date_format">EE, MMM d, yyyy</string>
     <string name="date_time_format">HH:MM</string>
@@ -110,6 +111,7 @@
     <string name="empty_country_hint">최소 한개이상을 선택해 주세요.</string>
     <string name="travel_title_count">%d / 10자</string>
     <string name="travel_finish">여행을\n종료 하시겠습니까?</string>
+    <string name="travel_delete">정말로\n삭제하시겠습니까?</string>
     <string name="finish_yes">네</string>
     <string name="finish_no">아니요</string>
     <string name="network_error">인터넷 연결을\n 확인해 주세요.</string>

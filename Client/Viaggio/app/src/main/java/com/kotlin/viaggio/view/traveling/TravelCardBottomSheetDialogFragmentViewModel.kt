@@ -6,9 +6,9 @@ import javax.inject.Inject
 
 class TravelCardBottomSheetDialogFragmentViewModel @Inject constructor() : BaseViewModel() {
     fun modify(){
-        rxEventBus.travelCardChange.onNext(Any())
+        rxEventBus.travelCardChange.onNext(true)
     }
     fun delete(){
-
+        rxEventBus.travelCardChange.onNext(false)
     }
 }

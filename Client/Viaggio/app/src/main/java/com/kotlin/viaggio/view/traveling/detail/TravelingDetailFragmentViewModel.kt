@@ -6,6 +6,7 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.`object`.Travel
+import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -35,10 +36,12 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
     val imageShow = ObservableBoolean(false)
 
     val travelOfDayCardImageListLiveData = MutableLiveData<Event<List<String>>>()
-    val changeCardLiveData = MutableLiveData<Event<Any>>()
+    val changeCardLiveData = MutableLiveData<Event<Boolean>>()
+    val completeLiveData = MutableLiveData<Event<Boolean>>()
+
 
     var timeDisposable:Disposable? = null
-
+    var travelCard = TravelCard()
     var modifyLocation = IntArray(2)
     override fun initialize() {
         super.initialize()
@@ -47,7 +50,7 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
 
         val changeDisposable = rxEventBus.travelCardChange
             .subscribe {
-                changeCardLiveData.value = Event(Any())
+                changeCardLiveData.value = Event(it)
             }
         addDisposable(changeDisposable)
 
@@ -60,12 +63,20 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
                 Timber.d(it)
             }
         addDisposable(disposable)
+
+        val deleteDisposable = rxEventBus.travelCardDelete
+            .subscribe {
+                completeLiveData.postValue(Event(false))
+                delete()
+            }
+        addDisposable(deleteDisposable)
     }
 
     private fun fetchData(){
         val disposable = travelLocalModel.getTravelCard()
             .flatMap { t ->
                 if (t.isNotEmpty()) {
+                    travelCard = t[0]
                     val item = t[0]
                     theme.set(item.theme.joinToString(", "))
                     dayCount.set(item.travelOfDay)
@@ -93,6 +104,18 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(disposable)
     }
 
+    fun delete(){
+        travelCard.isDelete = true
+        travelCard.userExist = false
+        val disposable = travelLocalModel.updateTravelCard(travelCard)
+            .subscribe({
+                rxEventBus.travelCardUpdate.onNext(Any())
+                completeLiveData.postValue(Event(true))
+            }){
+                Timber.d(it)
+            }
+        addDisposable(disposable)
+    }
     fun showNotice() {
         val disposable = Completable.timer(2, TimeUnit.SECONDS)
             .subscribe {

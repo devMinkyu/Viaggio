@@ -124,9 +124,10 @@ dependencies {
     //firebase
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.google.firebase:firebase-ml-vision:20.0.0'
+    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 
     // viewPager2
-    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha03'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha04'
 
     // lottie
     implementation "com.airbnb.android:lottie:$lottie_version"

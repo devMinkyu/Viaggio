@@ -14,6 +14,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragment
+import com.kotlin.viaggio.view.traveling.TravelingDeleteActionDialogFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
@@ -85,12 +86,31 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
         })
 
         getViewModel().changeCardLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {
-                val frag = TravelingDetailActionDialogFragment()
-                val arg = Bundle()
-                arg.putIntArray(ArgName.TRAVEL_CARD_LOCATION.name, getViewModel().modifyLocation)
-                frag.arguments = arg
-                frag.show(fragmentManager!!, TravelingDetailActionDialogFragment.TAG)
+            it.getContentIfNotHandled()?.let {value ->
+                if(value){
+                    val frag = TravelingDetailActionDialogFragment()
+                    val arg = Bundle()
+                    arg.putIntArray(ArgName.TRAVEL_CARD_LOCATION.name, getViewModel().modifyLocation)
+                    frag.arguments = arg
+                    frag.show(fragmentManager!!, TravelingDetailActionDialogFragment.TAG)
+                }else{
+                    val frag = TravelingDeleteActionDialogFragment()
+                    val arg = Bundle()
+                    arg.putBoolean(ArgName.TRAVEL_CARD_MODE.name, true)
+                    frag.arguments = arg
+                    frag.show(fragmentManager!!, TravelingDeleteActionDialogFragment.TAG)
+                }
+            }
+        })
+
+        getViewModel().completeLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {value ->
+                if(value){
+                    stopLoading()
+                    fragmentPopStack()
+                } else {
+                    showLoading()
+                }
             }
         })
     }

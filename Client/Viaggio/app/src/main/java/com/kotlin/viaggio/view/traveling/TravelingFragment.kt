@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.data.`object`.TravelCardValue
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
@@ -23,7 +23,6 @@ import com.kotlin.viaggio.databinding.ItemTravelingDayCountBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
-import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling.*
 import kotlinx.android.synthetic.main.item_traveling.view.*
@@ -137,6 +136,15 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
 
     inner class TravelCardViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = DataBindingUtil.bind<ItemTravelingBinding>(view)
+        private val imageList = listOf(
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image1, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image2, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image3, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image4, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image5, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image6, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image7, null)
+        )
         fun round(){
             val drawable = context?.getDrawable(R.drawable.round_bg) as GradientDrawable
             itemView.travelingItemThemeImg.background = drawable
@@ -146,6 +154,10 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
                     .load(imageName)
+                    .into(itemView.travelingItemThemeImg)
+            } else{
+                Glide.with(itemView)
+                    .load(imageList[java.util.Random().nextInt(imageList.size)])
                     .into(itemView.travelingItemThemeImg)
             }
         }
@@ -159,6 +171,15 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
     }
     inner class TravelCardCountViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = DataBindingUtil.bind<ItemTravelingDayCountBinding>(view)
+        private val imageList = listOf(
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image1, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image2, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image3, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image4, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image5, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image6, null),
+            ResourcesCompat.getDrawable(resources, R.drawable.base_image7, null)
+        )
         fun round(){
             val drawable = context?.getDrawable(R.drawable.round_bg) as GradientDrawable
             itemView.travelingItemThemeImg.background = drawable
@@ -168,6 +189,10 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
                     .load(imageName)
+                    .into(itemView.travelingItemThemeImg)
+            } else{
+                Glide.with(itemView)
+                    .load(imageList[java.util.Random().nextInt(imageList.size)])
                     .into(itemView.travelingItemThemeImg)
             }
         }

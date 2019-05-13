@@ -19,38 +19,38 @@ interface TravelDao {
     @Insert
     fun insertAllTravel(vararg travel: Travel)
 
-    @Query("SELECT * FROM travels Order By startDate Asc")
+    @Query("SELECT * FROM travels Where isDelete = 0 Order By startDate Asc")
     fun getTravels(): Single<List<Travel>>
 
     @Query("SELECT * FROM travels Where userExist = 0")
     fun getNotUploadTravels(): Single<List<Travel>>
 
-    @Query("SELECT * FROM travels WHERE id IN(:id) limit 1")
+    @Query("SELECT * FROM travels WHERE id IN(:id) And isDelete = 0 limit 1")
     fun getTravel(id: Long): Single<Travel>
 
     @Update
     fun updateTravel(travel: Travel)
 
     // travelCard
-    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelId) ORDER BY travelOfDay Asc")
+    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelId) And isDelete = 0 ORDER BY travelOfDay Asc")
     fun getTravelCardAsc(travelId: Long): DataSource.Factory<Int, TravelCard>
 
-    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelId) ORDER BY travelOfDay DESC")
+    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelId) And isDelete = 0 ORDER BY travelOfDay DESC")
     fun getTravelCardDes(travelId: Long): DataSource.Factory<Int, TravelCard>
 
     @Insert
     fun insertTravelCard(travelCard: TravelCard)
 
-    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelOfDayId) ORDER BY date DESC")
+    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelOfDayId) And isDelete = 0 ORDER BY date DESC")
     fun getTravelCardsPaged(travelOfDayId: Long): DataSource.Factory<Int, TravelCard>
 
-    @Query("SELECT * FROM travelCards")
+    @Query("SELECT * FROM travelCards Where isDelete = 0")
     fun getTravelCards(): Single<MutableList<TravelCard>>
 
     @Query("SELECT * FROM travelCards Where userExist = 0")
     fun getNotUploadTravelCards(): Single<MutableList<TravelCard>>
 
-    @Query("SELECT * FROM travelCards WHERE id IN(:travelCardId) limit 1")
+    @Query("SELECT * FROM travelCards WHERE id IN(:travelCardId) And isDelete = 0 limit 1")
     fun getTravelCard(travelCardId: Long): Single<List<TravelCard>>
 
     @Update
