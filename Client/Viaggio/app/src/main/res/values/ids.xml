@@ -249,4 +249,6 @@
     <item name="domesticsName" type="id"/>
     <item name="travelingCalendarContainer" type="id"/>
     <item name="profileListImage" type="id"/>
+    <item name="themeSelectNameBack" type="id"/>
+    <item name="themeSelectNameSelect" type="id"/>
 </resources>

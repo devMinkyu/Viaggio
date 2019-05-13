@@ -88,6 +88,7 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
                     }
                 }
                 val resultList = mutableListOf<String>()
+
                 Single.merge(list)
                     .map {
                         resultList.add(it)

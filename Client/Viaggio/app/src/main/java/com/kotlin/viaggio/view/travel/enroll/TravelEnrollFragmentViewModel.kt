@@ -206,5 +206,6 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     override fun onCleared() {
         super.onCleared()
         rxEventBus.travelOfTheme.onNext(listOf())
+        rxEventBus.travelSelectedCity.onNext(listOf())
     }
 }

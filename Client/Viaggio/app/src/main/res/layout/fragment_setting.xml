@@ -61,10 +61,11 @@
                         app:layout_constraintTop_toTopOf="@id/settingSign"
                         app:layout_constraintBottom_toBottomOf="@id/settingSign"
                 />
+                <!--android:visibility="@{viewModel.isLogin ? View.GONE:View.VISIBLE}"-->
                 <androidx.constraintlayout.widget.Group
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:visibility="@{viewModel.isLogin ? View.GONE:View.VISIBLE}"
+                        android:visibility="gone"
                         app:constraint_referenced_ids="settingSign, settingSignNotice"
                         tools:ignore="UnknownId"/>
                 <View
@@ -213,6 +214,7 @@
                         android:text="@string/setting_upload"
                         style="@style/ViewStyle.Viaggio.Setting"
                         android:onClick="@{()->viewHandler.autoUpload()}"
+                        android:visibility="gone"
                         android:drawableStart="@drawable/ic_cloud_upload"
                         app:layout_constraintStart_toStartOf="@id/settingEntire"
                         app:layout_constraintEnd_toEndOf="@id/settingEntire"

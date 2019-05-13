@@ -36,7 +36,7 @@
         />
         <TextView
                 android:id="@id/skipBtn"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
                 android:text="@string/tutorial_skip"
@@ -49,6 +49,7 @@
                 app:layout_constraintEnd_toStartOf="@id/loginBtn"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 android:layout_marginEnd="@dimen/common_margin"
+                android:layout_marginStart="@dimen/common_margin"
         />
         <TextView
                 android:id="@id/loginBtn"
@@ -58,6 +59,7 @@
                 android:gravity="center"
                 android:background="@drawable/tutorial_login_btn_bg"
                 android:textColor="@color/sign_click_color"
+                android:visibility="gone"
                 android:onClick="@{() -> viewHandler.login()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/skipBtn"

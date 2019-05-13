@@ -71,37 +71,26 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
                 }
             }
         })
-
         getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 stopLoading()
                 fragmentPopStack()
             }
         })
-
-//        themeList.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-//            themeList?.let {
-//                if (themeList.canScrollVertically(-1).not()) {
-//                    enableSliding(true)
-//                } else {
-//                    enableSliding(false)
-//                }
-//            }
-//        }
     }
 
     inner class ViewHandler{
         fun confirm(){
-            if(getViewModel().option){
-                if(getViewModel().selectedTheme.isEmpty()){
-                    toast(resources.getString(R.string.empty_country_hint))
-                }else{
-                    showLoading()
-                    getViewModel().sendTheme()
-                }
-            }else{
-                getViewModel().sendTheme()
-            }
+//            if(getViewModel().option){
+//                if(getViewModel().selectedTheme.isEmpty()){
+//                    toast(resources.getString(R.string.empty_country_hint))
+//                }else{
+//                    showLoading()
+//                    getViewModel().sendTheme()
+//                }
+//            }else{
+//                getViewModel().sendTheme()
+//            }
         }
         fun close(){
             fragmentPopStack()

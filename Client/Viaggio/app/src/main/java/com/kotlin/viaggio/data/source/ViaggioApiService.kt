@@ -156,8 +156,7 @@ interface ViaggioApiService {
                 val newRequest = request.newBuilder()
                     .addHeader("authorization", mApiToken.blockingFirst())
                     .build()
-                val response: okhttp3.Response = chain.proceed(newRequest)
-                response
+                chain.proceed(newRequest)
             } else {
                 chain.proceed(request)
             }

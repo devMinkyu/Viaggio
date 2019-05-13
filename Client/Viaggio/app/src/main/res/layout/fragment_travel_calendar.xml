@@ -55,6 +55,7 @@
                     android:text="@string/calendar_save"
                     android:gravity="center"
                     android:padding="15dp"
+                    android:layout_marginEnd="@dimen/common_margin"
                     android:fontFamily="sans-serif-black"
                     android:visibility="@{viewModel.list.size == 0 ? View.GONE:View.VISIBLE}"
                     android:onClick="@{()->viewHandler.confirm()}"

@@ -45,6 +45,10 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     @Inject
     lateinit var config: DeveloperAuthenticationProvider
 
+    companion object{
+        val TAG:String =  TravelingCardEnrollFragmentViewModel::class.java.toString()
+    }
+
     val complete: MutableLiveData<Event<Any>> = MutableLiveData()
     val imageLiveData:MutableLiveData<Event<List<Any>>> = MutableLiveData()
     val themeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()

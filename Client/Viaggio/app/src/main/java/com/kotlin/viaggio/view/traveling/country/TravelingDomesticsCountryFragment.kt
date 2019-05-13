@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.traveling.country
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,6 +49,7 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         countryList.layoutManager = LinearLayoutManager(context)
+        countryList.addItemDecoration(DomesticsItemDecoration())
         getViewModel().domesticsLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 countryList.adapter = object : RecyclerView.Adapter<TravelingDomesticsCountryViewHolder>(){
@@ -121,6 +123,23 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
                     }
                 }
             }
+        }
+    }
+}
+
+
+class DomesticsItemDecoration :
+    RecyclerView.ItemDecoration() {
+    private var firstHorMargin: Float? = null
+
+    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+        super.getItemOffsets(outRect, view, parent, state)
+
+        if (parent.getChildAdapterPosition(view) == 0) {
+            val firstHorMarginVal1 = firstHorMargin
+                ?: (parent.context.resources.getDimension(R.dimen.tool_bar))
+            firstHorMargin = firstHorMarginVal1
+            outRect.top = firstHorMarginVal1.toInt()
         }
     }
 }

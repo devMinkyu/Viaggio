@@ -8,8 +8,11 @@
             <!--android:startColor="#Fe90af"-->
             <!--android:endColor="#FFBBBB"-->
     <!--/>-->
-    <gradient
-            android:startColor="@color/colorPrimary"
-            android:endColor="#a9f1df"
+    <!--<gradient-->
+            <!--android:startColor="@color/colorPrimary"-->
+            <!--android:endColor="#a9f1df"-->
+    <!--/>-->
+    <solid
+            android:color="@color/colorPrimary"
     />
 </shape>

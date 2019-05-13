@@ -13,6 +13,21 @@ android {
         enabled = true
     }
 
+//    signingConfigs {
+//        debug {
+//            keyAlias debug_key_alias
+//            keyPassword debug_key_pw
+//            storeFile file("${debug_key_file_loc}")
+//            storePassword debug_key_file_pw
+//        }
+//        release {
+//            keyAlias release_key_alias
+//            keyPassword release_key_pw
+//            storeFile file("${release_key_file_loc}")
+//            storePassword release_key_file_pw
+//        }
+//    }
+
     defaultConfig {
         applicationId "com.kotlin.viaggio"
         minSdkVersion rootProject.minSdkVersion
@@ -29,9 +44,25 @@ android {
         multiDexEnabled true
     }
     buildTypes {
-        release {
+        debug {
+            applicationIdSuffix ".debug"
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable true
+            shrinkResources false
+//            signingConfig signingConfigs.debug
+            return void
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            zipAlignEnabled true
+//            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
         }
     }
 }

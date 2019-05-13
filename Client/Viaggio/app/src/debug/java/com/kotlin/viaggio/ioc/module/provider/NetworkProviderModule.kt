@@ -25,7 +25,7 @@ class NetworkProviderModule{
     ): ViaggioApiService {
         val gsonConverterFactory = GsonConverterFactory.create(gson)
 
-        val tagClient = client.newBuilder()
+        val viaClient = client.newBuilder()
             .retryOnConnectionFailure(true)
             .addNetworkInterceptor(StethoInterceptor())
             .addInterceptor(tokenInterceptor)
@@ -34,7 +34,7 @@ class NetworkProviderModule{
         val baseUrl = BuildConfig.SERVER_HOST
 
         val retrofit = Retrofit.Builder()
-            .client(tagClient)
+            .client(viaClient)
             .baseUrl(baseUrl)
             .addConverterFactory(gsonConverterFactory)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
