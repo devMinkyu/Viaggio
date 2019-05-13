@@ -14,7 +14,7 @@ class User(db.Model):
     passwordHash = db.Column(db.String(128))
     profileImageName = db.Column(db.String(64))
     profileImageUrl = db.Column(db.String(512))
-    token = db.Column(db.String(128), unique=True, default=str(uuid.uuid4()))
+    token = db.Column(db.String(128), unique=True, default=lambda: str(uuid.uuid4()))
     createdDate = db.Column(db.DateTime, default=datetime.utcnow)
     travel = db.relationship('Travel', backref='user', lazy='dynamic')
 
