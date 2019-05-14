@@ -2,10 +2,7 @@ package com.kotlin.viaggio.view.traveling.detail
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -21,7 +18,7 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activity!!.window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
         activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         arguments?.let {
             getViewModel().location = it.getIntArray(ArgName.TRAVEL_CARD_LOCATION.name)
@@ -47,17 +44,27 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
             clp.topMargin = it[1]
             detailDialogChangeCountry.layoutParams = clp
         }
+        showKeyBoard()
 
         getViewModel().completeLiveDate.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 dismiss()
             }
         })
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        detailDialogChangeCountry.setOnTouchListener { v, event ->
+            if(v.id == R.id.detailDialogChangeCountry){
+                v.parent.requestDisallowInterceptTouchEvent(true)
+                when(event.action) {
+                    MotionEvent.ACTION_UP -> v.parent.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
+    }
+    override fun onStop() {
+        super.onStop()
+        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
     }
     inner class ViewHandler{
         fun close(){

@@ -1,6 +1,8 @@
 package com.kotlin.viaggio.view.common
 
+import android.content.Context
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -108,6 +110,17 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
             (it as LoadingDialogFragment).dismiss()
         }
     }
+
+
+    fun showKeyBoard(){
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+    }
+    fun hideKeyBoard(){
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
+    }
+
 
     fun showNetWorkError(){
         NetworkDialogFragment().show(supportFragmentManager, NetworkDialogFragment.TAG)

@@ -2,11 +2,9 @@ package com.kotlin.viaggio.view.traveling.enroll
 
 import android.Manifest
 import android.graphics.Bitmap
+import android.graphics.Rect
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
@@ -43,7 +41,9 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                 .position(SlidrPosition.LEFT)
                 .build())
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_card_enroll, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
@@ -200,6 +200,9 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         }
         inner class TravelCardEnrollViewHandler{
             fun imageAdd(){
+                if(isShowKeyBoard){
+                    hideKeyBoard()
+                }
                 getViewModel().permissionCheck(
                     rxPermission.request(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,

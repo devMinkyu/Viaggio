@@ -2,9 +2,11 @@ package com.kotlin.viaggio.view.common
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.SavedStateVMFactory
@@ -36,6 +38,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
     var sliderInterface: SlidrInterface? = null
 
     var width:Int = 0
+    var isShowKeyBoard = false
 
     override fun androidXFragmentInjector() = fragmentInjector
 
@@ -52,6 +55,16 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
         width = context!!.resources.displayMetrics.widthPixels
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.viewTreeObserver.addOnGlobalLayoutListener {
+            val r = Rect()
+            view.getWindowVisibleDisplayFrame(r)
+            val heightDiff = view.rootView.height - (r.bottom - r.top)
+            isShowKeyBoard = heightDiff > 500
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         val traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
@@ -63,6 +76,9 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
     override fun onStop() {
         super.onStop()
         sliderInterface = null
+        if(isShowKeyBoard){
+            hideKeyBoard()
+        }
     }
 
     fun getViewModel(): E =
@@ -123,6 +139,18 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
     fun stopLoading() {
         activity?.let {
             (it as BaseActivity<*>).stopLoading()
+        }
+    }
+
+    fun showKeyBoard() {
+        activity?.let {
+            (it as BaseActivity<*>).showKeyBoard()
+        }
+    }
+
+    fun hideKeyBoard() {
+        activity?.let {
+            (it as BaseActivity<*>).hideKeyBoard()
         }
     }
     fun showNetWorkError(){

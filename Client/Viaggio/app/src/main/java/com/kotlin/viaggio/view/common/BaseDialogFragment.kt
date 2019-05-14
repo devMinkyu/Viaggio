@@ -2,8 +2,10 @@ package com.kotlin.viaggio.view.common
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +24,7 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
 
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
 
+    var isShowKeyBoard = false
     override fun androidXFragmentInjector() = fragmentInjector
 
     override fun onAttach(context: Context) {
@@ -31,8 +34,24 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         (getViewModel() as BaseViewModel).initialize()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.viewTreeObserver.addOnGlobalLayoutListener {
+            val r = Rect()
+            view.getWindowVisibleDisplayFrame(r)
+            val heightDiff = view.rootView.height - (r.bottom - r.top)
+            isShowKeyBoard = heightDiff > 500
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(isShowKeyBoard){
+            hideKeyBoard()
+        }
     }
 
     fun getViewModel(): E =
@@ -71,10 +90,21 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
             (it as BaseActivity<*>).showLoading()
         }
     }
-
     fun stopLoading() {
         activity?.let {
             (it as BaseActivity<*>).stopLoading()
+        }
+    }
+
+    fun showKeyBoard() {
+        activity?.let {
+            (it as BaseActivity<*>).showKeyBoard()
+        }
+    }
+
+    fun hideKeyBoard() {
+        activity?.let {
+            (it as BaseActivity<*>).hideKeyBoard()
         }
     }
 }

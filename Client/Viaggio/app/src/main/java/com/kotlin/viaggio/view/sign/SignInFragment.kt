@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.fragment_sign_in.*
 class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
     }
     override fun onResume() {

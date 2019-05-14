@@ -1,10 +1,12 @@
 package com.kotlin.viaggio.view.travel.option
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.view.animation.CycleInterpolator
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
@@ -20,6 +22,16 @@ class TravelTitleBottomSheetDialogFragment : BaseBottomDialogFragment<TravelTitl
     }
 
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentBottomSheetDialogTravelTitleBinding
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bottom_sheet_dialog_travel_title, container, false)
         binding.viewModel = getViewModel()
@@ -30,9 +42,7 @@ class TravelTitleBottomSheetDialogFragment : BaseBottomDialogFragment<TravelTitl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         travelOptionTitle.requestFocus()
-//        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
-
+        showKeyBoard()
         getViewModel().confirmLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 dismiss()
@@ -49,12 +59,8 @@ class TravelTitleBottomSheetDialogFragment : BaseBottomDialogFragment<TravelTitl
                 }
             }
         })
-    }
 
-//    private fun hide(){
-//        val imm = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0)
-//    }
+    }
 
     inner class ViewHandler{
         fun close(){
