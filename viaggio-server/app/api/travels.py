@@ -48,7 +48,7 @@ def get_travels():
 
 @api.route('my/travels/<int:id>')
 def get_specific_travel(id):
-    travel = Travel.query.filter_by(userId=request.user.id, id=id).first_or_404()
+    travel = Travel.query.filter_by(id=id).first_or_404()
     return jsonify({
         'travel': travel.as_dict()
     }), 200
