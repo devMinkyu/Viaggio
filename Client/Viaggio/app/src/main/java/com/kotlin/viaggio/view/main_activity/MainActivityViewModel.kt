@@ -1,19 +1,24 @@
 package com.kotlin.viaggio.view.main_activity
 
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
+import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
 class MainActivityViewModel @Inject constructor() : BaseViewModel() {
+    @Inject
+    lateinit var userModel: UserModel
 
     val finishActivity:MutableLiveData<Event<Any>> = MutableLiveData()
     val showToast:MutableLiveData<Event<Any>> = MutableLiveData()
@@ -36,6 +41,15 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
             }
         addDisposable(disposable)
 
+        val cal = Calendar.getInstance()
+        val lastConnectOfDay = prefUtilService.getInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY).blockingGet()
+        val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
+        val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
+        if ((currentConnectOfDay - lastConnectOfDay) != 0) {
+            if(TextUtils.isEmpty(token).not()){
+                addDisposable(userModel.getAws().subscribe())
+            }
+        }
     }
 
     val backButtonSubject: Subject<Long> =

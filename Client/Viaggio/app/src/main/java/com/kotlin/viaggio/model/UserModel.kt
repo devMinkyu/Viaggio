@@ -1,7 +1,7 @@
 package com.kotlin.viaggio.model
 
-import android.util.Log
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
+import com.kotlin.viaggio.data.`object`.ViaggioApiAWSAuth
 import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
 import com.kotlin.viaggio.data.`object`.ViaggioResult
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
@@ -26,10 +26,6 @@ class UserModel @Inject constructor() :BaseModel(){
     lateinit var prefUtilService: AndroidPrefUtilService
     private fun getToken() = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID)
 
-//    pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId).blockingAwait()
-//    pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token).blockingAwait()
-//    config.setInfo(auth.AWS_IdentityId, auth.AWS_Token)
-
     fun signIn(email:String, password:String):Single<Response<ViaggioApiAuth>> =
             api.signIn(email = email, passwordHash = password)
                 .doOnSuccess {
@@ -48,6 +44,17 @@ class UserModel @Inject constructor() :BaseModel(){
                     pref.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token).blockingAwait()
                     pref.putString(AndroidPrefUtilService.Key.USER_ID, auth.email).blockingAwait()
                     pref.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).blockingAwait()
+                }
+            }
+            .subscribeOn(Schedulers.io())
+    }
+    fun getAws(): Single<Response<ViaggioApiAWSAuth>>{
+        return api.getAws()
+            .doOnSuccess {
+                it.body()?.also {auth ->
+                    pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId).blockingAwait()
+                    pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token).blockingAwait()
+                    config.setInfo(auth.AWS_IdentityId, auth.AWS_Token)
                 }
             }
             .subscribeOn(Schedulers.io())
@@ -74,9 +81,6 @@ class UserModel @Inject constructor() :BaseModel(){
                     if(it.isSuccessful){
                         Completable.complete()
                     }else{
-                        Log.d("hoho", it.errorBody().toString())
-                        Log.d("hoho", it.code().toString())
-                        Log.d("hoho", it.message())
                         Completable.complete()
                     }
                 }

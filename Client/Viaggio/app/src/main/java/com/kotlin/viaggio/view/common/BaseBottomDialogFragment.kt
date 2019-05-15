@@ -23,7 +23,6 @@ abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialo
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
-
     var isShowKeyBoard = false
 
     override fun androidXFragmentInjector() = fragmentInjector

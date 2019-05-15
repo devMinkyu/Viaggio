@@ -15,6 +15,7 @@ import com.kotlin.viaggio.view.sign.common.Encryption
 import com.tag_hive.saathi.saathi.error.InvalidFormException
 import io.reactivex.Maybe
 import io.reactivex.disposables.Disposable
+import timber.log.Timber
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
@@ -73,7 +74,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
         val disposable = userModel.signIn(email.get()!!, encryptionPassword)
             .subscribe ({ t1->
                 if(t1.isSuccessful){
-                    complete.value = Event(Any())
+                    getAws()
                 }else{
                     val errorMsg: Error = gson.fromJson(t1.errorBody()?.string(), Error::class.java)
                     when(errorMsg.message){
@@ -81,7 +82,17 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
                     }
                 }
             }){
+                Timber.d(it)
+            }
+        addDisposable(disposable)
+    }
 
+    private fun getAws(){
+        val disposable = userModel.getAws()
+            .subscribe({
+                complete.postValue(Event(Any()))
+            }){
+                Timber.d(it)
             }
         addDisposable(disposable)
     }

@@ -24,9 +24,7 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
 
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
 
-    var isShowKeyBoard = false
     override fun androidXFragmentInjector() = fragmentInjector
-
     override fun onAttach(context: Context) {
         AndroidXInjection.inject(this)
         super.onAttach(context)
@@ -35,23 +33,6 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (getViewModel() as BaseViewModel).initialize()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.viewTreeObserver.addOnGlobalLayoutListener {
-            val r = Rect()
-            view.getWindowVisibleDisplayFrame(r)
-            val heightDiff = view.rootView.height - (r.bottom - r.top)
-            isShowKeyBoard = heightDiff > 500
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        if(isShowKeyBoard){
-            hideKeyBoard()
-        }
     }
 
     fun getViewModel(): E =

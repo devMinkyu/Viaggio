@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.traveling.detail
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.kotlin.viaggio.data.`object`.Travel
 import com.kotlin.viaggio.data.`object`.TravelCard
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
@@ -19,6 +20,8 @@ class TravelingDetailActionDialogFragmentViewModel @Inject constructor() : BaseV
     var location:IntArray? = null
 
     val contents = ObservableField<String>()
+
+    var isShowKeyBoard = false
     override fun initialize() {
         super.initialize()
 

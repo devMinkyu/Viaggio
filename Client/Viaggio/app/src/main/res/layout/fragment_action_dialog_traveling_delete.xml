@@ -32,7 +32,7 @@
                 android:layout_marginTop="32dp"
                 android:gravity="center_horizontal"
                 android:textColor="@android:color/black"
-                android:text="@string/travel_finish"
+                android:text="@string/travel_delete"
                 android:lineSpacingExtra="7.5sp"
                 android:textSize="14dp"
                 android:fontFamily="sans-serif-medium"

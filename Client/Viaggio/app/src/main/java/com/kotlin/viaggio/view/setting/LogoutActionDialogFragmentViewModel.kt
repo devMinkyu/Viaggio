@@ -1,6 +1,5 @@
 package com.kotlin.viaggio.view.setting
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
@@ -18,15 +17,14 @@ class LogoutActionDialogFragmentViewModel @Inject constructor() : BaseViewModel(
     fun logout() {
         val completables = mutableListOf<Completable>()
 
-        Log.d("hoho", "${prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()}")
         val disposable = userModel.logOut().andThen {
-//            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.AWS_TOKEN, ""))
-//            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.AWS_ID, ""))
-//            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.TOKEN_ID, ""))
-//            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE, ""))
-//            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_NAME, ""))
-//            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_ID, ""))
-//            Completable.merge(completables)
+            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.AWS_TOKEN, ""))
+            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.AWS_ID, ""))
+            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.TOKEN_ID, ""))
+            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE, ""))
+            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_NAME, ""))
+            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_ID, ""))
+            Completable.merge(completables)
             Completable.complete()
         }.subscribe({
             rxEventBus.userUpdate.onNext(Any())

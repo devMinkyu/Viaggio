@@ -3,6 +3,7 @@ package com.kotlin.viaggio.data.source
 import android.text.TextUtils
 import androidx.annotation.Keep
 import com.kotlin.viaggio.data.`object`.Area
+import com.kotlin.viaggio.data.`object`.ViaggioApiAWSAuth
 import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
 import com.kotlin.viaggio.data.`object`.ViaggioResult
 import io.reactivex.Single
@@ -19,6 +20,10 @@ import javax.inject.Singleton
 @Keep
 interface ViaggioApiService {
     // user
+    @POST("api/v1/auth/signup")
+    @FormUrlEncoded
+    fun getAws(): Single<Response<ViaggioApiAWSAuth>>
+
     @POST("api/v1/auth/signup")
     @Headers("No-Authentication: true")
     @FormUrlEncoded

@@ -19,7 +19,7 @@
             <EditText
                     android:id="@id/detailDialogChangeCountry"
                     android:layout_width="0dp"
-                    android:layout_height="350dp"
+                    android:layout_height="0dp"
                     android:background="@color/white_three"
                     android:gravity="start"
                     android:hint="@string/empty_hint"

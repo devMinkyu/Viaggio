@@ -85,22 +85,24 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         addDisposable(imageDisposable)
 
         val disposable = travelLocalModel.getTravel()
-            .subscribe({
+            .flatMap {
                 travel = it
-                dayCount.set(1)
-                val area = it.area.first()
-                country.set("${area.country}_${area.city}")
+                prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING)
+            }
+            .subscribe({
+                if(it && prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
+                    == prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()){
+                    dayCount.set(prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet())
+                    country.set(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
+                } else{
+                    dayCount.set(1)
+                    val area = travel.area.first()
+                    country.set("${area.country}_${area.city}")
+                }
             }){
                 Timber.d(it)
             }
         addDisposable(disposable)
-
-        if(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()){
-            if(prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet() == prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()){
-                dayCount.set(prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet())
-                country.set(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
-            }
-        }
 
         val optionDisposable = rxEventBus.travelingOption.subscribe {
             when(it){

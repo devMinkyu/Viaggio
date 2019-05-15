@@ -41,7 +41,6 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
     var isShowKeyBoard = false
 
     override fun androidXFragmentInjector() = fragmentInjector
-
     override fun onAttach(context: Context) {
         AndroidXInjection.inject(this)
         super.onAttach(context)
@@ -49,7 +48,6 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         rxPermission = RxPermissions(this)
         (getViewModel() as BaseViewModel).initialize()
         width = context!!.resources.displayMetrics.widthPixels

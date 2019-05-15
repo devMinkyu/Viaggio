@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.traveling.detail
 
 import android.content.Context
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.*
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -35,6 +36,7 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         getViewModel().location?.let {
             val clp = detailDialogChangeCountry.layoutParams as ConstraintLayout.LayoutParams
             clp.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
@@ -43,8 +45,29 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
             clp.leftMargin = it[0]
             clp.topMargin = it[1]
             detailDialogChangeCountry.layoutParams = clp
+
+            val height:Int = clp.height
+            view.viewTreeObserver.addOnGlobalLayoutListener {
+                val r = Rect()
+                view.getWindowVisibleDisplayFrame(r)
+                val heightDiff = view.rootView.height - (r.bottom - r.top)
+                if(heightDiff < -500){
+                    if(getViewModel().isShowKeyBoard.not()){
+                        val params = detailDialogChangeCountry.layoutParams
+                        params.height += (heightDiff * -1)
+                        detailDialogChangeCountry.layoutParams = params
+                        getViewModel().isShowKeyBoard = true
+                    }
+                }else {
+                    if(getViewModel().isShowKeyBoard){
+                        val params = detailDialogChangeCountry.layoutParams
+                        params.height = height
+                        detailDialogChangeCountry.layoutParams = params
+                        getViewModel().isShowKeyBoard = false
+                    }
+                }
+            }
         }
-        showKeyBoard()
 
         getViewModel().completeLiveDate.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
@@ -68,9 +91,15 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
     }
     inner class ViewHandler{
         fun close(){
+            if(getViewModel().isShowKeyBoard){
+                hideKeyBoard()
+            }
             dismiss()
         }
         fun save(){
+            if(getViewModel().isShowKeyBoard){
+                hideKeyBoard()
+            }
             getViewModel().save()
         }
     }
