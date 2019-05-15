@@ -57,8 +57,8 @@ def update_travelCard(travelCardId):
     if request.form.get('content') is not None:
         travelCard.content = request.form.get('content')
     if request.form.get('imageName') is not None:
-        tempImageNeme = list(request.form.get('imageName'))
-        travelCard.imageName = tempImageNeme
+        tempImageName = list(request.form.get('imageName'))
+        travelCard.imageName = tempImageName
     if request.form.get('imageUrl') is not None:
         tempImageUrl = list(request.form.get('imageUrl'))
         travelCard.imageUrl = tempImageUrl

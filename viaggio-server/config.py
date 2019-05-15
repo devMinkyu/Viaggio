@@ -45,4 +45,3 @@ config = {
 
     'default': DevelopmentConfig
 }
-
