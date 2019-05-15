@@ -7,7 +7,7 @@ import com.kotlin.viaggio.converters.AreaConverters
 import com.kotlin.viaggio.converters.DateTypeConverters
 import com.kotlin.viaggio.converters.StringConverters
 import com.kotlin.viaggio.converters.StringOfListConverters
-import com.kotlin.viaggio.data.`object`.*
+import com.kotlin.viaggio.data.obj.*
 
 
 @Suppress("unused")

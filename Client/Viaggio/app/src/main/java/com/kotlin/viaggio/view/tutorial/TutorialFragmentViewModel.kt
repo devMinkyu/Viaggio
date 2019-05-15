@@ -2,14 +2,11 @@ package com.kotlin.viaggio.view.tutorial
 
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.kotlin.viaggio.data.`object`.Tutorial
-import com.kotlin.viaggio.data.`object`.TutorialList
+import com.kotlin.viaggio.data.obj.Tutorial
+import com.kotlin.viaggio.data.obj.TutorialList
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
-import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.view.common.BaseViewModel
-import io.reactivex.Observable
 import java.io.InputStreamReader
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {

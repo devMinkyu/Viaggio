@@ -2,7 +2,7 @@ package com.kotlin.viaggio.view.setting
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.kotlin.viaggio.data.`object`.ImageData
+import com.kotlin.viaggio.data.obj.ImageData
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.model.UserModel

@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import com.kotlin.viaggio.data.`object`.Country
+import com.kotlin.viaggio.data.obj.Country
 import io.reactivex.Single
 
 @Dao

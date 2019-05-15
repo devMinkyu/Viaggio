@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
-import com.kotlin.viaggio.data.`object`.Area
+import com.kotlin.viaggio.data.obj.Area
 import com.kotlin.viaggio.databinding.ItemDomesticsBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr

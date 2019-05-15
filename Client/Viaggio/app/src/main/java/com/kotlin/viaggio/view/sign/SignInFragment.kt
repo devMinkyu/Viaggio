@@ -12,9 +12,8 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.`object`.SignError
+import com.kotlin.viaggio.data.obj.SignError
 import com.kotlin.viaggio.view.common.BaseFragment
-import com.kotlin.viaggio.view.common.NetworkDialogFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition

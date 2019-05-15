@@ -1,7 +1,7 @@
 package com.kotlin.viaggio.view.travel.option
 
 import androidx.databinding.ObservableBoolean
-import com.kotlin.viaggio.data.`object`.Travel
+import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel

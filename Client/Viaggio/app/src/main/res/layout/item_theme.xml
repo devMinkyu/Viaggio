@@ -3,7 +3,7 @@
     <data>
         <import type="android.view.View"/>
         <import type="com.kotlin.viaggio.view.theme.ThemeViewHandler"/>
-        <import type="com.kotlin.viaggio.data.object.ThemeData"/>
+        <import type="com.kotlin.viaggio.data.obj.ThemeData"/>
 
         <variable name="data" type="ThemeData"/>
         <variable name="viewHandler" type="ThemeViewHandler"/>

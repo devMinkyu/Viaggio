@@ -4,9 +4,8 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
-import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.`object`.Travel
-import com.kotlin.viaggio.data.`object`.TravelCard
+import com.kotlin.viaggio.data.obj.Travel
+import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -16,7 +15,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

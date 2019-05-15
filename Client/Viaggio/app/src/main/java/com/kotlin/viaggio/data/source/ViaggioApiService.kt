@@ -2,10 +2,10 @@ package com.kotlin.viaggio.data.source
 
 import android.text.TextUtils
 import androidx.annotation.Keep
-import com.kotlin.viaggio.data.`object`.Area
-import com.kotlin.viaggio.data.`object`.ViaggioApiAWSAuth
-import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
-import com.kotlin.viaggio.data.`object`.ViaggioResult
+import com.kotlin.viaggio.data.obj.Area
+import com.kotlin.viaggio.data.obj.ViaggioApiAWSAuth
+import com.kotlin.viaggio.data.obj.ViaggioApiAuth
+import com.kotlin.viaggio.data.obj.ViaggioResult
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import okhttp3.Interceptor

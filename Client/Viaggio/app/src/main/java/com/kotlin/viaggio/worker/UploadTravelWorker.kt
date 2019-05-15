@@ -2,9 +2,6 @@ package com.kotlin.viaggio.worker
 
 import android.content.Context
 import androidx.work.WorkerParameters
-import com.amazonaws.auth.CognitoCachingCredentialsProvider
-import com.amazonaws.mobile.client.AWSMobileClient
-import com.amazonaws.mobileconnectors.s3.transfermanager.internal.TransferManagerUtils
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
@@ -12,14 +9,13 @@ import com.google.gson.Gson
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
-import com.kotlin.viaggio.data.`object`.Travel
-import com.kotlin.viaggio.data.`object`.TravelCard
+import com.kotlin.viaggio.data.obj.Travel
+import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.model.TravelModel
 import io.reactivex.Completable
 import io.reactivex.Single
-import timber.log.Timber
 import java.io.File
 import java.lang.Exception
 import javax.inject.Inject

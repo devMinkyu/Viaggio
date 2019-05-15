@@ -1,4 +1,4 @@
-package com.kotlin.viaggio.data.`object`
+package com.kotlin.viaggio.data.obj
 
 
 enum class PermissionError {

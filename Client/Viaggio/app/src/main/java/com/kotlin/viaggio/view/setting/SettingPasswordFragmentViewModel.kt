@@ -6,14 +6,12 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
-import com.kotlin.viaggio.data.`object`.Error
-import com.kotlin.viaggio.data.`object`.SignError
-import com.kotlin.viaggio.data.source.AndroidPrefUtilService
+import com.kotlin.viaggio.data.obj.Error
+import com.kotlin.viaggio.data.obj.SignError
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.view.sign.common.Encryption
-import io.reactivex.Single
 import timber.log.Timber
 import javax.inject.Inject
 

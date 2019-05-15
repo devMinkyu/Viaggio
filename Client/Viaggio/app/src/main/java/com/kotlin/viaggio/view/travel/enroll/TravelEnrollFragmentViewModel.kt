@@ -8,10 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.google.gson.Gson
 import com.kotlin.viaggio.android.WorkerName
-import com.kotlin.viaggio.data.`object`.Area
-import com.kotlin.viaggio.data.`object`.PermissionError
-import com.kotlin.viaggio.data.`object`.Travel
-import com.kotlin.viaggio.data.`object`.TravelingError
+import com.kotlin.viaggio.data.obj.Area
+import com.kotlin.viaggio.data.obj.PermissionError
+import com.kotlin.viaggio.data.obj.Travel
+import com.kotlin.viaggio.data.obj.TravelingError
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
@@ -19,7 +19,6 @@ import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.kotlin.viaggio.worker.UploadTravelWorker
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.text.DateFormat

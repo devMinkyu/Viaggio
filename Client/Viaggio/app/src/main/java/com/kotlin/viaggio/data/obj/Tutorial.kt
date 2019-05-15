@@ -1,4 +1,4 @@
-package com.kotlin.viaggio.data.`object`
+package com.kotlin.viaggio.data.obj
 
 data class Tutorial(var animRes:String, var title:String, var contents:String)
 

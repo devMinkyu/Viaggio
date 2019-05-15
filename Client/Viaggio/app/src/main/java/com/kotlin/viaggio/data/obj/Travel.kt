@@ -1,4 +1,4 @@
-package com.kotlin.viaggio.data.`object`
+package com.kotlin.viaggio.data.obj
 
 import androidx.databinding.ObservableInt
 import androidx.room.Entity

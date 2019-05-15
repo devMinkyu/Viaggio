@@ -1,7 +1,7 @@
 package com.kotlin.viaggio.model
 
-import com.kotlin.viaggio.data.`object`.Travel
-import com.kotlin.viaggio.data.`object`.TravelCard
+import com.kotlin.viaggio.data.obj.Travel
+import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.ViaggioApiService
 import io.reactivex.Single

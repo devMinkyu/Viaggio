@@ -1,6 +1,5 @@
 package com.kotlin.viaggio.view
 
-import com.facebook.stetho.Stetho
 import com.kotlin.viaggio.ioc.component.DaggerAppComponent
 import com.kotlin.viaggio.view.common.BaseApp
 import timber.log.Timber

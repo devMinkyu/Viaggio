@@ -11,13 +11,11 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.google.gson.Gson
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
-import com.kotlin.viaggio.data.`object`.Error
-import com.kotlin.viaggio.data.`object`.SignError
+import com.kotlin.viaggio.data.obj.SignError
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
-import com.kotlin.viaggio.view.sign.common.Encryption
 import io.reactivex.Single
 import timber.log.Timber
 import java.io.File

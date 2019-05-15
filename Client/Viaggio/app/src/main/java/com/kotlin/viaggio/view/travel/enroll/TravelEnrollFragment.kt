@@ -5,22 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.`object`.PermissionError
-import com.kotlin.viaggio.data.`object`.TravelingError
+import com.kotlin.viaggio.data.obj.PermissionError
+import com.kotlin.viaggio.data.obj.TravelingError
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_travel_enroll.*
-import org.jetbrains.anko.*
-import org.jetbrains.anko.support.v4.alert
 import org.jetbrains.anko.support.v4.toast
-import java.util.*
 
 
 class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {

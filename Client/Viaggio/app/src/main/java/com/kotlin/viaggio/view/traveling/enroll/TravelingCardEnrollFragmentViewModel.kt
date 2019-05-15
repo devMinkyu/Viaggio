@@ -2,36 +2,24 @@ package com.kotlin.viaggio.view.traveling.enroll
 
 import android.graphics.Bitmap
 import android.text.TextUtils
-import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
-import com.amazonaws.auth.CognitoCachingCredentialsProvider
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
-import com.amazonaws.regions.Region
-import com.amazonaws.regions.Regions
-import com.amazonaws.services.s3.AmazonS3Client
 import com.google.gson.Gson
-import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
-import com.kotlin.viaggio.data.`object`.*
+import com.kotlin.viaggio.data.obj.*
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.UploadTravelWorker
-import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import java.io.File
-import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
 

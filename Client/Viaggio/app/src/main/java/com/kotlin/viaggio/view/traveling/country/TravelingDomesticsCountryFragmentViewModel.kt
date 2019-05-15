@@ -4,9 +4,9 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.kotlin.viaggio.data.`object`.Area
-import com.kotlin.viaggio.data.`object`.Country
-import com.kotlin.viaggio.data.`object`.Travel
+import com.kotlin.viaggio.data.obj.Area
+import com.kotlin.viaggio.data.obj.Country
+import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel

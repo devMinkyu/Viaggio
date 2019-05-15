@@ -1,4 +1,4 @@
-package com.kotlin.viaggio.data.`object`
+package com.kotlin.viaggio.data.obj
 
 data class ViaggioApiAuth(
     var email: String = "",

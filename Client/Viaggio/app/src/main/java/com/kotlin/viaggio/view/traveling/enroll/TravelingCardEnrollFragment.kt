@@ -2,18 +2,15 @@ package com.kotlin.viaggio.view.traveling.enroll
 
 import android.Manifest
 import android.graphics.Bitmap
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.*
-import androidx.core.content.res.ResourcesCompat
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.`object`.PermissionError
+import com.kotlin.viaggio.data.obj.PermissionError
 import com.kotlin.viaggio.databinding.FragmentTravelingCardEnrollBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingCitiesActionDialogFragment
@@ -25,7 +22,6 @@ import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_travel_card_theme.view.*
 import kotlinx.android.synthetic.main.item_traveling_card_img.view.*
-import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
 import java.text.SimpleDateFormat
 import java.util.*

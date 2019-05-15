@@ -3,7 +3,7 @@
         xmlns:bind="http://schemas.android.com/apk/res-auto"
 >
     <data>
-        <import type="com.kotlin.viaggio.data.object.TravelCardValue"/>
+        <import type="com.kotlin.viaggio.data.obj.TravelCardValue"/>
         <import type="com.kotlin.viaggio.view.traveling.TravelCardViewHandler"/>
         <import type="android.view.View"/>
 

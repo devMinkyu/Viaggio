@@ -2,7 +2,7 @@
 <layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
-        <import type="com.kotlin.viaggio.data.object.Area"/>
+        <import type="com.kotlin.viaggio.data.obj.Area"/>
 
         <variable name="data" type="Area"/>
     </data>

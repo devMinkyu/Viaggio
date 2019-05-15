@@ -1,6 +1,5 @@
 package com.kotlin.viaggio.ioc.module.provider
 
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.data.source.OpenWeatherApiService

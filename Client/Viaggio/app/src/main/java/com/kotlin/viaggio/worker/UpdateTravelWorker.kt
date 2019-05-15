@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.work.WorkerParameters
 import com.google.gson.Gson
 import com.kotlin.viaggio.android.WorkerName
-import com.kotlin.viaggio.data.`object`.Travel
-import com.kotlin.viaggio.data.`object`.TravelCard
+import com.kotlin.viaggio.data.obj.Travel
+import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.model.TravelModel
 import io.reactivex.Completable

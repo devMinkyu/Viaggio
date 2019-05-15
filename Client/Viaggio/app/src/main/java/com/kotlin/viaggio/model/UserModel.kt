@@ -1,9 +1,9 @@
 package com.kotlin.viaggio.model
 
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
-import com.kotlin.viaggio.data.`object`.ViaggioApiAWSAuth
-import com.kotlin.viaggio.data.`object`.ViaggioApiAuth
-import com.kotlin.viaggio.data.`object`.ViaggioResult
+import com.kotlin.viaggio.data.obj.ViaggioApiAWSAuth
+import com.kotlin.viaggio.data.obj.ViaggioApiAuth
+import com.kotlin.viaggio.data.obj.ViaggioResult
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.ViaggioApiService
 import io.reactivex.Completable

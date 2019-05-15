@@ -4,7 +4,7 @@
     <data>
         <import type="android.view.View"/>
         <import type="com.kotlin.viaggio.view.traveling.country.TravelingCityFragment.TravelingCityViewHolder.TravelingCityViewHandler"/>
-        <import type="com.kotlin.viaggio.data.object.Area"/>
+        <import type="com.kotlin.viaggio.data.obj.Area"/>
 
         <variable name="data" type="Area"/>
         <variable name="viewHandler" type="TravelingCityViewHandler"/>

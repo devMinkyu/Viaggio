@@ -169,4 +169,4 @@
 #Viaggio Customization
 -keep public class * extends java.lang.Exception
 -keep enum com.kotlin.viaggio.**$** {*;}
--keep class com.kotlin.viaggio.data.`object`.**$** {*;}
+-keep class com.kotlin.viaggio.data.obj.**$** {*;}

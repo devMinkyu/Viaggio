@@ -3,7 +3,7 @@ package com.kotlin.viaggio.view.travel
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.`object`.Travel
+import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel

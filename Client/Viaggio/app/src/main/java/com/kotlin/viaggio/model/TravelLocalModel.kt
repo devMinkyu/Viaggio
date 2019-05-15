@@ -3,8 +3,8 @@ package com.kotlin.viaggio.model
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.paging.DataSource
-import com.kotlin.viaggio.data.`object`.Travel
-import com.kotlin.viaggio.data.`object`.TravelCard
+import com.kotlin.viaggio.data.obj.Travel
+import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.RxEventBus
 import io.fotoapparat.result.PhotoResult

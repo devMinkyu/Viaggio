@@ -3,10 +3,10 @@
 package com.kotlin.viaggio.event
 
 import android.graphics.Bitmap
-import com.kotlin.viaggio.data.`object`.Area
-import com.kotlin.viaggio.data.`object`.Country
-import com.kotlin.viaggio.data.`object`.ImageData
-import com.kotlin.viaggio.data.`object`.ThemeData
+import com.kotlin.viaggio.data.obj.Area
+import com.kotlin.viaggio.data.obj.Country
+import com.kotlin.viaggio.data.obj.ImageData
+import com.kotlin.viaggio.data.obj.ThemeData
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import java.util.*

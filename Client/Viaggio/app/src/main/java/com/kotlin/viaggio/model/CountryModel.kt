@@ -1,6 +1,6 @@
 package com.kotlin.viaggio.model
 
-import com.kotlin.viaggio.data.`object`.Country
+import com.kotlin.viaggio.data.obj.Country
 import io.reactivex.Completable
 import javax.inject.Inject
 import javax.inject.Singleton

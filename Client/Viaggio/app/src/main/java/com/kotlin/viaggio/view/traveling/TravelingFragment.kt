@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.`object`.TravelCard
-import com.kotlin.viaggio.data.`object`.TravelCardValue
+import com.kotlin.viaggio.data.obj.TravelCard
+import com.kotlin.viaggio.data.obj.TravelCardValue
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
 import com.kotlin.viaggio.databinding.ItemTravelingDayCountBinding
 import com.kotlin.viaggio.view.common.BaseFragment

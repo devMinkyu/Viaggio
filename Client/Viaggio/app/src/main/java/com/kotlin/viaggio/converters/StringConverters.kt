@@ -3,7 +3,7 @@ package com.kotlin.viaggio.converters
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.kotlin.viaggio.data.`object`.Area
+import com.kotlin.viaggio.data.obj.Area
 
 
 class StringConverters {
