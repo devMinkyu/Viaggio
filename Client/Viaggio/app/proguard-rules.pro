@@ -20,10 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--dontnote retrofit2.Platform
--dontnote retrofit2.Platform$IOS$MainThreadExecutor
-# Platform used when running on Java 8 VMs. Will not be used at runtime.
--dontwarn retrofit2.Platform$Java8
 -keep class retrofit2.** { *; }
 -keepclasseswithmembers class * {
     @retrofit2.http.* <methods>;
@@ -31,10 +27,8 @@
 -keepclasseswithmembers interface * {
     @retrofit2.* <methods>;
 }
--keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
--keepattributes *Annotation*
 -keepattributes InnerClasses
 -keepattributes SourceFile
 -keepattributes LineNumberTable
@@ -43,8 +37,6 @@
 -keepattributes RuntimeInvisibleAnnotations
 -keepattributes RuntimeVisibleParameterAnnotations
 -keepattributes RuntimeInvisibleParameterAnnotations
-
--keepattributes EnclosingMethod
 
 # Retain generic type information for use by reflection by converters and adapters.
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -58,9 +50,7 @@
 -dontwarn com.google.**
 -dontwarn org.apache.**
 -dontwarn com.fasterxml.**
--dontwarn okio.**
 -dontwarn org.slf4j.**
--dontwarn okhttp3.**
 
 -keep class com.google.gson.** { *; }
 -keep public class com.google.gson.** {public private protected *;}
