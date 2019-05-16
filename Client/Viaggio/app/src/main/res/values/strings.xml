@@ -3,26 +3,39 @@
     <string name="travel_country_json">country.json</string>
     <string name="travel_tutorial_json">tutorial.json</string>
 
-    <string name="theme_empty">Please enter theme of travel.</string>
-    <string name="country_empty">Please enter country of travel.</string>
+    <!--<string name="theme_empty">Please enter theme of travel.</string>-->
+    <!--<string name="country_empty">Please enter country of travel.</string>-->
 
-    <string name="camera_permission">You have to allow camera access in Settings.</string>
-    <string name="storage_permission">You have to allow storage access in Settings.</string>
-    <string name="necessary_permission">You have to allow camera, storage access in Settings.</string>
+    <!--<string name="camera_permission">You have to allow camera access in Settings.</string>-->
+    <!--<string name="storage_permission">You have to allow storage access in Settings.</string>-->
+    <!--<string name="necessary_permission">You have to allow camera, storage access in Settings.</string>-->
+
+    <!--<string name="err_pw_mismatch">Password Mismatch</string>-->
+    <!--<string name="err_pw_same">Same Password</string>-->
+    <!--<string name="err_email_format">It is not an email form</string>-->
+    <!--<string name="err_password_num">최소 8자리를 입력해주세요.</string>-->
+    <!--<string name="err_wrong_pw">Wrong Password</string>-->
+    <!--<string name="err_email_not_found">User with the entered email doesn\'t exist</string>-->
+    <!--<string name="err_exist_email">User with the entered email already exist</string>-->
+    <!--<string name="err_delete_id">The deleted Email</string>-->
+    <!--<string name="finish_of_msg">Please press back button one more time to exit the app</string>-->
+
 
     <string name="app_name">Viaggio</string>
 
-    <string name="err_pw_mismatch">Password Mismatch</string>
-    <string name="err_pw_same">Same Password</string>
-    <string name="err_email_format">It is not an email form</string>
+    <string name="theme_empty">테마를 설정해주세요.</string>
+    <string name="country_empty">도시를 선택해주세요.</string>
+    <string name="camera_permission">카메라 접근권한이 필수입니다.</string>
+    <string name="storage_permission">저장소 접근권한이 필수입니다.</string>
+    <string name="necessary_permission">카메라, 저장소 접근권한이 필수입니다.</string>
+    <string name="err_pw_mismatch">비밀번호가 일치하지 않습니다.</string>
+    <string name="err_pw_same">같은 비밀번호 입니다.</string>
+    <string name="err_email_format">이메일 양식이 틀립니다.</string>
     <string name="err_password_num">최소 8자리를 입력해주세요.</string>
-    <string name="err_wrong_pw">Wrong Password</string>
-    <string name="err_email_not_found">User with the entered email doesn\'t exist</string>
-    <string name="err_exist_email">User with the entered email already exist</string>
-    <string name="err_delete_id">The deleted Email</string>
-    <string name="home_traveling">Traveling</string>
-    <string name="home_travel">Traveled</string>
-    <!--<string name="finish_of_msg">Please press back button one more time to exit the app</string>-->
+    <string name="err_wrong_pw">잘못된 비밀번호입니다.</string>
+    <string name="err_email_not_found">존재하지 않는 사용자입니다.</string>
+    <string name="err_exist_email">이미 존재하는 이메일입니다.</string>
+    <string name="err_delete_id">삭제된 이메일입니다.</string>
     <string name="finish_of_msg">뒤로가기 버튼을 한번 더 누르시면 종료됩니다.</string>
 
     <string name="date_format">EE, MMM d, yyyy</string>
@@ -31,16 +44,7 @@
     <string name="travel_card_choose_count">%d</string>
     <string name="travel_of_day_country">%s_%s</string>
     <string name="format">%1$tY/%1$tm/%1$td</string>
-    <string name="back">Back</string>
-    <string name="traveling_of_day_theme">Theme Choose</string>
-    <string name="traveling_card_contents_hint">Enter description..</string>
-    <string name="enterTravelCardNotice">Please enter place, time, and transportation of travel.</string>
-    <string name="next">Next</string>
     <string name="confirm">확인</string>
-    <string name="traveling_card_create">Create</string>
-    <string name="traveling_country">Country</string>
-    <string name="home_setting">Setting</string>
-    <string name="enroll_title">Title</string>
 
     <string name="tutorial_skip">건너뛰기</string>
     <string name="sign_in_sign">로그인 하기</string>
@@ -52,8 +56,7 @@
     <string name="sign_up_confirm_password">비밀번호 확인하기</string>
     <string name="setting_sign">로그인 해주세요.</string>
     <string name="setting_upload">자동 업로드</string>
-    <string name="setting_upload_check">클라우드의 저장 되어있는지 검사</string>
-    <string name="setting_sync">서버와 싱크하기</string>
+    <string name="setting_sync">동기화</string>
     <string name="setting_password">비밀번호 변경</string>
     <string name="setting_my_profile">여행자 정보 등록</string>
     <string name="setting_logout">로그아웃</string>
@@ -138,4 +141,5 @@
     <string name="calendar_save">등록</string>
     <string name="traveling_notice">👣 여행 중이예요!</string>
     <string name="travel_notice">💤 여행 준비 중이예요!</string>
+    <string name="base_theme"># 여행</string>
 </resources>

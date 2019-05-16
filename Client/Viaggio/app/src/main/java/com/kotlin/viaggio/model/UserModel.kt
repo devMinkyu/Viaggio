@@ -39,13 +39,6 @@ class UserModel @Inject constructor() :BaseModel(){
 
     fun signUp(name:String, email: String, password: String, password2: String):Single<Response<ViaggioApiAuth>> {
         return api.signUp(name = name, email = email, passwordHash2 = password2, passwordHash = password)
-            .doOnSuccess {
-                it.body()?.also {auth ->
-                    pref.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token).blockingAwait()
-                    pref.putString(AndroidPrefUtilService.Key.USER_ID, auth.email).blockingAwait()
-                    pref.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).blockingAwait()
-                }
-            }
             .subscribeOn(Schedulers.io())
     }
     fun getAws(): Single<Response<ViaggioApiAWSAuth>>{
@@ -75,13 +68,5 @@ class UserModel @Inject constructor() :BaseModel(){
             .subscribeOn(Schedulers.io())
     }
 
-    fun logOut(): Completable =
-            api.logOut().subscribeOn(Schedulers.io())
-                .flatMapCompletable {
-                    if(it.isSuccessful){
-                        Completable.complete()
-                    }else{
-                        Completable.complete()
-                    }
-                }
+    fun logOut(): Completable = api.logOut().subscribeOn(Schedulers.io())
 }

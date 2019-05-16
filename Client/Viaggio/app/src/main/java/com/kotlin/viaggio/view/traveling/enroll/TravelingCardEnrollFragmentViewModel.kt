@@ -134,18 +134,19 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     fun saveCard(){
         travelCard.content = contents.get()!!
         val travelId = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()
-        travelCard.id = Calendar.getInstance().time.time
-        travelCard.travelId = travelId
+        travelCard.localId = Calendar.getInstance().time.time
+        travelCard.travelLocalId = travelId
         travelCard.date = Calendar.getInstance().time
         travelCard.country = country.get() ?: ""
         travelCard.travelOfDay = dayCount.get()
         travelCard.theme = themeList
+        travelCard.travelServerId = travel.serverId
         val disposable = if (imageList.isNotEmpty()) {
             travelLocalModel.imagePathList(imageList)
                 .subscribeOn(Schedulers.io())
                 .flatMapCompletable {
                     travelCard.imageNames = it as ArrayList<String>
-                    if (travel.id != 0L && TextUtils.isEmpty(travel.imageName)) {
+                    if (travel.localId != 0L && TextUtils.isEmpty(travel.imageName)) {
                         travel.imageName = it[0]
                         travel.userExist = false
                         travelLocalModel.updateTravel(travel).subscribe()
@@ -157,7 +158,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         }.andThen {
                 val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
                 val mode = prefUtilService.getInt(AndroidPrefUtilService.Key.UPLOAD_MODE).blockingGet()
-                if(TextUtils.isEmpty(token).not() && mode != 2){
+                if(TextUtils.isEmpty(token).not() && mode != 2 && travelCard.serverId != 0){
                         val constraints =
                             if (mode == 0) {
                                 Constraints.Builder()
@@ -182,7 +183,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
 
                         WorkManager.getInstance().enqueue(travelWork)
                     it.onComplete()
-                }else{
+                } else {
                     it.onComplete()
                 }
             }

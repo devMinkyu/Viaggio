@@ -42,7 +42,7 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
         val toJson1 = inputData.getString(WorkerName.TRAVEL_CARD.name) ?: ""
         val travelCard = gson.fromJson(toJson1, TravelCard::class.java) ?: TravelCard()
 
-        if(travel.id != 0L){
+        if(travel.localId != 0L){
             travelModel.uploadTravel(travel)
                 .flatMapCompletable {
                     if(it.isSuccessful){
@@ -63,7 +63,7 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
                 }.blockingAwait()
         }
 
-        if(travelCard.id != 0L){
+        if(travelCard.localId != 0L){
             if(travelCard.imageNames.isNotEmpty()){
                 val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
                 val awsToken = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()

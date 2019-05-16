@@ -12,4 +12,8 @@ data class ViaggioApiAWSAuth(
 data class ViaggioResult(
     var result: String = ""
 )
+data class ViaggioTravelResult(
+    var id: Int= 0
+)
+
 

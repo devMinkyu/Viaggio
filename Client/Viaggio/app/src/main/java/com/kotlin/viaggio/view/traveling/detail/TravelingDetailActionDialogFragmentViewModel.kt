@@ -37,7 +37,7 @@ class TravelingDetailActionDialogFragmentViewModel @Inject constructor() : BaseV
     }
 
     fun save() {
-        if(travelCard.id != 0L){
+        if(travelCard.localId != 0L){
             travelCard.content = contents.get()!!
             travelCard.userExist = false
             val disposable = travelLocalModel.updateTravelCard(travelCard)

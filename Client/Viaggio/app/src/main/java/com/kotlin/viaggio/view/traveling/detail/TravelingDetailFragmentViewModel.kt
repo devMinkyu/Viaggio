@@ -82,14 +82,14 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
                     content.set(item.content)
                     imageSize.set(item.imageNames.size)
                     travelOfDayCardImageListLiveData.postValue(Event(item.imageNames))
-                    travelLocalModel.getTravel(item.travelId)
+                    travelLocalModel.getTravel(item.travelLocalId)
                 }else{
                     Single.just(Travel())
                 }
             }
             .observeOn(Schedulers.io())
             .subscribe ({ t ->
-                if(t.id != 0L){
+                if(t.localId != 0L){
                     val startDate = t.startDate!!
                     val cal = Calendar.getInstance()
                     cal.time = startDate

@@ -37,6 +37,8 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
                     imageChooseList.clear()
                     imageChooseList.addAll(result)
                     entireChooseCount = if (imageChooseList.isEmpty()) {
+                        imageChooseList.add(imageAllList[0].imageName)
+                        imageAllList[0].chooseCountList.set(1)
                         1
                     } else {
                         imageChooseList.size

@@ -26,8 +26,8 @@ class DeleteTravelWorker @Inject constructor(context: Context, params: WorkerPar
         val toJson1 = inputData.getString(WorkerName.TRAVEL_CARD.name) ?: ""
         val travelCard = gson.fromJson(toJson1, TravelCard::class.java) ?: TravelCard()
 
-        if(travel.id != 0L){
-            travelModel.deleteTravel(travel.id)
+        if(travel.localId != 0L){
+            travelModel.deleteTravel(travel.serverId)
                 .flatMapCompletable {
                     if(it.isSuccessful){
                         travel.userExist = true
@@ -38,8 +38,8 @@ class DeleteTravelWorker @Inject constructor(context: Context, params: WorkerPar
                 }.blockingAwait()
         }
 
-        if(travelCard.id != 0L){
-            travelModel.deleteTravelCard(travelCard.id)
+        if(travelCard.localId != 0L){
+            travelModel.deleteTravelCard(travelCard.serverId)
                 .flatMapCompletable {
                     if(it.isSuccessful){
                         travelCard.userExist = true

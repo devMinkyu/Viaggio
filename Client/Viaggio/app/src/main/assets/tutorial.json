@@ -6,11 +6,6 @@
       "contents": "One pager is best"
     },
     {
-      "animRes":"lottie/tutorial_second.json",
-      "title": "Two",
-      "contents": "Two pager is best"
-    },
-    {
       "animRes":"lottie/tutorial_third.json",
       "title": "Three",
       "contents": "Three pager is best"
@@ -27,3 +22,4 @@
     }
   ]
 }
+

@@ -2,10 +2,8 @@ package com.kotlin.viaggio.data.source
 
 import android.text.TextUtils
 import androidx.annotation.Keep
-import com.kotlin.viaggio.data.obj.Area
-import com.kotlin.viaggio.data.obj.ViaggioApiAWSAuth
-import com.kotlin.viaggio.data.obj.ViaggioApiAuth
-import com.kotlin.viaggio.data.obj.ViaggioResult
+import com.kotlin.viaggio.data.obj.*
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
 import okhttp3.Interceptor
@@ -20,8 +18,7 @@ import javax.inject.Singleton
 @Keep
 interface ViaggioApiService {
     // user
-    @POST("api/v1/auth/signup")
-    @FormUrlEncoded
+    @GET("api/v1/my/aws")
     fun getAws(): Single<Response<ViaggioApiAWSAuth>>
 
     @POST("api/v1/auth/signup")
@@ -59,10 +56,8 @@ interface ViaggioApiService {
     ): Single<Response<ViaggioResult>>
 
     @GET("api/v1/users/logout")
-    @Headers(
-        "Content-Type: application/x-www-form-urlencoded"
-    )
-    fun logOut(): Single<Response<ViaggioResult>>
+    fun logOut(): Completable
+
 
     // travel
     @POST("api/v1/my/travels")
@@ -71,76 +66,81 @@ interface ViaggioApiService {
     )
     @FormUrlEncoded
     fun uploadTravel(
-        @Field("localId") id: Long,
+        @Field("localId") localId: Long,
         @Field("area") area: MutableList<Area>,
         @Field("title") title: String,
         @Field("travelKind") travelKind: Int,
         @Field("theme") theme: MutableList<String>,
         @Field("startDate") startDate: Date,
-        @Field("endDate") endDate: Date?
-    ): Single<Response<Any>>
+        @Field("endDate") endDate: Date?,
+        @Field("imageName") imageName: String,
+        @Field("imageUrl") imageUrl: String,
+        @Field("share") share: Boolean,
+        @Field("isDelete") isDelete: Boolean
+    ): Single<Response<ViaggioTravelResult>>
 
-    @PUT("api/v1/my/travels/{travelId}")
+    @PUT("api/v1/my/travels/{serverId}")
     @Headers(
         "Content-Type: application/x-www-form-urlencoded"
     )
     @FormUrlEncoded
     fun updateTravel(
-        @Path("travelId") travelId: Long,
-        @Header("Authorization") token: String
-//        @Field("localId") id: Long,
-//        @Field("area") area: MutableList<Area>,
-//        @Field("title") title: String,
-//        @Field("travelKind") travelKind: Int,
-//        @Field("theme") theme: MutableList<String>,
-//        @Field("startDate") startDate: Date,
-//        @Field("endDate") endDate: Date?
+        @Path("serverId") serverId: Int,
+        @Field("area") area: MutableList<Area>,
+        @Field("title") title: String,
+        @Field("theme") theme: MutableList<String>,
+        @Field("endDate") endDate: Date?,
+        @Field("imageName") imageName: String,
+        @Field("imageUrl") imageUrl: String,
+        @Field("share") share: Boolean
     ): Single<Response<Any>>
 
-    @DELETE("api/v1/my/travels/{travelId}")
+    @DELETE("api/v1/my/travels/{serverId}")
     @Headers(
         "Content-Type: application/x-www-form-urlencoded"
     )
     @FormUrlEncoded
     fun deleteTravel(
-        @Path("travelId") travelId: Long,
-        @Header("Authorization") token: String,
-        @Field("isDelete") isDelete: Boolean
+        @Path("serverId") serverId: Int
     ): Single<Response<Any>>
 
     // travelCard
-    @POST("api/v1/my/travelcards/{travelId}")
+    @POST("api/v1/my/travelcards/{travelServerId}")
     @Headers(
         "Content-Type: application/x-www-form-urlencoded"
     )
     @FormUrlEncoded
     fun uploadTravelCard(
-        @Path("travelId") travelId: Long,
-        @Header("Authorization") token: String,
+        @Path("travelServerId") travelServerId: Int,
+        @Field("localId") localId: Long,
+        @Field("travelLocalId") travelLocalId: Long,
         @Field("travelOfDay") travelOfDay: Int,
+        @Field("theme") theme: MutableList<String>,
+        @Field("imageName") imageName: MutableList<String>,
+        @Field("imageUrl") imageUrl: MutableList<String>,
+        @Field("date") date: Date,
+        @Field("isDelete") isDelete: Boolean,
         @Field("country") country: String,
         @Field("content") content: String
-    ): Single<Response<Any>>
+    ): Single<Response<ViaggioTravelResult>>
 
-    @PUT("api/v1/my/travelcards/{travelCardId}")
+    @PUT("api/v1/my/travelcards/{serverId}")
     @Headers(
         "Content-Type: application/x-www-form-urlencoded"
     )
     @FormUrlEncoded
     fun updateTravelCard(
-        @Path("travelCardId") travelCardId: Long,
-        @Header("Authorization") token: String
+        @Path("serverId") serverId: Int,
+        @Field("content") content: String
     ): Single<Response<Any>>
 
-    @DELETE("api/v1/my/travelcards/{travelCardId}")
+    @DELETE("api/v1/my/travelcards/{serverId}")
     @Headers(
         "Content-Type: application/x-www-form-urlencoded"
     )
     @FormUrlEncoded
     fun deleteTravelCard(
-        @Path("travelCardId") travelCardId: Long,
-        @Header("Authorization") token: String,
-        @Field("isDelete") isDelete: Boolean
+        @Path("serverId") serverId: Int
     ):Single<Response<Any>>
 
 

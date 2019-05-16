@@ -77,6 +77,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
                     val errorMsg: Error = gson.fromJson(t1.errorBody()?.string(), Error::class.java)
                     when(errorMsg.message){
                         401 -> error.postValue(Event(SignError.EMAIL_NOT_FOUND))
+                        400 -> error.postValue(Event(SignError.WRONG_PW))
                     }
                 }
             }){

@@ -26,7 +26,7 @@ class UpdateTravelWorker @Inject constructor(context: Context, params: WorkerPar
         val toJson1 = inputData.getString(WorkerName.TRAVEL_CARD.name) ?: ""
         val travelCard = gson.fromJson(toJson1, TravelCard::class.java) ?: TravelCard()
 
-        if(travel.id != 0L){
+        if(travel.localId != 0L){
             travelModel.updateTravel(travel)
                 .flatMapCompletable {
                     if(it.isSuccessful){
@@ -38,7 +38,7 @@ class UpdateTravelWorker @Inject constructor(context: Context, params: WorkerPar
                 }.blockingAwait()
         }
 
-        if(travelCard.id != 0L){
+        if(travelCard.localId != 0L){
             travelModel.updateTravelCard(travelCard)
                 .flatMapCompletable {
                     if(it.isSuccessful){

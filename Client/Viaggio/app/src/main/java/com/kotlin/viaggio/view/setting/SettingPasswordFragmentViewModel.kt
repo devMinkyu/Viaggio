@@ -60,6 +60,10 @@ class SettingPasswordFragmentViewModel @Inject constructor() : BaseViewModel() {
     }
     fun save() :Boolean{
         when{
+            password.get()!!.length < 8 -> {
+                error.value = Event(SignError.PW_NUM)
+                return false
+            }
             password.get() == newPassword.get() ->{
                 error.value = Event(SignError.SAME_PW)
                 return false
@@ -80,7 +84,9 @@ class SettingPasswordFragmentViewModel @Inject constructor() : BaseViewModel() {
                 }else{
                     val errorMsg: Error = gson.fromJson(it.errorBody()?.string(), Error::class.java)
                     when(errorMsg.message){
-                        401 -> error.postValue(Event(SignError.WRONG_PW))
+                        402 -> error.postValue(Event(SignError.WRONG_PW))
+                        403 -> error.postValue(Event(SignError.PW_NUM))
+                        else -> error.postValue(Event(SignError.WRONG_PW))
                     }
                 }
             }){

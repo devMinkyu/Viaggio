@@ -81,16 +81,16 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
 
     inner class ViewHandler{
         fun confirm(){
-//            if(getViewModel().option){
-//                if(getViewModel().selectedTheme.isEmpty()){
-//                    toast(resources.getString(R.string.empty_country_hint))
-//                }else{
-//                    showLoading()
-//                    getViewModel().sendTheme()
-//                }
-//            }else{
-//                getViewModel().sendTheme()
-//            }
+            if(getViewModel().option){
+                if(getViewModel().selectedTheme.isEmpty()){
+                    toast(resources.getString(R.string.empty_country_hint))
+                }else{
+                    showLoading()
+                    getViewModel().sendTheme()
+                }
+            }else{
+                getViewModel().sendTheme()
+            }
         }
         fun close(){
             fragmentPopStack()

@@ -24,23 +24,23 @@ interface TravelDao {
     @Query("SELECT * FROM travels Where userExist = 0")
     fun getNotUploadTravels(): Single<List<Travel>>
 
-    @Query("SELECT * FROM travels WHERE id IN(:id) And isDelete = 0 limit 1")
+    @Query("SELECT * FROM travels WHERE localId IN(:id) And isDelete = 0 limit 1")
     fun getTravel(id: Long): Single<Travel>
 
     @Update
     fun updateTravel(travel: Travel)
 
     // travelCard
-    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelId) And isDelete = 0 ORDER BY travelOfDay Asc")
+    @Query("SELECT * FROM travelCards WHERE travelLocalId IN(:travelId) And isDelete = 0 ORDER BY travelOfDay, date Asc")
     fun getTravelCardAsc(travelId: Long): DataSource.Factory<Int, TravelCard>
 
-    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelId) And isDelete = 0 ORDER BY travelOfDay DESC")
+    @Query("SELECT * FROM travelCards WHERE travelLocalId IN(:travelId) And isDelete = 0 ORDER BY travelOfDay DESC, date DESC")
     fun getTravelCardDes(travelId: Long): DataSource.Factory<Int, TravelCard>
 
     @Insert
     fun insertTravelCard(travelCard: TravelCard)
 
-    @Query("SELECT * FROM travelCards WHERE travelId IN(:travelOfDayId) And isDelete = 0 ORDER BY date DESC")
+    @Query("SELECT * FROM travelCards WHERE travelLocalId IN(:travelOfDayId) And isDelete = 0 ORDER BY date DESC")
     fun getTravelCardsPaged(travelOfDayId: Long): DataSource.Factory<Int, TravelCard>
 
     @Query("SELECT * FROM travelCards Where isDelete = 0")
@@ -49,7 +49,7 @@ interface TravelDao {
     @Query("SELECT * FROM travelCards Where userExist = 0")
     fun getNotUploadTravelCards(): Single<MutableList<TravelCard>>
 
-    @Query("SELECT * FROM travelCards WHERE id IN(:travelCardId) And isDelete = 0 limit 1")
+    @Query("SELECT * FROM travelCards WHERE localId IN(:travelCardId) And isDelete = 0 limit 1")
     fun getTravelCard(travelCardId: Long): Single<List<TravelCard>>
 
     @Update

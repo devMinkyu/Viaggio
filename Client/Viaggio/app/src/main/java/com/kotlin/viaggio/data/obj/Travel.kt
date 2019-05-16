@@ -7,8 +7,8 @@ import java.util.*
 
 @Entity(tableName = "travels")
 data class Travel(
-    @PrimaryKey var id: Long = 0,
-    var serverTravelId: Int = 0,
+    @PrimaryKey var localId: Long = 0,
+    var serverId: Int = 0,
     @Suppress("ArrayInDataClass") var area: MutableList<Area> = mutableListOf(),
     var userExist: Boolean = false,
     var title: String = "재미있는 여행",
@@ -33,10 +33,11 @@ data class Traveled(
 
 @Entity(tableName = "travelCards")
 data class TravelCard(
-    @PrimaryKey var id: Long = 0,
-    var serverTravelCardId: Int = 0,
+    @PrimaryKey var localId: Long = 0,
+    var serverId: Int = 0,
     var userExist: Boolean = false,
-    var travelId: Long = 0,
+    var travelLocalId: Long = 0,
+    var travelServerId: Int = 0,
     var travelOfDay: Int = 1,
     var country:String = "",
     @Suppress("ArrayInDataClass") var theme: MutableList<String> = mutableListOf(),

@@ -116,10 +116,12 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
 
                 domesticsView.domesticsName.setOnClickListener {
                     area.selected.set(area.selected.get().not())
-                    if(getViewModel().selectedCities.contains(area)){
-                        getViewModel().selectedCities.remove(area)
-                    }else{
-                        getViewModel().selectedCities.add(area)
+                    if(getViewModel().selectedCities.size > 20){
+                        if(getViewModel().selectedCities.contains(area)){
+                            getViewModel().selectedCities.remove(area)
+                        }else{
+                            getViewModel().selectedCities.add(area)
+                        }
                     }
                 }
             }

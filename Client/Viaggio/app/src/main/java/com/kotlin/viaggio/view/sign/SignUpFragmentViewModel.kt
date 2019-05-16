@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.kotlin.viaggio.data.obj.Error
 import com.kotlin.viaggio.data.obj.SignError
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -104,13 +105,18 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
         val disposable = userModel.signUp(name = name.get()!!, email = email.get()!!, password = encryptionPassword, password2 = encryptionPassword2)
             .subscribe ({ t1->
                 if (t1.isSuccessful){
-                    getAws()
+                    t1.body()?.also {auth ->
+                        prefUtilService.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token).blockingAwait()
+                        prefUtilService.putString(AndroidPrefUtilService.Key.USER_ID, auth.email).blockingAwait()
+                        prefUtilService.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).blockingAwait()
+                        getAws()
+                    }
                 }else{
                     val errorMsg: Error = gson.fromJson(t1.errorBody()?.string(), Error::class.java)
                     when(errorMsg.message){
                         400 -> error.postValue(Event(SignError.EXIST_EMAIL))
-                        401 -> error.postValue(Event(SignError.EXIST_EMAIL))
-                        402 -> error.postValue(Event(SignError.EXIST_EMAIL))
+                        401 -> error.postValue(Event(SignError.PW_NUM))
+                        402 -> error.postValue(Event(SignError.EMAIL_MISMATCH))
                     }
                 }
             }){

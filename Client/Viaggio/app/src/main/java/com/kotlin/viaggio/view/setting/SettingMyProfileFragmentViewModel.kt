@@ -11,6 +11,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.google.gson.Gson
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
+import com.kotlin.viaggio.data.obj.Error
 import com.kotlin.viaggio.data.obj.SignError
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
@@ -104,6 +105,13 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
                     prefUtilService.putString(AndroidPrefUtilService.Key.USER_NAME, name.get()!!).blockingAwait()
                     rxEventBus.userUpdate.onNext(Any())
                     completeLiveData.postValue(Event(Any()))
+                } else {
+                    val errorMsg: Error = gson.fromJson(it.errorBody()?.string(), Error::class.java)
+                    when(errorMsg.message){
+                        401 -> {
+                            // 토큰 만료
+                        }
+                    }
                 }
             }) {
                 Timber.d(it)

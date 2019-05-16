@@ -2,6 +2,7 @@ package com.kotlin.viaggio.model
 
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.TravelCard
+import com.kotlin.viaggio.data.obj.ViaggioTravelResult
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.ViaggioApiService
 import io.reactivex.Single
@@ -17,58 +18,65 @@ class TravelModel @Inject constructor() : BaseModel() {
     @Inject
     lateinit var api: ViaggioApiService
 
-    private fun getToken() = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID)
-    fun uploadTravel(travel: Travel): Single<Response<Any>> {
-        val token = getToken().blockingGet()
+    fun uploadTravel(travel: Travel): Single<Response<ViaggioTravelResult>> {
         return api.uploadTravel(
-            id = travel.id,
+            localId = travel.localId,
             area = travel.area,
             title = travel.title,
             travelKind = travel.travelKind,
             startDate = travel.startDate!!,
             endDate = travel.endDate,
-            theme = travel.theme
+            theme = travel.theme,
+            isDelete = travel.isDelete,
+            share = travel.share,
+            imageName = travel.imageName,
+            imageUrl = travel.imageUrl
         ).subscribeOn(Schedulers.io())
     }
 
     fun updateTravel(travel: Travel) :Single<Response<Any>> {
-        val token = getToken().blockingGet()
         return api.updateTravel(
-            travelId = travel.id,
-            token = token
+            serverId = travel.serverId,
+            area = travel.area,
+            theme = travel.theme,
+            imageName = travel.imageName,
+            imageUrl = travel.imageUrl,
+            title = travel.title,
+            share = travel.share,
+            endDate = travel.endDate
         )
     }
 
-    fun deleteTravel(travelId: Long): Single<Response<Any>> {
-        val token = getToken().blockingGet()
-        return api.deleteTravel(travelId, token, true)
+    fun deleteTravel(travelId: Int): Single<Response<Any>> {
+        return api.deleteTravel(travelId)
     }
 
-    fun uploadTravelCard(travelCard: TravelCard):Single<Response<Any>> {
-        val token = getToken().blockingGet()
+    fun uploadTravelCard(travelCard: TravelCard):Single<Response<ViaggioTravelResult>> {
         return api.uploadTravelCard(
-            travelId = travelCard.travelId,
-            token = token,
+            travelServerId = travelCard.travelServerId,
             travelOfDay = travelCard.travelOfDay,
             country = travelCard.country,
-            content = travelCard.content
+            content = travelCard.content,
+            date = travelCard.date,
+            localId = travelCard.localId,
+            travelLocalId = travelCard.travelLocalId,
+            theme = travelCard.theme,
+            imageUrl = travelCard.imageUrl,
+            imageName = travelCard.imageNames,
+            isDelete = travelCard.isDelete
         )
     }
 
     fun updateTravelCard(travelCard: TravelCard): Single<Response<Any>> {
-        val token = getToken().blockingGet()
         return api.updateTravelCard(
-            travelCardId = travelCard.id,
-            token = token
+            serverId = travelCard.serverId,
+            content = travelCard.content
         )
     }
 
-    fun deleteTravelCard(travelCardId: Long): Single<Response<Any>> {
-        val token = getToken().blockingGet()
+    fun deleteTravelCard(travelCardId: Int): Single<Response<Any>> {
         return api.deleteTravelCard(
-            travelCardId = travelCardId,
-            token = token,
-            isDelete = true
+            serverId = travelCardId
         )
     }
 

@@ -126,7 +126,7 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
 
     fun confirm(){
         if(option){
-            if(travel.id != 0L){
+            if(travel.localId != 0L){
                 travel.area = chooseArea
                 travel.userExist = false
                 val disposable = travelLocalModel.updateTravel(travel)

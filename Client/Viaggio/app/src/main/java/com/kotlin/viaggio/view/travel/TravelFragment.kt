@@ -91,7 +91,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             if (travelList.size > position) {
                 val travel = Traveled()
                 travelList[position].apply {
-                    travel.id = id
+                    travel.id = localId
                     travel.title = title
                     travel.period = if(endDate == null){
                         "${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)} ~"
@@ -122,13 +122,13 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             }
             view.travelBackground.setOnClickListener {
                 if (travelList.size > position) {
-                    getViewModel().selectedTravelId(travelList[position].id)
+                    getViewModel().selectedTravelId(travelList[position].localId)
                     baseIntent("http://viaggio.kotlin.com/traveling/days/")
                 }
             }
             view.travelMore.setOnClickListener {
                 if (travelList.size > position) {
-                    getViewModel().selectedTravelId(travelList[position].id)
+                    getViewModel().selectedTravelId(travelList[position].localId)
                     TravelOptionBottomSheetDialogFragment().show(fragmentManager!!, TravelOptionBottomSheetDialogFragment.TAG)
                 }
             }

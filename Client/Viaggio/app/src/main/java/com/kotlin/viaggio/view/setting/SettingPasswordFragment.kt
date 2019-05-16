@@ -65,6 +65,11 @@ class SettingPasswordFragment : BaseFragment<SettingPasswordFragmentViewModel>()
                         profile_new.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red,null))
                         profile_new.hint = getString(R.string.err_pw_same)
                     }
+                    SignError.PW_NUM -> {
+                        getViewModel().password.set("")
+                        profile_new.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red, null))
+                        profile_new.hint = getString(R.string.err_password_num)
+                    }
                     else -> {}
                 }
             }

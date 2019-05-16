@@ -81,7 +81,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
     inner class TravelCardAdapter :
         PagedListAdapter<TravelCard, RecyclerView.ViewHolder>(object :
             DiffUtil.ItemCallback<TravelCard>() {
-            override fun areItemsTheSame(oldItem: TravelCard, newItem: TravelCard) = oldItem.id == newItem.id
+            override fun areItemsTheSame(oldItem: TravelCard, newItem: TravelCard) = oldItem.localId == newItem.localId
             override fun areContentsTheSame(oldItem: TravelCard, newItem: TravelCard) = oldItem == newItem
         }) {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -107,13 +107,13 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
             val travelCardVal = getItem(position)
             val item = travelCardVal?.let {
                 TravelCardValue().apply {
-                    id = it.id
+                    id = it.localId
                     content = it.content
                     country = it.country
-                    theme = it.theme.joinToString(", ")
+                    theme = if(it.theme.isNotEmpty()) it.theme.joinToString(", ") else resources.getString(R.string.base_theme)
                     imageName =
                         if (it.imageNames.isNotEmpty()) it.imageNames[Random.nextInt(it.imageNames.size)] else ""
-                    travelId = it.travelId
+                    travelId = it.travelLocalId
                     travelOfDay = it.travelOfDay
                 }
             }

@@ -63,7 +63,7 @@ class TravelingDomesticsCountryFragmentViewModel @Inject constructor() : BaseVie
 
     fun selectedCity() {
         if (option) {
-            if(travel.id != 0L){
+            if(travel.localId != 0L){
                 travel.area = selectedCities
                 travel.userExist = false
                 val disposable = travelLocalModel.updateTravel(travel)

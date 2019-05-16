@@ -126,7 +126,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     @SuppressLint("RestrictedApi")
     fun travelStart(): Boolean {
         val travel = Travel(
-            id = Calendar.getInstance().time.time,
+            localId = Calendar.getInstance().time.time,
             area = chooseCountry,
             startDate = startDate,
             endDate = endDate,
@@ -140,7 +140,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
             .andThen {
                 if(endDate == null){
                     travelingSetting()
-                    prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, travel.id).observeOn(Schedulers.io())
+                    prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, travel.localId).observeOn(Schedulers.io())
                         .blockingAwait()
                 }
                 val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()

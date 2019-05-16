@@ -82,7 +82,7 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     fun sendTheme() {
         if (option) {
-            if (travel.id != 0L) {
+            if (travel.localId != 0L) {
                 travel.theme = selectedTheme.map { it.theme }.toMutableList()
                 travel.userExist = false
                 val disposable = travelLocalModel.updateTravel(travel)

@@ -77,7 +77,9 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                     }
                 }
             }
-            travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
+            if(getViewModel().imageChooseList.isNotEmpty()){
+                travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
+            }
         })
         travelingOfDayEnrollImageList.setOnScrollChangeListener { _, _, _, _, _ ->
             travelingOfDayEnrollImageList?.let {
@@ -97,8 +99,14 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
         }
 
         fun confirm() {
-            getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
-            if (getViewModel().imageChooseList.size == getViewModel().imageBitmapChooseList.size) {
+            if(getViewModel().imageChooseList.isNotEmpty()){
+                getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
+                if (getViewModel().imageChooseList.size == getViewModel().imageBitmapChooseList.size) {
+                    getViewModel().selectImage()
+                    fragmentPopStack()
+                }
+            }else {
+                getViewModel().imageBitmapChooseList.clear()
                 getViewModel().selectImage()
                 fragmentPopStack()
             }
@@ -127,7 +135,9 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
             fun imagePicker() {
                 if (binding?.chooseCount?.get() == 0) {
                     if (getViewModel().entireChooseCount < 20) {
-                        getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
+                        if(getViewModel().imageChooseList.isNotEmpty()){
+                            getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
+                        }
                         travelingOfDayEnrollImageView.resetDisplay()
                         getViewModel().entireChooseCount += 1
                         binding.chooseCount?.set(getViewModel().entireChooseCount)
@@ -135,31 +145,29 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                         travelingOfDayEnrollImageView.setImageFilePath(fileNamePath)
                     }
                 } else {
-                    if (getViewModel().entireChooseCount != 1) {
-                        var cancelIndex = getViewModel().imageChooseList.indexOf(fileNamePath)
+                    var cancelIndex = getViewModel().imageChooseList.indexOf(fileNamePath)
+                    if (getViewModel().imageBitmapChooseList.size > cancelIndex) {
+                        val bitmap = getViewModel().imageBitmapChooseList[cancelIndex]
+                        getViewModel().imageBitmapChooseList.remove(bitmap)
+                    }
+                    getViewModel().imageChooseList.remove(fileNamePath)
+
+                    getViewModel().entireChooseCount -= 1
+
+                    binding?.chooseCount?.set(0)
+
+                    for ((i, s) in getViewModel().imageChooseList.withIndex()) {
+                        val item = getViewModel().imageAllList.firstOrNull {
+                            it.imageName == s
+                        }
+                        item?.chooseCountList?.set(i+1)
+                    }
+                    if (getViewModel().imageChooseList.isNotEmpty()) {
+                        travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
+                        cancelIndex = getViewModel().imageChooseList.indexOf(getViewModel().imageChooseList.last())
                         if (getViewModel().imageBitmapChooseList.size > cancelIndex) {
                             val bitmap = getViewModel().imageBitmapChooseList[cancelIndex]
                             getViewModel().imageBitmapChooseList.remove(bitmap)
-                        }
-                        getViewModel().imageChooseList.remove(fileNamePath)
-
-                        getViewModel().entireChooseCount -= 1
-
-                        binding?.chooseCount?.set(0)
-
-                        for ((i, s) in getViewModel().imageChooseList.withIndex()) {
-                            val item = getViewModel().imageAllList.firstOrNull {
-                                it.imageName == s
-                            }
-                            item?.chooseCountList?.set(i+1)
-                        }
-                        if (getViewModel().imageChooseList.isNotEmpty()) {
-                            travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
-                            cancelIndex = getViewModel().imageChooseList.indexOf(getViewModel().imageChooseList.last())
-                            if (getViewModel().imageBitmapChooseList.size > cancelIndex) {
-                                val bitmap = getViewModel().imageBitmapChooseList[cancelIndex]
-                                getViewModel().imageBitmapChooseList.remove(bitmap)
-                            }
                         }
                     }
                 }

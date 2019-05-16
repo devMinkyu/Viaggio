@@ -61,13 +61,19 @@
                         app:layout_constraintTop_toTopOf="@id/settingSign"
                         app:layout_constraintBottom_toBottomOf="@id/settingSign"
                 />
-                <!--android:visibility="@{viewModel.isLogin ? View.GONE:View.VISIBLE}"-->
+
                 <androidx.constraintlayout.widget.Group
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:visibility="gone"
+                        android:visibility="@{viewModel.isLogin ? View.GONE:View.VISIBLE}"
                         app:constraint_referenced_ids="settingSign, settingSignNotice"
                         tools:ignore="UnknownId"/>
+                <!--<androidx.constraintlayout.widget.Group-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="0dp"-->
+                        <!--android:visibility="gone"-->
+                        <!--app:constraint_referenced_ids="settingSign, settingSignNotice"-->
+                        <!--tools:ignore="UnknownId"/>-->
                 <View
                         android:id="@id/settingSignIn"
                         android:layout_width="0dp"
@@ -146,16 +152,7 @@
                         app:layout_constraintTop_toBottomOf="@id/settingMyProfile"
                         android:onClick="@{()->viewHandler.password()}"
                 />
-                <TextView
-                        android:id="@id/settingAutoUploadCheck"
-                        android:text="@string/setting_upload_check"
-                        style="@style/ViewStyle.Viaggio.Setting"
-                        android:drawableStart="@drawable/ic_cloud_done"
-                        app:layout_constraintStart_toStartOf="@id/settingEtc"
-                        app:layout_constraintEnd_toEndOf="@id/settingEtc"
-                        app:layout_constraintTop_toBottomOf="@id/settingPassword"
-                        android:onClick="@{()->viewHandler.uploadCheck()}"
-                />
+
                 <TextView
                         android:id="@id/settingSync"
                         android:text="@string/setting_sync"
@@ -164,8 +161,8 @@
                         android:drawableStart="@drawable/ic_cloud_download"
                         app:layout_constraintStart_toStartOf="@id/settingEtc"
                         app:layout_constraintEnd_toEndOf="@id/settingEtc"
-                        app:layout_constraintTop_toBottomOf="@id/settingAutoUploadCheck"
-                        android:onClick="@{()->viewHandler.sync()}"
+                        app:layout_constraintTop_toBottomOf="@id/settingPassword"
+                        android:onClick="@{()->viewHandler.uploadCheck()}"
                 />
                 <TextView
                         android:id="@id/settingLogout"
@@ -209,12 +206,22 @@
                         app:layout_constraintTop_toTopOf="@id/settingEntire"
                 />
 
+                <!--<TextView-->
+                        <!--android:id="@id/settingAutoUpload"-->
+                        <!--android:text="@string/setting_upload"-->
+                        <!--style="@style/ViewStyle.Viaggio.Setting"-->
+                        <!--android:onClick="@{()->viewHandler.autoUpload()}"-->
+                        <!--android:visibility="gone"-->
+                        <!--android:drawableStart="@drawable/ic_cloud_upload"-->
+                        <!--app:layout_constraintStart_toStartOf="@id/settingEntire"-->
+                        <!--app:layout_constraintEnd_toEndOf="@id/settingEntire"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/settingImage"-->
+                <!--/>-->
                 <TextView
                         android:id="@id/settingAutoUpload"
                         android:text="@string/setting_upload"
                         style="@style/ViewStyle.Viaggio.Setting"
                         android:onClick="@{()->viewHandler.autoUpload()}"
-                        android:visibility="gone"
                         android:drawableStart="@drawable/ic_cloud_upload"
                         app:layout_constraintStart_toStartOf="@id/settingEntire"
                         app:layout_constraintEnd_toEndOf="@id/settingEntire"
