@@ -17,11 +17,17 @@ def login():
             return bad_request(401, 'There is no user matched with email or pwd.')
 
         if user.token:
-            return jsonify({ 'token': user.token }), 200
+            return jsonify({
+                'email': user.email,
+                'name': user.name,
+                'token': user.token }), 200
         else:
             user.token = str(uuid.uuid4())
             db.session.add(user)
             db.session.commit()
-            return jsonify({ 'token': user.token }), 200
+            return jsonify({
+                'email': user.email,
+                'name': user.name,
+                'token': user.token }), 200
 
     return bad_request(400, 'Login valdation is failed.')

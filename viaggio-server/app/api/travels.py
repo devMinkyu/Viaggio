@@ -24,7 +24,7 @@ def create_travel():
                         isDelete=request.form.get('isDelete'))
         db.session.add(travel)
         db.session.commit()
-        return jsonify({ 'travel': travel.as_dict() }), 200
+        return jsonify({ 'id': travel.id }), 200
 
     if form.localId.errors:
         return bad_request(401, form.localId.errors[0])
@@ -61,8 +61,6 @@ def update_travel(id):
         travel = Travel.query.get_or_404(id)
         if request.form.get('title') is not None:
             travel.title = request.form.get('title')
-        if request.form.get('travelKind') and request.form.get('travelKind') != travel.travelKind:
-            travel.travelKind = request.form.get('travelKind')
         if request.form.get('area') is not None:
             tempArea = request.form.get('area')
             travel.area = tempArea

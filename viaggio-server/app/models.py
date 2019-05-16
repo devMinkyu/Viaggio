@@ -69,9 +69,8 @@ class Travel(db.Model):
 
     def to_json(self):
         json_travel = {
-            'id': self.id,
+            'serverId': self.id,
             'localId': self.localId,
-            'userId': self.userId,
             'startDate': self.startDate,
             'endDate': self.endDate,
             'travelKind': self.travelKind,
@@ -114,7 +113,7 @@ class TravelCard(db.Model):
 
     def to_json(self):
         json_travelCard = {
-            'id': self.id,
+            'serverId': self.id,
             'travelId': self.travelId,
             'localId': self.localId,
             'travelLocalId': self.travelLocalId,

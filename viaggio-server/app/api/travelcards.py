@@ -47,25 +47,8 @@ def get_travelCard(travelCardId):
 @api.route('/my/travelcards/<int:travelCardId>', methods=['PUT'])
 def update_travelCard(travelCardId):
     travelCard = TravelCard.query.filter_by(id=travelCardId).first_or_404()
-    if request.form.get('travelOfDay') is not None:
-        travelCard.travelOfDay = request.form.get('travelOfDay')
-    if request.form.get('country') is not None:
-        travelCard.country = request.form.get('country')
-    if request.form.get('theme') is not None:
-        tempTheme = list(request.form.get('theme'))
-        travelCard.theme = tempTheme
     if request.form.get('content') is not None:
         travelCard.content = request.form.get('content')
-    if request.form.get('imageName') is not None:
-        tempImageName = list(request.form.get('imageName'))
-        travelCard.imageName = tempImageName
-    if request.form.get('imageUrl') is not None:
-        tempImageUrl = list(request.form.get('imageUrl'))
-        travelCard.imageUrl = tempImageUrl
-    if request.form.get('date') is not None:
-        travelCard.date = request.form.get('date')
-    if request.form.get('isDelete') is not None:
-        travelCard.isDelete = request.form.get('isDelete')
     db.session.commit()
     return jsonify({ 'travelCard': travelCard.as_dict() })
 
