@@ -15,14 +15,16 @@ def create_user():
                     passwordHash=request.form['passwordHash'])
         db.session.add(user)
         db.session.commit()
-        # try:
-        #     response = user.get_aws_token()
-        # except:
-        #     return bad_request(403, 'Get AWS validation is failed.')
+        try:
+            response = user.get_aws_token()
+        except:
+            return bad_request(403, 'Get AWS validation is failed.')
         return jsonify({
             'email': user.email,
             'name': user.name,
-            'token': user.token }), 200
+            'token': user.token,
+            'AWS_IdentityId': response['IdentityId'],
+            'AWS_Token': response['Token'] }), 200
 
     if form.passwordHash.errors:
         return bad_request(401, form.passwordHash.errors[0])
