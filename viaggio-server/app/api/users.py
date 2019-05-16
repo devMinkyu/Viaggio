@@ -10,12 +10,12 @@ from ..errors import bad_request, unauthorized
 def before_request():
     if request.method == 'OPTIONS':
         return ('', 204)
-    if request.headers.get('authorization') is None:
+    if request.headers.get('auth') is None:
         return unauthorized('Token is not exist.')
-    if User.query.filter_by(token=request.headers['authorization']).first() is None:
+    if User.query.filter_by(token=request.headers['auth']).first() is None:
         return unauthorized('There is no user matched with token.')
     else:
-        request.user = User.query.filter_by(token=request.headers['authorization']).first()
+        request.user = User.query.filter_by(token=request.headers['auth']).first()
 
 
 @api.route('/users/changepwd', methods=['POST'])
@@ -24,15 +24,17 @@ def change_password():
     if form.validate():
         if request.user is None:
             return bad_request(401, 'There is no user matched with token and pwd when change user pwd.')
+        if request.user.passwordHash != request.form['oldPasswordHash']:
+            return bad_request(402, 'Password is not correct.')
         request.user.passwordHash = request.form['passwordHash']
         db.session.add(request.user)
         db.session.commit()
         return jsonify({ 'result': 'User password is changed.' }), 200
     
     if form.passwordHash.errors:
-        return bad_request(402, 'When change pwd, validation error is occurred.')
+        return bad_request(403, 'When change pwd, validation error is occurred.')
 
-    return bad_request(403, 'Change password validation is failed.')
+    return bad_request(404, 'Change password validation is failed.')
 
 
 @api.route('/users/changeinfo', methods=['POST'])
