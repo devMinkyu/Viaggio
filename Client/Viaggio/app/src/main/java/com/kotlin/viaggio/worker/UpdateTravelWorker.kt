@@ -48,7 +48,6 @@ class UpdateTravelWorker @Inject constructor(context: Context, params: WorkerPar
                         Completable.complete()
                     }
                 }.blockingAwait()
-
         }
 
         return Result.success()

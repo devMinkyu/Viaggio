@@ -24,6 +24,7 @@ class RxEventBus @Inject constructor() {
     val travelOfDayImage: BehaviorSubject<String> = BehaviorSubject.create()
     val travelOfCountryChange:BehaviorSubject<Any> = BehaviorSubject.create()
 
+
     val travelUpdate:PublishSubject<Any> = PublishSubject.create()
     val travelCardImages: BehaviorSubject<List<Bitmap>> = BehaviorSubject.create()
     val travelCacheImages: BehaviorSubject<List<ImageData>> = BehaviorSubject.create()

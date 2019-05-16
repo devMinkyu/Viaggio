@@ -47,18 +47,10 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
                 .flatMapCompletable {
                     if(it.isSuccessful){
                         travel.userExist = true
+                        travel.serverId = it.body()?.id ?: 0
                         travelLocalModel.updateTravel(travel)
                     }else{
-                        travelModel.uploadTravel(travel)
-                            .flatMapCompletable {sec ->
-                                if(sec.isSuccessful){
-                                    travel.userExist = true
-                                    travelLocalModel.updateTravel(travel)
-                                }else{
-                                    // 처리 부
-                                    Completable.complete()
-                                }
-                            }
+                        Completable.complete()
                     }
                 }.blockingAwait()
         }
@@ -95,6 +87,7 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
                             .flatMapCompletable {
                                 if(it.isSuccessful){
                                     travelCard.userExist = true
+                                    travelCard.serverId = it.body()?.id ?: 0
                                     travelLocalModel.updateTravelCard(travelCard)
                                 }else{
                                     Completable.complete()

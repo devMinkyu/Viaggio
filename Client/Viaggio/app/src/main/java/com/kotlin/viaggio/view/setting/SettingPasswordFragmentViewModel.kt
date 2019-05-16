@@ -5,7 +5,6 @@ import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.kotlin.viaggio.data.obj.Error
 import com.kotlin.viaggio.data.obj.SignError
 import com.kotlin.viaggio.event.Event
@@ -20,8 +19,6 @@ class SettingPasswordFragmentViewModel @Inject constructor() : BaseViewModel() {
     lateinit var userModel: UserModel
     @Inject
     lateinit var encryption: Encryption
-    @Inject
-    lateinit var gson: Gson
     val password = ObservableField<String>("")
         .apply {
             addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {

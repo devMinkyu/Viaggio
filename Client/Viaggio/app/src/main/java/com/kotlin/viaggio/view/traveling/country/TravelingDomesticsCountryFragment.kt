@@ -30,14 +30,19 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
             getViewModel().option = it.getBoolean(ArgName.TRAVEL_OPTION.name, false)
         }
     }
+
     override fun onResume() {
         super.onResume()
-        if(sliderInterface == null)
-            sliderInterface = Slidr.replace(travelingCountryContainer, SlidrConfig.Builder().position(
-                SlidrPosition.LEFT)
-                .build())
+        if (sliderInterface == null)
+            sliderInterface = Slidr.replace(
+                travelingCountryContainer, SlidrConfig.Builder().position(
+                    SlidrPosition.LEFT
+                )
+                    .build()
+            )
 
     }
+
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingDomesticsCountryBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_domestics_country, container, false)
@@ -52,9 +57,16 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
         countryList.addItemDecoration(DomesticsItemDecoration())
         getViewModel().domesticsLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                countryList.adapter = object : RecyclerView.Adapter<TravelingDomesticsCountryViewHolder>(){
+                countryList.adapter = object : RecyclerView.Adapter<TravelingDomesticsCountryViewHolder>() {
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                        TravelingDomesticsCountryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_domestics_country, parent, false))
+                        TravelingDomesticsCountryViewHolder(
+                            LayoutInflater.from(parent.context).inflate(
+                                R.layout.item_traveling_domestics_country,
+                                parent,
+                                false
+                            )
+                        )
+
                     override fun getItemCount() = getViewModel().groupDomestics.size
 
                     override fun onBindViewHolder(holder: TravelingDomesticsCountryViewHolder, position: Int) {
@@ -76,27 +88,28 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
         })
     }
 
-    inner class ViewHandler{
-        fun back(){
+    inner class ViewHandler {
+        fun back() {
             fragmentPopStack()
         }
-        fun confirm(){
-            if(getViewModel().option){
-                if(getViewModel().selectedCities.isEmpty()){
+
+        fun confirm() {
+            if (getViewModel().option) {
+                if (getViewModel().selectedCities.isEmpty()) {
                     toast(resources.getString(R.string.empty_country_hint))
-                }else{
+                } else {
                     showLoading()
                     getViewModel().selectedCity()
                 }
-            }else{
+            } else {
                 getViewModel().selectedCity()
             }
         }
     }
 
-    inner class TravelingDomesticsCountryViewHolder(view:View): RecyclerView.ViewHolder(view){
+    inner class TravelingDomesticsCountryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingDomesticsCountryBinding>(view)
-        fun cityCreateView(areas: List<Area>){
+        fun cityCreateView(areas: List<Area>) {
             val main = itemView.findViewById(R.id.domesticsList) as ViewGroup
             if (main.childCount > 0) {
                 main.removeAllViews()
@@ -115,11 +128,14 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
                 main.addView(domesticsView)
 
                 domesticsView.domesticsName.setOnClickListener {
-                    area.selected.set(area.selected.get().not())
-                    if(getViewModel().selectedCities.size > 20){
-                        if(getViewModel().selectedCities.contains(area)){
+                    if (area.selected.get()) {
+                        area.selected.set(area.selected.get().not())
+                        if (getViewModel().selectedCities.contains(area)) {
                             getViewModel().selectedCities.remove(area)
-                        }else{
+                        }
+                    } else {
+                        if (getViewModel().selectedCities.size <= 20) {
+                            area.selected.set(area.selected.get().not())
                             getViewModel().selectedCities.add(area)
                         }
                     }

@@ -8,7 +8,6 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
-import com.google.gson.Gson
 import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
 import com.kotlin.viaggio.data.obj.*
@@ -17,6 +16,7 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.UploadTravelWorker
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -26,8 +26,6 @@ import javax.inject.Inject
 class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
-    @Inject
-    lateinit var gson: Gson
     @Inject
     lateinit var transferUtility: TransferUtility
     @Inject
@@ -132,56 +130,46 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     }
 
     fun saveCard(){
+        val token = travelLocalModel.getToken()
+        val mode = travelLocalModel.getUploadMode()
+
         travelCard.content = contents.get()!!
         val travelId = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()
         travelCard.localId = Calendar.getInstance().time.time
         travelCard.travelLocalId = travelId
+        travelCard.travelServerId = travel.serverId
         travelCard.date = Calendar.getInstance().time
         travelCard.country = country.get() ?: ""
         travelCard.travelOfDay = dayCount.get()
         travelCard.theme = themeList
-        travelCard.travelServerId = travel.serverId
         val disposable = if (imageList.isNotEmpty()) {
             travelLocalModel.imagePathList(imageList)
                 .subscribeOn(Schedulers.io())
                 .flatMapCompletable {
+                    val completables = mutableListOf<Completable>()
                     travelCard.imageNames = it as ArrayList<String>
                     if (travel.localId != 0L && TextUtils.isEmpty(travel.imageName)) {
                         travel.imageName = it[0]
                         travel.userExist = false
-                        travelLocalModel.updateTravel(travel).subscribe()
+                        val c1 = travelLocalModel.updateTravel(travel)
+                            .andThen{co ->
+                                if(TextUtils.isEmpty(token).not() && mode != 2 && travelCard.serverId != 0){
+                                    uploadWork(travel)
+                                    co.onComplete()
+                                } else {
+                                    co.onComplete()
+                                }
+                            }
+                        completables.add(c1)
                     }
-                    travelLocalModel.createTravelCard(travelCard)
+                    completables.add(travelLocalModel.createTravelCard(travelCard))
+                    Completable.merge(completables)
                 }
         } else {
             travelLocalModel.createTravelCard(travelCard)
         }.andThen {
-                val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
-                val mode = prefUtilService.getInt(AndroidPrefUtilService.Key.UPLOAD_MODE).blockingGet()
                 if(TextUtils.isEmpty(token).not() && mode != 2 && travelCard.serverId != 0){
-                        val constraints =
-                            if (mode == 0) {
-                                Constraints.Builder()
-                                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                                    .build()
-                            } else {
-                                Constraints.Builder()
-                                    .setRequiredNetworkType(NetworkType.CONNECTED)
-                                    .setRequiresCharging(true)
-                                    .build()
-                            }
-
-                        val resultJsonTravelCard = gson.toJson(travelCard)
-
-                        val data = Data.Builder()
-                            .putString(WorkerName.TRAVEL_CARD.name, resultJsonTravelCard)
-                            .build()
-                        val travelWork = OneTimeWorkRequestBuilder<UploadTravelWorker>()
-                            .setConstraints(constraints)
-                            .setInputData(data)
-                            .build()
-
-                        WorkManager.getInstance().enqueue(travelWork)
+                    uploadWork(travelCard)
                     it.onComplete()
                 } else {
                     it.onComplete()

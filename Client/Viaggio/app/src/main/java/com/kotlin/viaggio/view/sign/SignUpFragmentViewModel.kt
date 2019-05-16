@@ -5,7 +5,6 @@ import android.util.Patterns
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.kotlin.viaggio.data.obj.Error
 import com.kotlin.viaggio.data.obj.SignError
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
@@ -22,8 +21,6 @@ import javax.inject.Inject
 class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var userModel: UserModel
-    @Inject
-    lateinit var gson:Gson
     @Inject
     lateinit var encryption: Encryption
     val name = ObservableField<String>().apply {
@@ -105,12 +102,7 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
         val disposable = userModel.signUp(name = name.get()!!, email = email.get()!!, password = encryptionPassword, password2 = encryptionPassword2)
             .subscribe ({ t1->
                 if (t1.isSuccessful){
-                    t1.body()?.also {auth ->
-                        prefUtilService.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token).blockingAwait()
-                        prefUtilService.putString(AndroidPrefUtilService.Key.USER_ID, auth.email).blockingAwait()
-                        prefUtilService.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).blockingAwait()
-                        getAws()
-                    }
+                    complete.postValue(Event(Any()))
                 }else{
                     val errorMsg: Error = gson.fromJson(t1.errorBody()?.string(), Error::class.java)
                     when(errorMsg.message){
@@ -124,15 +116,5 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
         addDisposable(disposable)
         return true
-    }
-
-    private fun getAws(){
-        val disposable = userModel.getAws()
-            .subscribe({
-                complete.postValue(Event(Any()))
-            }){
-                Timber.d(it)
-            }
-        addDisposable(disposable)
     }
 }

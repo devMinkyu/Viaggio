@@ -17,15 +17,18 @@ class LogoutActionDialogFragmentViewModel @Inject constructor() : BaseViewModel(
     fun logout() {
         val completables = mutableListOf<Completable>()
 
-        val disposable = userModel.logOut().andThen {
-            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.AWS_TOKEN, ""))
-            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.AWS_ID, ""))
-            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.TOKEN_ID, ""))
-            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE, ""))
-            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_NAME, ""))
-            completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_ID, ""))
+        val disposable = userModel.logOut()
+            .flatMapCompletable {
+                completables.add(Completable.complete())
+                if(it.isSuccessful){
+                    completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.AWS_TOKEN, ""))
+                    completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.AWS_ID, ""))
+                    completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.TOKEN_ID, ""))
+                    completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE, ""))
+                    completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_NAME, ""))
+                    completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.USER_ID, ""))
+                }
             Completable.merge(completables)
-            Completable.complete()
         }.subscribe({
             rxEventBus.userUpdate.onNext(Any())
             completeLiveDate.postValue(Event(Any()))

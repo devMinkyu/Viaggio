@@ -19,12 +19,12 @@ import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.travel.TravelFragment
 import com.kotlin.viaggio.view.travel.calendar.TravelCalendarFragment
 import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
+import com.kotlin.viaggio.view.travel.option.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment
-import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
-import com.kotlin.viaggio.view.travel.option.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingDomesticsCountryFragment
+import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
@@ -38,12 +38,14 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (getViewModel().checkTutorial()) {
-            getViewModel().initSetting()
-            showHome()
-        } else {
-            showTutorial()
-        }
+//        if (getViewModel().checkTutorial()) {
+//            getViewModel().initSetting()
+//            showHome()
+//        } else {
+//            showTutorial()
+//        }
+        getViewModel().initSetting()
+        showHome()
 
         handleIntent(intent)
 

@@ -4,9 +4,9 @@ import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.kotlin.viaggio.data.obj.Error
 import com.kotlin.viaggio.data.obj.SignError
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -22,8 +22,6 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
     lateinit var userModel: UserModel
     @Inject
     lateinit var encryption: Encryption
-    @Inject
-    lateinit var gson: Gson
 
     val email = ObservableField<String>().apply {
         addOnPropertyChangedCallback(object :androidx.databinding.Observable.OnPropertyChangedCallback(){
@@ -40,7 +38,6 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
         })
     }
     val isFormValid = ObservableBoolean(false)
-    val errorMsg = ObservableField<String?>()
 
     private var validateFormDisposable: Disposable? = null
     val error: MutableLiveData<Event<SignError>> = MutableLiveData()
@@ -72,7 +69,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
         val disposable = userModel.signIn(email.get()!!, encryptionPassword)
             .subscribe ({ t1->
                 if(t1.isSuccessful){
-                    getAws()
+                    complete.postValue(Event(Any()))
                 }else{
                     val errorMsg: Error = gson.fromJson(t1.errorBody()?.string(), Error::class.java)
                     when(errorMsg.message){
@@ -80,16 +77,6 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
                         400 -> error.postValue(Event(SignError.WRONG_PW))
                     }
                 }
-            }){
-                Timber.d(it)
-            }
-        addDisposable(disposable)
-    }
-
-    private fun getAws(){
-        val disposable = userModel.getAws()
-            .subscribe({
-                complete.postValue(Event(Any()))
             }){
                 Timber.d(it)
             }

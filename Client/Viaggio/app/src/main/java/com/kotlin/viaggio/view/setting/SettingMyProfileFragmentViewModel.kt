@@ -8,11 +8,10 @@ import androidx.lifecycle.MutableLiveData
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
-import com.google.gson.Gson
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
 import com.kotlin.viaggio.data.obj.Error
-import com.kotlin.viaggio.data.obj.SignError
+import com.kotlin.viaggio.data.obj.PermissionError
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
@@ -20,14 +19,11 @@ import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Single
 import timber.log.Timber
 import java.io.File
-import java.lang.Exception
 import javax.inject.Inject
 
 class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var userModel: UserModel
-    @Inject
-    lateinit var gson: Gson
     @Inject
     lateinit var transferUtility: TransferUtility
     @Inject
@@ -44,7 +40,8 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
     val isFormValid = ObservableBoolean(false)
 
     val completeLiveData = MutableLiveData<Event<Any>>()
-    val error: MutableLiveData<Event<SignError>> = MutableLiveData()
+    val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
+    val imageViewShow: MutableLiveData<Event<Any>> = MutableLiveData()
 
     var imageName = ""
     override fun initialize() {
@@ -64,6 +61,17 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
             TextUtils.isEmpty(name.get()) -> isFormValid.set(false)
             else -> isFormValid.set(true)
         }
+    }
+
+    fun permissionCheck(request: io.reactivex.Observable<Boolean>?) {
+        val disposable = request?.subscribe { t ->
+            if (t) {
+                imageViewShow.value = Event(Any())
+            } else {
+                permissionRequestMsg.value = Event(PermissionError.STORAGE_PERMISSION)
+            }
+        }
+        disposable?.let { addDisposable(it) }
     }
 
     fun save() {

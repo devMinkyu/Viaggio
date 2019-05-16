@@ -166,7 +166,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
     inner class TravelCardEnrollViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingCardImgBinding>(view)
 
-        var selectedImage:Bitmap? = null
+        private var selectedImage:Bitmap? = null
         fun loadImage(image:Any){
             when (image) {
                 is Bitmap -> {
