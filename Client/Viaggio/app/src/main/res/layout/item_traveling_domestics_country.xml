@@ -30,7 +30,7 @@
                 android:layout_marginTop="@dimen/common_top"
                 app:layout_constraintTop_toBottomOf="@id/countryName"
                 app:flexWrap="wrap"
-                app:justifyContent="flex_start"
+                app:justifyContent="center"
         />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
