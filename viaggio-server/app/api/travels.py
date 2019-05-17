@@ -4,6 +4,7 @@ from .. import db
 from ..models import Travel, TravelCard, AnalysisTheme, AnalysisContinent, AnalysisCountry, AnalysisCity, AnalysisSubCity
 from ..forms.travel import CreateTravelForm, UpdateTravelForm
 from ..errors import bad_request
+from datetime import datetime
 
 
 @api.route('/my/travels', methods=['POST'])
@@ -12,16 +13,14 @@ def create_travel():
     if form.validate():
         travel = Travel(userId=request.user.id,
                         localId=request.form.get('localId'),
-                        startDate=request.form.get('startDate'),
-                        endDate=request.form.get('endDate'),
+                        startDate=datetime.strptime(request.form.get('startDate'), "%Y-%m-%d %H:%M:%S") if request.form.get('startDate') else request.form.get('startDate'),
+                        endDate=datetime.strptime(request.form.get('endDate'), "%Y-%m-%d %H:%M:%S") if request.form.get('endDate') else request.form.get('endDate'),
                         travelKind=request.form.get('travelKind'),
                         area=request.form.get('area'),
                         title=request.form.get('title'),
                         theme=request.form.get('theme'),
                         imageName=request.form.get('imageName'),
-                        imageUrl=request.form.get('imageUrl'),
-                        share=request.form.get('share'),
-                        isDelete=request.form.get('isDelete'))
+                        imageUrl=request.form.get('imageUrl'))
         db.session.add(travel)
         db.session.commit()
         return jsonify({ 'id': travel.id }), 200
@@ -65,7 +64,7 @@ def update_travel(id):
             tempArea = request.form.get('area')
             travel.area = tempArea
         if request.form.get('endDate') is not None:
-            travel.endDate = request.form.get('endDate')
+            travel.endDate = datetime.strptime(request.form.get('endDate'), "%Y-%m-%d %H:%M:%S")
         if request.form.get('theme') is not None:
             tempTheme = list(request.form.get('theme'))
             travel.theme = tempTheme
