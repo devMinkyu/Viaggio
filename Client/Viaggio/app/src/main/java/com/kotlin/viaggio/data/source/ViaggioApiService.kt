@@ -66,11 +66,7 @@ interface ViaggioApiService {
         @Field("travelKind") travelKind: Int,
         @Field("theme") theme: MutableList<String>,
         @Field("startDate") startDate: String,
-        @Field("endDate") endDate: String?,
-        @Field("imageName") imageName: String,
-        @Field("imageUrl") imageUrl: String,
-        @Field("share") share: Boolean,
-        @Field("isDelete") isDelete: Boolean
+        @Field("endDate") endDate: String?
     ): Single<Response<ViaggioTravelResult>>
 
     @PUT("api/v1/my/travels/{serverId}")
@@ -107,7 +103,6 @@ interface ViaggioApiService {
         @Field("imageName") imageName: MutableList<String>,
         @Field("imageUrl") imageUrl: MutableList<String>,
         @Field("date") date: String,
-        @Field("isDelete") isDelete: Boolean,
         @Field("country") country: String,
         @Field("content") content: String
     ): Single<Response<ViaggioTravelResult>>

@@ -251,4 +251,6 @@
     <item name="profileListImage" type="id"/>
     <item name="themeSelectNameBack" type="id"/>
     <item name="themeSelectNameSelect" type="id"/>
+    <item name="travelCardImg" type="id"/>
+    <item name="travelCardActionContainer" type="id"/>
 </resources>

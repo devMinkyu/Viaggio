@@ -62,18 +62,18 @@
                         app:layout_constraintBottom_toBottomOf="@id/settingSign"
                 />
 
-                <androidx.constraintlayout.widget.Group
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:visibility="@{viewModel.isLogin ? View.GONE:View.VISIBLE}"
-                        app:constraint_referenced_ids="settingSign, settingSignNotice"
-                        tools:ignore="UnknownId"/>
                 <!--<androidx.constraintlayout.widget.Group-->
                         <!--android:layout_width="0dp"-->
                         <!--android:layout_height="0dp"-->
-                        <!--android:visibility="gone"-->
+                        <!--android:visibility="@{viewModel.isLogin ? View.GONE:View.VISIBLE}"-->
                         <!--app:constraint_referenced_ids="settingSign, settingSignNotice"-->
                         <!--tools:ignore="UnknownId"/>-->
+                <androidx.constraintlayout.widget.Group
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone"
+                        app:constraint_referenced_ids="settingSign, settingSignNotice"
+                        tools:ignore="UnknownId"/>
                 <View
                         android:id="@id/settingSignIn"
                         android:layout_width="0dp"
@@ -206,27 +206,27 @@
                         app:layout_constraintTop_toTopOf="@id/settingEntire"
                 />
 
-                <!--<TextView-->
-                        <!--android:id="@id/settingAutoUpload"-->
-                        <!--android:text="@string/setting_upload"-->
-                        <!--style="@style/ViewStyle.Viaggio.Setting"-->
-                        <!--android:onClick="@{()->viewHandler.autoUpload()}"-->
-                        <!--android:visibility="gone"-->
-                        <!--android:drawableStart="@drawable/ic_cloud_upload"-->
-                        <!--app:layout_constraintStart_toStartOf="@id/settingEntire"-->
-                        <!--app:layout_constraintEnd_toEndOf="@id/settingEntire"-->
-                        <!--app:layout_constraintTop_toBottomOf="@id/settingImage"-->
-                <!--/>-->
                 <TextView
                         android:id="@id/settingAutoUpload"
                         android:text="@string/setting_upload"
                         style="@style/ViewStyle.Viaggio.Setting"
                         android:onClick="@{()->viewHandler.autoUpload()}"
+                        android:visibility="gone"
                         android:drawableStart="@drawable/ic_cloud_upload"
                         app:layout_constraintStart_toStartOf="@id/settingEntire"
                         app:layout_constraintEnd_toEndOf="@id/settingEntire"
                         app:layout_constraintTop_toBottomOf="@id/settingImage"
                 />
+                <!--<TextView-->
+                        <!--android:id="@id/settingAutoUpload"-->
+                        <!--android:text="@string/setting_upload"-->
+                        <!--style="@style/ViewStyle.Viaggio.Setting"-->
+                        <!--android:onClick="@{()->viewHandler.autoUpload()}"-->
+                        <!--android:drawableStart="@drawable/ic_cloud_upload"-->
+                        <!--app:layout_constraintStart_toStartOf="@id/settingEntire"-->
+                        <!--app:layout_constraintEnd_toEndOf="@id/settingEntire"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/settingImage"-->
+                <!--/>-->
                 <TextView
                         android:id="@id/settingAppVersion"
                         android:text="@string/setting_app_version"

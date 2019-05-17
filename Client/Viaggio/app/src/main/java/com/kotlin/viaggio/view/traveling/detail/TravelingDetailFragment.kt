@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
@@ -32,6 +33,13 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                 .position(SlidrPosition.LEFT)
                 .build())
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        postponeEnterTransition()
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_detail, container, false)
         binding.viewModel = getViewModel()
@@ -41,6 +49,7 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val imgDir = File(context?.filesDir, "images/")
         getViewModel().travelOfDayCardImageListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { imageNames ->
@@ -59,12 +68,17 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                         object :RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_pager_img, parent, false)){}
                     override fun getItemCount() = imageNames.size
                     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                        imageNames[position].let { themeImageName ->
-                            if(TextUtils.isEmpty(themeImageName).not()){
-                                Glide.with(holder.itemView.travelingPagerImg)
-                                    .load(themeImageName)
-                                    .into(holder.itemView.travelingPagerImg)
-                            }
+                        if(TextUtils.isEmpty(imageNames[position]).not()){
+                            Glide.with(holder.itemView.travelingPagerImg)
+                                .load(imageNames[position])
+                                .into(holder.itemView.travelingPagerImg)
+                        }
+                        holder.itemView.travelingPagerImg.setOnClickListener {
+                            val frag = TravelingImageDetailActionDialogFragment()
+                            val arg = Bundle()
+                            arg.putInt(ArgName.TRAVEL_CARD_IMG_POSITION.name, position + 1)
+                            frag.arguments = arg
+                            frag.show(fragmentManager!!, TravelingImageDetailActionDialogFragment.TAG)
                         }
                     }
                 }

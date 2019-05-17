@@ -33,11 +33,7 @@ class TravelModel @Inject constructor() : BaseModel() {
             travelKind = travel.travelKind,
             startDate = dateFormated,
             endDate = endDateFormated,
-            theme = travel.theme,
-            isDelete = travel.isDelete,
-            share = travel.share,
-            imageName = travel.imageName,
-            imageUrl = travel.imageUrl
+            theme = travel.theme
         ).subscribeOn(Schedulers.io())
     }
 
@@ -71,8 +67,7 @@ class TravelModel @Inject constructor() : BaseModel() {
             travelLocalId = travelCard.travelLocalId,
             theme = travelCard.theme,
             imageUrl = travelCard.imageUrl,
-            imageName = travelCard.imageNames,
-            isDelete = travelCard.isDelete
+            imageName = travelCard.imageNames
         )
     }
 
