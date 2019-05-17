@@ -62,6 +62,8 @@
     <string name="setting_logout">로그아웃</string>
     <string name="setting_image">이미지 화질</string>
     <string name="setting_lock">암호 잠금</string>
+    <string name="setting_lock_change">암호 변경</string>
+    <string name="setting_lock_fingerprint">지문 인식</string>
     <string name="setting_app_version">앱 버젼 정보</string>
     <string name="normal_sign">이메일로 로그인하기</string>
     <string name="sign_sign_up">회원가입</string>
@@ -143,4 +145,6 @@
     <string name="traveling_notice">👣 여행 중이예요!</string>
     <string name="travel_notice">💤 여행 준비 중이예요!</string>
     <string name="base_theme"># 여행</string>
+    <string name="lock_on">켜짐</string>
+    <string name="lock_off">꺼짐</string>
 </resources>

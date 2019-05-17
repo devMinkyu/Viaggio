@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.setting.SettingLockFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.setting.SettingLockFragmentViewModel"/>
+
+        <variable name="viewModel" type="SettingLockFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+
+    <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/lockContainer"
+                android:background="@color/white_three"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <View
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48.5dp"
+                    app:layout_constraintTop_toTopOf="parent"
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    style="@style/ViewStyle.Viaggio.Back"
+                    android:onClick="@{()->viewHandler.close()}"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginStart="5dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/toolbar"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/tool_bar_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/toolbar"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+            />
+
+            <TextView
+                    android:id="@id/settingMyProfile"
+                    android:text="@string/setting_lock"
+                    style="@style/ViewStyle.Viaggio.Setting"
+                    android:textColor="@color/almost_black"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:drawablePadding="6.5dp"
+                    android:drawableStart="@drawable/ic_lock_black_24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+            />
+            <View
+                    android:id="@id/settingEtc"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/setting_bg"
+                    android:layout_marginTop="@dimen/common_top"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:layout_marginEnd="@dimen/common_margin"
+                    app:layout_constraintTop_toBottomOf="@id/settingMyProfile"
+                    app:layout_constraintBottom_toBottomOf="@id/settingLogout"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                    android:id="@id/settingAutoUploadCheck"
+                    android:text="@string/setting_lock"
+                    android:textColor="@color/almost_black"
+                    style="@style/ViewStyle.Viaggio.Setting"
+                    android:onClick="@{()->viewHandler.lockApp()}"
+                    app:layout_constraintStart_toStartOf="@id/settingEtc"
+                    app:layout_constraintEnd_toEndOf="@id/settingEtc"
+                    app:layout_constraintTop_toTopOf="@id/settingEtc"
+            />
+            <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{viewModel.lockApp}"
+                    android:onClick="@{()->viewHandler.lockApp()}"
+                    app:layout_constraintTop_toTopOf="@id/settingAutoUploadCheck"
+                    app:layout_constraintBottom_toBottomOf="@id/settingAutoUploadCheck"
+                    app:layout_constraintEnd_toEndOf="@id/settingAutoUploadCheck"
+                    tools:checked="true"
+            />
+            <TextView
+                    android:id="@id/settingSync"
+                    android:text="@string/setting_lock_fingerprint"
+                    android:textColor="@color/setting_enable_color"
+                    style="@style/ViewStyle.Viaggio.Setting"
+                    android:onClick="@{()->viewHandler.fingerPrint()}"
+                    android:enabled="@{viewModel.lockApp}"
+                    app:layout_constraintStart_toStartOf="@id/settingEtc"
+                    app:layout_constraintEnd_toEndOf="@id/settingEtc"
+                    app:layout_constraintTop_toBottomOf="@id/settingAutoUploadCheck"
+            />
+            <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{()->viewHandler.fingerPrint()}"
+                    android:enabled="@{viewModel.lockApp}"
+                    android:checked="@{viewModel.fingerPrintLockApp}"
+                    app:layout_constraintTop_toTopOf="@id/settingSync"
+                    app:layout_constraintBottom_toBottomOf="@id/settingSync"
+                    app:layout_constraintEnd_toEndOf="@id/settingSync"
+                    tools:checked="true"
+            />
+            <TextView
+                    android:id="@id/settingLogout"
+                    android:text="@string/setting_lock_change"
+                    android:textColor="@color/setting_enable_color"
+                    style="@style/ViewStyle.Viaggio.Setting"
+                    android:enabled="@{viewModel.lockApp}"
+                    app:layout_constraintStart_toStartOf="@id/settingEtc"
+                    app:layout_constraintEnd_toEndOf="@id/settingEtc"
+                    app:layout_constraintTop_toBottomOf="@id/settingSync"
+            />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

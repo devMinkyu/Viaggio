@@ -144,4 +144,7 @@ interface MainActivityInjectorModule {
     @ContributesAndroidInjector
     fun travelingImageDetailActionDialogFragment(): TravelingImageDetailActionDialogFragment
 
+    @ContributesAndroidInjector
+    fun settingLockFragment(): SettingLockFragment
+
 }

@@ -254,4 +254,5 @@
     <item name="travelCardImg" type="id"/>
     <item name="travelCardActionContainer" type="id"/>
     <item name="settingLock" type="id"/>
+    <item name="settingLockNotice" type="id"/>
 </resources>

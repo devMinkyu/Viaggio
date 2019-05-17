@@ -90,7 +90,7 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
                         val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
                         val awsToken = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
                         config.setInfo(awsId, awsToken)
-                        val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "image/${it.first().split("/").last()}", File(it.first()))
+                        val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "users/${it.first().split("/").last()}", File(it.first()))
                         uploadObserver.setTransferListener(object : TransferListener {
                             override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
                             override fun onStateChanged(id: Int, state: TransferState?) {

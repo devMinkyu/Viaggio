@@ -227,6 +227,21 @@
                         app:layout_constraintEnd_toEndOf="@id/settingEntire"
                         app:layout_constraintTop_toBottomOf="@id/settingLock"
                 />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@id/settingLockNotice"
+                        android:text="@{viewModel.lockNotice ? @string/lock_on:@string/lock_off}"
+                        android:textColor="@{viewModel.lockNotice ? @color/almost_black:@color/brown_grey_two}"
+                        android:textAppearance="@style/TextAppearance.Viaggio.Setting"
+                        android:drawableEnd="@drawable/ic_keyboard_arrow_right_black_24dp"
+                        android:gravity="center"
+                        app:layout_constraintEnd_toEndOf="@id/settingEntire"
+                        app:layout_constraintTop_toTopOf="@id/settingLock"
+                        app:layout_constraintBottom_toBottomOf="@id/settingLock"
+                        tools:text="@string/lock_off"
+                        tools:ignore="SpUsage"/>
                 <!--<TextView-->
                         <!--android:id="@id/settingAutoUpload"-->
                         <!--android:text="@string/setting_upload"-->

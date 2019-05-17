@@ -8,10 +8,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
-import com.kotlin.viaggio.view.setting.SettingFragment
-import com.kotlin.viaggio.view.setting.SettingMyProfileFragment
-import com.kotlin.viaggio.view.setting.SettingPasswordFragment
-import com.kotlin.viaggio.view.setting.SettingProfileImageEnrollFragment
+import com.kotlin.viaggio.view.setting.*
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
@@ -125,6 +122,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "profile" -> showMyProfile()
                         "password" -> showChangePassword()
                         "image" -> showProfileImage()
+                        "lock" -> showLock()
                     }
                 "option" ->
                     when (appLinkData.lastPathSegment) {
@@ -146,6 +144,11 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             }
         }
     }
+
+    private fun showLock() {
+        baseShowAddLeftAddBackFragment(SettingLockFragment())
+    }
+
     private fun showProfileImage() {
         baseShowAddLeftAddBackFragment(SettingProfileImageEnrollFragment())
     }

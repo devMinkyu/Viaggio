@@ -75,7 +75,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         }
 
         fun lockSetting() {
-            // 암호 자금
+            baseIntent("http://viaggio.kotlin.com/setting/lock/")
         }
 
         fun autoUpload() {

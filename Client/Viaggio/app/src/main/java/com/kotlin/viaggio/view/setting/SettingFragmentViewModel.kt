@@ -31,6 +31,7 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel(){
     val email = ObservableField<String>("")
     val isLogin = ObservableBoolean(false)
     val appVersion = ObservableField<String>("")
+    val lockNotice = ObservableBoolean(false)
 
     val checkLiveData:MutableLiveData<Event<Boolean>> = MutableLiveData()
     val showDialogLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
@@ -61,6 +62,7 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel(){
                 }
             }
         addDisposable(uploadCheckDisposable)
+        lockNotice.set(prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet())
     }
 
     fun check(){
