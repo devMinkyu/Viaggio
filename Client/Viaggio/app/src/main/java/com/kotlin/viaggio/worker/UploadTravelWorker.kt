@@ -15,7 +15,9 @@ import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.model.TravelModel
 import io.reactivex.Completable
+import io.reactivex.Scheduler
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 import java.io.File
 import java.lang.Exception
 import javax.inject.Inject
@@ -73,7 +75,7 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
                             override fun onError(id: Int, ex: Exception?) {
                             }
                         })
-                    }
+                    }.subscribeOn(Schedulers.io())
                 }
                 val resultList = mutableListOf<String>()
 
@@ -81,6 +83,8 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
                     .map {
                         resultList.add(it)
                     }.lastOrError()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(Schedulers.io())
                     .flatMapCompletable {
                         travelCard.imageUrl = resultList
                         travelModel.uploadTravelCard(travelCard)
@@ -99,6 +103,7 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
                     .flatMapCompletable {
                         if(it.isSuccessful){
                             travelCard.userExist = true
+                            travelCard.serverId = it.body()?.id ?: 0
                             travelLocalModel.updateTravelCard(travelCard)
                         }else{
                             Completable.complete()

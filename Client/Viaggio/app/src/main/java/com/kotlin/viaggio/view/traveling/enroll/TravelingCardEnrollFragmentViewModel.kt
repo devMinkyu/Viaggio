@@ -136,7 +136,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         travelCard.content = contents.get()!!
         val travelId = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()
         travelCard.localId = Calendar.getInstance().time.time
-        travelCard.travelLocalId = travelId
+        travelCard.travelLocalId = travel.localId
         travelCard.travelServerId = travel.serverId
         travelCard.date = Calendar.getInstance().time
         travelCard.country = country.get() ?: ""
@@ -154,7 +154,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                         val c1 = travelLocalModel.updateTravel(travel)
                             .andThen{co ->
                                 if(TextUtils.isEmpty(token).not() && mode != 2 && travel.serverId != 0){
-                                    uploadWork(travel)
+                                    updateWork(travel)
                                     co.onComplete()
                                 } else {
                                     co.onComplete()

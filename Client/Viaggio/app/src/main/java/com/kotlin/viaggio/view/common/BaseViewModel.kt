@@ -69,12 +69,12 @@ abstract class BaseViewModel:ViewModel() {
     private fun loadData(data: Any): Data{
         val resultJsonData = gson.toJson(data)
         return when (data) {
-            data as Travel -> {
+            data as? Travel -> {
                 Data.Builder()
                     .putString(WorkerName.TRAVEL.name, resultJsonData)
                     .build()
             }
-            data as TravelCard -> {
+            data as? TravelCard -> {
                 Data.Builder()
                     .putString(WorkerName.TRAVEL_CARD.name, resultJsonData)
                     .build()
