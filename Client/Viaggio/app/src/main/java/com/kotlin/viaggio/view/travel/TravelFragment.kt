@@ -28,6 +28,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
     companion object {
         val TAG: String = TravelFragment::class.java.simpleName
     }
+
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_travel, container, false)
@@ -35,13 +36,15 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
         binding.viewHandler = ViewHandler()
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val spinnerAdapter = ArrayAdapter<String>(context!!, R.layout.spinner_continent_item, getViewModel().travelOption)
+        val spinnerAdapter =
+            ArrayAdapter<String>(context!!, R.layout.spinner_continent_item, getViewModel().travelOption)
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
 
         travelSpinner.adapter = spinnerAdapter
-        travelSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        travelSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 getViewModel().optionCheck(position)
@@ -52,18 +55,25 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             it.getContentIfNotHandled()?.let { travelList ->
                 travelPager.adapter = TravelPagerAdapter(travelList)
                 travelPager.offscreenPageLimit = 3
-                travelPager.currentItem = if (travelList.isNotEmpty()) {
-                    travelList.size - 1
-                } else {
-                    0
-                }
+                val position =
+                    if (getViewModel().chooseNum == null) {
+                        if (travelList.isNotEmpty()) {
+                            travelList.size - 1
+                        } else {
+                            0
+                        }
+                    } else {
+                        getViewModel().chooseNum!!
+                    }
+                getViewModel().chooseNum = null
+                travelPager.setCurrentItem(position, false)
             }
         })
     }
 
     override fun onStart() {
         super.onStart()
-        if(getViewModel().isTravelRefresh){
+        if (getViewModel().isTravelRefresh) {
             getViewModel().fetchData()
         }
     }
@@ -73,7 +83,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
         getViewModel().isTravelRefresh = true
     }
 
-    inner class TravelPagerAdapter(private val travelList:List<Travel>):PagerAdapter(){
+    inner class TravelPagerAdapter(private val travelList: List<Travel>) : PagerAdapter() {
         private val imageList = listOf(
             ResourcesCompat.getDrawable(resources, R.drawable.base_image1, null),
             ResourcesCompat.getDrawable(resources, R.drawable.base_image2, null),
@@ -83,6 +93,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             ResourcesCompat.getDrawable(resources, R.drawable.base_image6, null),
             ResourcesCompat.getDrawable(resources, R.drawable.base_image7, null)
         )
+
         override fun isViewFromObject(view: View, `object`: Any) = view == `object`
         override fun getCount() = travelList.size + 1
         override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -93,20 +104,23 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                 travelList[position].apply {
                     travel.id = localId
                     travel.title = title
-                    travel.period = if(endDate == null){
+                    travel.period = if (endDate == null) {
                         "${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)} ~"
-                    } else{
-                        "${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)} ~ ${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(endDate)}"
+                    } else {
+                        "${SimpleDateFormat(
+                            "yyyy.MM.dd",
+                            Locale.ENGLISH
+                        ).format(startDate)} ~ ${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(endDate)}"
                     }
                 }
                 binding.data = travel
 
-                if(TextUtils.isEmpty(travelList[position].imageName)){
+                if (TextUtils.isEmpty(travelList[position].imageName)) {
                     Glide.with(view.travelBackground)
                         .load(imageList[Random().nextInt(imageList.size)])
                         .centerCrop()
                         .into(view.travelBackground)
-                }else{
+                } else {
                     Glide.with(view.travelBackground)
                         .load(travelList[position].imageName)
                         .centerCrop()
@@ -128,13 +142,18 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             }
             view.travelMore.setOnClickListener {
                 if (travelList.size > position) {
+                    getViewModel().chooseNum = position
                     getViewModel().selectedTravelId(travelList[position].localId)
-                    TravelOptionBottomSheetDialogFragment().show(fragmentManager!!, TravelOptionBottomSheetDialogFragment.TAG)
+                    TravelOptionBottomSheetDialogFragment().show(
+                        fragmentManager!!,
+                        TravelOptionBottomSheetDialogFragment.TAG
+                    )
                 }
             }
             container.addView(view)
             return view
         }
+
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
             container.removeView(`object` as View)
         }

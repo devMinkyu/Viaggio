@@ -1,6 +1,5 @@
 package com.kotlin.viaggio.view.travel
 
-import android.util.Log
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.R
@@ -25,6 +24,7 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
     val travelList = mutableListOf<Travel>()
     val travelOption = mutableListOf<String>()
     var isTravelRefresh = false
+    var chooseNum:Int? = null
 
     val traveling = ObservableField<String>("")
     val travelingKind = ObservableField<String>("")
