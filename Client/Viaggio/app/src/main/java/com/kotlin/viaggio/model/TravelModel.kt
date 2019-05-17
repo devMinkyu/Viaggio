@@ -8,6 +8,8 @@ import com.kotlin.viaggio.data.source.ViaggioApiService
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,18 +21,19 @@ class TravelModel @Inject constructor() : BaseModel() {
     lateinit var api: ViaggioApiService
 
     fun uploadTravel(travel: Travel): Single<Response<ViaggioTravelResult>> {
+        val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH)
+        val dateFormated = dateFormat.format(travel.startDate)
+        val endDateFormated = travel.endDate?.let {
+            dateFormat.format(travel.endDate)
+        }
         return api.uploadTravel(
             localId = travel.localId,
-            area = travel.area,
             title = travel.title,
+            area = travel.area,
             travelKind = travel.travelKind,
-            startDate = travel.startDate!!,
-            endDate = travel.endDate,
-            theme = travel.theme,
-            isDelete = travel.isDelete,
-            share = travel.share,
-            imageName = travel.imageName,
-            imageUrl = travel.imageUrl
+            startDate = dateFormated,
+            endDate = endDateFormated,
+            theme = travel.theme
         ).subscribeOn(Schedulers.io())
     }
 
@@ -52,18 +55,19 @@ class TravelModel @Inject constructor() : BaseModel() {
     }
 
     fun uploadTravelCard(travelCard: TravelCard):Single<Response<ViaggioTravelResult>> {
+        val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH)
+        val dateFormated = dateFormat.format(travelCard.date)
         return api.uploadTravelCard(
             travelServerId = travelCard.travelServerId,
             travelOfDay = travelCard.travelOfDay,
             country = travelCard.country,
             content = travelCard.content,
-            date = travelCard.date,
+            date = dateFormated,
             localId = travelCard.localId,
             travelLocalId = travelCard.travelLocalId,
             theme = travelCard.theme,
             imageUrl = travelCard.imageUrl,
-            imageName = travelCard.imageNames,
-            isDelete = travelCard.isDelete
+            imageName = travelCard.imageNames
         )
     }
 

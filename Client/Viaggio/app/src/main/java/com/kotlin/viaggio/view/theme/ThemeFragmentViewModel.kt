@@ -1,23 +1,26 @@
 package com.kotlin.viaggio.view.theme
 
+import android.text.TextUtils
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.gson.reflect.TypeToken
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.obj.Theme
 import com.kotlin.viaggio.data.obj.ThemeData
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import com.kotlin.viaggio.worker.UpdateTravelWorker
 import timber.log.Timber
 import java.io.InputStreamReader
 import javax.inject.Inject
 
 class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
-    @Inject
-    lateinit var gson: Gson
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
 
@@ -86,6 +89,16 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
                 travel.theme = selectedTheme.map { it.theme }.toMutableList()
                 travel.userExist = false
                 val disposable = travelLocalModel.updateTravel(travel)
+                    .andThen {
+                        val token = travelLocalModel.getToken()
+                        val mode = travelLocalModel.getUploadMode()
+                        if (TextUtils.isEmpty(token).not() && mode != 2 && travel.serverId != 0) {
+                            updateWork(travel)
+                            it.onComplete()
+                        } else {
+                            it.onComplete()
+                        }
+                    }
                     .subscribe {
                         completeLiveData.postValue(Event(Any()))
                     }

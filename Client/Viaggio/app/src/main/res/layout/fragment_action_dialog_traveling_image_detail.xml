@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+>
+    <data>
+        <import type="com.kotlin.viaggio.view.traveling.detail.TravelingImageDetailActionDialogFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.traveling.detail.TravelingImageDetailActionDialogFragmentViewModel"/>
+        <import type="android.view.View"/>
+
+        <variable name="viewModel" type="TravelingImageDetailActionDialogFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@id/travelCardActionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black">
+        <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/travelCardViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="@android:color/white"
+                android:background="@drawable/traveling_card_detail_imgae_count_bg"
+                android:backgroundTint="#ffffff"
+                android:layout_marginEnd="@dimen/common_margin"
+                android:layout_marginTop="60dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="13dp"
+                android:paddingEnd="13dp"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="@{viewModel.imageShow ? View.VISIBLE:View.GONE}"
+                android:text="@{@string/travel_card_image_count(viewModel.currentImageSize, viewModel.imageSize)}"
+                tools:text="13 / 20"
+                tools:ignore="SpUsage"/>
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_icon_close"
+                android:onClick="@{()->viewHandler.close()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:padding="@dimen/common_margin"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,7 +1,6 @@
 package com.kotlin.viaggio.view.tutorial
 
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.kotlin.viaggio.data.obj.Tutorial
 import com.kotlin.viaggio.data.obj.TutorialList
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
@@ -10,8 +9,6 @@ import java.io.InputStreamReader
 import javax.inject.Inject
 
 class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
-    @Inject
-    lateinit var gson: Gson
 
     val tutorialList: MutableLiveData<List<Tutorial>> = MutableLiveData()
 

@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.travel.option
 
+import android.text.TextUtils
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
@@ -7,6 +8,7 @@ import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -35,7 +37,7 @@ class TravelTitleBottomSheetDialogFragmentViewModel @Inject constructor() : Base
                 travel = it
                 travelTitle.set(it.title)
             }){
-
+                Timber.d(it)
             }
         addDisposable(disposable)
     }
@@ -45,6 +47,16 @@ class TravelTitleBottomSheetDialogFragmentViewModel @Inject constructor() : Base
             travel.title = travelTitle.get()!!
             travel.userExist = false
             val disposable = travelLocalModel.updateTravel(travel)
+                .andThen {
+                    val token = travelLocalModel.getToken()
+                    val mode = travelLocalModel.getUploadMode()
+                    if (TextUtils.isEmpty(token).not() && mode != 2 && travel.serverId != 0) {
+                        updateWork(travel)
+                        it.onComplete()
+                    } else {
+                        it.onComplete()
+                    }
+                }
                 .subscribe {
                     rxEventBus.travelUpdate.onNext(Any())
                     confirmLiveData.postValue(Event(Any()))

@@ -1,24 +1,21 @@
 package com.kotlin.viaggio.data.source
 
-import android.text.TextUtils
 import androidx.annotation.Keep
 import com.kotlin.viaggio.data.obj.*
-import io.reactivex.Completable
 import io.reactivex.Single
-import io.reactivex.subjects.BehaviorSubject
 import okhttp3.Interceptor
 import retrofit2.Response
 import retrofit2.http.*
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Keep
 interface ViaggioApiService {
     // user
     @GET("api/v1/my/aws")
+    @Headers("No-Authentication: true")
     fun getAws(): Single<Response<ViaggioApiAWSAuth>>
 
     @POST("api/v1/auth/signup")
@@ -56,14 +53,11 @@ interface ViaggioApiService {
     ): Single<Response<ViaggioResult>>
 
     @GET("api/v1/users/logout")
-    fun logOut(): Completable
+    fun logOut(): Single<Response<ViaggioResult>>
 
 
     // travel
     @POST("api/v1/my/travels")
-    @Headers(
-        "Content-Type: application/x-www-form-urlencoded"
-    )
     @FormUrlEncoded
     fun uploadTravel(
         @Field("localId") localId: Long,
@@ -71,18 +65,11 @@ interface ViaggioApiService {
         @Field("title") title: String,
         @Field("travelKind") travelKind: Int,
         @Field("theme") theme: MutableList<String>,
-        @Field("startDate") startDate: Date,
-        @Field("endDate") endDate: Date?,
-        @Field("imageName") imageName: String,
-        @Field("imageUrl") imageUrl: String,
-        @Field("share") share: Boolean,
-        @Field("isDelete") isDelete: Boolean
+        @Field("startDate") startDate: String,
+        @Field("endDate") endDate: String?
     ): Single<Response<ViaggioTravelResult>>
 
     @PUT("api/v1/my/travels/{serverId}")
-    @Headers(
-        "Content-Type: application/x-www-form-urlencoded"
-    )
     @FormUrlEncoded
     fun updateTravel(
         @Path("serverId") serverId: Int,
@@ -106,9 +93,6 @@ interface ViaggioApiService {
 
     // travelCard
     @POST("api/v1/my/travelcards/{travelServerId}")
-    @Headers(
-        "Content-Type: application/x-www-form-urlencoded"
-    )
     @FormUrlEncoded
     fun uploadTravelCard(
         @Path("travelServerId") travelServerId: Int,
@@ -118,8 +102,7 @@ interface ViaggioApiService {
         @Field("theme") theme: MutableList<String>,
         @Field("imageName") imageName: MutableList<String>,
         @Field("imageUrl") imageUrl: MutableList<String>,
-        @Field("date") date: Date,
-        @Field("isDelete") isDelete: Boolean,
+        @Field("date") date: String,
         @Field("country") country: String,
         @Field("content") content: String
     ): Single<Response<ViaggioTravelResult>>
@@ -145,21 +128,17 @@ interface ViaggioApiService {
 
 
     @Singleton
-    class TokenInterceptor @Inject constructor(@Named("ApiToken") apiToken: String) : Interceptor {
-        private val mApiToken = BehaviorSubject.create<String>()
-
-        init {
-            if (!TextUtils.isEmpty(apiToken)) {
-                mApiToken.onNext(apiToken)
-            }
-        }
+    class TokenInterceptor @Inject constructor() : Interceptor {
+        @Inject
+        lateinit var prefUtilService: AndroidPrefUtilService
 
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
             val request = chain.request()
+            val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
             return if (request.header("No-Authentication") == null) {
                 val newRequest = request.newBuilder()
-                    .addHeader("authorization", mApiToken.blockingFirst())
+                    .addHeader("auth", token)
                     .build()
                 chain.proceed(newRequest)
             } else {

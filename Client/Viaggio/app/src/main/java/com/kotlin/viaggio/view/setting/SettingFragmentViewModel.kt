@@ -11,6 +11,7 @@ import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
@@ -23,6 +24,8 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel(){
     lateinit var travelLocalModel: TravelLocalModel
     @Inject
     lateinit var travelModel: TravelModel
+    @Inject
+    lateinit var userModel: UserModel
 
     val name = ObservableField<String>("")
     val email = ObservableField<String>("")

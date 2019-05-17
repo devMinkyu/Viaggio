@@ -189,5 +189,7 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.2'
     implementation 'com.amazonaws:aws-android-sdk-s3:2.8.5'
     implementation 'com.amazonaws:aws-android-sdk-cognito:2.8.5'
+
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }
 apply plugin: 'com.google.gms.google-services'

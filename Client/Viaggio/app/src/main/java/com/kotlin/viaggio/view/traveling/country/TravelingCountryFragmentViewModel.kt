@@ -1,9 +1,9 @@
 package com.kotlin.viaggio.view.traveling.country
 
+import android.text.TextUtils
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.Area
@@ -19,8 +19,6 @@ import javax.inject.Inject
 class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
-    @Inject
-    lateinit var gson: Gson
 
     private val countryList:MutableList<Country> = mutableListOf()
     val continentList:MutableList<String> = mutableListOf()
@@ -130,6 +128,16 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
                 travel.area = chooseArea
                 travel.userExist = false
                 val disposable = travelLocalModel.updateTravel(travel)
+                    .andThen {
+                        val token = travelLocalModel.getToken()
+                        val mode = travelLocalModel.getUploadMode()
+                        if (TextUtils.isEmpty(token).not() && mode != 2 && travel.serverId != 0) {
+                            updateWork(travel)
+                            it.onComplete()
+                        } else {
+                            it.onComplete()
+                        }
+                    }
                     .subscribe {
                         completeLiveData.postValue(Event(Any()))
                     }

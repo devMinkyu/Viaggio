@@ -27,6 +27,9 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
     private fun getSelectedTravelingCardId() =
         prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_CARD_ID)
 
+    fun getToken():String = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
+    fun getUploadMode():Int = prefUtilService.getInt(AndroidPrefUtilService.Key.UPLOAD_MODE).blockingGet()
+
     fun savePicture(photoResult: PhotoResult) =
         localDataSource.savePhotoResult(photoResult)
 

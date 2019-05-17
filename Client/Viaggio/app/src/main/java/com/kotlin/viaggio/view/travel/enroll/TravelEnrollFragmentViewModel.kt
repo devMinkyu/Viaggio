@@ -6,7 +6,6 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.work.*
-import com.google.gson.Gson
 import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.obj.Area
 import com.kotlin.viaggio.data.obj.PermissionError
@@ -30,8 +29,6 @@ import javax.inject.Inject
 class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
-    @Inject
-    lateinit var gson: Gson
 
     val goToCamera: MutableLiveData<Event<Any>> = MutableLiveData()
     val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
@@ -146,29 +143,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                 val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
                 val mode = prefUtilService.getInt(AndroidPrefUtilService.Key.UPLOAD_MODE).blockingGet()
                 if (TextUtils.isEmpty(token).not() && mode != 2) {
-                    val constraints =
-                        if (mode == 0) {
-                            Constraints.Builder()
-                                .setRequiredNetworkType(NetworkType.CONNECTED)
-                                .build()
-                        } else {
-                            Constraints.Builder()
-                                .setRequiredNetworkType(NetworkType.CONNECTED)
-                                .setRequiresCharging(true)
-                                .build()
-                        }
-
-                    val resultJsonTravel = gson.toJson(travel)
-
-                    val data = Data.Builder()
-                        .putString(WorkerName.TRAVEL.name, resultJsonTravel)
-                        .build()
-                    val travelWork = OneTimeWorkRequestBuilder<UploadTravelWorker>()
-                        .setConstraints(constraints)
-                        .setInputData(data)
-                        .build()
-
-                    WorkManager.getInstance().enqueue(travelWork)
+                    uploadWork(travel)
                     it.onComplete()
                 }else{
                     it.onComplete()

@@ -1,15 +1,20 @@
 package com.kotlin.viaggio.view.traveling.country
 
+import android.text.TextUtils
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.google.gson.reflect.TypeToken
+import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.obj.Area
 import com.kotlin.viaggio.data.obj.Country
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import com.kotlin.viaggio.worker.UpdateTravelWorker
 import timber.log.Timber
 import java.io.InputStreamReader
 import javax.inject.Inject
@@ -17,8 +22,6 @@ import javax.inject.Inject
 class TravelingDomesticsCountryFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
-    @Inject
-    lateinit var gson: Gson
 
     val domesticsLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
     val completeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
@@ -67,7 +70,16 @@ class TravelingDomesticsCountryFragmentViewModel @Inject constructor() : BaseVie
                 travel.area = selectedCities
                 travel.userExist = false
                 val disposable = travelLocalModel.updateTravel(travel)
-                    .subscribe {
+                    .andThen {
+                        val token = travelLocalModel.getToken()
+                        val mode = travelLocalModel.getUploadMode()
+                        if (TextUtils.isEmpty(token).not() && mode != 2 && travel.serverId != 0) {
+                            updateWork(travel)
+                            it.onComplete()
+                        } else {
+                            it.onComplete()
+                        }
+                    }.subscribe {
                         completeLiveData.postValue(Event(Any()))
                     }
                 addDisposable(disposable)
