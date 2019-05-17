@@ -153,7 +153,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                         travel.userExist = false
                         val c1 = travelLocalModel.updateTravel(travel)
                             .andThen{co ->
-                                if(TextUtils.isEmpty(token).not() && mode != 2 && travelCard.serverId != 0){
+                                if(TextUtils.isEmpty(token).not() && mode != 2 && travel.serverId != 0){
                                     uploadWork(travel)
                                     co.onComplete()
                                 } else {
@@ -168,7 +168,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         } else {
             travelLocalModel.createTravelCard(travelCard)
         }.andThen {
-                if(TextUtils.isEmpty(token).not() && mode != 2 && travelCard.serverId != 0){
+                if(TextUtils.isEmpty(token).not() && mode != 2 && travelCard.travelServerId != 0){
                     uploadWork(travelCard)
                     it.onComplete()
                 } else {

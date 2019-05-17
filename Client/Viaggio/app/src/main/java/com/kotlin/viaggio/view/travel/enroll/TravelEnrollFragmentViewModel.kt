@@ -150,6 +150,9 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                 }
             }
             .subscribe({
+                rxEventBus.travelOfTheme.onNext(listOf())
+                rxEventBus.travelSelectedCity.onNext(listOf())
+                rxEventBus.travelingStartOfDay.onNext(listOf())
                 completeLiveData.postValue(Event(Any()))
             }) {
                 Timber.e(it)
@@ -175,11 +178,5 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
 
         prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, day + 1)
             .observeOn(Schedulers.io()).blockingAwait()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        rxEventBus.travelOfTheme.onNext(listOf())
-        rxEventBus.travelSelectedCity.onNext(listOf())
     }
 }
