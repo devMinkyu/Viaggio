@@ -23,7 +23,7 @@ def create_travelCard(travelId):
                                 date=datetime.strptime(request.form.get('date'), "%Y-%m-%d %H:%M:%S") if request.form.get('date') else request.form.get('date'))
         db.session.add(travelCard)
         db.session.commit()
-        return jsonify({ 'travelCard': travelCard.as_dict() }), 200
+        return jsonify({ 'id': travelCard.id }), 200
 
     if form.localId.errors:
         return bad_request(401, form.localId.errors[0])
