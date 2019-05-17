@@ -43,7 +43,7 @@ class Travel(db.Model):
     __tablename__ = 'travels'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
     id = db.Column(db.Integer, primary_key=True)
-    localId = db.Column(db.Integer, nullable=False, unique=True)
+    localId = db.Column(db.BigInteger, nullable=False, unique=True)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     startDate = db.Column(db.DateTime)
     endDate = db.Column(db.DateTime)
@@ -90,7 +90,7 @@ class TravelCard(db.Model):
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
     id = db.Column(db.Integer, primary_key=True)
     travelId = db.Column(db.Integer, db.ForeignKey('travels.id'), nullable=False)
-    localId = db.Column(db.Integer, nullable=False, unique=True)
+    localId = db.Column(db.BigInteger, nullable=False, unique=True)
     travelLocalId = db.Column(db.Integer, nullable=False)
     travelOfDay = db.Column(db.Integer, default=1)
     country = db.Column(db.String(32))
