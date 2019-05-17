@@ -74,6 +74,10 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
             SettingImageBottomSheetDialogFragment().show(fragmentManager!!, SettingImageBottomSheetDialogFragment.TAG)
         }
 
+        fun lockSetting() {
+            // 암호 자금
+        }
+
         fun autoUpload() {
             if (getViewModel().isLogin.get()) {
                 SettingAutoBottomSheetDialogFragment().show(fragmentManager!!, SettingAutoBottomSheetDialogFragment.TAG)

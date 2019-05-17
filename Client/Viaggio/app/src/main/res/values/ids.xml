@@ -253,4 +253,5 @@
     <item name="themeSelectNameSelect" type="id"/>
     <item name="travelCardImg" type="id"/>
     <item name="travelCardActionContainer" type="id"/>
+    <item name="settingLock" type="id"/>
 </resources>

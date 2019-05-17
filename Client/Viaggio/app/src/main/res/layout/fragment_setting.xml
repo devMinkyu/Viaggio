@@ -205,6 +205,16 @@
                         app:layout_constraintEnd_toEndOf="@id/settingEntire"
                         app:layout_constraintTop_toTopOf="@id/settingEntire"
                 />
+                <TextView
+                        android:id="@id/settingLock"
+                        android:text="@string/setting_lock"
+                        style="@style/ViewStyle.Viaggio.Setting"
+                        android:onClick="@{()->viewHandler.lockSetting()}"
+                        android:drawableStart="@drawable/ic_lock_black_24dp"
+                        app:layout_constraintStart_toStartOf="@id/settingEntire"
+                        app:layout_constraintEnd_toEndOf="@id/settingEntire"
+                        app:layout_constraintTop_toBottomOf="@id/settingImage"
+                />
 
                 <TextView
                         android:id="@id/settingAutoUpload"
@@ -215,7 +225,7 @@
                         android:drawableStart="@drawable/ic_cloud_upload"
                         app:layout_constraintStart_toStartOf="@id/settingEntire"
                         app:layout_constraintEnd_toEndOf="@id/settingEntire"
-                        app:layout_constraintTop_toBottomOf="@id/settingImage"
+                        app:layout_constraintTop_toBottomOf="@id/settingLock"
                 />
                 <!--<TextView-->
                         <!--android:id="@id/settingAutoUpload"-->

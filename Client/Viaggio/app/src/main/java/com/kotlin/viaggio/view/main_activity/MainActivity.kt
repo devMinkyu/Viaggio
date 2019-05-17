@@ -49,7 +49,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
         handleIntent(intent)
 
-
         getViewModel().finishActivity.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 finish()
@@ -147,7 +146,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             }
         }
     }
-
     private fun showProfileImage() {
         baseShowAddLeftAddBackFragment(SettingProfileImageEnrollFragment())
     }
@@ -274,5 +272,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
     private fun showSignCreate() {
         baseShowAddLeftAddBackFragment(SignUpFragment())
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // 잠긍 기능 검사 후
     }
 }

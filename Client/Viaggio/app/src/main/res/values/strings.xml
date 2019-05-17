@@ -61,6 +61,7 @@
     <string name="setting_my_profile">여행자 정보 등록</string>
     <string name="setting_logout">로그아웃</string>
     <string name="setting_image">이미지 화질</string>
+    <string name="setting_lock">암호 잠금</string>
     <string name="setting_app_version">앱 버젼 정보</string>
     <string name="normal_sign">이메일로 로그인하기</string>
     <string name="sign_sign_up">회원가입</string>
