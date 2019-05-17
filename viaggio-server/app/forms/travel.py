@@ -18,4 +18,3 @@ class CreateTravelForm(Form):
 class UpdateTravelForm(Form):
     travelKind = SelectField('TravelKind', coerce=int, choices=[(0, 'foreign'),
                                                                 (1, 'domestic')])
-    endDate = DateTimeField('EndDate', validators=[])

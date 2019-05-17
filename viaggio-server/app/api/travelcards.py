@@ -4,6 +4,7 @@ from .. import db
 from ..models import Travel, TravelCard
 from ..forms.travelcard import CreateTravelCardForm
 from ..errors import bad_request
+from datetime import datetime
 
 
 @api.route('/my/travelcards/<int:travelId>', methods=['POST'])
@@ -19,10 +20,10 @@ def create_travelCard(travelId):
                                 content=request.form.get('content'),
                                 imageName=request.form.get('imageName'),
                                 imageUrl=request.form.get('imageUrl'),
-                                date=request.form.get('date'))
+                                date=datetime.strptime(request.form.get('date'), "%Y-%m-%d %H:%M:%S") if request.form.get('date') else request.form.get('date'))
         db.session.add(travelCard)
         db.session.commit()
-        return jsonify({ 'travelCard': travelCard.as_dict() }), 200
+        return jsonify({ 'id': travelCard.id }), 200
 
     if form.localId.errors:
         return bad_request(401, form.localId.errors[0])
