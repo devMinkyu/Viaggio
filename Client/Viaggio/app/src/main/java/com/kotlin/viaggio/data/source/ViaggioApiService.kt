@@ -61,10 +61,10 @@ interface ViaggioApiService {
     @FormUrlEncoded
     fun uploadTravel(
         @Field("localId") localId: Long,
-        @Field("area") area: MutableList<Area>,
+        @Field("area") area: String,
         @Field("title") title: String,
         @Field("travelKind") travelKind: Int,
-        @Field("theme") theme: MutableList<String>,
+        @Field("theme") theme: String,
         @Field("startDate") startDate: String,
         @Field("endDate") endDate: String?
     ): Single<Response<ViaggioTravelResult>>
@@ -73,9 +73,9 @@ interface ViaggioApiService {
     @FormUrlEncoded
     fun updateTravel(
         @Path("serverId") serverId: Int,
-        @Field("area") area: MutableList<Area>,
+        @Field("area") area: String,
         @Field("title") title: String,
-        @Field("theme") theme: MutableList<String>,
+        @Field("theme") theme: String,
         @Field("endDate") endDate: Date?,
         @Field("imageName") imageName: String,
         @Field("imageUrl") imageUrl: String,

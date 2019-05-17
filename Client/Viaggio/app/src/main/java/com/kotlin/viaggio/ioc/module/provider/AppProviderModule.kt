@@ -8,7 +8,6 @@ import android.content.res.Resources
 import android.preference.PreferenceManager
 import androidx.room.Room
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
-import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions

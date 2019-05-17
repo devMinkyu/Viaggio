@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.model
 
+import com.google.gson.Gson
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.obj.ViaggioTravelResult
@@ -19,6 +20,9 @@ class TravelModel @Inject constructor() : BaseModel() {
     lateinit var prefUtilService: AndroidPrefUtilService
     @Inject
     lateinit var api: ViaggioApiService
+    @Inject
+    lateinit var gson: Gson
+
 
     fun uploadTravel(travel: Travel): Single<Response<ViaggioTravelResult>> {
         val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH)
@@ -29,19 +33,19 @@ class TravelModel @Inject constructor() : BaseModel() {
         return api.uploadTravel(
             localId = travel.localId,
             title = travel.title,
-            area = travel.area,
+            area = gson.toJson(travel.area),
             travelKind = travel.travelKind,
             startDate = dateFormated,
             endDate = endDateFormated,
-            theme = travel.theme
+            theme = gson.toJson(travel.theme)
         ).subscribeOn(Schedulers.io())
     }
 
     fun updateTravel(travel: Travel) :Single<Response<Any>> {
         return api.updateTravel(
             serverId = travel.serverId,
-            area = travel.area,
-            theme = travel.theme,
+            area = gson.toJson(travel.area),
+            theme = gson.toJson(travel.theme),
             imageName = travel.imageName,
             imageUrl = travel.imageUrl,
             title = travel.title,
