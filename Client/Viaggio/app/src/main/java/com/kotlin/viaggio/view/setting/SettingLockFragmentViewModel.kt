@@ -23,7 +23,8 @@ class SettingLockFragmentViewModel @Inject constructor() : BaseViewModel() {
         fingerPrintLockApp.set(prefUtilService.getBool(AndroidPrefUtilService.Key.FINGER_PRINT_LOCK_APP).blockingGet())
 
         val disposable = rxEventBus.completeLock.subscribe {
-            lockApp.set(lockApp.get().not())
+            lockApp.set(prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP
+            ).blockingGet())
             completableLiveData.value = Event(Any())
         }
         addDisposable(disposable)
