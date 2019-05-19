@@ -161,5 +161,5 @@
 -keep public class * extends java.lang.Exception
 -keep enum com.kotlin.viaggio.**$** {*;}
 -keep class com.kotlin.viaggio.data.obj.**$** {*;}
--keep class com.kotlin.viaggio.data.obj.Theme {*;}
--keep class com.kotlin.viaggio.data.obj.Country {*;}
+#-keep class com.kotlin.viaggio.data.obj.Theme {*;}
+#-keep class com.kotlin.viaggio.data.obj.Country {*;}
