@@ -5,6 +5,7 @@ import com.kotlin.viaggio.ioc.component.DaggerAppComponent
 import com.kotlin.viaggio.view.common.BaseApp
 import timber.log.Timber
 
+
 class App : BaseApp() {
     override fun applicationInjector() = DaggerAppComponent
         .factory()

@@ -58,9 +58,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
 
             }
         })
-
     }
-
     inner class ViewHandler {
         fun close() {
             fragmentPopStack()
@@ -72,6 +70,10 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
 
         fun imageSetting() {
             SettingImageBottomSheetDialogFragment().show(fragmentManager!!, SettingImageBottomSheetDialogFragment.TAG)
+        }
+
+        fun lockSetting() {
+            baseIntent("http://viaggio.kotlin.com/setting/lock/")
         }
 
         fun autoUpload() {

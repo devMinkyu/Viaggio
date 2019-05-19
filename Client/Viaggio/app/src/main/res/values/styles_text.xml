@@ -128,5 +128,11 @@
         <item name="android:textColor">@color/calendar_color</item>
         <item name="android:fontFamily">@font/rajdhani_medium</item>
     </style>
+    <style name="TextAppearance.Viaggio.Lock">
+        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3.8dp</item>
+        <item name="android:textColor">@color/almost_black</item>
+        <item name="android:fontFamily">@font/rajdhani_medium</item>
+        <item name="android:textSize" tools:ignore="SpUsage">30dp</item>
+    </style>
 
 </resources>

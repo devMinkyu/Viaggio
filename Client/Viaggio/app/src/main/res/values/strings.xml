@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="travel_theme_json">theme.json</string>
     <string name="travel_country_json">country.json</string>
     <string name="travel_tutorial_json">tutorial.json</string>
@@ -61,6 +61,9 @@
     <string name="setting_my_profile">여행자 정보 등록</string>
     <string name="setting_logout">로그아웃</string>
     <string name="setting_image">이미지 화질</string>
+    <string name="setting_lock">암호 잠금</string>
+    <string name="setting_lock_change">암호 변경</string>
+    <string name="setting_lock_fingerprint">지문 인식</string>
     <string name="setting_app_version">앱 버젼 정보</string>
     <string name="normal_sign">이메일로 로그인하기</string>
     <string name="sign_sign_up">회원가입</string>
@@ -142,4 +145,10 @@
     <string name="traveling_notice">👣 여행 중이예요!</string>
     <string name="travel_notice">💤 여행 준비 중이예요!</string>
     <string name="base_theme"># 여행</string>
+    <string name="cancel">취소</string>
+    <string name="lock_title">암호 입력</string>
+    <string name="lock_subtitle">Viaggio 암호를 입력해 주세요.</string>
+    <string name="lock_on">켜짐</string>
+    <string name="lock_off">꺼짐</string>
+    <string name="finger_print">지문 인식</string>
 </resources>

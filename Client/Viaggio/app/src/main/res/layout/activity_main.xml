@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:id="@+id/main_container"
         tools:context=".view.main_activity.MainActivity"
-        android:background="@color/background_material_light">
+        android:background="@color/background_material_light" tools:ignore="PrivateResource">
 
     <!--<fragment-->
             <!--android:localId="@+localId/nav_host_fragment"-->

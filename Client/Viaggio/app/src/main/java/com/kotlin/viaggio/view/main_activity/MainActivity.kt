@@ -3,15 +3,14 @@ package com.kotlin.viaggio.view.main_activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
-import com.kotlin.viaggio.view.setting.SettingFragment
-import com.kotlin.viaggio.view.setting.SettingMyProfileFragment
-import com.kotlin.viaggio.view.setting.SettingPasswordFragment
-import com.kotlin.viaggio.view.setting.SettingProfileImageEnrollFragment
+import com.kotlin.viaggio.view.setting.*
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
@@ -28,12 +27,15 @@ import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
+import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
+import java.util.concurrent.Executor
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
     companion object {
         val TAG: String = MainActivity::class.java.simpleName
     }
+    var settingLockActionDialogFragment: SettingLockActionDialogFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +50,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         showHome()
 
         handleIntent(intent)
-
 
         getViewModel().finishActivity.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
@@ -126,6 +127,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "profile" -> showMyProfile()
                         "password" -> showChangePassword()
                         "image" -> showProfileImage()
+                        "lock" -> showLock()
                     }
                 "option" ->
                     when (appLinkData.lastPathSegment) {
@@ -146,6 +148,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showLock() {
+        baseShowAddLeftAddBackFragment(SettingLockFragment())
     }
 
     private fun showProfileImage() {
@@ -275,4 +281,49 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     private fun showSignCreate() {
         baseShowAddLeftAddBackFragment(SignUpFragment())
     }
+
+    override fun onStart() {
+        super.onStart()
+        if(getViewModel().getLock()){
+
+            val settingLockActionDialogFragment1Val = settingLockActionDialogFragment?.run {
+                return
+            }?:supportFragmentManager.findFragmentByTag(SettingLockActionDialogFragment.TAG)
+            val settingLockActionDialogFragmentVal = settingLockActionDialogFragment1Val?.run {
+                return
+            }?:SettingLockActionDialogFragment()
+            settingLockActionDialogFragment = settingLockActionDialogFragmentVal
+            settingLockActionDialogFragmentVal.show(supportFragmentManager, SettingLockActionDialogFragment.TAG)
+
+//            if(getViewModel().getFingerPrintLock()){
+//                val biometricPromptInfo : BiometricPrompt.PromptInfo = BiometricPrompt.PromptInfo.Builder()
+//                    .setTitle(resources.getString(R.string.finger_print))
+//                    .setNegativeButtonText(resources.getString(R.string.cancel))
+//                    .build()
+//                val authenticationCallback = getAuthenticationCallback()
+//                val biometricPrompt = BiometricPrompt(this, Executor {
+//
+//                }, authenticationCallback)
+//                biometricPrompt.authenticate(biometricPromptInfo)
+//
+//            }
+        }
+    }
+
+//    private fun getAuthenticationCallback() = object : BiometricPrompt.AuthenticationCallback() {
+//        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
+//            super.onAuthenticationSucceeded(result)
+//
+//            settingLockActionDialogFragment = null
+//            val settingLockActionDialogFragment1Val = supportFragmentManager.findFragmentByTag(SettingLockActionDialogFragment.TAG)
+//            settingLockActionDialogFragment1Val?.let {
+//                (it as SettingLockActionDialogFragment).dismiss()
+//            }
+//        }
+//
+//        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+//            super.onAuthenticationError(errorCode, errString)
+//            toast("$errorCode + $errString")
+//        }
+//    }
 }
