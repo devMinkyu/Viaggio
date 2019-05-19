@@ -58,9 +58,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
 
             }
         })
-
     }
-
     inner class ViewHandler {
         fun close() {
             fragmentPopStack()

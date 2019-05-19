@@ -18,11 +18,16 @@ class SettingLockActionDialogFragmentViewModel @Inject constructor() : BaseViewM
     val password = ObservableArrayList<Int>()
     var confirmPassword = ""
 
-    val completeLiveDate: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val completeLiveData: MutableLiveData<Event<Boolean>> = MutableLiveData()
+    val fingerPrintLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
     var currentPosition = 0
     override fun initialize() {
         super.initialize()
         settingPassword()
+
+        if(prefUtilService.getBool(AndroidPrefUtilService.Key.FINGER_PRINT_LOCK_APP).blockingGet()){
+            fingerPrintLiveData.value = Event(Any())
+        }
     }
     fun settingPassword(){
         password.clear()
@@ -45,20 +50,20 @@ class SettingLockActionDialogFragmentViewModel @Inject constructor() : BaseViewM
                         prefUtilService.putString(AndroidPrefUtilService.Key.LOCK_PW, pw).blockingAwait()
                         prefUtilService.putBool(AndroidPrefUtilService.Key.LOCK_APP, true).blockingAwait()
                         rxEventBus.completeLock.onNext(Any())
-                        completeLiveDate.value = Event(true)
+                        completeLiveData.value = Event(true)
                     } else {
                         settingPassword()
-                        completeLiveDate.value = Event(false)
+                        completeLiveData.value = Event(false)
                     }
 
                 }
             } else {
                 val lockPassword = password.joinToString()
                 if(lockPassword == prefUtilService.getString(AndroidPrefUtilService.Key.LOCK_PW).blockingGet()){
-                    completeLiveDate.value = Event(true)
+                    completeLiveData.value = Event(true)
                 } else {
                     settingPassword()
-                    completeLiveDate.value = Event(false)
+                    completeLiveData.value = Event(false)
                 }
 
             }

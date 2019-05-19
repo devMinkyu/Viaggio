@@ -79,17 +79,17 @@ dependencies {
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.google.android.material:material:1.1.0-alpha06'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha06'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     // workmanager
-    def work_version = "2.0.1"
-    implementation "androidx.work:work-runtime-ktx:$work_version" // use -ktx for Kotlin+Coroutines
+    def work_version = "2.1.0-alpha02"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
     implementation "androidx.work:work-rxjava2:$work_version"
 
     //dagger
@@ -109,8 +109,8 @@ dependencies {
     implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
 
     // lifecycle
-    implementation "androidx.lifecycle:lifecycle-extensions:$android_arch_lifecycle"
-    kapt "androidx.lifecycle:lifecycle-compiler:$android_arch_lifecycle"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha01"
 
     // rxjava
@@ -137,7 +137,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha04'
 
     // lottie
-    implementation "com.airbnb.android:lottie:$lottie_version"
+    implementation "com.airbnb.android:lottie:3.0.2"
 
     // gilde
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -150,11 +150,13 @@ dependencies {
     // flex
     implementation 'com.google.android:flexbox:1.1.0'
 
+    def room_version = "2.1.0-alpha07"
     // room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-rxjava2:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
 
     // paging
     def paging_version = "2.1.0"
@@ -171,7 +173,7 @@ dependencies {
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
 
     // image crop
-    implementation "com.naver.android.helloyako:imagecropview:1.2.0"
+    implementation 'com.naver.android.helloyako:imagecropview:1.2.2'
 
     // debug
     implementation 'com.jakewharton.timber:timber:4.7.1'
@@ -180,16 +182,19 @@ dependencies {
 
     // aws
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.13.3'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.13.4'
     //AppSync SDK
-    implementation 'com.amazonaws:aws-android-sdk-appsync:2.8.0'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 
-    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.2'
-    implementation 'com.amazonaws:aws-android-sdk-s3:2.8.5'
-    implementation 'com.amazonaws:aws-android-sdk-cognito:2.8.5'
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.4'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.13.4'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.13.4'
 
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    // fingerprint
+    implementation "androidx.biometric:biometric:1.0.0-alpha04"
 }
 apply plugin: 'com.google.gms.google-services'

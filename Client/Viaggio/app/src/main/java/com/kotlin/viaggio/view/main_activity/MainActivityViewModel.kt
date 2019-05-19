@@ -63,4 +63,5 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun getLock() = prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet() ?: false
+    fun getFingerPrintLock() = prefUtilService.getBool(AndroidPrefUtilService.Key.FINGER_PRINT_LOCK_APP).blockingGet() ?: false
 }

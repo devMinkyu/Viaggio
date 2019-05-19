@@ -1,18 +1,25 @@
 package com.kotlin.viaggio.view.setting
 
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.CycleInterpolator
+import androidx.biometric.BiometricPrompt
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseDialogFragment
+import com.kotlin.viaggio.view.main_activity.MainActivity
 import kotlinx.android.synthetic.main.fragment_action_dialog_setting_lock.*
-import kotlinx.android.synthetic.main.fragment_action_dialog_traveling_finish.containerPop
+import org.jetbrains.anko.fingerprintManager
+import org.jetbrains.anko.support.v4.act
+import org.jetbrains.anko.support.v4.toast
+import java.util.concurrent.Executor
 
 class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialogFragmentViewModel>(){
     companion object {
@@ -38,9 +45,10 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
         if(getViewModel().enrollMode.get().not()){
             isCancelable = false
         }
-        getViewModel().completeLiveDate.observe(this, Observer {
+        getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { value ->
                 if(value) {
+                    (activity!! as MainActivity).settingLockActionDialogFragment = null
                     dismiss()
                 } else{
                     var animator = password1.animate()
@@ -72,7 +80,6 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
             }
         })
     }
-
 
     inner class ViewHandler{
         fun choose(num:Int){

@@ -1,9 +1,12 @@
 package com.kotlin.viaggio.view.setting
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.biometric.BiometricConstants
+import androidx.biometric.BiometricPrompt
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
@@ -13,6 +16,7 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_setting_lock.*
+import org.jetbrains.anko.fingerprintManager
 
 
 class SettingLockFragment : BaseFragment<SettingLockFragmentViewModel>() {
@@ -47,10 +51,11 @@ class SettingLockFragment : BaseFragment<SettingLockFragmentViewModel>() {
 
         getViewModel().completableLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                lock_switch.isChecked = true
+                lock_switch.isChecked = getViewModel().lockApp.get()
             }
         })
 
+        getViewModel().isExistFingerPrint.set(context!!.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT))
     }
 
     inner class ViewHandler {
@@ -59,11 +64,11 @@ class SettingLockFragment : BaseFragment<SettingLockFragmentViewModel>() {
         }
         fun fingerPrint(){
             getViewModel().fingerPrintLockApp.set(getViewModel().fingerPrintLockApp.get().not())
+            getViewModel().fingerPrint()
         }
         fun lockApp(){
             if(getViewModel().lockApp.get()){
                 getViewModel().initPassword()
-                getViewModel().lockApp.set(false)
                 getViewModel().fingerPrintLockApp.set(false)
             } else {
                 val frag = SettingLockActionDialogFragment()
@@ -71,8 +76,15 @@ class SettingLockFragment : BaseFragment<SettingLockFragmentViewModel>() {
                 arg.putBoolean(ArgName.LOCK_ENROLL_MODE.name, true)
                 frag.arguments = arg
                 frag.show(fragmentManager!!, SettingLockActionDialogFragment.TAG)
-                getViewModel().fingerPrintLockApp.set(false)
+                getViewModel().lockApp.set(false)
             }
+        }
+        fun changePassword() {
+            val frag = SettingLockActionDialogFragment()
+            val arg = Bundle()
+            arg.putBoolean(ArgName.LOCK_ENROLL_MODE.name, true)
+            frag.arguments = arg
+            frag.show(fragmentManager!!, SettingLockActionDialogFragment.TAG)
         }
     }
 }
