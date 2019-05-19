@@ -147,4 +147,7 @@ interface MainActivityInjectorModule {
     @ContributesAndroidInjector
     fun settingLockFragment(): SettingLockFragment
 
+    @ContributesAndroidInjector
+    fun settingLockActionDialogFragment(): SettingLockActionDialogFragment
+
 }

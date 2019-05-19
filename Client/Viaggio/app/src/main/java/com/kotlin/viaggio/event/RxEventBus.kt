@@ -41,4 +41,6 @@ class RxEventBus @Inject constructor() {
     val userImage: PublishSubject<String> = PublishSubject.create()
     val travelCardDelete: PublishSubject<Any> = PublishSubject.create()
     val travelDelete: PublishSubject<Any> = PublishSubject.create()
+
+    val completeLock: PublishSubject<Any> = PublishSubject.create()
 }

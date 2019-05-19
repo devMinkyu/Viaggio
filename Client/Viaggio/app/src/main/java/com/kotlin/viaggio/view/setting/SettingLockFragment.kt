@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
@@ -37,6 +39,17 @@ class SettingLockFragment : BaseFragment<SettingLockFragmentViewModel>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        lock_switch.setOnCheckedChangeListener { _, isChecked ->
+            if(isChecked != getViewModel().lockApp.get()){
+                lock_switch.isChecked = getViewModel().lockApp.get()
+            }
+        }
+
+        getViewModel().completableLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                lock_switch.isChecked = true
+            }
+        })
 
     }
 
@@ -48,7 +61,18 @@ class SettingLockFragment : BaseFragment<SettingLockFragmentViewModel>() {
             getViewModel().fingerPrintLockApp.set(getViewModel().fingerPrintLockApp.get().not())
         }
         fun lockApp(){
-            getViewModel().lockApp.set(getViewModel().lockApp.get().not())
+            if(getViewModel().lockApp.get()){
+                getViewModel().initPassword()
+                getViewModel().lockApp.set(false)
+                getViewModel().fingerPrintLockApp.set(false)
+            } else {
+                val frag = SettingLockActionDialogFragment()
+                val arg = Bundle()
+                arg.putBoolean(ArgName.LOCK_ENROLL_MODE.name, true)
+                frag.arguments = arg
+                frag.show(fragmentManager!!, SettingLockActionDialogFragment.TAG)
+                getViewModel().fingerPrintLockApp.set(false)
+            }
         }
     }
 }

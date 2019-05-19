@@ -13,11 +13,25 @@ class SettingLockFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val lockApp = ObservableBoolean(false)
     val fingerPrintLockApp = ObservableBoolean(false)
+
+    val completableLiveData = MutableLiveData<Event<Any>>()
     override fun initialize() {
         super.initialize()
 
         lockApp.set(prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet())
         fingerPrintLockApp.set(prefUtilService.getBool(AndroidPrefUtilService.Key.FINGER_PRINT_LOCK_APP).blockingGet())
+
+        val disposable = rxEventBus.completeLock.subscribe {
+            lockApp.set(true)
+            completableLiveData.value = Event(Any())
+        }
+        addDisposable(disposable)
+    }
+
+    fun initPassword() {
+        prefUtilService.putBool(AndroidPrefUtilService.Key.LOCK_APP, false).blockingAwait()
+        prefUtilService.putBool(AndroidPrefUtilService.Key.FINGER_PRINT_LOCK_APP, false).blockingAwait()
+        prefUtilService.putString(AndroidPrefUtilService.Key.LOCK_PW, "").blockingAwait()
     }
 
 }

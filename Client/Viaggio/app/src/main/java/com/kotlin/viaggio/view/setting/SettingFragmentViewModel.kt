@@ -63,6 +63,12 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel(){
             }
         addDisposable(uploadCheckDisposable)
         lockNotice.set(prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet())
+
+        val lockDisposable = rxEventBus.completeLock
+            .subscribe {
+                lockNotice.set(prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet())
+            }
+        addDisposable(lockDisposable)
     }
 
     fun check(){

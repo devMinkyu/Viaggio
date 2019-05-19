@@ -3,6 +3,7 @@ package com.kotlin.viaggio.view.main_activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
@@ -279,6 +280,8 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
     override fun onStart() {
         super.onStart()
-        // 잠긍 기능 검사 후
+        if(getViewModel().getLock()){
+            SettingLockActionDialogFragment().show(supportFragmentManager, SettingLockActionDialogFragment.TAG)
+        }
     }
 }

@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="travel_theme_json">theme.json</string>
     <string name="travel_country_json">country.json</string>
     <string name="travel_tutorial_json">tutorial.json</string>
@@ -145,6 +145,9 @@
     <string name="traveling_notice">👣 여행 중이예요!</string>
     <string name="travel_notice">💤 여행 준비 중이예요!</string>
     <string name="base_theme"># 여행</string>
-    <string name="lock_on">켜짐</string>
-    <string name="lock_off">꺼짐</string>
+    <string name="cancel">취소</string>
+    <string name="lock_title">암호 입력</string>
+    <string name="lock_subtitle">Viaggio 암호를 입력해 주세요.</string>
+    <string name="lock_on" tools:ignore="ExtraTranslation">켜짐</string>
+    <string name="lock_off" tools:ignore="ExtraTranslation">꺼짐</string>
 </resources>

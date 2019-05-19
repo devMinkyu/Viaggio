@@ -61,4 +61,6 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
         prefUtilService.putInt(AndroidPrefUtilService.Key.IMAGE_MODE, 0).blockingAwait()
         prefUtilService.putInt(AndroidPrefUtilService.Key.UPLOAD_MODE, 0).blockingAwait()
     }
+
+    fun getLock() = prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet() ?: false
 }

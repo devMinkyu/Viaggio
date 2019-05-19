@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.setting.SettingLockActionDialogFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.setting.SettingLockActionDialogFragmentViewModel"/>
+
+        <variable name="viewModel" type="SettingLockActionDialogFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/containerPop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+        <TextView
+                android:id="@+id/lock_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/almost_black"
+                android:textSize="30dp"
+                android:layout_marginTop="100dp"
+                android:text="@string/lock_title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="SpUsage"/>
+        <TextView
+                android:id="@+id/lock_sub_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/pinkish_grey"
+                android:layout_marginTop="6.5dp"
+                android:textSize="15dp"
+                android:text="@string/lock_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/lock_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:ignore="SpUsage"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/password1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="30dp"
+                android:src="@{viewModel.password[0] == null ? @drawable/lock_empty_bg:@drawable/lock_bg}"
+                app:layout_constraintTop_toBottomOf="@id/lock_sub_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/password2"
+                app:layout_constraintHorizontal_chainStyle="packed"
+        />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/password2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="30dp"
+                android:src="@{viewModel.password[1] == null ? @drawable/lock_empty_bg:@drawable/lock_bg}"
+                app:layout_constraintTop_toBottomOf="@id/lock_sub_title"
+                app:layout_constraintStart_toEndOf="@id/password1"
+                app:layout_constraintEnd_toStartOf="@id/password3"
+        />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/password3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="30dp"
+                android:src="@{viewModel.password[2] == null ? @drawable/lock_empty_bg:@drawable/lock_bg}"
+                app:layout_constraintTop_toBottomOf="@id/lock_sub_title"
+                app:layout_constraintStart_toEndOf="@id/password2"
+                app:layout_constraintEnd_toStartOf="@id/password4"
+        />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/password4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:src="@{viewModel.password[3] == null ? @drawable/lock_empty_bg:@drawable/lock_bg}"
+                app:layout_constraintTop_toBottomOf="@id/lock_sub_title"
+                app:layout_constraintStart_toEndOf="@id/password3"
+                app:layout_constraintEnd_toEndOf="parent"
+        />
+
+        <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="3"
+                android:rowCount="4"
+                app:layout_constraintBottom_toBottomOf="parent">
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="1"
+                    android:onClick="@{() -> viewHandler.choose(1)}"
+                    android:background="@null"
+                    app:backgroundTint="@color/lock_click"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText"/>
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="2"
+                    android:onClick="@{() -> viewHandler.choose(2)}"
+                    android:background="@null"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText"/>
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="3"
+                    android:onClick="@{() -> viewHandler.choose(3)}"
+                    android:background="@null"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText"/>
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="4"
+                    android:onClick="@{() -> viewHandler.choose(4)}"
+                    android:background="@null"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText"/>
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="5"
+                    android:onClick="@{() -> viewHandler.choose(5)}"
+                    android:background="@null"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText"/>
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="6"
+                    android:onClick="@{() -> viewHandler.choose(6)}"
+                    android:background="@null"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText"/>
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="7"
+                    android:onClick="@{() -> viewHandler.choose(7)}"
+                    android:background="@null"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText"/>
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="8"
+                    android:onClick="@{() -> viewHandler.choose(8)}"
+                    android:background="@null"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText"/>
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="9"
+                    android:onClick="@{() -> viewHandler.choose(9)}"
+                    android:background="@null"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText"/>
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="@string/cancel"
+                    android:textSize="20dp"
+                    android:visibility="@{viewModel.enrollMode ? View.VISIBLE:View.GONE}"
+                    android:onClick="@{() -> viewHandler.close()}"
+                    android:background="@null"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText,SpUsage"/>
+            <androidx.appcompat.widget.AppCompatButton
+                    android:text="0"
+                    android:onClick="@{() -> viewHandler.choose(0)}"
+                    android:background="@null"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    tools:ignore="HardcodedText"/>
+            <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:src="@drawable/ic_backspace"
+                    android:padding="@dimen/common_margin"
+                    style="@style/ViewStyle.Viaggio.Lock"
+                    android:onClick="@{() -> viewHandler.cancel()}"
+                    tools:ignore="HardcodedText"/>
+        </GridLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
