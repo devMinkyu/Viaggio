@@ -4,12 +4,15 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.graphics.ImageDecoder.decodeBitmap
 import android.graphics.Matrix
-import android.media.ExifInterface
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.core.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
 import com.kotlin.viaggio.android.ClearCache
 import com.kotlin.viaggio.view.sign.common.Encryption
 import dagger.Lazy
@@ -41,6 +44,8 @@ class LocalDataSource @Inject constructor() {
         const val IMG_NAME_FORMAT = "viaggio_%d%d"
         const val FILE_PROVIDER_AUTHORITY = "com.kotlin.viaggio.fileprovider"
         const val IMG_FOLDER = "images/"
+        const val highQuality = 1440
+        const val normalQuality = 960
     }
 
     fun savePhotoResult(photoResult: PhotoResult): Single<Uri> {
@@ -188,30 +193,32 @@ class LocalDataSource @Inject constructor() {
             val imageListUri:MutableList<String> = mutableListOf()
             for ((index, fileName) in fileNames.withIndex()) {
                 if(File(fileName).exists()){
-                    val options = BitmapFactory.Options()
-                    options.inSampleSize = 2
-                    val cameraImg = BitmapFactory.decodeFile(fileName, options)
-
-                    val sampleSize = when(prefUtilService.getInt(AndroidPrefUtilService.Key.IMAGE_MODE).blockingGet()){
-                        0 ->{
-                            normalQualitySizeCalculation(fileName)
-                        }
-                        1->{
-                            highQualitySizeCalculation(fileName)
-                        }
-                        else ->{
-                            normalQualitySizeCalculation(fileName)
-                        }
-                    }
-
                     val exit = ExifInterface(fileName)
                     val rotate = exifOrientationToDegrees(exit.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL))
 
                     val matrix = Matrix()
                     matrix.postRotate(rotate.toFloat())
-                    val resizedBitmap = Bitmap.createBitmap(cameraImg, 0, 0, cameraImg.width, cameraImg.height, matrix, true)
 
-                    val compressImg = Bitmap.createScaledBitmap(resizedBitmap, (resizedBitmap.width/sampleSize).toInt(),(resizedBitmap.height/sampleSize).toInt(),true)
+                    val compressImg = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                        val camera = ImageDecoder.createSource(File(fileName))
+                        decodeBitmap(camera) { decoder, info, _ ->
+                            val sampleSize = sampleSize(width = info.size.width, height = info.size.height)
+                            if(sampleSize > 1){
+                                decoder.setTargetSize((info.size.width / sampleSize).toInt(), (info.size.height / sampleSize).toInt())
+                            }
+                        }
+                    } else {
+                        val options = BitmapFactory.Options()
+                        options.inSampleSize = 2
+                        val cameraImg = BitmapFactory.decodeFile(fileName, options)
+                        val sampleSize = qualitySizeCalculation(fileName)
+                        val resizedBitmap = Bitmap.createBitmap(cameraImg, 0, 0, cameraImg.width, cameraImg.height, matrix, true)
+                        if(sampleSize > 1){
+                            Bitmap.createScaledBitmap(resizedBitmap, resizedBitmap.width,resizedBitmap.height,true)
+                        } else {
+                            Bitmap.createScaledBitmap(resizedBitmap, (resizedBitmap.width/sampleSize).toInt(),(resizedBitmap.height/sampleSize).toInt(),true)
+                        }
+                    }
 
                     val imageDir = File(appCtx.get().filesDir, IMG_FOLDER)
                     if(!imageDir.exists()){
@@ -232,8 +239,6 @@ class LocalDataSource @Inject constructor() {
                                 out.close()
                                 imageListUri.add(localFile.absolutePath)
 
-                                cameraImg.recycle()
-                                resizedBitmap.recycle()
                                 compressImg.recycle()
                             }
                         }
@@ -249,32 +254,20 @@ class LocalDataSource @Inject constructor() {
     }
 
 
-    private fun normalQualitySizeCalculation(fileName: String):Double{
+    private fun qualitySizeCalculation(fileName: String):Double{
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         options.inSampleSize = 2
         BitmapFactory.decodeFile(fileName, options)
-        val imageHeight = options.outHeight.toDouble()
-        val imageWidth = options.outWidth.toDouble()
-        return if (imageWidth > imageHeight) {
-            imageWidth / 960
-        } else {
-            imageHeight / 960
-        }
+        return sampleSize(width = options.outWidth, height = options.outHeight)
     }
+    private fun sampleSize(width:Int, height:Int) =
+        if (width > height) {
+            width.toDouble() / if(prefUtilService.getInt(AndroidPrefUtilService.Key.IMAGE_MODE).blockingGet() == 0) normalQuality else highQuality
+        } else {
+            height.toDouble() / if(prefUtilService.getInt(AndroidPrefUtilService.Key.IMAGE_MODE).blockingGet() == 0) normalQuality else highQuality
+        }
 
-    private fun highQualitySizeCalculation(fileName: String): Double {
-        val options = BitmapFactory.Options()
-        options.inJustDecodeBounds = true
-        BitmapFactory.decodeFile(fileName, options)
-        val imageHeight = options.outHeight.toDouble()
-        val imageWidth = options.outWidth.toDouble()
-        return if (imageWidth > imageHeight) {
-            imageWidth / 1440
-        } else {
-            imageHeight / 1440
-        }
-    }
 
     private fun exifOrientationToDegrees(exifOrientation: Int): Int {
         return when (exifOrientation) {

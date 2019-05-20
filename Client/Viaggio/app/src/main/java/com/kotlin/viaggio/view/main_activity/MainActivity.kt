@@ -3,8 +3,6 @@ package com.kotlin.viaggio.view.main_activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.biometric.BiometricPrompt
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
@@ -27,9 +25,7 @@ import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
-import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
-import java.util.concurrent.Executor
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
     companion object {
@@ -295,18 +291,21 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             settingLockActionDialogFragment = settingLockActionDialogFragmentVal
             settingLockActionDialogFragmentVal.show(supportFragmentManager, SettingLockActionDialogFragment.TAG)
 
-//            if(getViewModel().getFingerPrintLock()){
-//                val biometricPromptInfo : BiometricPrompt.PromptInfo = BiometricPrompt.PromptInfo.Builder()
-//                    .setTitle(resources.getString(R.string.finger_print))
-//                    .setNegativeButtonText(resources.getString(R.string.cancel))
-//                    .build()
-//                val authenticationCallback = getAuthenticationCallback()
-//                val biometricPrompt = BiometricPrompt(this, Executor {
+
+
+            if(getViewModel().getFingerPrintLock()){
+
+            }
+
+//            val biometricPromptInfo : BiometricPrompt.PromptInfo = BiometricPrompt.PromptInfo.Builder()
+//                .setTitle(resources.getString(R.string.finger_print))
+//                .setNegativeButtonText(resources.getString(R.string.cancel))
+//                .build()
+//            val authenticationCallback = getAuthenticationCallback()
+//            val biometricPrompt = BiometricPrompt(this, Executor {
 //
-//                }, authenticationCallback)
-//                biometricPrompt.authenticate(biometricPromptInfo)
-//
-//            }
+//            }, authenticationCallback)
+//            biometricPrompt.authenticate(biometricPromptInfo)
         }
     }
 
