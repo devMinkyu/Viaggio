@@ -3,7 +3,10 @@ package com.kotlin.viaggio.view.main_activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
+import com.github.ajalt.reprint.core.Reprint
+import com.github.ajalt.reprint.rxjava2.RxReprint
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.camera.CameraFragment
@@ -281,7 +284,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     override fun onStart() {
         super.onStart()
         if(getViewModel().getLock()){
-
             val settingLockActionDialogFragment1Val = settingLockActionDialogFragment?.run {
                 return
             }?:supportFragmentManager.findFragmentByTag(SettingLockActionDialogFragment.TAG)
@@ -290,39 +292,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             }?:SettingLockActionDialogFragment()
             settingLockActionDialogFragment = settingLockActionDialogFragmentVal
             settingLockActionDialogFragmentVal.show(supportFragmentManager, SettingLockActionDialogFragment.TAG)
-
-
-
-            if(getViewModel().getFingerPrintLock()){
-
-            }
-
-//            val biometricPromptInfo : BiometricPrompt.PromptInfo = BiometricPrompt.PromptInfo.Builder()
-//                .setTitle(resources.getString(R.string.finger_print))
-//                .setNegativeButtonText(resources.getString(R.string.cancel))
-//                .build()
-//            val authenticationCallback = getAuthenticationCallback()
-//            val biometricPrompt = BiometricPrompt(this, Executor {
-//
-//            }, authenticationCallback)
-//            biometricPrompt.authenticate(biometricPromptInfo)
         }
     }
 
-//    private fun getAuthenticationCallback() = object : BiometricPrompt.AuthenticationCallback() {
-//        override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-//            super.onAuthenticationSucceeded(result)
-//
-//            settingLockActionDialogFragment = null
-//            val settingLockActionDialogFragment1Val = supportFragmentManager.findFragmentByTag(SettingLockActionDialogFragment.TAG)
-//            settingLockActionDialogFragment1Val?.let {
-//                (it as SettingLockActionDialogFragment).dismiss()
-//            }
-//        }
-//
-//        override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-//            super.onAuthenticationError(errorCode, errString)
-//            toast("$errorCode + $errString")
-//        }
-//    }
 }

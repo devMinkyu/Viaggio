@@ -1,7 +1,9 @@
 package com.kotlin.viaggio.view.setting
 
+import android.animation.Animator
 import android.content.Context
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,10 +35,20 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if(getViewModel().enrollMode.get().not()){
-            isCancelable = false
+        dialog?.setOnKeyListener { _, keyCode, _ ->
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(getViewModel().enrollMode.get().not()){
+                    activity!!.finish()
+                    false
+                } else {
+                    true
+                }
+            } else {
+                true
+            }
         }
         getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { value ->
@@ -72,6 +84,37 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
                 }
             }
         })
+        finger_print_anim.progress = 0.25f
+        getViewModel().fingerPrintHelpLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {value ->
+                if(value) {
+                    finger_print_anim.playAnimation()
+                    finger_print_anim.addAnimatorListener(object : Animator.AnimatorListener{
+                        override fun onAnimationRepeat(animation: Animator?) {}
+                        override fun onAnimationEnd(animation: Animator?) {
+                            (activity!! as MainActivity).settingLockActionDialogFragment = null
+                            dismiss()
+                        }
+                        override fun onAnimationCancel(animation: Animator?) {}
+                        override fun onAnimationStart(animation: Animator?) {}
+                    })
+                } else {
+                    val animator = finger_print_anim.animate()
+                        .setDuration(100)
+                        .x(0f)
+                        .xBy(10f)
+                        .setInterpolator(CycleInterpolator(5f))
+                    animator.start()
+                }
+            }
+        })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(getViewModel().fingerPrint != getViewModel().isExistFingerPrint.get()){
+            getViewModel().fingerPrintCheck()
+        }
     }
 
     inner class ViewHandler{

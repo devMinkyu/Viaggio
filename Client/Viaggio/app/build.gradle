@@ -211,6 +211,10 @@ dependencies {
 
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
+
+    implementation 'com.github.ajalt.reprint:core:3.3.1@aar'
+    implementation 'com.github.ajalt.reprint:rxjava2:3.3.1@aar'
+
     // fingerprint
 //    implementation "androidx.biometric:biometric:1.0.0-alpha04"
 }

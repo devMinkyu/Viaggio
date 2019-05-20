@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.setting
 
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
+import com.github.ajalt.reprint.core.Reprint
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -14,10 +15,12 @@ class SettingLockFragmentViewModel @Inject constructor() : BaseViewModel() {
     val lockApp = ObservableBoolean(false)
     val fingerPrintLockApp = ObservableBoolean(false)
     val isExistFingerPrint = ObservableBoolean(false)
+    val isRegisterFingerPrint = ObservableBoolean(false)
 
     val completableLiveData = MutableLiveData<Event<Any>>()
     override fun initialize() {
         super.initialize()
+        Reprint.initialize(appCtx.get())
 
         lockApp.set(prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet())
         fingerPrintLockApp.set(prefUtilService.getBool(AndroidPrefUtilService.Key.FINGER_PRINT_LOCK_APP).blockingGet())
@@ -28,6 +31,9 @@ class SettingLockFragmentViewModel @Inject constructor() : BaseViewModel() {
             completableLiveData.value = Event(Any())
         }
         addDisposable(disposable)
+
+        isExistFingerPrint.set(Reprint.isHardwarePresent())
+        isRegisterFingerPrint.set(Reprint.hasFingerprintRegistered())
     }
 
     fun initPassword() {

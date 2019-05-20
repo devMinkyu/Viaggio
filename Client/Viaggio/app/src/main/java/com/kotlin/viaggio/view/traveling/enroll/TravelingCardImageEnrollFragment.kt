@@ -139,10 +139,10 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                             getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
                         }
                         travelingOfDayEnrollImageView.resetDisplay()
+                        travelingOfDayEnrollImageView.setImageFilePath(fileNamePath)
                         getViewModel().entireChooseCount += 1
                         binding.chooseCount?.set(getViewModel().entireChooseCount)
                         getViewModel().imageChooseList.add(fileNamePath)
-                        travelingOfDayEnrollImageView.setImageFilePath(fileNamePath)
                     }
                 } else {
                     var cancelIndex = getViewModel().imageChooseList.indexOf(fileNamePath)

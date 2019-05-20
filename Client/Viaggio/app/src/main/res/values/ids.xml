@@ -255,4 +255,5 @@
     <item name="travelCardActionContainer" type="id"/>
     <item name="settingLock" type="id"/>
     <item name="settingLockNotice" type="id"/>
+    <item name="finger_print_anim" type="id"/>
 </resources>

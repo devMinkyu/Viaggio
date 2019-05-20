@@ -51,8 +51,6 @@ class SettingLockFragment : BaseFragment<SettingLockFragmentViewModel>() {
                 lock_switch.isChecked = getViewModel().lockApp.get()
             }
         })
-
-        getViewModel().isExistFingerPrint.set(context!!.packageManager.hasSystemFeature(PackageManager.FEATURE_FINGERPRINT))
     }
 
     inner class ViewHandler {

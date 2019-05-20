@@ -12,6 +12,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3Client
+import com.github.ajalt.reprint.core.Reprint
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.text.FirebaseVisionCloudTextRecognizerOptions
 import com.kotlin.viaggio.BuildConfig
