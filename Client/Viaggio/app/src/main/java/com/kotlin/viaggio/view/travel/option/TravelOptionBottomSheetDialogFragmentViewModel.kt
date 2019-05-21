@@ -13,6 +13,7 @@ class TravelOptionBottomSheetDialogFragmentViewModel @Inject constructor() : Bas
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
     val traveling = ObservableBoolean(false)
+    val isExistTravelCard = ObservableBoolean(false)
     var travel = Travel()
     override fun initialize() {
         super.initialize()
@@ -30,5 +31,12 @@ class TravelOptionBottomSheetDialogFragmentViewModel @Inject constructor() : Bas
                 Timber.d(it)
             }
         addDisposable(disposable)
+        val travelCardDisposable = travelLocalModel.getTravelCards()
+            .subscribe({
+                isExistTravelCard.set(it.isNotEmpty())
+            }){
+                Timber.d(it)
+            }
+        addDisposable(travelCardDisposable)
     }
 }

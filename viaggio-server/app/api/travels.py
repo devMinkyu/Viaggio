@@ -2,7 +2,7 @@ from flask import jsonify, request
 from . import api
 from .. import db
 from ..models import Travel, TravelCard, AnalysisTheme, AnalysisContinent, AnalysisCountry, AnalysisCity, AnalysisSubCity
-from ..forms.travel import CreateTravelForm, UpdateTravelForm
+from ..forms.travel import CreateTravelForm
 from ..errors import bad_request
 from datetime import datetime
 
@@ -55,36 +55,27 @@ def get_specific_travel(id):
 
 @api.route('/my/travels/<int:id>', methods=['PUT'])
 def update_travel(id):
-    form = UpdateTravelForm(request.form)
-    if form.validate():
-        travel = Travel.query.get_or_404(id)
-        if request.form.get('title') is not None:
-            travel.title = request.form.get('title')
-        if request.form.get('area') is not None:
-            tempArea = request.form.get('area')
-            travel.area = tempArea
-        if request.form.get('endDate') is not None:
-            travel.endDate = datetime.strptime(request.form.get('endDate'), "%Y-%m-%d %H:%M:%S")
-        if request.form.get('theme') is not None:
-            tempTheme = list(request.form.get('theme'))
-            travel.theme = tempTheme
-        if request.form.get('imageName'):
-            travel.imageName = request.form.get('imageName')
-        if request.form.get('imageUrl'):
-            travel.imageUrl = request.form.get('imageUrl')
-        if request.form.get('share'):
-            travel.share = True
-        else:
-            travel.share = False
-        db.session.commit()
-        return jsonify({ 'travel': travel.as_dict() })
-
-    if form.travelKind.errors:
-        return bad_request(401, 'TravelKind validation error.')
-    if form.endDate.errors:
-        return bad_request(402, 'EndDate validation error.')
-
-    return bad_request(400, 'Update Travel validation is failed.')
+    travel = Travel.query.get_or_404(id)
+    if request.form.get('title') is not None:
+        travel.title = request.form.get('title')
+    if request.form.get('area') is not None:
+        tempArea = request.form.get('area')
+        travel.area = tempArea
+    if request.form.get('endDate') is not None:
+        travel.endDate = datetime.strptime(request.form.get('endDate'), "%Y-%m-%d %H:%M:%S")
+    if request.form.get('theme') is not None:
+        tempTheme = list(request.form.get('theme'))
+        travel.theme = tempTheme
+    if request.form.get('imageName'):
+        travel.imageName = request.form.get('imageName')
+    if request.form.get('imageUrl'):
+        travel.imageUrl = request.form.get('imageUrl')
+    if request.form.get('share'):
+        travel.share = True
+    else:
+        travel.share = False
+    db.session.commit()
+    return jsonify({ 'travel': travel.as_dict() })
 
 
 @api.route('/my/travels/<int:id>', methods=['DELETE'])

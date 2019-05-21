@@ -13,44 +13,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white_three">
-        <com.google.android.material.appbar.AppBarLayout
-                android:id="@id/travelAppBar"
+        <View
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.AppBarOverlay"
-                android:background="@color/white_three"
+                android:layout_height="48.5dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:elevation="0dp">
-            <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:gravity="center"
-                    android:background="@color/white_three"
-                    app:titleTextColor="@color/black"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"
-                    tools:ignore="UnusedAttribute">
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/back"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        app:srcCompat="@drawable/icon_menu"
-                        android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        android:paddingStart="0dp"
-                        android:paddingEnd="16dp"
-                        android:onClick="@{()->viewHandler.setting()}"
-                />
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        app:srcCompat="@drawable/tool_bar_title"
-                />
-            </androidx.appcompat.widget.Toolbar>
-        </com.google.android.material.appbar.AppBarLayout>
+                android:background="@color/white_three"
+                android:id="@id/travelAppBar"
+        />
 
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/back"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:icon="@drawable/icon_menu"
+                app:iconGravity="textStart"
+                app:iconTint="@color/almost_black"
+                android:onClick="@{()->viewHandler.setting()}"
+                app:layout_constraintTop_toTopOf="@id/travelAppBar"
+                app:layout_constraintBottom_toBottomOf="@id/travelAppBar"
+                app:layout_constraintStart_toStartOf="@id/travelAppBar"
+        />
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/tool_bar_title"
+                app:layout_constraintTop_toTopOf="@id/travelAppBar"
+                app:layout_constraintBottom_toBottomOf="@id/travelAppBar"
+                app:layout_constraintStart_toStartOf="@id/travelAppBar"
+                app:layout_constraintEnd_toEndOf="@id/travelAppBar"
+        />
         <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
@@ -60,7 +53,6 @@
                 android:lineSpacingExtra="3.8dp"
                 android:textColor="@color/almost_black"
                 android:fontFamily="sans-serif"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelAppBar"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -94,9 +86,7 @@
                 android:layout_marginBottom="25dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/travelPager">
-
-        </Spinner>
+                app:layout_constraintBottom_toTopOf="@id/travelPager"/>
         <androidx.viewpager.widget.ViewPager
                 android:id="@id/travelPager"
                 android:layout_width="0dp"

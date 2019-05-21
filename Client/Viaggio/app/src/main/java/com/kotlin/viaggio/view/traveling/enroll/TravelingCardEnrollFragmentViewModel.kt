@@ -134,7 +134,6 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         val mode = travelLocalModel.getUploadMode()
 
         travelCard.content = contents.get()!!
-        val travelId = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()
         travelCard.localId = Calendar.getInstance().time.time
         travelCard.travelLocalId = travel.localId
         travelCard.travelServerId = travel.serverId

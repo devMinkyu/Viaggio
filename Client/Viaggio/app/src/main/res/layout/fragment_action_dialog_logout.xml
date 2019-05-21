@@ -40,41 +40,31 @@
                 app:layout_constraintEnd_toEndOf="@id/travelingFinishActionPop"
                 app:layout_constraintBottom_toTopOf="@id/travelingFinishCancelBtn"
                 tools:ignore="SpUsage"/>
-        <TextView
+        <com.google.android.material.button.MaterialButton
                 android:id="@id/travelingFinishCancelBtn"
-                android:layout_width="0dp"
-                android:layout_height="46dp"
-                android:background="@drawable/stroke_primary_bg"
+                style="@style/ViewStyle.Viaggio.Option"
                 android:text="@string/finish_no"
-                android:textSize="16dp"
-                android:lineSpacingExtra="2.8sp"
-                android:textColor="@color/colorPrimary"
-                android:gravity="center"
                 android:onClick="@{()->viewHandler.cancel()}"
                 android:layout_marginBottom="28dp"
                 android:layout_marginStart="28dp"
+                android:layout_marginEnd="10dp"
                 app:layout_constraintStart_toStartOf="@id/travelingFinishActionPop"
                 app:layout_constraintEnd_toStartOf="@id/travelingFinishYesBtn"
                 app:layout_constraintBottom_toBottomOf="@id/travelingFinishActionPop"
                 tools:ignore="SpUsage"/>
-        <TextView
+        <com.google.android.material.button.MaterialButton
                 android:id="@id/travelingFinishYesBtn"
-                android:layout_width="0dp"
-                android:layout_height="46dp"
                 android:text="@string/finish_yes"
-                android:textSize="16dp"
-                android:lineSpacingExtra="2.8sp"
-                android:gravity="center"
-                android:background="@drawable/sign_normal_btn_bg"
-                android:backgroundTint="@color/colorPrimary"
+                app:backgroundTint="@color/colorPrimary"
                 android:textColor="@android:color/white"
                 android:onClick="@{()->viewHandler.logout()}"
                 android:layout_marginBottom="28dp"
                 android:layout_marginEnd="28dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="0dp"
+                style="@style/ViewStyle.Viaggio.Option"
                 app:layout_constraintStart_toEndOf="@id/travelingFinishCancelBtn"
                 app:layout_constraintEnd_toEndOf="@id/travelingFinishActionPop"
                 app:layout_constraintBottom_toBottomOf="@id/travelingFinishActionPop"
-                tools:ignore="SpUsage"/>
+        />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

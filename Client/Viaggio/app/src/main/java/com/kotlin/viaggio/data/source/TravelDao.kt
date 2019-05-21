@@ -28,7 +28,7 @@ interface TravelDao {
     fun getTravel(id: Long): Single<Travel>
 
     @Update
-    fun updateTravel(travel: Travel)
+    fun updateTravel(vararg travel: Travel)
 
     // travelCard
     @Query("SELECT * FROM travelCards WHERE travelLocalId IN(:travelId) And isDelete = 0 ORDER BY travelOfDay, date Asc")
@@ -38,10 +38,13 @@ interface TravelDao {
     fun getTravelCardDes(travelId: Long): DataSource.Factory<Int, TravelCard>
 
     @Insert
-    fun insertTravelCard(travelCard: TravelCard)
+    fun insertTravelCard(vararg travelCard: TravelCard)
 
     @Query("SELECT * FROM travelCards WHERE travelLocalId IN(:travelOfDayId) And isDelete = 0 ORDER BY date DESC")
     fun getTravelCardsPaged(travelOfDayId: Long): DataSource.Factory<Int, TravelCard>
+
+    @Query("SELECT * FROM travelCards Where isDelete = 0 And travelLocalId = :travelId")
+    fun getTravelCards(travelId: Long): Single<MutableList<TravelCard>>
 
     @Query("SELECT * FROM travelCards Where isDelete = 0")
     fun getTravelCards(): Single<MutableList<TravelCard>>
@@ -53,6 +56,6 @@ interface TravelDao {
     fun getTravelCard(travelCardId: Long): Single<List<TravelCard>>
 
     @Update
-    fun updateTravelCard(travelCard: TravelCard)
+    fun updateTravelCard(vararg travelCard: TravelCard)
 
 }

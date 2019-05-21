@@ -30,7 +30,7 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
     inner class ViewHandler{
         fun selectedKinds(kinds: String){
             if(getViewModel().travel){
-                toast("현재 여행 진행중")
+                toast(resources.getText(R.string.traveling))
             }else{
                 getViewModel().selectKind(kinds)
                 getViewModel().travelType(0)

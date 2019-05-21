@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.traveling.detail
 
+import android.text.TextUtils
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.obj.TravelCard
@@ -41,6 +42,16 @@ class TravelingDetailActionDialogFragmentViewModel @Inject constructor() : BaseV
             travelCard.content = contents.get()!!
             travelCard.userExist = false
             val disposable = travelLocalModel.updateTravelCard(travelCard)
+                .andThen {
+                    val token = travelLocalModel.getToken()
+                    val mode = travelLocalModel.getUploadMode()
+                    if (TextUtils.isEmpty(token).not() && mode != 2 && travelCard.serverId != 0) {
+                        updateWork(travelCard)
+                        it.onComplete()
+                    } else {
+                        it.onComplete()
+                    }
+                }
                 .subscribe({
                     rxEventBus.travelCardUpdate.onNext(Any())
                     completeLiveDate.postValue(Event(Any()))

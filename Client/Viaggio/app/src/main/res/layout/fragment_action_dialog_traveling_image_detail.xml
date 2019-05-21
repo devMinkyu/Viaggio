@@ -41,14 +41,18 @@
                 android:text="@{@string/travel_card_image_count(viewModel.currentImageSize, viewModel.imageSize)}"
                 tools:text="13 / 20"
                 tools:ignore="SpUsage"/>
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_icon_close"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:icon="@drawable/ic_icon_close"
+                app:iconTint="@android:color/white"
+                app:iconSize="40dp"
+                app:iconGravity="textEnd"
                 android:onClick="@{()->viewHandler.close()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:padding="@dimen/common_margin"
+
         />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

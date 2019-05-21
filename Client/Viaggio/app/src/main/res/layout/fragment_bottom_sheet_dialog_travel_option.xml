@@ -23,13 +23,15 @@
                 app:layout_constraintTop_toTopOf="parent"
         />
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <com.google.android.material.button.MaterialButton
                 android:id="@+id/close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_margin"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:onClick="@{()->viewHandler.close()}"
-                app:srcCompat="@drawable/ic_clear_black_24dp"
+                app:icon="@drawable/ic_clear_black_24dp"
+                app:iconTint="@color/almost_black"
+                app:iconGravity="textStart"
                 app:layout_constraintTop_toTopOf="@id/toolbar"
                 app:layout_constraintBottom_toBottomOf="@id/toolbar"
                 app:layout_constraintStart_toStartOf="@id/toolbar"
@@ -54,17 +56,19 @@
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
         />
 
-        <TextView
+        <com.google.android.material.chip.Chip
                 android:id="@id/travelOptionTitle"
                 style="@style/ViewStyle.Viaggio.Travel.Option"
                 android:text="@string/travel_option_title"
+                android:layout_marginTop="5dp"
+                app:chipStartPadding="@dimen/common_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toolbar"
                 android:onClick="@{()->viewHandler.changeTitle()}"
         />
 
-        <TextView
+        <com.google.android.material.chip.Chip
                 android:id="@id/travelOptionAddCountry"
                 style="@style/ViewStyle.Viaggio.Travel.Option"
                 android:text="@string/travel_option_country"
@@ -74,7 +78,7 @@
                 android:onClick="@{()->viewHandler.addCountry()}"
         />
 
-        <TextView
+        <com.google.android.material.chip.Chip
                 android:id="@id/travelOptionAddTheme"
                 style="@style/ViewStyle.Viaggio.Travel.Option"
                 android:text="@string/travel_option_theme"
@@ -84,17 +88,18 @@
                 android:onClick="@{()->viewHandler.addTheme()}"
         />
 
-        <TextView
+        <com.google.android.material.chip.Chip
                 android:id="@id/travelOptionRepresentativeImage"
                 style="@style/ViewStyle.Viaggio.Travel.Option"
                 android:text="@string/travel_option_image"
+                android:enabled="@{viewModel.isExistTravelCard}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelOptionAddTheme"
                 android:onClick="@{()->viewHandler.changeRepresentativeImage()}"
         />
 
-        <TextView
+        <com.google.android.material.chip.Chip
                 android:id="@id/travelOptionFinish"
                 style="@style/ViewStyle.Viaggio.Travel.Option"
                 android:text="@string/travel_option_finish"
