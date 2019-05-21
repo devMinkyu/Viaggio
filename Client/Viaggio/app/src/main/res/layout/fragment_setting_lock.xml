@@ -26,11 +26,10 @@
                     android:layout_height="48.5dp"
                     app:layout_constraintTop_toTopOf="parent"
             />
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.button.MaterialButton
                     style="@style/ViewStyle.Viaggio.Back"
                     android:onClick="@{()->viewHandler.close()}"
                     android:layout_marginTop="0dp"
-                    android:layout_marginStart="5dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/toolbar"
                     app:layout_constraintBottom_toBottomOf="@id/toolbar"
@@ -68,7 +67,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/settingLogout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@id/settingAutoUploadCheck"
                     android:text="@string/setting_lock"
                     android:textColor="@color/almost_black"
@@ -78,7 +77,7 @@
                     app:layout_constraintEnd_toEndOf="@id/settingEtc"
                     app:layout_constraintTop_toTopOf="@id/settingEtc"
             />
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                     android:id="@+id/lock_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -89,7 +88,7 @@
                     app:layout_constraintEnd_toEndOf="@id/settingAutoUploadCheck"
                     tools:checked="true"
             />
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@id/settingSync"
                     android:text="@string/setting_lock_fingerprint"
                     android:textColor="@color/setting_enable_color"
@@ -101,7 +100,7 @@
                     app:layout_constraintEnd_toEndOf="@id/settingEtc"
                     app:layout_constraintTop_toBottomOf="@id/settingAutoUploadCheck"
             />
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{()->viewHandler.fingerPrint()}"
@@ -113,7 +112,7 @@
                     app:layout_constraintEnd_toEndOf="@id/settingSync"
                     tools:checked="true"
             />
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@id/settingLogout"
                     android:text="@string/setting_lock_change"
                     android:textColor="@color/setting_enable_color"

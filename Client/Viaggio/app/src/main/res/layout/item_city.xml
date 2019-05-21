@@ -17,20 +17,18 @@
             android:layout_marginBottom="7dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-        <TextView
+        <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:id="@id/themeSelectName"
                 android:layout_width="130dp"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 tools:text="코타키나 발루"
-                android:background="@drawable/city_btn_bg"
+                app:backgroundTint="@color/colorPrimary"
+                app:cornerRadius="30dp"
                 android:textColor="@android:color/white"
                 android:text="@{data.city}"
-                android:paddingStart="15dp"
-                android:paddingEnd="@dimen/title_start"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:onClick="@{()->viewHandler.select()}"
                 android:textSize="14dp"
-                android:elevation="2dp"
                 android:fontFamily="sans-serif"
                 android:gravity="center_vertical"
                 app:layout_constraintTop_toTopOf="parent"
@@ -38,20 +36,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:ignore="SpUsage"/>
-        <View
-                android:id="@id/themeSelectNameBack"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:onClick="@{()->viewHandler.select()}"
-                android:background="@drawable/city_btn_bg"
-                android:backgroundTint="@android:color/white"
-                android:alpha="0.4"
-                android:elevation="2dp"
-                app:layout_constraintStart_toStartOf="@id/themeSelectName"
-                app:layout_constraintEnd_toEndOf="@id/themeSelectName"
-                app:layout_constraintTop_toTopOf="@id/themeSelectName"
-                app:layout_constraintBottom_toBottomOf="@id/themeSelectName"
-        />
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@id/themeSelectNameSelect"
                 android:layout_width="wrap_content"

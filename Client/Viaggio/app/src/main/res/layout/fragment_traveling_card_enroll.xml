@@ -25,9 +25,10 @@
                     android:background="@color/white_three"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.google.android.material.button.MaterialButton
                         android:id="@+id/back"
                         style="@style/ViewStyle.Viaggio.Back"
+                        android:layout_marginTop="0dp"
                         android:onClick="@{()->viewHandler.back()}"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -62,32 +63,36 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/travelCardEnrollImageList"
                 >
-                    <TextView
+                    <com.google.android.material.chip.Chip
                             android:id="@id/travelingOfDayEnrollDate"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="38dp"
                             android:textSize="14dp"
                             android:textColor="@color/almost_black"
                             android:letterSpacing="-0.02"
-                            android:layout_margin="5dp"
-                            android:padding="5dp"
                             android:gravity="center"
-                            android:background="@drawable/travel_card_option_btn"
+                            android:layout_marginEnd="5dp"
+                            app:chipMinHeight="38dp"
+                            app:chipBackgroundColor="@color/very_light_pink_three"
+                            app:chipCornerRadius="5dp"
                             android:text="@{@string/travel_card_count(viewModel.dayCount)}"
                             android:onClick="@{() -> viewHandler.changeDayCount()}"
-                            tools:text="1일차"
+                            tools:text="와이너리"
                             tools:ignore="SpUsage"/>
-                    <TextView
+                    <com.google.android.material.chip.Chip
                             android:id="@id/travelingOfDayEnrollCountry"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="38dp"
                             android:textSize="14dp"
                             android:textColor="@color/almost_black"
                             android:letterSpacing="-0.02"
-                            android:layout_margin="5dp"
                             android:padding="5dp"
                             android:gravity="center"
-                            android:background="@drawable/travel_card_option_btn"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="5dp"
+                            app:chipMinHeight="38dp"
+                            app:chipBackgroundColor="@color/very_light_pink_three"
+                            app:chipCornerRadius="5dp"
                             android:text="@{viewModel.country}"
                             android:onClick="@{() -> viewHandler.changeCountry()}"
                             tools:text="보스니아카르비아수_아테나"
@@ -118,7 +123,7 @@
                         android:background="@null"
                         tools:ignore="Autofill,SpUsage"/>
 
-                <TextView
+                <com.google.android.material.button.MaterialButton
                         android:id="@id/travelingStart"
                         style="@style/ViewStyle.Viaggio.Btn"
                         app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +131,6 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:text="@string/travel_card_start"
                         android:onClick="@{()->viewHandler.save()}"
-                        android:background="@color/colorPrimary"
                         android:visibility="@{viewModel.isFormValid ? View.VISIBLE:View.GONE}"
                 />
             </androidx.constraintlayout.widget.ConstraintLayout>

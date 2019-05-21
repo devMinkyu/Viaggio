@@ -28,13 +28,15 @@
                     app:layout_constraintTop_toTopOf="parent"
             />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/close"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/common_margin"
                     android:onClick="@{() -> viewHandler.close()}"
-                    app:srcCompat="@drawable/ic_clear_black_24dp"
+                    app:iconGravity="textStart"
+                    app:icon="@drawable/ic_clear_black_24dp"
+                    app:iconTint="@color/almost_black"
                     app:layout_constraintTop_toTopOf="@id/toolbar"
                     app:layout_constraintBottom_toBottomOf="@id/toolbar"
                     app:layout_constraintStart_toStartOf="@id/toolbar"
@@ -51,14 +53,14 @@
                     app:layout_constraintBottom_toBottomOf="@id/toolbar"
                     app:layout_constraintStart_toStartOf="@id/toolbar"
                     tools:ignore="SpUsage"/>
-            <TextView
+            <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:text="@string/confirm"
                     android:fontFamily="sans-serif-light"
                     android:textSize="14dp"
-                    android:padding="14dp"
                     android:onClick="@{() -> viewHandler.confirm()}"
                     app:layout_constraintTop_toTopOf="@id/toolbar"
                     app:layout_constraintEnd_toEndOf="parent"

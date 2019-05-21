@@ -58,9 +58,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelOverseasSubTitle"
         />
-        <View
+        <com.google.android.material.button.MaterialButton
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="60dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:onClick='@{()->viewHandler.selectedKinds("overseas")}'
                 app:layout_constraintStart_toStartOf="@id/travelOverseasTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelOverseasStart"
@@ -103,9 +104,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
         />
 
-        <View
+        <com.google.android.material.button.MaterialButton
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="60dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:onClick='@{()->viewHandler.selectedKinds("domestic")}'
                 app:layout_constraintStart_toStartOf="@id/travelDomesticTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelDomesticStart"
@@ -151,9 +153,10 @@
                 app:layout_constraintBottom_toBottomOf="@id/travelBeforeOverseasSubTitle"
         />
 
-        <View
+        <com.google.android.material.button.MaterialButton
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="60dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:onClick='@{()->viewHandler.selectBeforeKinds("overseas")}'
                 app:layout_constraintStart_toStartOf="@id/travelBeforeOverseasTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
@@ -196,9 +199,10 @@
                 app:layout_constraintBottom_toBottomOf="@id/travelBeforeDomesticSubTitle"
                 app:layout_constraintEnd_toEndOf="parent"
         />
-        <View
+        <com.google.android.material.button.MaterialButton
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="60dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:onClick='@{()->viewHandler.selectBeforeKinds("domestic")}'
                 app:layout_constraintStart_toStartOf="@id/travelBeforeDomesticTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeDomesticStart"

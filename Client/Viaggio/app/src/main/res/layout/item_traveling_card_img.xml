@@ -13,12 +13,14 @@
             android:layout_height="@dimen/travel_card_image_size"
             android:layout_marginEnd="10dp"
     >
-        <View
+        <com.google.android.material.button.MaterialButton
                 android:id="@+id/add"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:cornerRadius="0dp"
                 android:onClick="@{() -> viewHandler.imageAdd()}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/very_light_pink_three"
+                app:backgroundTint="@color/very_light_pink_three"
         />
         <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"

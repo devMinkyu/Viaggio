@@ -21,6 +21,7 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_country.*
+import kotlinx.android.synthetic.main.item_selected_city.view.*
 import kotlinx.android.synthetic.main.item_traveling_country.view.*
 import org.jetbrains.anko.support.v4.dip
 import org.jetbrains.anko.support.v4.toast
@@ -105,6 +106,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
                 override fun onBindViewHolder(holder: TravelingSelectedCountryViewHolder, position: Int) {
                     holder.binding?.data = getViewModel().chooseArea[position]
                     holder.binding?.viewHandler = holder.TravelingSelectedCountryViewHandler()
+
                 }
             }
             selectedCityList.adapter = adapter
