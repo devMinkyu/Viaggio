@@ -51,7 +51,7 @@ def update_travelCard(travelCardId):
     if request.form.get('content') is not None:
         travelCard.content = request.form.get('content')
     db.session.commit()
-    return jsonify({ 'travelCard': travelCard.as_dict() })
+    return jsonify({ 'result': 'Travel card is updated.' })
 
 
 @api.route('/my/travelcards/<int:travelCardId>', methods=['DELETE'])
