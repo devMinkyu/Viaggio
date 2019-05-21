@@ -1,0 +1,221 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+apply plugin: "kotlin-kapt"
+apply plugin: 'com.amazonaws.appsync'
+apply plugin: 'io.fabric'
+//apply plugin: "androidx.navigation.safeargs.kotlin"
+android {
+    compileSdkVersion rootProject.targetSdkVersion
+
+    dataBinding {
+        enabled = true
+    }
+
+    signingConfigs {
+        debug {
+            keyAlias debug_key_alias
+            keyPassword debug_key_pw
+            storeFile file("${debug_key_file_loc}")
+            storePassword debug_key_file_pw
+        }
+        release {
+            keyAlias release_key_alias
+            keyPassword release_key_pw
+            storeFile file("${release_key_file_loc}")
+            storePassword release_key_file_pw
+        }
+    }
+
+    defaultConfig {
+        applicationId "com.kotlin.viaggio"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode version_code.toInteger()
+        versionName version_name
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "OPEN_WEATHER", "\"${viaggio_open_weather}\"")
+        buildConfigField("String", "OPEN_WEATHER_API_KEY", "\"${viaggio_open_weather_api_key}\"")
+        buildConfigField("String", "SERVER_HOST", "\"${viaggio_dev_server_host}\"")
+        buildConfigField("String", "S3_UPLOAD_BUCKET", "\"${viaggio_bucket}\"")
+        buildConfigField("String", "S3_POOL_ID", "\"${aws_s3_pool_id}\"")
+        buildConfigField("String", "AWS_LOGIN_PROVIDER", "\"${aws_login_provider_dev}\"")
+        multiDexEnabled true
+    }
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            minifyEnabled false
+            debuggable true
+            shrinkResources false
+            signingConfig signingConfigs.debug
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            proguardFile 'proguard-common.pro'
+//            proguardFile 'proguard-firebase.pro'
+//            proguardFile 'proguard-okhttp3.pro'
+//            proguardFile 'proguard-retrofit2.pro'
+//            proguardFile 'proguard-gson.pro'
+//            proguardFile 'proguard-rxjava.pro'
+//            proguardFile 'proguard-aws.pro'
+            return void
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFile 'proguard-common.pro'
+            proguardFile 'proguard-firebase.pro'
+            proguardFile 'proguard-okhttp3.pro'
+            proguardFile 'proguard-retrofit2.pro'
+            proguardFile 'proguard-gson.pro'
+            proguardFile 'proguard-rxjava.pro'
+            proguardFile 'proguard-aws.pro'
+
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.google.android.material:material:1.1.0-alpha06'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+    implementation 'com.google.android.material:material:1.1.0-alpha06'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    // workmanager
+    def work_version = "2.1.0-alpha02"
+    implementation "androidx.work:work-runtime-ktx:$work_version"
+    implementation "androidx.work:work-rxjava2:$work_version"
+
+    //dagger
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+
+    //anko
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation "org.jetbrains.anko:anko-appcompat-v7-commons:$anko_version"
+    implementation "org.jetbrains.anko:anko-support-v4-commons:$anko_version"
+    implementation "org.jetbrains.anko:anko-design:$anko_version"
+    // Anko Layouts
+    implementation "org.jetbrains.anko:anko-sdk23:$anko_version" // sdk15, sdk19, sdk21, sdk23 are also available
+    implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
+
+    // lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01"
+    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:1.0.0-alpha01"
+
+    // rxjava
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+
+    // retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    // navigation
+//    def nav_version = "2.0.0"
+//    implementation "androidx.navigation:navigation-fragment:$nav_version" // For Kotlin use navigation-fragment-ktx
+//    implementation "androidx.navigation:navigation-ui:$nav_version"
+
+    //firebase
+    implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.google.firebase:firebase-ml-vision:20.0.0'
+    releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+
+    // viewPager2
+    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha04'
+
+    // lottie
+    implementation "com.airbnb.android:lottie:3.0.2"
+
+    // gilde
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    implementation 'jp.wasabeef:glide-transformations:4.0.1'
+
+    // camera
+    implementation 'io.fotoapparat:fotoapparat:2.6.1'
+
+    // flex
+    implementation 'com.google.android:flexbox:1.1.0'
+
+    def room_version = "2.1.0-alpha07"
+    // room
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
+
+    // paging
+    def paging_version = "2.1.0"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version" // For Kotlin use paging-runtime-ktx
+    testImplementation "androidx.paging:paging-common-ktx:$paging_version" // For Kotlin use paging-common-ktx
+    implementation "androidx.paging:paging-rxjava2-ktx:$paging_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+
+    // swipe close
+    implementation 'com.r0adkll:slidableactivity:2.0.6'
+
+    // calendar
+    implementation 'com.github.psinetron:slycalendarview:0.0.9'
+    implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
+
+    // image crop
+    implementation 'com.naver.android.helloyako:imagecropview:1.2.2'
+
+    // debug
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    debugImplementation 'com.facebook.stetho:stetho:1.5.1'
+    debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
+    // aws
+    //Base SDK
+    implementation 'com.amazonaws:aws-android-sdk-core:2.13.4'
+    //AppSync SDK
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.4'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.13.4'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.13.4'
+
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+
+    implementation 'com.github.ajalt.reprint:core:3.3.1@aar'
+    implementation 'com.github.ajalt.reprint:rxjava2:3.3.1@aar'
+
+    // fingerprint
+//    implementation "androidx.biometric:biometric:1.0.0-alpha04"
+}
+apply plugin: 'com.google.gms.google-services'

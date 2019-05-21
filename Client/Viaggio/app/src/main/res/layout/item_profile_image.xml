@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.setting.SettingProfileImageEnrollFragment.SettingProfileImageEnrollViewHolder.SettingProfileImageEnrollViewHandler"/>
+
+        <variable name="choose" type="androidx.databinding.ObservableInt"/>
+        <variable name="viewHandler" type="SettingProfileImageEnrollViewHandler"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@id/travelingRepresentativeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+    >
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@id/profileListImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_margin="1dp"
+                android:onClick="@{()->viewHandler.imagePicker()}"
+        />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@id/travelingRepresentativeSelectedBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:src="@{choose == 1 ? @drawable/ic_check_black_24dp:@drawable/trans_bg}"
+                android:background="@{choose == 1 ? @drawable/traveling_card_choosing_bg:@drawable/traveling_card_choose_bg}"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:elevation="1dp"
+                app:layout_constraintEnd_toEndOf="@id/profileListImage"
+                app:layout_constraintTop_toTopOf="@id/profileListImage"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

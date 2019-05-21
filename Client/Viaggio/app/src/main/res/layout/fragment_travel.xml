@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.travel.TravelFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.travel.TravelFragmentViewModel"/>
+
+        <variable name="viewModel" type="com.kotlin.viaggio.view.travel.TravelFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white_three">
+        <com.google.android.material.appbar.AppBarLayout
+                android:id="@id/travelAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/AppTheme.AppBarOverlay"
+                android:background="@color/white_three"
+                app:layout_constraintTop_toTopOf="parent"
+                app:elevation="0dp">
+            <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:gravity="center"
+                    android:background="@color/white_three"
+                    app:titleTextColor="@color/black"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    tools:ignore="UnusedAttribute">
+                <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/back"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        app:srcCompat="@drawable/icon_menu"
+                        android:paddingTop="16dp"
+                        android:paddingBottom="16dp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="16dp"
+                        android:onClick="@{()->viewHandler.setting()}"
+                />
+                <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/tool_bar_title"
+                />
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="15dp"
+                android:lineSpacingExtra="3.8dp"
+                android:textColor="@color/almost_black"
+                android:fontFamily="sans-serif"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelAppBar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/title_sub"
+                android:text="@{viewModel.travelingKind}"
+                android:visibility="@{viewModel.travelingKind == `` ? View.GONE:View.VISIBLE}"
+                tools:text="@string/travel_overseas"
+                tools:ignore="SpUsage"/>
+        <TextView
+                android:id="@+id/title_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="10dp"
+                android:lineSpacingExtra="2.8dp"
+                android:textColor="@color/pinkish_grey"
+                android:fontFamily="sans-serif"
+                android:layout_marginTop="6.5dp"
+                app:layout_constraintStart_toStartOf="@id/title"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintEnd_toEndOf="@id/title"
+                android:text="@{viewModel.traveling}"
+                tools:text="@string/traveling_notice"
+                tools:ignore="SpUsage"/>
+        <Spinner
+                android:id="@id/travelSpinner"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_bg"
+                android:backgroundTint="@color/white_three"
+                android:layout_marginBottom="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/travelPager">
+
+        </Spinner>
+        <androidx.viewpager.widget.ViewPager
+                android:id="@id/travelPager"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.5885"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingEnd="@dimen/card_padding"
+                android:paddingStart="@dimen/card_padding"
+                android:layout_marginBottom="60.3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.camera.CameraFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.camera.CameraFragmentViewModel"/>
+
+        <variable name="viewModel" type="CameraFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+
+    <FrameLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/camera_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:theme="@style/AppTheme.Camera"
+                android:background="@android:color/black"
+                android:fitsSystemWindows="true"
+        >
+
+            <com.airbnb.lottie.LottieAnimationView
+                    android:id="@id/ocrLottie"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="@{viewModel.isImageMake ? View.VISIBLE:View.GONE}"
+                    android:elevation="5dp"
+                    android:scaleType="centerCrop"
+                    app:lottie_fileName="lottie/scanning.json"
+                    app:lottie_enableMergePathsForKitKatAndAbove="true"
+                    app:lottie_loop="true"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:padding="10dp"
+                        android:visibility="@{viewModel.isVisionTextRecognizer ? View.VISIBLE:View.GONE}"
+                        android:onClick="@{()->viewHandler.confirm()}"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:textColor="@android:color/white"
+                        android:text="확인"
+                        tools:ignore="HardcodedText"/>
+                <androidx.cardview.widget.CardView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:cardCornerRadius="10dp"
+                        android:layout_marginTop="40dp"
+                        android:layout_marginBottom="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+                    <io.fotoapparat.view.CameraView
+                            android:id="@id/cameraView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="@{viewModel.isImageMake ? View.GONE:View.VISIBLE}"
+                    />
+                    <ImageView
+                            android:id="@id/ocrImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
+                            android:visibility="@{viewModel.isImageMake ? View.VISIBLE:View.GONE}"/>
+                </androidx.cardview.widget.CardView>
+                <ImageView
+                        android:id="@id/cameraViewShutter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/camera_shutter_bg"
+                        android:onClick="@{() -> viewHandler.shutter()}"
+                        android:layout_marginBottom="50dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                        android:id="@id/cameraViewClose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/camera_close_bg"
+                        android:layout_marginEnd="23dp"
+                        android:src="@drawable/btn_cancel"
+                        android:scaleType="center"
+                        android:onClick="@{() -> viewHandler.close()}"
+                        app:layout_constraintTop_toTopOf="@id/cameraViewShutter"
+                        app:layout_constraintBottom_toBottomOf="@id/cameraViewShutter"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                        android:id="@id/cameraViewImage"
+                        android:layout_width="40.5dp"
+                        android:layout_height="40.5dp"
+                        android:layout_marginStart="23dp"
+                        android:background="@drawable/album"
+                        android:src="@drawable/empty_gallery"
+                        android:scaleType="centerCrop"
+                        android:onClick="@{() -> viewHandler.imageOpen()}"
+                        app:layout_constraintTop_toTopOf="@id/cameraViewShutter"
+                        app:layout_constraintBottom_toBottomOf="@id/cameraViewShutter"
+                        app:layout_constraintStart_toStartOf="parent"/>
+                <androidx.constraintlayout.widget.Group
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="@{viewModel.isImageMake ? View.GONE:View.VISIBLE}"
+                        android:elevation="5dp"
+                        app:constraint_referenced_ids="
+                    cameraViewShutter, cameraViewClose, cameraViewImage"
+                        tools:ignore="NotSibling"/>
+
+                <ImageView
+                        android:id="@id/ocrRetake"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/camera_close_bg"
+                        android:layout_marginStart="23dp"
+                        android:src="@drawable/upload_camera_retake"
+                        android:scaleType="center"
+                        android:onClick="@{()->viewHandler.retake()}"
+                        android:visibility="@{viewModel.isImageMake ? View.VISIBLE:View.GONE}"
+                        android:elevation="5dp"
+                        android:layout_marginBottom="50dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@id/cameraViewImageBottomSheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elevation="1dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@android:color/white"
+                    app:behavior_hideable="true"
+                    app:behavior_peekHeight="200dp"
+                    app:layout_behavior="@string/bottom_sheet_behavior"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+                <androidx.recyclerview.widget.RecyclerView
+                        android:id="@id/cameraViewImageAllList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </FrameLayout>
+</layout>

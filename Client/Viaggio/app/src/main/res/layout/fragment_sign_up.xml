@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+>
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.sign.SignUpFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.sign.SignUpFragmentViewModel"/>
+
+        <variable name="viewModel" type="SignUpFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+    >
+        <androidx.core.widget.NestedScrollView
+                android:id="@+id/sign_up_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:background="@color/white_three"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@id/signUpContainer"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/background"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                        style="@style/ViewStyle.Viaggio.Back"
+                        android:src="@drawable/ic_keyboard_arrow_left_white_24dp"
+                        android:onClick="@{() ->viewHandler.back()}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                />
+                <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/luncher_icon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="200dp"
+                />
+                <EditText
+                        android:id="@id/signUpNameEdit"
+                        style="@style/ViewStyle.Viaggio.Sign"
+                        android:textColorHint="@color/very_light_pink"
+                        android:textColor="@android:color/white"
+                        android:hint="@string/sign_up_name"
+                        android:inputType="text"
+                        android:background="@drawable/sign_edit_txt_bg"
+                        android:text="@={viewModel.name}"
+                        android:layout_marginTop="50dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/logo"
+                        tools:ignore="Autofill"/>
+                <EditText
+                        android:id="@id/signUpEmailEdit"
+                        style="@style/ViewStyle.Viaggio.Sign"
+                        android:fontFamily="@font/comfortaa"
+                        android:textColorHint="@color/very_light_pink"
+                        android:textColor="@android:color/white"
+                        android:hint="@string/sign_in_email"
+                        android:inputType="textWebEmailAddress"
+                        android:background="@drawable/sign_edit_txt_bg"
+                        android:text="@={viewModel.email}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signUpNameEdit"
+                        tools:ignore="Autofill"/>
+                <EditText
+                        android:id="@id/signUpPasswordEdit"
+                        style="@style/ViewStyle.Viaggio.Sign"
+                        android:textColorHint="@color/very_light_pink"
+                        android:textColor="@android:color/white"
+                        android:maxLength="20"
+                        android:hint="@string/sign_in_password"
+                        android:fontFamily="@font/comfortaa"
+                        android:inputType="textWebPassword"
+                        android:background="@drawable/sign_edit_txt_bg"
+                        android:text="@={viewModel.password}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signUpEmailEdit"
+                        tools:ignore="Autofill"/>
+                <EditText
+                        android:id="@id/signUpConfirmPasswordEdit"
+                        style="@style/ViewStyle.Viaggio.Sign"
+                        android:textColorHint="@color/very_light_pink"
+                        android:textColor="@android:color/white"
+                        android:maxLength="20"
+                        android:hint="@string/sign_up_confirm_password"
+                        android:fontFamily="@font/comfortaa"
+                        android:inputType="textWebPassword"
+                        android:background="@drawable/sign_edit_txt_bg"
+                        android:text="@={viewModel.confirmPassword}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signUpPasswordEdit"
+                        tools:ignore="Autofill"/>
+                <TextView
+                        android:id="@id/signUpBtn"
+                        style="@style/ViewStyle.Viaggio.Sign"
+                        android:text="@string/sign_up"
+                        android:onClick="@{() -> viewHandler.signUp()}"
+                        android:enabled="@{viewModel.isFormValid}"
+                        android:backgroundTint="@{viewModel.isFormValid ? @color/colorPrimary:@color/brown_grey}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signUpConfirmPasswordEdit"/>
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        app:layout_constraintTop_toBottomOf="@id/signUpBtn"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </FrameLayout>
+</layout>

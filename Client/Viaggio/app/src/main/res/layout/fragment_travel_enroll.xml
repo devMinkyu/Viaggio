@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragmentViewModel"/>
+
+        <variable name="viewModel" type="com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@id/travelingContainer"
+                android:background="@color/white_three">
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/back"
+                    style="@style/ViewStyle.Viaggio.Back"
+                    android:onClick="@{()->viewHandler.back()}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="@android:color/black"/>
+            <TextView
+                    android:id="@+id/enroll_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Viaggio.Navigation"
+                    android:layout_marginStart="31.7dp"
+                    android:layout_marginTop="@dimen/tool_bar_title"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/verticalSpace3"
+                    android:text="@string/travel_enroll_notice"
+                    tools:ignore="SpUsage"/>
+
+            <Space
+                    android:id="@+id/verticalSpace3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="131.7"
+                    app:layout_constraintTop_toBottomOf="@id/enroll_title"
+                    app:layout_constraintBottom_toTopOf="@id/travelingCountryNotice"
+            />
+            <TextView
+                    android:id="@id/travelingCountryNotice"
+                    style="@style/ViewStyle.Viaggio.Enroll"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/verticalSpace3"
+                    app:layout_constraintBottom_toTopOf="@id/verticalSpace4"
+                    android:text="@string/travel_enroll_country"
+                    tools:ignore="SpUsage"/>
+
+            <Space
+                    android:id="@+id/verticalSpace4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="25.3"
+                    app:layout_constraintTop_toBottomOf="@id/travelingCountryNotice"
+                    app:layout_constraintBottom_toTopOf="@id/travelingCountry"
+            />
+            <EditText
+                    android:id="@id/travelingCountry"
+                    android:hint="@string/travel_enroll_country_hint"
+                    android:text="@{viewModel.travelingStartOfCountry}"
+                    android:textColorHint="@color/silver"
+                    style="@style/ViewStyle.Viaggio.Enroll.Value"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:ellipsize="end"
+                    android:onClick="@{() -> viewHandler.addCountry()}"
+                    app:layout_constraintTop_toBottomOf="@id/verticalSpace4"
+                    app:layout_constraintBottom_toTopOf="@id/verticalSpace5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="Autofill"/>
+
+            <Space
+                    android:id="@+id/verticalSpace5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="31"
+                    app:layout_constraintTop_toBottomOf="@id/travelingCountry"
+                    app:layout_constraintBottom_toTopOf="@id/travelingDayNotice"
+            />
+            <TextView
+                    android:id="@id/travelingDayNotice"
+                    style="@style/ViewStyle.Viaggio.Enroll"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/verticalSpace5"
+                    app:layout_constraintBottom_toTopOf="@id/verticalSpace6"
+                    android:text="@string/travel_enroll_day"
+                    tools:ignore="SpUsage"/>
+
+            <Space
+                    android:id="@+id/verticalSpace6"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="25.3"
+                    app:layout_constraintTop_toBottomOf="@id/travelingDayNotice"
+                    app:layout_constraintBottom_toTopOf="@id/travelingDay"
+            />
+
+            <EditText
+                    android:id="@id/travelingDay"
+                    style="@style/ViewStyle.Viaggio.Enroll.Value"
+                    android:text="@{viewModel.travelingStartOfDay}"
+                    android:onClick="@{() -> viewHandler.changeDate()}"
+                    app:layout_constraintTop_toBottomOf="@id/verticalSpace6"
+                    app:layout_constraintBottom_toTopOf="@id/verticalSpace7"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:hint="@string/travel_enroll_day_hint"
+                    tools:ignore="Autofill"/>
+
+
+            <Space
+                    android:id="@+id/verticalSpace7"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="31"
+                    app:layout_constraintTop_toBottomOf="@id/travelingDay"
+                    app:layout_constraintBottom_toTopOf="@id/travelingThemeNotice"
+            />
+            <TextView
+                    android:id="@id/travelingThemeNotice"
+                    style="@style/ViewStyle.Viaggio.Enroll"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/verticalSpace7"
+                    app:layout_constraintBottom_toTopOf="@id/verticalSpace8"
+                    android:text="@string/travel_enroll_theme"
+                    tools:ignore="SpUsage"/>
+            <Space
+                    android:id="@+id/verticalSpace8"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="25.3"
+                    app:layout_constraintTop_toBottomOf="@id/travelingThemeNotice"
+                    app:layout_constraintBottom_toTopOf="@id/travelingTheme"
+            />
+
+            <EditText
+                    android:id="@id/travelingTheme"
+                    style="@style/ViewStyle.Viaggio.Enroll.Value"
+                    android:text="@{viewModel.travelThemes}"
+                    android:onClick="@{() -> viewHandler.addTheme()}"
+                    android:inputType="textMultiLine"
+                    android:maxLines="5"
+                    android:ellipsize="end"
+                    app:layout_constraintTop_toBottomOf="@id/verticalSpace8"
+                    app:layout_constraintBottom_toTopOf="@id/verticalSpace9"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:hint="@string/travel_enroll_theme_hint"
+                    tools:ignore="Autofill"/>
+
+
+            <Space
+                    android:id="@+id/verticalSpace9"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintVertical_weight="75.3"
+                    app:layout_constraintTop_toBottomOf="@id/travelingTheme"
+                    app:layout_constraintBottom_toTopOf="@id/travelingStart"
+            />
+
+            <TextView
+                    android:id="@id/travelingStart"
+                    style="@style/ViewStyle.Viaggio.Btn"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:background="@{viewModel.themeExist &amp;&amp; viewModel.countryExist ? @color/colorPrimary:@color/very_light_pink}"
+                    android:enabled="@{viewModel.themeExist &amp;&amp; viewModel.countryExist}"
+                    android:onClick="@{() -> viewHandler.travelStart()}"
+                    android:text="@string/travel_start"
+                    tools:background="@color/very_light_pink"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

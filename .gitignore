@@ -1,0 +1,13 @@
+*.iml
+.gradle
+/local.properties
+/.idea
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+app/release/output.json
+app/release/app-release.apk
+amplify
+.amplifyrc
+app/release/app.aab

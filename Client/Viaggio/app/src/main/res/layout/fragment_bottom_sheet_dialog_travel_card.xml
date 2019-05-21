@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragmentViewModel"/>
+
+        <variable name="viewModel" type="TravelCardBottomSheetDialogFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_three"
+            android:onClick="@{()->viewHandler.close()}"
+    >
+
+        <TextView
+                android:id="@id/travelOptionTitle"
+                style="@style/ViewStyle.Viaggio.Travel.Option"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/travel_card_modify"
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/common_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{()->viewHandler.modify()}"
+        />
+
+        <TextView
+                android:id="@id/travelOptionAddCountry"
+                style="@style/ViewStyle.Viaggio.Travel.Option"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/travel_card_delete"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelOptionTitle"
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/common_margin"
+                android:onClick="@{()->viewHandler.delete()}"
+        />
+
+        <Space android:layout_width="match_parent"
+               android:layout_height="@dimen/common_top"
+               app:layout_constraintTop_toBottomOf="@id/travelOptionAddCountry"
+               app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

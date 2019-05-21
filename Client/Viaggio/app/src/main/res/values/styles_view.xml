@@ -1,0 +1,114 @@
+<resources>
+    <style name="ViewStyle.Viaggio" parent="">
+    </style>
+
+    <style name="ViewStyle.Viaggio.Kinds">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Travel.Kind</item>
+        <item name="android:layout_marginStart">@dimen/travel_kind_margin</item>
+        <item name="android:layout_marginTop">12.7dp</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Kinds.Sub">
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Travel.Kind.Sub</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Enroll">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Travel.Enroll</item>
+        <item name="android:layout_marginStart">@dimen/travel_kind_margin</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Enroll.Value">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginEnd">@dimen/travel_kind_margin</item>
+        <item name="android:inputType">text</item>
+        <item name="android:clickable">false</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:gravity">end</item>
+        <item name="android:textColorHint">@color/silver</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">62dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Btn</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Back">
+        <item name="android:layout_width">@dimen/back_size</item>
+        <item name="android:layout_height">@dimen/back_size</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:src">@drawable/ic_keyboard_arrow_left_black_24dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginStart">@dimen/common_margin</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Option">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/stroke_primary_bg</item>
+        <item name="android:layout_marginStart">@dimen/common_margin</item>
+        <item name="android:layout_marginEnd">@dimen/common_margin</item>
+        <item name="android:layout_marginBottom">@dimen/common_margin</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Option</item>
+    </style>
+
+    <style name="ViewStyle.Viaggio.Sign">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/sign_height</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/sign_normal_btn_bg</item>
+        <item name="android:layout_marginStart">@dimen/common_margin</item>
+        <item name="android:layout_marginEnd">@dimen/common_margin</item>
+        <item name="android:layout_marginTop">@dimen/common_top</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Sign</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Travel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/sign_height</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Travel.Option">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginStart">@dimen/common_margin</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Travel.Option</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Setting">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/common_top</item>
+        <item name="android:layout_marginEnd">@dimen/common_top</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:drawablePadding">@dimen/common_top</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Setting</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Setting.Profile">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginStart">40dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:drawablePadding">@dimen/common_top</item>
+        <item name="android:gravity">end|center_vertical</item>
+    </style>
+    <style name="ViewStyle.Viaggio.Lock">
+        <item name="android:layout_height">80dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_columnWeight">1</item>
+        <item name="backgroundTint">@color/lock_click</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Lock</item>
+    </style>
+
+</resources>

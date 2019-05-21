@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <import type="com.kotlin.viaggio.view.camera.CameraFragment.CameraViewHolder.CameraViewHandler"/>
+        <import type="android.view.View"/>
+
+        <variable name="viewHandler" type="CameraViewHandler"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@id/cameraViewContainer"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+    >
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@id/cameraViewListImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:layout_margin="1dp"
+                android:onClick="@{()->viewHandler.imagePicker()}"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

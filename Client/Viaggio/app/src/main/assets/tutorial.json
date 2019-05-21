@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "animRes":"lottie/tutorial_first.json",
+      "title": "One",
+      "contents": "One pager is best"
+    },
+    {
+      "animRes":"lottie/tutorial_third.json",
+      "title": "Three",
+      "contents": "Three pager is best"
+    },
+    {
+      "animRes":"lottie/tutorial_four.json",
+      "title": "Four",
+      "contents": "Four pager is best"
+    },
+    {
+      "animRes":"lottie/tutorial_five.json",
+      "title": "Five",
+      "contents": "Five pager is best"
+    }
+  ]
+}
+
