@@ -68,7 +68,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
         val traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
         if (traveling) {
             val timeCheckWorker = OneTimeWorkRequestBuilder<TimeCheckWorker>().build()
-            WorkManager.getInstance().enqueue(timeCheckWorker)
+            WorkManager.getInstance(context!!).enqueue(timeCheckWorker)
         }
     }
     override fun onStop() {

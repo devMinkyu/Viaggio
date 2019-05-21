@@ -65,13 +65,13 @@
                 <!--<androidx.constraintlayout.widget.Group-->
                         <!--android:layout_width="0dp"-->
                         <!--android:layout_height="0dp"-->
-                        <!--android:visibility="@{viewModel.isLogin ? View.GONE:View.VISIBLE}"-->
+                        <!--android:visibility="gone"-->
                         <!--app:constraint_referenced_ids="settingSign, settingSignNotice"-->
                         <!--tools:ignore="UnknownId"/>-->
                 <androidx.constraintlayout.widget.Group
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:visibility="gone"
+                        android:visibility="@{viewModel.isLogin ? View.GONE:View.VISIBLE}"
                         app:constraint_referenced_ids="settingSign, settingSignNotice"
                         tools:ignore="UnknownId"/>
                 <View
@@ -139,7 +139,7 @@
                         app:layout_constraintTop_toTopOf="@id/settingEtc"
                         app:layout_constraintEnd_toEndOf="@id/settingEtc"
                         android:onClick="@{()->viewHandler.myProfile()}"
-                />
+                        tools:ignore="PrivateResource"/>
 
                 <TextView
                         android:id="@id/settingPassword"
@@ -151,7 +151,7 @@
                         app:layout_constraintEnd_toEndOf="@id/settingEtc"
                         app:layout_constraintTop_toBottomOf="@id/settingMyProfile"
                         android:onClick="@{()->viewHandler.password()}"
-                />
+                        tools:ignore="PrivateResource"/>
 
                 <TextView
                         android:id="@id/settingSync"
@@ -163,7 +163,7 @@
                         app:layout_constraintEnd_toEndOf="@id/settingEtc"
                         app:layout_constraintTop_toBottomOf="@id/settingPassword"
                         android:onClick="@{()->viewHandler.uploadCheck()}"
-                />
+                        tools:ignore="PrivateResource"/>
                 <TextView
                         android:id="@id/settingLogout"
                         android:text="@string/setting_logout"
@@ -213,19 +213,7 @@
                         android:drawableStart="@drawable/ic_lock_black_24dp"
                         app:layout_constraintStart_toStartOf="@id/settingEntire"
                         app:layout_constraintEnd_toEndOf="@id/settingEntire"
-                        app:layout_constraintTop_toBottomOf="@id/settingImage"
-                />
-
-                <TextView
-                        android:id="@id/settingAutoUpload"
-                        android:text="@string/setting_upload"
-                        style="@style/ViewStyle.Viaggio.Setting"
-                        android:onClick="@{()->viewHandler.autoUpload()}"
-                        android:visibility="gone"
-                        android:drawableStart="@drawable/ic_cloud_upload"
-                        app:layout_constraintStart_toStartOf="@id/settingEntire"
-                        app:layout_constraintEnd_toEndOf="@id/settingEntire"
-                        app:layout_constraintTop_toBottomOf="@id/settingLock"
+                        app:layout_constraintTop_toBottomOf="@id/settingAutoUpload"
                 />
 
                 <TextView
@@ -241,29 +229,41 @@
                         app:layout_constraintTop_toTopOf="@id/settingLock"
                         app:layout_constraintBottom_toBottomOf="@id/settingLock"
                         tools:text="@string/lock_off"
-                        tools:ignore="SpUsage"/>
+                        tools:ignore="PrivateResource,SpUsage"/>
                 <!--<TextView-->
                         <!--android:id="@id/settingAutoUpload"-->
                         <!--android:text="@string/setting_upload"-->
                         <!--style="@style/ViewStyle.Viaggio.Setting"-->
                         <!--android:onClick="@{()->viewHandler.autoUpload()}"-->
                         <!--android:drawableStart="@drawable/ic_cloud_upload"-->
+                        <!--android:visibility="gone"-->
                         <!--app:layout_constraintStart_toStartOf="@id/settingEntire"-->
                         <!--app:layout_constraintEnd_toEndOf="@id/settingEntire"-->
                         <!--app:layout_constraintTop_toBottomOf="@id/settingImage"-->
                 <!--/>-->
+                <TextView
+                        android:id="@id/settingAutoUpload"
+                        android:text="@string/setting_upload"
+                        style="@style/ViewStyle.Viaggio.Setting"
+                        android:onClick="@{()->viewHandler.autoUpload()}"
+                        android:drawableStart="@drawable/ic_cloud_upload"
+                        app:layout_constraintStart_toStartOf="@id/settingEntire"
+                        app:layout_constraintEnd_toEndOf="@id/settingEntire"
+                        app:layout_constraintTop_toBottomOf="@id/settingImage"
+                />
                 <TextView
                         android:id="@id/settingAppVersion"
                         android:text="@string/setting_app_version"
                         android:layout_marginBottom="5dp"
                         style="@style/ViewStyle.Viaggio.Setting"
                         app:layout_constraintStart_toStartOf="@id/settingEntire"
-                        app:layout_constraintTop_toBottomOf="@id/settingAutoUpload"
+                        app:layout_constraintTop_toBottomOf="@id/settingLock"
                 />
                 <TextView
                         style="@style/ViewStyle.Viaggio.Setting"
                         android:text="@{viewModel.appVersion}"
-                        app:layout_constraintTop_toBottomOf="@id/settingAutoUpload"
+                        app:layout_constraintTop_toTopOf="@id/settingAppVersion"
+                        app:layout_constraintBottom_toBottomOf="@id/settingAppVersion"
                         app:layout_constraintEnd_toEndOf="@id/settingEntire"
                         tools:text="10.22.11614"
                         android:fontFamily="@font/rajdhani_medium"/>

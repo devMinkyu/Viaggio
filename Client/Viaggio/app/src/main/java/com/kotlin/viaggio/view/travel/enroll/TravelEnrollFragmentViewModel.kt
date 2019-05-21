@@ -160,7 +160,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(disposable)
 
         val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()
-        WorkManager.getInstance().enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name, ExistingPeriodicWorkPolicy.KEEP, timeCheckWork)
+        WorkManager.getInstance(appCtx.get()).enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name, ExistingPeriodicWorkPolicy.KEEP, timeCheckWork)
         return true
     }
 

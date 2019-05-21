@@ -86,7 +86,7 @@
     <string name="travel_card_start">등록</string>
     <string name="city_start">도시 선택</string>
     <string name="image_start">사진 선택</string>
-    <string name="travel_enroll_notice">새로운 해외여행 등록</string>
+    <string name="travel_enroll_notice">새로운 여행 등록</string>
     <string name="travel_card_enroll_notice">여행 포스팅 쓰기</string>
     <string name="travel_card_enroll_hint">여기를 터치해서 글을 작성하세요!\n일자를 구분해서 여행의 기억을\n남기실 수 있습니다.</string>
     <string name="travel_enroll_country">새로운 여행지</string>
@@ -153,4 +153,5 @@
     <string name="finger_print">지문 인식</string>
     <string name="finger_print_notice">지문 인식 센서에 지문을 인식해주세요.</string>
     <string name="pw_btn">암호 입력</string>
+    <string name="traveling">여행 중 입니다.</string>
 </resources>

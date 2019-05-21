@@ -83,10 +83,6 @@ interface ViaggioApiService {
     ): Single<Response<Any>>
 
     @DELETE("api/v1/my/travels/{serverId}")
-    @Headers(
-        "Content-Type: application/x-www-form-urlencoded"
-    )
-    @FormUrlEncoded
     fun deleteTravel(
         @Path("serverId") serverId: Int
     ): Single<Response<Any>>
@@ -118,14 +114,9 @@ interface ViaggioApiService {
     ): Single<Response<Any>>
 
     @DELETE("api/v1/my/travelcards/{serverId}")
-    @Headers(
-        "Content-Type: application/x-www-form-urlencoded"
-    )
-    @FormUrlEncoded
     fun deleteTravelCard(
         @Path("serverId") serverId: Int
     ):Single<Response<Any>>
-
 
     @Singleton
     class TokenInterceptor @Inject constructor() : Interceptor {

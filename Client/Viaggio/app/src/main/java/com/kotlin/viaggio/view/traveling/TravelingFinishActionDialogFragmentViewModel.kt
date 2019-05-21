@@ -56,7 +56,7 @@ class TravelingFinishActionDialogFragmentViewModel @Inject constructor() : BaseV
             }
             .subscribe({
                 val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()
-                WorkManager.getInstance().enqueueUniquePeriodicWork(
+                WorkManager.getInstance(appCtx.get()).enqueueUniquePeriodicWork(
                     WorkerName.TRAVELING_OF_DAY_CHECK.name,
                     ExistingPeriodicWorkPolicy.REPLACE, timeCheckWork
                 )

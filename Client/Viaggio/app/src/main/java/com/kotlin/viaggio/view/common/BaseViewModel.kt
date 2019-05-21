@@ -9,6 +9,7 @@ import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.RxEventBus
+import com.kotlin.viaggio.worker.DeleteTravelWorker
 import com.kotlin.viaggio.worker.UpdateTravelWorker
 import com.kotlin.viaggio.worker.UploadTravelWorker
 import dagger.Lazy
@@ -48,13 +49,22 @@ abstract class BaseViewModel:ViewModel() {
     }
     open fun initialize() {}
 
+    fun deleteWork(data: Any) {
+        val workData = loadData(data)
+        val travelWork = OneTimeWorkRequestBuilder<DeleteTravelWorker>()
+            .setConstraints(constraints)
+            .setInputData(workData)
+            .build()
+        WorkManager.getInstance(appCtx.get()).enqueue(travelWork)
+    }
+
     fun updateWork(data: Any) {
         val workData = loadData(data)
         val travelWork = OneTimeWorkRequestBuilder<UpdateTravelWorker>()
             .setConstraints(constraints)
             .setInputData(workData)
             .build()
-        WorkManager.getInstance().enqueue(travelWork)
+        WorkManager.getInstance(appCtx.get()).enqueue(travelWork)
     }
 
     fun uploadWork(data: Any) {
@@ -63,7 +73,7 @@ abstract class BaseViewModel:ViewModel() {
             .setConstraints(constraints)
             .setInputData(workData)
             .build()
-        WorkManager.getInstance().enqueue(travelWork)
+        WorkManager.getInstance(appCtx.get()).enqueue(travelWork)
     }
 
     private fun loadData(data: Any): Data{

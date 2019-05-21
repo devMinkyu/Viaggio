@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.traveling.detail
 
+import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
@@ -106,6 +107,16 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
         travelCard.isDelete = true
         travelCard.userExist = false
         val disposable = travelLocalModel.updateTravelCard(travelCard)
+            .andThen {
+                val token = travelLocalModel.getToken()
+                val mode = travelLocalModel.getUploadMode()
+                if (TextUtils.isEmpty(token).not() && mode != 2 && travelCard.serverId != 0) {
+                    deleteWork(travelCard)
+                    it.onComplete()
+                } else {
+                    it.onComplete()
+                }
+            }
             .subscribe({
                 rxEventBus.travelCardUpdate.onNext(Any())
                 completeLiveData.postValue(Event(true))

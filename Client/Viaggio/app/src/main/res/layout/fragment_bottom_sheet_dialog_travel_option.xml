@@ -88,6 +88,7 @@
                 android:id="@id/travelOptionRepresentativeImage"
                 style="@style/ViewStyle.Viaggio.Travel.Option"
                 android:text="@string/travel_option_image"
+                android:enabled="@{viewModel.isExistTravelCard}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/travelOptionAddTheme"

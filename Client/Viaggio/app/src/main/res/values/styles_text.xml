@@ -53,7 +53,7 @@
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
     <style name="TextAppearance.Viaggio.Travel.Option">
-        <item name="android:textColor">@color/almost_black</item>
+        <item name="android:textColor">@color/setting_enable_color</item>
         <item name="android:textSize" tools:ignore="SpUsage">17dp</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3.3dp</item>
