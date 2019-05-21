@@ -152,4 +152,5 @@
     <string name="lock_off">꺼짐</string>
     <string name="finger_print">지문 인식</string>
     <string name="finger_print_notice">지문 인식 센서에 지문을 인식해주세요.</string>
+    <string name="pw_btn">암호 입력</string>
 </resources>

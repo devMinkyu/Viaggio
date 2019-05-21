@@ -44,6 +44,7 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
                     activity!!.finish()
                     false
                 } else {
+                    dismiss()
                     true
                 }
             } else {
@@ -84,7 +85,6 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
                 }
             }
         })
-        finger_print_anim.progress = 0.25f
         getViewModel().fingerPrintHelpLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {value ->
                 if(value) {
@@ -102,7 +102,7 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
                     val animator = finger_print_anim.animate()
                         .setDuration(100)
                         .x(0f)
-                        .xBy(10f)
+                        .xBy(15f)
                         .setInterpolator(CycleInterpolator(5f))
                     animator.start()
                 }
@@ -110,9 +110,9 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        if(getViewModel().fingerPrint != getViewModel().isExistFingerPrint.get()){
+    override fun onResume() {
+        super.onResume()
+        if(getViewModel().fingerPrint != getViewModel().isExistFingerPrint.get() && getViewModel().enrollMode.get().not()){
             getViewModel().fingerPrintCheck()
         }
     }
@@ -126,6 +126,9 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
         }
         fun close(){
             dismiss()
+        }
+        fun directPw(){
+            getViewModel().isExistFingerPrint.set(false)
         }
     }
 }

@@ -183,8 +183,9 @@
 
         <com.airbnb.lottie.LottieAnimationView
                 android:id="@id/finger_print_anim"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
                 tools:ignore="ContentDescription"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -205,11 +206,25 @@
                 app:layout_constraintStart_toStartOf="@id/finger_print_anim"
                 app:layout_constraintEnd_toEndOf="@id/finger_print_anim"
                 tools:ignore="SpUsage"/>
+        <TextView
+                android:id="@+id/password_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/brown_grey"
+                android:textSize="20dp"
+                android:text="@string/pw_btn"
+                android:layout_marginBottom="40dp"
+                android:onClick="@{()->viewHandler.directPw()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/finger_print_anim"
+                app:layout_constraintEnd_toEndOf="@id/finger_print_anim"
+                tools:ignore="SpUsage"/>
         <androidx.constraintlayout.widget.Group
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="@{viewModel.isExistFingerPrint ? View.VISIBLE:View.GONE}"
-                app:constraint_referenced_ids="finger_print_anim, finger_print_anim_notice"
+                app:constraint_referenced_ids="finger_print_anim, finger_print_anim_notice, password_btn"
                 tools:ignore="UnknownId"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

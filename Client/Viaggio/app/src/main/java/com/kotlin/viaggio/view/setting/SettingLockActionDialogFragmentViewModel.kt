@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.setting
 
 import android.text.TextUtils
+import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
@@ -12,6 +13,7 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.disposables.Disposable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -29,22 +31,21 @@ class SettingLockActionDialogFragmentViewModel @Inject constructor() : BaseViewM
     var fingerPrint = false
     var currentPosition = 0
 
-    var fingerPrintDisposable:Disposable? = null
     override fun initialize() {
         super.initialize()
         settingPassword()
         Reprint.initialize(appCtx.get())
-        fingerPrint = prefUtilService.getBool(AndroidPrefUtilService.Key.FINGER_PRINT_LOCK_APP).blockingGet()
-
-        if(enrollMode.get().not()){
-            fingerPrintCheck()
+        if(Reprint.hasFingerprintRegistered().not()){
+            prefUtilService.putBool(AndroidPrefUtilService.Key.FINGER_PRINT_LOCK_APP, false).blockingAwait()
+        } else {
+            fingerPrint = prefUtilService.getBool(AndroidPrefUtilService.Key.FINGER_PRINT_LOCK_APP).blockingGet()
         }
     }
     fun fingerPrintCheck(){
-        fingerPrintDisposable?.dispose()
         if (fingerPrint) {
             isExistFingerPrint.set(fingerPrint)
             val disposable = RxReprint.authenticate()
+                .subscribeOn(Schedulers.io())
                 .subscribe({
                     when (it.status) {
                         AuthenticationResult.Status.SUCCESS -> {
@@ -56,14 +57,12 @@ class SettingLockActionDialogFragmentViewModel @Inject constructor() : BaseViewM
                         AuthenticationResult.Status.FATAL_FAILURE -> {
                             isExistFingerPrint.set(false)
                         }
-                        else -> {
-
-                        }
+                        else -> { }
                     }
                 }){
                     Timber.d(it)
                 }
-            fingerPrintDisposable = disposable
+            addDisposable(disposable)
         }
     }
     private fun settingPassword(){
@@ -110,10 +109,5 @@ class SettingLockActionDialogFragmentViewModel @Inject constructor() : BaseViewM
             currentPosition -= 1
             password[currentPosition] = null
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        fingerPrintDisposable?.dispose()
     }
 }
