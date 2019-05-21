@@ -83,7 +83,7 @@ class TravelingThemesActionDialogFragment:BaseDialogFragment<TravelingThemesActi
                             getViewModel().chooseThemesList.add(it)
                             it.select.set(it.select.get().not())
                         }else{
-                            toast("꽉참 경고문")
+                            toast(resources.getText(R.string.theme_max))
                         }
                     }
                 }

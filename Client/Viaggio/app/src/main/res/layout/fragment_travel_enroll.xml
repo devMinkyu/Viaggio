@@ -19,9 +19,10 @@
                 android:layout_height="match_parent"
                 android:id="@id/travelingContainer"
                 android:background="@color/white_three">
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/back"
                     style="@style/ViewStyle.Viaggio.Back"
+                    android:layout_marginTop="0dp"
                     android:onClick="@{()->viewHandler.back()}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -169,17 +170,17 @@
                     app:layout_constraintBottom_toTopOf="@id/travelingStart"
             />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@id/travelingStart"
                     style="@style/ViewStyle.Viaggio.Btn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:background="@{viewModel.themeExist &amp;&amp; viewModel.countryExist ? @color/colorPrimary:@color/very_light_pink}"
+                    android:backgroundTint="@{viewModel.themeExist &amp;&amp; viewModel.countryExist ? @color/colorPrimary:@color/very_light_pink}"
                     android:enabled="@{viewModel.themeExist &amp;&amp; viewModel.countryExist}"
                     android:onClick="@{() -> viewHandler.travelStart()}"
                     android:text="@string/travel_start"
-                    tools:background="@color/very_light_pink"/>
+                    />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

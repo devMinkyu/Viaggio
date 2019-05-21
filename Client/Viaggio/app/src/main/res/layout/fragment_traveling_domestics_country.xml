@@ -39,19 +39,20 @@
                     android:background="@drawable/travel_card_gradient_bg"
                     app:layout_constraintTop_toTopOf="parent"
             />
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/back"
                     style="@style/ViewStyle.Viaggio.Back"
+                    android:layout_marginTop="0dp"
                     android:onClick="@{()->viewHandler.back()}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
             />
-            <TextView
+            <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:id="@+id/confirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
-                    android:alpha="0.5"
                     android:text="@string/city_start"
                     android:gravity="center"
                     android:padding="15dp"

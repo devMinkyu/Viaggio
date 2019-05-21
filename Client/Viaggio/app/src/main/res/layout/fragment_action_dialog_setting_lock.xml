@@ -93,82 +93,70 @@
                 android:columnCount="3"
                 android:rowCount="4"
                 app:layout_constraintBottom_toBottomOf="parent">
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="1"
                     android:onClick="@{() -> viewHandler.choose(1)}"
-                    android:background="@null"
-                    app:backgroundTint="@color/lock_click"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="2"
                     android:onClick="@{() -> viewHandler.choose(2)}"
-                    android:background="@null"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="3"
                     android:onClick="@{() -> viewHandler.choose(3)}"
-                    android:background="@null"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="4"
                     android:onClick="@{() -> viewHandler.choose(4)}"
-                    android:background="@null"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="5"
                     android:onClick="@{() -> viewHandler.choose(5)}"
-                    android:background="@null"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="6"
                     android:onClick="@{() -> viewHandler.choose(6)}"
-                    android:background="@null"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="7"
                     android:onClick="@{() -> viewHandler.choose(7)}"
-                    android:background="@null"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="8"
                     android:onClick="@{() -> viewHandler.choose(8)}"
-                    android:background="@null"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="9"
                     android:onClick="@{() -> viewHandler.choose(9)}"
-                    android:background="@null"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="@string/cancel"
                     android:textSize="20dp"
                     android:visibility="@{viewModel.enrollMode ? View.VISIBLE:View.GONE}"
                     android:onClick="@{() -> viewHandler.close()}"
-                    android:background="@null"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText,SpUsage"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <com.google.android.material.button.MaterialButton
                     android:text="0"
                     android:onClick="@{() -> viewHandler.choose(0)}"
-                    android:background="@null"
                     style="@style/ViewStyle.Viaggio.Lock"
                     tools:ignore="HardcodedText"/>
-            <androidx.appcompat.widget.AppCompatImageButton
+            <com.google.android.material.button.MaterialButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:background="@null"
-                    android:src="@drawable/ic_backspace"
-                    android:padding="@dimen/common_margin"
+                    app:icon="@drawable/ic_backspace"
+                    app:iconGravity="textEnd"
+                    app:iconTint="@color/pinkish_grey"
                     style="@style/ViewStyle.Viaggio.Lock"
                     android:onClick="@{() -> viewHandler.cancel()}"
                     tools:ignore="HardcodedText"/>
@@ -206,8 +194,9 @@
                 app:layout_constraintStart_toStartOf="@id/finger_print_anim"
                 app:layout_constraintEnd_toEndOf="@id/finger_print_anim"
                 tools:ignore="SpUsage"/>
-        <TextView
+        <com.google.android.material.button.MaterialButton
                 android:id="@+id/password_btn"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"

@@ -40,12 +40,12 @@
                     app:layout_constraintTop_toBottomOf="@id/travelAdd"
                     android:background="@drawable/travel_card_gradient_bg"
             />
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@id/travelAdd"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:background="@drawable/traveling_card_create_btn"
                     android:fontFamily="sans-serif-light"
                     android:textSize="15dp"
                     android:textColor="@color/almost_black"
@@ -53,7 +53,10 @@
                     android:layout_marginTop="@dimen/common_top"
                     android:layout_marginStart="@dimen/common_margin"
                     android:layout_marginEnd="@dimen/common_margin"
+                    android:letterSpacing="-0.02"
                     android:onClick="@{()->viewHandler.enroll()}"
+                    app:cornerRadius="10dp"
+                    app:backgroundTint="@color/very_light_pink_three"
                     app:layout_constraintTop_toBottomOf="@id/toolbar"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -80,11 +83,9 @@
                     app:layout_constraintTop_toTopOf="parent"
                     android:background="@color/white_three"
             />
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/back"
                     style="@style/ViewStyle.Viaggio.Back"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="0dp"
                     android:onClick="@{()->viewHandler.close()}"
                     app:layout_constraintTop_toTopOf="@id/toolbar"

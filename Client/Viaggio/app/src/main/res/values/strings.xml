@@ -64,7 +64,7 @@
     <string name="setting_lock">암호 잠금</string>
     <string name="setting_lock_change">암호 변경</string>
     <string name="setting_lock_fingerprint">지문 인식</string>
-    <string name="setting_app_version">앱 버젼 정보</string>
+    <string name="setting_app_version">앱 버전 정보</string>
     <string name="normal_sign">이메일로 로그인하기</string>
     <string name="sign_sign_up">회원가입</string>
     <string name="travel_count">DAY %d</string>
@@ -154,4 +154,5 @@
     <string name="finger_print_notice">지문 인식 센서에 지문을 인식해주세요.</string>
     <string name="pw_btn">암호 입력</string>
     <string name="traveling">여행 중 입니다.</string>
+    <string name="theme_max">최대 3개 입니다.</string>
 </resources>
