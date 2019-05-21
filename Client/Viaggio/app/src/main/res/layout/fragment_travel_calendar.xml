@@ -46,8 +46,9 @@
                     app:layout_constraintTop_toTopOf="@id/container"
             />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@+id/confirm"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
@@ -55,7 +56,6 @@
                     android:text="@string/calendar_save"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:layout_marginEnd="@dimen/common_margin"
                     android:fontFamily="sans-serif-black"
                     android:visibility="@{viewModel.list.size == 0 ? View.GONE:View.VISIBLE}"
                     android:onClick="@{()->viewHandler.confirm()}"

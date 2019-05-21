@@ -17,7 +17,7 @@
             android:onClick="@{()->viewHandler.close()}"
     >
 
-        <TextView
+        <com.google.android.material.chip.Chip
                 android:id="@id/travelOptionTitle"
                 style="@style/ViewStyle.Viaggio.Travel.Option"
                 android:fontFamily="sans-serif-light"
@@ -30,7 +30,7 @@
                 android:onClick="@{()->viewHandler.modify()}"
         />
 
-        <TextView
+        <com.google.android.material.chip.Chip
                 android:id="@id/travelOptionAddCountry"
                 style="@style/ViewStyle.Viaggio.Travel.Option"
                 android:fontFamily="sans-serif-light"

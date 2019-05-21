@@ -21,12 +21,14 @@
                 android:layout_height="match_parent"
                 android:background="@color/white_three"
                 android:focusable="true">
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="36dp"
                     android:onClick="@{()->viewHandler.cancel()}"
-                    app:srcCompat="@drawable/ic_clear_black_24dp"
+                    app:icon="@drawable/ic_clear_black_24dp"
+                    app:iconTint="@color/almost_black"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
             />
@@ -56,13 +58,12 @@
                     app:layout_constraintTop_toBottomOf="@id/cityNotice"
             />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@id/travelingStart"
                     style="@style/ViewStyle.Viaggio.Btn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:background="@color/colorPrimary"
                     android:visibility="@{viewModel.selectedCities.size == 0 ? View.GONE:View.VISIBLE}"
                     android:onClick="@{() -> viewHandler.choose()}"
                     android:text="@string/city_start"/>

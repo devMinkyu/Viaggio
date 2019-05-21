@@ -159,8 +159,9 @@
                             android:layout_height="?attr/actionBarSize"
                             android:elevation="0dp"
                             app:layout_collapseMode="pin">
-                        <androidx.appcompat.widget.AppCompatImageView
+                        <com.google.android.material.button.MaterialButton
                                 style="@style/ViewStyle.Viaggio.Back"
+                                app:iconGravity="start"
                                 android:layout_marginStart="0dp"
                                 android:onClick="@{()->viewHandler.back()}"
                         />

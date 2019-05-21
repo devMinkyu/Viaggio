@@ -52,26 +52,26 @@
                     android:background="@color/white_three"
                     app:layout_constraintTop_toTopOf="parent"
             />
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@id/detailDialogClose"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/almost_black"
                     android:text="@string/travel_card_close"
-                    android:padding="@dimen/common_margin"
                     app:layout_constraintStart_toStartOf="@id/toolbar"
                     app:layout_constraintTop_toTopOf="@id/toolbar"
                     app:layout_constraintBottom_toBottomOf="@id/toolbar"
                     android:onClick="@{()->viewHandler.close()}"
             />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@id/detailDialogTravelFinish"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:text="@string/profile_save"
-                    android:padding="@dimen/common_margin"
                     app:layout_constraintEnd_toEndOf="@id/toolbar"
                     app:layout_constraintTop_toTopOf="@id/toolbar"
                     app:layout_constraintBottom_toBottomOf="@id/toolbar"
