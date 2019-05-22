@@ -30,9 +30,9 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
             />
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.button.MaterialButton
                     style="@style/ViewStyle.Viaggio.Back"
-                    android:src="@drawable/ic_keyboard_arrow_left_white_24dp"
+                    app:iconTint="@android:color/white"
                     android:onClick="@{() ->viewHandler.back()}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

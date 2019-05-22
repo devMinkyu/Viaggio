@@ -47,6 +47,7 @@
                 app:icon="@drawable/ic_clear_black_24dp"
                 app:iconGravity="textEnd"
                 app:iconTint="@color/almost_black"
+                app:rippleColor="@color/rippleColor"
                 app:layout_constraintEnd_toEndOf="@id/travelingCitiesActionPop"
                 app:layout_constraintTop_toTopOf="@id/travelingCitiesActionPop"
         />

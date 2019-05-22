@@ -41,11 +41,12 @@
                 />
                 <com.google.android.material.button.MaterialButton
                         android:id="@id/settingSign"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        style="@style/ViewStyle.Viaggio.Setting"
                         app:strokeWidth="0.8dp"
                         app:strokeColor="@color/brown_grey"
                         app:cornerRadius="0dp"
                         app:backgroundTint="@android:color/white"
+                        android:text="@string/setting_sign"
                         android:layout_width="0dp"
                         android:layout_height="67dp"
                         android:layout_marginTop="@dimen/common_top"
@@ -54,29 +55,9 @@
                         app:layout_constraintTop_toBottomOf="@id/toolbar"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        android:visibility="@{viewModel.isLogin ? View.GONE:View.VISIBLE}"
                         android:onClick="@{()->viewHandler.sign()}"
                 />
-                <TextView
-                        android:id="@id/settingSignNotice"
-                        android:text="@string/setting_sign"
-                        style="@style/ViewStyle.Viaggio.Setting"
-                        android:layout_marginTop="0dp"
-                        app:layout_constraintStart_toStartOf="@id/settingSign"
-                        app:layout_constraintTop_toTopOf="@id/settingSign"
-                        app:layout_constraintBottom_toBottomOf="@id/settingSign"
-                />
-                <!--<androidx.constraintlayout.widget.Group-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="0dp"-->
-                        <!--android:visibility="@{viewModel.isLogin ? View.GONE:View.VISIBLE}"-->
-                        <!--app:constraint_referenced_ids="settingSign, settingSignNotice"-->
-                        <!--tools:ignore="UnknownId"/>-->
-                <androidx.constraintlayout.widget.Group
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:visibility="gone"
-                        app:constraint_referenced_ids="settingSign, settingSignNotice"
-                        tools:ignore="UnknownId"/>
                 <View
                         android:id="@id/settingSignIn"
                         android:layout_width="0dp"
@@ -138,7 +119,7 @@
                         style="@style/ViewStyle.Viaggio.Setting"
                         app:icon="@drawable/icon_my_profile"
                         app:iconTintMode="multiply"
-                        app:iconTint="@color/brown_grey_two"
+                        app:iconTint="@android:color/white"
                         app:iconPadding="15dp"
                         app:layout_constraintStart_toStartOf="@id/settingEtc"
                         app:layout_constraintTop_toTopOf="@id/settingEtc"
@@ -224,7 +205,7 @@
                         android:id="@id/settingLock"
                         android:text="@string/setting_lock"
                         style="@style/ViewStyle.Viaggio.Setting"
-                        app:icon="@drawable/ic_lock_black_24dp"
+                        app:icon="@drawable/ic_lock"
                         app:iconTintMode="src_in"
                         app:iconTint="@color/brown_grey_two"
                         app:iconPadding="15dp"
@@ -248,20 +229,6 @@
                         app:layout_constraintBottom_toBottomOf="@id/settingLock"
                         tools:text="@string/lock_off"
                         tools:ignore="PrivateResource,SpUsage"/>
-                <com.google.android.material.button.MaterialButton
-                        android:id="@id/settingAutoUpload"
-                        android:text="@string/setting_upload"
-                        style="@style/ViewStyle.Viaggio.Setting"
-                        app:icon="@drawable/ic_cloud_upload"
-                        app:iconTintMode="src_in"
-                        app:iconTint="@color/brown_grey_two"
-                        app:iconPadding="15dp"
-                        android:visibility="gone"
-                        android:onClick="@{()->viewHandler.autoUpload()}"
-                        app:layout_constraintStart_toStartOf="@id/settingEntire"
-                        app:layout_constraintEnd_toEndOf="@id/settingEntire"
-                        app:layout_constraintTop_toBottomOf="@id/settingImage"
-                />
                 <!--<com.google.android.material.button.MaterialButton-->
                         <!--android:id="@id/settingAutoUpload"-->
                         <!--android:text="@string/setting_upload"-->
@@ -270,11 +237,25 @@
                         <!--app:iconTintMode="src_in"-->
                         <!--app:iconTint="@color/brown_grey_two"-->
                         <!--app:iconPadding="15dp"-->
+                        <!--android:visibility="gone"-->
                         <!--android:onClick="@{()->viewHandler.autoUpload()}"-->
                         <!--app:layout_constraintStart_toStartOf="@id/settingEntire"-->
                         <!--app:layout_constraintEnd_toEndOf="@id/settingEntire"-->
                         <!--app:layout_constraintTop_toBottomOf="@id/settingImage"-->
                 <!--/>-->
+                <com.google.android.material.button.MaterialButton
+                        android:id="@id/settingAutoUpload"
+                        android:text="@string/setting_upload"
+                        style="@style/ViewStyle.Viaggio.Setting"
+                        app:icon="@drawable/ic_cloud_upload"
+                        app:iconTintMode="src_in"
+                        app:iconTint="@color/brown_grey_two"
+                        app:iconPadding="15dp"
+                        android:onClick="@{()->viewHandler.autoUpload()}"
+                        app:layout_constraintStart_toStartOf="@id/settingEntire"
+                        app:layout_constraintEnd_toEndOf="@id/settingEntire"
+                        app:layout_constraintTop_toBottomOf="@id/settingImage"
+                />
                 <TextView
                         android:id="@id/settingAppVersion"
                         android:text="@string/setting_app_version"

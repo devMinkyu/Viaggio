@@ -17,6 +17,7 @@
                 android:id="@+id/add"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 app:cornerRadius="0dp"
+                app:rippleColor="@color/rippleColor"
                 android:onClick="@{() -> viewHandler.imageAdd()}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

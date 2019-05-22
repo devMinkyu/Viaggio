@@ -34,6 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> viewHandler.close()}"
+                    app:rippleColor="@color/rippleColor"
                     app:iconGravity="textStart"
                     app:icon="@drawable/ic_clear_black_24dp"
                     app:iconTint="@color/almost_black"
@@ -62,6 +63,7 @@
                     android:fontFamily="sans-serif-light"
                     android:textSize="14dp"
                     android:onClick="@{() -> viewHandler.confirm()}"
+                    app:rippleColor="@color/rippleColor"
                     app:layout_constraintTop_toTopOf="@id/toolbar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="@id/toolbar"
@@ -95,15 +97,21 @@
 
 
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.google.android.material.button.MaterialButton
+                    style="@style/ViewStyle.Viaggio.Button"
                     android:id="@+id/init"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/common_margin"
+                    android:paddingTop="@dimen/common_top"
+                    android:paddingBottom="@dimen/common_top"
                     android:onClick="@{()->viewHandler.init()}"
+                    app:rippleColor="@color/rippleColor"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/toolbar"
-                    app:srcCompat="@drawable/icon_add_answer"
+                    app:icon="@drawable/icon_add_answer"
+                    app:iconGravity="textStart"
+                    app:iconTintMode="multiply"
+                    app:iconTint="@android:color/white"
             />
             <TextView
                     android:id="@id/travelOptionTitleCount"

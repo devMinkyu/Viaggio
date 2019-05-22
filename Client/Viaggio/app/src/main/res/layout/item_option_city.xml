@@ -24,6 +24,7 @@
                 android:textSize="14dp"
                 android:gravity="center"
                 android:onClick="@{()->viewHandler.selected()}"
+                app:rippleColor="@color/rippleColor"
                 app:chipMinHeight="40dp"
                 app:chipCornerRadius="10dp"
                 app:chipStrokeWidth="1dp"

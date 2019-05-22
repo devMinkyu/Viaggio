@@ -29,6 +29,7 @@
                 app:icon="@drawable/icon_menu"
                 app:iconGravity="textStart"
                 app:iconTint="@color/almost_black"
+                app:rippleColor="@color/rippleColor"
                 android:onClick="@{()->viewHandler.setting()}"
                 app:layout_constraintTop_toTopOf="@id/travelAppBar"
                 app:layout_constraintBottom_toBottomOf="@id/travelAppBar"

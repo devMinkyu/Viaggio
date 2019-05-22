@@ -51,7 +51,7 @@
                     android:textColor="@color/almost_black"
                     android:layout_marginStart="@dimen/common_margin"
                     android:drawablePadding="6.5dp"
-                    android:drawableStart="@drawable/ic_lock_black_24dp"
+                    android:drawableStart="@drawable/ic_lock"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/toolbar"
             />

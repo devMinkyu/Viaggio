@@ -62,6 +62,7 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:rippleColor="@color/rippleColor"
                 android:onClick='@{()->viewHandler.selectedKinds("overseas")}'
                 app:layout_constraintStart_toStartOf="@id/travelOverseasTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelOverseasStart"
@@ -77,7 +78,7 @@
                 app:layout_constraintTop_toTopOf="@id/travelOverseasTitle"
                 app:layout_constraintBottom_toBottomOf="@id/travelOverseasSubTitle"
                 app:layout_constraintEnd_toEndOf="parent"
-        />
+                tools:ignore="PrivateResource"/>
         <TextView
                 android:id="@id/travelDomesticTitle"
                 style="@style/ViewStyle.Viaggio.Kinds"
@@ -102,12 +103,13 @@
                 app:layout_constraintTop_toTopOf="@id/travelDomesticTitle"
                 app:layout_constraintBottom_toBottomOf="@id/travelDomesticSubTitle"
                 app:layout_constraintEnd_toEndOf="parent"
-        />
+                tools:ignore="PrivateResource"/>
 
         <com.google.android.material.button.MaterialButton
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:rippleColor="@color/rippleColor"
                 android:onClick='@{()->viewHandler.selectedKinds("domestic")}'
                 app:layout_constraintStart_toStartOf="@id/travelDomesticTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelDomesticStart"
@@ -151,12 +153,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/travelBeforeOverseasTitle"
                 app:layout_constraintBottom_toBottomOf="@id/travelBeforeOverseasSubTitle"
-        />
+                tools:ignore="PrivateResource"/>
 
         <com.google.android.material.button.MaterialButton
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:rippleColor="@color/rippleColor"
                 android:onClick='@{()->viewHandler.selectBeforeKinds("overseas")}'
                 app:layout_constraintStart_toStartOf="@id/travelBeforeOverseasTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
@@ -198,11 +201,12 @@
                 app:layout_constraintTop_toTopOf="@id/travelBeforeDomesticTitle"
                 app:layout_constraintBottom_toBottomOf="@id/travelBeforeDomesticSubTitle"
                 app:layout_constraintEnd_toEndOf="parent"
-        />
+                tools:ignore="PrivateResource"/>
         <com.google.android.material.button.MaterialButton
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:rippleColor="@color/rippleColor"
                 android:onClick='@{()->viewHandler.selectBeforeKinds("domestic")}'
                 app:layout_constraintStart_toStartOf="@id/travelBeforeDomesticTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeDomesticStart"

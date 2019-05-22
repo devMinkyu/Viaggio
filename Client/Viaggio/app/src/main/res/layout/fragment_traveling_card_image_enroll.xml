@@ -55,6 +55,7 @@
                     android:gravity="center"
                     android:fontFamily="sans-serif-black"
                     android:onClick="@{()->viewHandler.confirm()}"
+                    app:rippleColor="@color/rippleColor"
                     app:layout_constraintTop_toTopOf="@id/back"
                     app:layout_constraintBottom_toBottomOf="@id/back"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -44,6 +44,7 @@
                     android:layout_height="wrap_content"
                     android:padding="36dp"
                     android:onClick="@{()->viewHandler.close()}"
+                    app:rippleColor="@color/rippleColor"
                     app:icon="@drawable/ic_clear_black_24dp"
                     app:iconTint="@color/almost_black"
                     app:layout_constraintTop_toTopOf="parent"

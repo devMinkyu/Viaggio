@@ -101,6 +101,7 @@
                         app:layout_constraintTop_toTopOf="@id/back"
                         app:layout_constraintBottom_toBottomOf="@id/back"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:rippleColor="@color/rippleColor"
                 />
 
                 <TextView

@@ -47,6 +47,7 @@
                 app:icon="@drawable/ic_clear_black_24dp"
                 app:iconTint="@color/almost_black"
                 app:iconGravity="textEnd"
+                app:rippleColor="@color/rippleColor"
                 app:layout_constraintEnd_toEndOf="@id/travelingCitiesActionPop"
                 app:layout_constraintTop_toTopOf="@id/travelingCitiesActionPop"
         />
@@ -66,6 +67,7 @@
                 android:id="@+id/confirm"
                 android:text="@string/city_start"
                 style="@style/ViewStyle.Viaggio.Option"
+                android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:onClick="@{() -> viewHandler.confirm()}"
                 app:layout_constraintStart_toStartOf="@id/travelingCitiesActionPop"
                 app:layout_constraintEnd_toEndOf="@id/travelingCitiesActionPop"

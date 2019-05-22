@@ -11,6 +11,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:rippleColor="@color/rippleColor"
             app:icon="@drawable/ic_icon_close"
             app:iconTint="@android:color/white"
             app:iconGravity="textEnd"

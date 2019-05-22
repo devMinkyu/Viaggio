@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#1AD2C1</color>
 
+    <color name="rippleColor">#1AD2C1</color>
+
     <color name="dialogBg">#cc000000</color>
 
     <color name="color1">#424549</color>
