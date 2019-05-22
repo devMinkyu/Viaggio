@@ -16,9 +16,13 @@ https://play.google.com/store/apps/details?id=com.kotlin.viaggio
 + Timber, Stetho를 이용하여 Debugging
 + MVVM Pattern을 사용
 
-##### web
+##### Server
 + 파이썬의 웹 프레임워크인 Flask 사용
-+ MVC Pattern을 사용
++ Restful API
++ AWS Cognito 사용
++ AWS Elasticbeanstalk 사용
++ MySQL DB 사용
++ Database migration 
 
 ### 앱 설명
 
