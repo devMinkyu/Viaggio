@@ -94,7 +94,7 @@
                         android:textColor="@color/colorPrimary"
                         android:text="@string/city_start"
                         android:gravity="center"
-                        android:padding="15dp"
+                        android:padding="@dimen/common_top"
                         android:fontFamily="sans-serif-black"
                         android:visibility="@{viewModel.chooseArea.size == 0 ? View.GONE:View.VISIBLE}"
                         android:onClick="@{()->viewHandler.confirm()}"

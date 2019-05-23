@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View"/>
         <import type="com.kotlin.viaggio.view.sign.SignFragment.ViewHandler"/>
@@ -15,7 +15,7 @@
             android:background="@android:color/transparent"
     >
         <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/sign_container"
+                android:id="@+id/sign_container_view"
                 android:background="@color/white_three"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -45,38 +45,34 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="150dp"
+                    android:layout_marginTop="150dp"
             />
 
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@id/signNormalBtn"
-                    android:background="@drawable/sign_normal_btn_bg"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:layout_height="50dp"
-                    style="@style/ViewStyle.Viaggio.Sign"
-                    android:text="@string/normal_sign"
-                    android:onClick="@{() -> viewHandler.normalSign()}"
+                    style="@style/ViewStyle.Viaggio.SignBtn"
                     android:layout_marginTop="50dp"
                     android:layout_marginBottom="@dimen/common_top"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/logo"
                     app:layout_constraintBottom_toTopOf="@id/signCreateAccountBtn"
+                    android:text="@string/normal_sign"
+                    android:onClick="@{() -> viewHandler.normalSign()}"
+                    android:backgroundTint="@color/colorPrimary"
+                    tools:backgroundTint="@color/colorPrimary"
             />
-            <TextView
+            <com.google.android.material.button.MaterialButton
                     android:id="@id/signCreateAccountBtn"
-                    android:background="@drawable/sign_normal_btn_bg"
-                    android:backgroundTint="@android:color/white"
-                    android:layout_height="50dp"
-                    style="@style/ViewStyle.Viaggio.Sign"
-                    android:text="@string/sign_sign_up"
-                    android:textColor="@color/colorPrimary"
-                    android:onClick="@{() -> viewHandler.createAccount()}"
+                    style="@style/ViewStyle.Viaggio.SignBtn"
                     android:layout_marginBottom="@dimen/common_top"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/signNormalBtn"
+                    android:text="@string/sign_sign_up"
+                    android:onClick="@{() -> viewHandler.createAccount()}"
+                    app:backgroundTint="@android:color/white"
+                    android:textColor="@color/colorPrimary"
             />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

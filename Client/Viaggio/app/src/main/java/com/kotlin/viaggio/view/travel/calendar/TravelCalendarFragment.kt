@@ -64,7 +64,7 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
             getViewModel().list.clear()
             getViewModel().list.addAll(dates)
         }
-        calendarView.setOnDateChangedListener { widget, date, selected ->
+        calendarView.setOnDateChangedListener { _, date, selected ->
             if(selected && getViewModel().option){
                 val startDate = convertDate(date)
                 getViewModel().selectedDate(startDate)

@@ -30,7 +30,7 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
         super.onResume()
         if (sliderInterface == null)
             sliderInterface = Slidr.replace(
-                sign_in_container, SlidrConfig.Builder()
+                sign_container, SlidrConfig.Builder()
                     .position(SlidrPosition.LEFT)
                     .build()
             )
@@ -56,7 +56,6 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
                 .apply(bitmapTransform(BlurTransformation(20, 1)))
                 .into(signInContainer)
         }
-
         getViewModel().complete.observe(this, Observer {
             stopLoading()
             it.getContentIfNotHandled()?.let {
@@ -73,23 +72,23 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
         getViewModel().error.observe(this, Observer {
             stopLoading()
             it.getContentIfNotHandled()?.let { signError ->
-                signInEmailEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.very_light_pink,null))
-                signInPasswordEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.very_light_pink,null))
+                signInEmailEdit.setErrorTextColor(ResourcesCompat.getColorStateList(resources, R.color.light_red,null))
+                signInPasswordEdit.setErrorTextColor(ResourcesCompat.getColorStateList(resources, R.color.light_red,null))
                 when (signError) {
                     SignError.EMAIL_NOT_FOUND -> {
                         getViewModel().email.set("")
-                        signInEmailEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red,null))
-                        signInEmailEdit.hint = getString(R.string.err_email_not_found)
+                        signInEmailEdit.setErrorTextColor(ResourcesCompat.getColorStateList(resources, R.color.light_red,null))
+                        signInEmailEdit.error = getString(R.string.err_email_not_found)
                     }
                     SignError.WRONG_PW -> {
                         getViewModel().password.set("")
-                        signInPasswordEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red,null))
-                        signInPasswordEdit.hint = getString(R.string.err_wrong_pw)
+                        signInPasswordEdit.setErrorTextColor(ResourcesCompat.getColorStateList(resources, R.color.light_red,null))
+                        signInPasswordEdit.error = getString(R.string.err_wrong_pw)
                     }
                     SignError.DELETE_ID -> {
                         getViewModel().email.set("")
-                        signInEmailEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red,null))
-                        signInEmailEdit.hint = getString(R.string.err_delete_id)
+                        signInEmailEdit.setErrorTextColor(ResourcesCompat.getColorStateList(resources, R.color.light_red,null))
+                        signInEmailEdit.error = getString(R.string.err_delete_id)
                     }
                     else -> {}
                 }

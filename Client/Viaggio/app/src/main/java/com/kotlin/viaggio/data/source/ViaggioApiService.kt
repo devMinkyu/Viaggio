@@ -2,12 +2,12 @@ package com.kotlin.viaggio.data.source
 
 import androidx.annotation.Keep
 import com.kotlin.viaggio.data.obj.*
+import io.reactivex.Flowable
 import io.reactivex.Single
 import okhttp3.Interceptor
 import retrofit2.Response
 import retrofit2.http.*
 import java.io.IOException
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,9 +40,8 @@ interface ViaggioApiService {
     @FormUrlEncoded
     fun updateUserName(
         @Field("name") name: String,
-        @Field("profileImageName") profileImageName: String,
         @Field("profileImageUrl") profileImageUrl: String
-    ): Single<Response<ViaggioResult>>
+    ): Single<Response<Any>>
 
     @POST("api/v1/users/changepwd")
     @FormUrlEncoded
@@ -50,10 +49,10 @@ interface ViaggioApiService {
         @Field("oldPasswordHash") oldPasswordHash: String,
         @Field("passwordHash") passwordHash: String,
         @Field("passwordHash2") passwordHash2: String
-    ): Single<Response<ViaggioResult>>
+    ): Single<Response<Any>>
 
     @GET("api/v1/users/logout")
-    fun logOut(): Single<Response<ViaggioResult>>
+    fun logOut(): Single<Response<Any>>
 
 
     // travel
@@ -67,7 +66,7 @@ interface ViaggioApiService {
         @Field("theme") theme: String,
         @Field("startDate") startDate: String,
         @Field("endDate") endDate: String?
-    ): Single<Response<ViaggioTravelResult>>
+    ): Single<Response<ViaggioApiTravelResult>>
 
     @PUT("api/v1/my/travels/{serverId}")
     @FormUrlEncoded
@@ -76,7 +75,7 @@ interface ViaggioApiService {
         @Field("area") area: String,
         @Field("title") title: String,
         @Field("theme") theme: String,
-        @Field("endDate") endDate: Date?,
+        @Field("endDate") endDate: String?,
         @Field("imageName") imageName: String,
         @Field("imageUrl") imageUrl: String,
         @Field("share") share: Boolean
@@ -86,6 +85,9 @@ interface ViaggioApiService {
     fun deleteTravel(
         @Path("serverId") serverId: Int
     ): Single<Response<Any>>
+
+    @GET("api/v1/my/travels")
+    fun getTravels(): Flowable<Response<ViaggioApiTravels>>
 
     // travelCard
     @POST("api/v1/my/travelcards/{travelServerId}")
@@ -101,7 +103,7 @@ interface ViaggioApiService {
         @Field("date") date: String,
         @Field("country") country: String,
         @Field("content") content: String
-    ): Single<Response<ViaggioTravelResult>>
+    ): Single<Response<ViaggioApiTravelResult>>
 
     @PUT("api/v1/my/travelcards/{serverId}")
     @Headers(
@@ -117,6 +119,14 @@ interface ViaggioApiService {
     fun deleteTravelCard(
         @Path("serverId") serverId: Int
     ):Single<Response<Any>>
+
+
+    @GET("api/v1/my/travelcards")
+    fun getTravelCards(): Flowable<Response<ViaggioApiTravelCards>>
+
+    // sync
+    @GET("api/v1/sync/count")
+    fun sycnCheckCount():Single<Response<ViaggioApiSync>>
 
     @Singleton
     class TokenInterceptor @Inject constructor() : Interceptor {

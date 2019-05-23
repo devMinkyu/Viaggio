@@ -52,6 +52,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorPrimary"
                     android:text="@string/image_start"
+                    android:padding="@dimen/common_top"
                     android:gravity="center"
                     android:fontFamily="sans-serif-black"
                     android:onClick="@{()->viewHandler.confirm()}"

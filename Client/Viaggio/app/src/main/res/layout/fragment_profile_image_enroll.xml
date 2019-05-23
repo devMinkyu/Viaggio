@@ -53,7 +53,7 @@
                     android:textColor="@color/colorPrimary"
                     android:text="@string/image_start"
                     android:gravity="center"
-                    android:padding="15dp"
+                    android:padding="@dimen/common_top"
                     android:fontFamily="sans-serif-black"
                     android:visibility="@{viewModel.chooseImage == `` ? View.GONE:View.VISIBLE}"
                     android:onClick="@{()->viewHandler.confirm()}"

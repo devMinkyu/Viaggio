@@ -34,7 +34,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
-    <style name="ViewStyle.Viaggio.Btn" parent="@style/Widget.MaterialComponents.Button">
+    <style name="ViewStyle.Viaggio.Btn" parent="ViewStyle.Viaggio.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">62dp</item>
         <item name="android:gravity">center</item>
@@ -70,15 +70,30 @@
         <item name="strokeColor">@color/colorPrimary</item>
     </style>
 
-    <style name="ViewStyle.Viaggio.Sign">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/sign_height</item>
+    <style name="ViewStyle.Viaggio.Sign" parent="TextInputLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:background">@drawable/sign_normal_btn_bg</item>
         <item name="android:layout_marginStart">@dimen/common_margin</item>
         <item name="android:layout_marginEnd">@dimen/common_margin</item>
-        <item name="android:layout_marginTop">@dimen/common_top</item>
         <item name="android:textAppearance">@style/TextAppearance.Viaggio.Sign</item>
+        <item name="boxStrokeColor">@android:color/white</item>
+        <item name="boxCornerRadiusBottomEnd">10dp</item>
+        <item name="boxCornerRadiusBottomStart">10dp</item>
+        <item name="boxCornerRadiusTopEnd">10dp</item>
+        <item name="boxCornerRadiusTopStart">10dp</item>
+    </style>
+
+    <style name="ViewStyle.Viaggio.SignBtn" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">65dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Viaggio.Sign</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginStart">@dimen/common_margin</item>
+        <item name="android:layout_marginEnd">@dimen/common_margin</item>
+        <item name="cornerRadius">10dp</item>
+        <item name="rippleColor">@color/rippleColor</item>
     </style>
     <style name="ViewStyle.Viaggio.Travel">
         <item name="android:layout_width">0dp</item>
@@ -131,4 +146,8 @@
     </style>
 
     <style name="ViewStyle.Viaggio.Button" parent="@style/Widget.MaterialComponents.Button.TextButton" />
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:paddingBottom">8dp</item>
+    </style>
 </resources>

@@ -1,11 +1,10 @@
 package com.kotlin.viaggio.model
 
 import com.google.gson.Gson
-import com.kotlin.viaggio.data.obj.Travel
-import com.kotlin.viaggio.data.obj.TravelCard
-import com.kotlin.viaggio.data.obj.ViaggioTravelResult
+import com.kotlin.viaggio.data.obj.*
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.ViaggioApiService
+import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -23,9 +22,8 @@ class TravelModel @Inject constructor() : BaseModel() {
     @Inject
     lateinit var gson: Gson
 
-
-    fun uploadTravel(travel: Travel): Single<Response<ViaggioTravelResult>> {
-        val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH)
+    val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH)
+    fun uploadTravel(travel: Travel): Single<Response<ViaggioApiTravelResult>> {
         val dateFormated = dateFormat.format(travel.startDate)
         val endDateFormated = travel.endDate?.let {
             dateFormat.format(travel.endDate)
@@ -42,6 +40,9 @@ class TravelModel @Inject constructor() : BaseModel() {
     }
 
     fun updateTravel(travel: Travel) :Single<Response<Any>> {
+        val endDateFormated = travel.endDate?.let {
+            dateFormat.format(travel.endDate)
+        }
         return api.updateTravel(
             serverId = travel.serverId,
             area = gson.toJson(travel.area),
@@ -50,16 +51,16 @@ class TravelModel @Inject constructor() : BaseModel() {
             imageUrl = travel.imageUrl,
             title = travel.title,
             share = travel.share,
-            endDate = travel.endDate
-        )
+            endDate = endDateFormated
+        ).subscribeOn(Schedulers.io())
     }
+    fun deleteTravel(travelId: Int) =
+        api.deleteTravel(travelId).subscribeOn(Schedulers.io())
+    fun getTravels() =
+            api.getTravels().subscribeOn(Schedulers.io())
 
-    fun deleteTravel(travelId: Int): Single<Response<Any>> {
-        return api.deleteTravel(travelId)
-    }
 
-    fun uploadTravelCard(travelCard: TravelCard):Single<Response<ViaggioTravelResult>> {
-        val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH)
+    fun uploadTravelCard(travelCard: TravelCard):Single<Response<ViaggioApiTravelResult>> {
         val dateFormated = dateFormat.format(travelCard.date)
         return api.uploadTravelCard(
             travelServerId = travelCard.travelServerId,
@@ -72,20 +73,24 @@ class TravelModel @Inject constructor() : BaseModel() {
             theme = travelCard.theme,
             imageUrl = travelCard.imageUrl,
             imageName = travelCard.imageNames
-        )
+        ).subscribeOn(Schedulers.io())
     }
 
-    fun updateTravelCard(travelCard: TravelCard): Single<Response<Any>> {
-        return api.updateTravelCard(
+    fun updateTravelCard(travelCard: TravelCard) =
+        api.updateTravelCard(
             serverId = travelCard.serverId,
             content = travelCard.content
-        )
-    }
-
-    fun deleteTravelCard(travelCardId: Int): Single<Response<Any>> {
-        return api.deleteTravelCard(
+        ).subscribeOn(Schedulers.io())
+    fun deleteTravelCard(travelCardId: Int) =
+        api.deleteTravelCard(
             serverId = travelCardId
-        )
-    }
+        ).subscribeOn(Schedulers.io())
+    fun getTravelCards() =
+        api.getTravelCards().subscribeOn(Schedulers.io())
+
+    fun sync() =
+        api.sycnCheckCount().subscribeOn(Schedulers.io())
+
+
 
 }

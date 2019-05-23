@@ -162,13 +162,19 @@
                         <com.google.android.material.button.MaterialButton
                                 style="@style/ViewStyle.Viaggio.Back"
                                 app:iconGravity="start"
+                                android:layout_gravity="start"
+                                android:layout_marginTop="0dp"
                                 android:layout_marginStart="0dp"
                                 android:onClick="@{()->viewHandler.back()}"
                         />
-                        <androidx.appcompat.widget.AppCompatImageView
+                        <com.google.android.material.button.MaterialButton
+                                style="@style/Widget.MaterialComponents.Button.TextButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/icon_more_2"
+                                app:icon="@drawable/icon_more_2"
+                                app:iconTint="@color/almost_black"
+                                app:rippleColor="@color/rippleColor"
+                                app:iconGravity="textEnd"
                                 android:padding="@dimen/common_top"
                                 android:layout_gravity="end"
                                 android:onClick="@{()->viewHandler.more()}"

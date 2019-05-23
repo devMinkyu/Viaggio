@@ -30,7 +30,7 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
         super.onResume()
         if (sliderInterface == null)
             sliderInterface = Slidr.replace(
-                sign_up_container, SlidrConfig.Builder()
+                sign_container, SlidrConfig.Builder()
                     .position(SlidrPosition.LEFT)
                     .build()
             )
@@ -73,30 +73,26 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
         getViewModel().error.observe(this, Observer {
             stopLoading()
             it.getContentIfNotHandled()?.let { signError ->
-                signUpNameEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.very_light_pink, null))
-                signUpEmailEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.very_light_pink, null))
-                signUpPasswordEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.very_light_pink, null))
-                signUpConfirmPasswordEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.very_light_pink, null))
                 when (signError) {
                     SignError.PW_MISMATCH -> {
                         getViewModel().confirmPassword.set("")
-                        signUpConfirmPasswordEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red, null))
-                        signUpConfirmPasswordEdit.hint = getString(R.string.err_pw_mismatch)
+                        signUpConfirmPasswordEdit.setErrorTextColor(ResourcesCompat.getColorStateList(resources, R.color.light_red, null))
+                        signUpConfirmPasswordEdit.error = getString(R.string.err_pw_mismatch)
                     }
                     SignError.PW_NUM -> {
                         getViewModel().password.set("")
-                        signUpPasswordEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red, null))
-                        signUpPasswordEdit.hint = getString(R.string.err_password_num)
+                        signUpPasswordEdit.setErrorTextColor(ResourcesCompat.getColorStateList(resources, R.color.light_red, null))
+                        signUpPasswordEdit.error = getString(R.string.err_password_num)
                     }
                     SignError.INVALID_EMAIL_FORMAT -> {
                         getViewModel().email.set("")
-                        signUpEmailEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red, null))
-                        signUpEmailEdit.hint = getString(R.string.err_email_format)
+                        signUpEmailEdit.setErrorTextColor(ResourcesCompat.getColorStateList(resources, R.color.light_red, null))
+                        signUpEmailEdit.error = getString(R.string.err_email_format)
                     }
                     SignError.EXIST_EMAIL -> {
                         getViewModel().email.set("")
-                        signUpEmailEdit.setHintTextColor(ResourcesCompat.getColor(resources, R.color.light_red, null))
-                        signUpEmailEdit.hint = getString(R.string.err_exist_email)
+                        signUpEmailEdit.setErrorTextColor(ResourcesCompat.getColorStateList(resources, R.color.light_red, null))
+                        signUpEmailEdit.error = getString(R.string.err_exist_email)
                     }
                     else -> {}
                 }

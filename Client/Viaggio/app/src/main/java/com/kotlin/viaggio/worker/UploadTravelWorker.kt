@@ -14,12 +14,11 @@ import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.model.TravelModel
+import com.kotlin.viaggio.model.UserModel
 import io.reactivex.Completable
-import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.File
-import java.lang.Exception
 import javax.inject.Inject
 
 class UploadTravelWorker @Inject constructor(context: Context, params: WorkerParameters) : BaseWorker(context, params) {
@@ -35,6 +34,8 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
     lateinit var config: DeveloperAuthenticationProvider
     @Inject
     lateinit var prefUtilService: AndroidPrefUtilService
+    @Inject
+    lateinit var userModel: UserModel
 
     override fun doWork(): Result {
         super.doWork()
@@ -44,74 +45,77 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
         val toJson1 = inputData.getString(WorkerName.TRAVEL_CARD.name) ?: ""
         val travelCard = gson.fromJson(toJson1, TravelCard::class.java) ?: TravelCard()
 
-        if(travel.localId != 0L){
+        if (travel.localId != 0L) {
             travelModel.uploadTravel(travel)
                 .flatMapCompletable {
-                    if(it.isSuccessful){
+                    if (it.isSuccessful) {
                         travel.userExist = true
                         travel.serverId = it.body()?.id ?: 0
                         travelLocalModel.updateTravel(travel)
-                    }else{
+                    } else {
                         Completable.complete()
                     }
                 }.blockingAwait()
         }
 
-        if(travelCard.localId != 0L){
-            if(travelCard.imageNames.isNotEmpty()){
-                val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
-                val awsToken = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
-                val list = travelCard.imageNames.map{
-                    Single.create<String> { emitter ->
-                        config.setInfo(awsId, awsToken)
-                        val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "image/${it.split("/").last()}", File(it))
-                        uploadObserver.setTransferListener(object : TransferListener {
-                            override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
-                            override fun onStateChanged(id: Int, state: TransferState?) {
-                                if(state == TransferState.COMPLETED){
-                                    emitter.onSuccess(uploadObserver.key)
-                                }
-                            }
-                            override fun onError(id: Int, ex: Exception?) {
-                            }
-                        })
-                    }.subscribeOn(Schedulers.io())
-                }
-                val resultList = mutableListOf<String>()
-
-                Single.merge(list)
-                    .map {
-                        resultList.add(it)
-                    }.lastOrError()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.io())
+        if (travelCard.localId != 0L) {
+            if (travelCard.imageNames.isNotEmpty()) {
+                userModel.getAws()
                     .flatMapCompletable {
-                        travelCard.imageUrl = resultList
-                        travelModel.uploadTravelCard(travelCard)
+                        val list = travelCard.imageNames.map {
+                            Single.create<String> { emitter ->
+                                val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
+                                val awsToken =
+                                    prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
+                                config.setInfo(awsId, awsToken)
+                                val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "image/${it.split("/").last()}", File(it))
+                                uploadObserver.setTransferListener(object : TransferListener {
+                                    override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
+                                    override fun onStateChanged(id: Int, state: TransferState?) {
+                                        if (state == TransferState.COMPLETED) {
+                                            emitter.onSuccess(uploadObserver.key)
+                                        }
+                                    }
+                                    override fun onError(id: Int, ex: Exception?) {
+                                    }
+                                })
+                            }.subscribeOn(Schedulers.io())
+                        }
+                        val resultList = mutableListOf<String>()
+
+                        Single.merge(list)
+                            .map {
+                                resultList.add(it)
+                            }.lastOrError()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(Schedulers.io())
                             .flatMapCompletable {
-                                if(it.isSuccessful){
-                                    travelCard.userExist = true
-                                    travelCard.serverId = it.body()?.id ?: 0
-                                    travelLocalModel.updateTravelCard(travelCard)
-                                }else{
-                                    Completable.complete()
-                                }
+                                travelCard.imageUrl = resultList
+                                travelModel.uploadTravelCard(travelCard)
+                                    .flatMapCompletable {
+                                        if (it.isSuccessful) {
+                                            travelCard.userExist = true
+                                            travelCard.serverId = it.body()?.id ?: 0
+                                            travelLocalModel.updateTravelCard(travelCard)
+                                        } else {
+                                            Completable.complete()
+                                        }
+                                    }
                             }
                     }
-            }else{
+            } else {
                 travelModel.uploadTravelCard(travelCard)
                     .flatMapCompletable {
-                        if(it.isSuccessful){
+                        if (it.isSuccessful) {
                             travelCard.userExist = true
                             travelCard.serverId = it.body()?.id ?: 0
                             travelLocalModel.updateTravelCard(travelCard)
-                        }else{
+                        } else {
                             Completable.complete()
                         }
                     }
             }.blockingAwait()
         }
-
         return Result.success()
     }
 }

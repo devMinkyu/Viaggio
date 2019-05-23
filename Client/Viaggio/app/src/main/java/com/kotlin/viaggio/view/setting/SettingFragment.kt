@@ -1,11 +1,15 @@
 package com.kotlin.viaggio.view.setting
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
@@ -48,16 +52,40 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         getViewModel().checkLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { value ->
                 stopLoading()
-                toast(
-                    if (value) {
-                        "업로드 다됨"
+                if (value) {
+                    toast(resources.getText(R.string.sync_check_done))
+                } else {
+                    if (checkInternet()) {
+                        SyncActionDialogFragment().show(fragmentManager!!, SyncActionDialogFragment.TAG)
                     } else {
-                        "업로드 안됨"
+                        showNetWorkError()
                     }
-                )
-
+                }
             }
         })
+        getViewModel().imageName.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {image ->
+                val drawable = context?.getDrawable(R.drawable.oval_bg) as GradientDrawable
+                settingProfileImg.background = drawable
+                settingProfileImg.clipToOutline = true
+                if(TextUtils.isEmpty(image)) {
+                    Glide.with(settingProfileImg)
+                        .load(ResourcesCompat.getDrawable(resources, R.drawable.icon_profile, null))
+                        .into(settingProfileImg)
+                } else {
+                    Glide.with(settingProfileImg)
+                        .load(image)
+                        .into(settingProfileImg)
+                }
+            }
+        })
+        getViewModel().completeLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                stopLoading()
+                toast("완료 되었습니다.")
+            }
+        })
+
     }
     inner class ViewHandler {
         fun close() {
@@ -108,15 +136,6 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
             }
 
         }
-
-        fun sync() {
-            if (checkInternet()) {
-
-            } else {
-                showNetWorkError()
-            }
-        }
-
         fun uploadCheck() {
             if (checkInternet()) {
                 UploadCheckActionDialogFragment().show(fragmentManager!!, UploadCheckActionDialogFragment.TAG)

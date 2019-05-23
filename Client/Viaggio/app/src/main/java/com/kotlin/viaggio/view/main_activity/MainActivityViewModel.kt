@@ -51,6 +51,7 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
         val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
         if ((currentConnectOfDay - lastConnectOfDay) != 0) {
             if(TextUtils.isEmpty(token).not()){
+                prefUtilService.putBool(AndroidPrefUtilService.Key.NEW_AWS, false).blockingAwait()
                 addDisposable(userModel.getAws().subscribe())
             }
         }

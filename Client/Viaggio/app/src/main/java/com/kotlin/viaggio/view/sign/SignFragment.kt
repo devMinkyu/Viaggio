@@ -25,7 +25,7 @@ class SignFragment : BaseFragment<SignFragmentViewModel>() {
         super.onResume()
         if (sliderInterface == null)
             sliderInterface = Slidr.replace(
-                sign_container, SlidrConfig.Builder()
+                sign_container_view, SlidrConfig.Builder()
                     .position(SlidrPosition.LEFT)
                     .build()
             )
