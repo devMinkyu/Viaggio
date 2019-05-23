@@ -45,7 +45,7 @@ def get_travels():
     }), 200
 
 
-@api.route('my/travels/<int:id>')
+@api.route('/my/travels/<int:id>')
 def get_specific_travel(id):
     travel = Travel.query.filter_by(id=id).first_or_404()
     return jsonify({
