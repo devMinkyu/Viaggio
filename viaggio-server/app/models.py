@@ -90,7 +90,7 @@ class TravelCard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     travelId = db.Column(db.Integer, db.ForeignKey('travels.id'), nullable=False)
     localId = db.Column(db.BigInteger, nullable=False, unique=True)
-    travelLocalId = db.Column(db.Integer, nullable=False)
+    travelLocalId = db.Column(db.BigInteger, nullable=False)
     travelOfDay = db.Column(db.Integer, default=1)
     country = db.Column(db.String(32))
     theme = db.Column(db.PickleType)
@@ -113,14 +113,14 @@ class TravelCard(db.Model):
     def to_json(self):
         json_travelCard = {
             'serverId': self.id,
-            'travelId': self.travelId,
+            'travelServerId': self.travelId,
             'localId': self.localId,
             'travelLocalId': self.travelLocalId,
             'travelOfDay': self.travelOfDay,
             'country': self.country,
             'theme': self.theme,
             'content': self.content,
-            'imageName': self.imageName,
+            'imageNames': self.imageName,
             'imageUrl': self.imageUrl,
             'date': self.date
         }

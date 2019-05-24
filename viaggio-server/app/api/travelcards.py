@@ -21,7 +21,7 @@ def create_travelCard(travelId):
                             country=request.json.get('country'),
                             theme=request.json.get('theme'),
                             content=request.json.get('content'),
-                            imageName=request.json.get('imageName'),
+                            imageName=request.json.get('imageNames'),
                             imageUrl=request.json.get('imageUrl'),
                             date=request.json.get('date'))
 
@@ -45,7 +45,7 @@ def get_travelCards(travelId):
 def get_travelCard(travelCardId):
     travelCard = TravelCard.query.filter_by(id=travelCardId).first_or_404()
     return jsonify({
-        'travelCard': travelCard.as_dict()
+        'travelCard': travelCard.to_json()
     }), 200
 
 
@@ -55,14 +55,11 @@ def get_allTravelCard():
     travels = [travel.to_json() for travel in travels]
     travelCards = []
     for travel in travels:
-        tempTravelCards = TravelCard.query.filter_by(id=travel['serverId'], isDelete=False)
+        tempTravelCards = TravelCard.query.filter_by(travelId=travel['serverId'], isDelete=False)
         tempTravelCards = [travelCard.to_json() for travelCard in tempTravelCards]
         travelCards.append(tempTravelCards)
         
-    return jsonify({
-        'travels': travels,
-        'travelCards': travelCards
-    }), 200
+    return jsonify({ 'travelCards': travelCards }), 200
 
 
 @api.route('/my/travelcards/<int:travelCardId>', methods=['PUT'])
