@@ -48,7 +48,7 @@ def get_travels():
 def get_specific_travel(id):
     travel = Travel.query.filter_by(id=id).first_or_404()
     return jsonify({
-        'travel': travel.as_dict()
+        'travel': travel.to_json()
     }), 200
 
 
