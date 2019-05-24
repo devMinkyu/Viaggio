@@ -76,9 +76,9 @@ def update_travel(id):
     
     try:
         db.session.commit()
-        return jsonify({ 'result': 'Update travel is success.' })
+        return jsonify({ 'result': 'Update travel is success.' }), 200
     except:
-        return jsonify({ 'result': 'Update travel is failed.' })
+        return jsonify({ 'result': 'Update travel is failed.' }), 500
 
 
 @api.route('/my/travels/<int:id>', methods=['DELETE'])
