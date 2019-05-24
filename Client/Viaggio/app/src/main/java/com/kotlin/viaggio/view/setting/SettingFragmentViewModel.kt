@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.setting
 
 import android.text.TextUtils
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +23,7 @@ import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class SettingFragmentViewModel @Inject constructor() : BaseViewModel(){
@@ -138,49 +140,74 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel(){
     fun sync() {
         prefUtilService.putBool(AndroidPrefUtilService.Key.SYNCING, true).blockingAwait()
         if(localSync) {
-            val disposable = travelLocalModel.clearTravel()
-                .subscribeOn(Schedulers.io())
-                .andThen{
-                    val travelSingle = travelModel.getTravels()
-                    val travelCardSingle = travelModel.getTravelCards()
-                    Flowable.zip(travelSingle, travelCardSingle, BiFunction
-                    <Response<ViaggioApiTravels>, Response<ViaggioApiTravelCards>, List<Any>>
-                    { t1, t2 ->
-                        val list = if(t1.isSuccessful) {
-                            t1.body()!!.travel.map {travel ->
-                                travel.userExist = true
-                                travel
-                            }
-                        } else {
-                            listOf()
-                        }
-
-                        val list2 = if(t2.isSuccessful) {
-                            t2.body()!!.travelCard.map { travelCard ->
-                                travelCard.userExist = true
-                                travelCard
-                            }
-                        } else {
-                            listOf()
-                        }
-                        listOf(list, list2)
-                    }).flatMapCompletable {
-                        val serverTravels = it[0] as List<Travel>
-                        val serverTravelCards = it[1] as List<TravelCard>
-
-                        val c0 = travelLocalModel.saveAwsImageToLocal(serverTravelCards)
-                        val c1 = travelLocalModel.createTravels(*serverTravels.toTypedArray())
-                        val c2 = travelLocalModel.createTravelCard(*serverTravelCards.toTypedArray())
-                        Completable.merge(listOf(c0,c1,c2))
+            travelModel.getTravels()
+                .subscribe { t1, t2 ->
+                    if(t1.isSuccessful){
+                        Log.d("hoho", "${t1.body()}")
                     }
-                }.observeOn(Schedulers.io())
-                .subscribe({
-                    completeLiveData.postValue(Event(Any()))
-                }) {
-                    Timber.d(it)
                 }
+//            val disposable = travelLocalModel.clearTravel()
+//                .subscribeOn(Schedulers.io())
+//                .andThen{
+//                    val travelSingle = travelModel.getTravels()
+//                    val travelCardSingle = travelModel.getTravelCards()
+//                    Single.zip(travelSingle, travelCardSingle, BiFunction
+//                    <Response<ViaggioApiTravels>, Response<ViaggioApiTravelCards>, List<Any>>
+//                    { t1, t2 ->
+//                        val list = if(t1.isSuccessful) {
+//                            t1.body()!!.travel.map {travel ->
+//                                travel.userExist = true
+//                                if(travel.endDate == null) {
+//                                    prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).blockingAwait()
+//                                    prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, travel.localId).blockingAwait()
+//                                    val cal = Calendar.getInstance()
+//                                    val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
+//                                    prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay).blockingAwait()
+//                                    prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, "${travel.area[0].country}_${travel.area[0].city}").blockingAwait()
+//                                    prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 1).blockingAwait()
+//                                }
+//                                travel
+//                            }
+//                        } else {
+//                            listOf()
+//                        }
+//
+//                        val list2 = if(t2.isSuccessful) {
+//                            t2.body()!!.travelCard.map { travelCard ->
+//                                travelCard.userExist = true
+//                                travelCard
+//                            }
+//                        } else {
+//                            listOf()
+//                        }
+//                        listOf(list, list2)
+//                    }).flatMapCompletable {
+//                        val serverTravels = it[0] as List<Travel>
+//                        val serverTravelCards = it[1] as List<TravelCard>
+//
+//                        val c0 = travelLocalModel.saveAwsImageToLocal(serverTravelCards)
+//                        val c1 = travelLocalModel.createTravels(*serverTravels.toTypedArray())
+//                        val c2 = travelLocalModel.createTravelCard(*serverTravelCards.toTypedArray())
+//                        Completable.merge(listOf(c0,c1,c2))
+//                    }
+//                }.observeOn(Schedulers.io())
+//                .subscribe({
+//                    completeLiveData.postValue(Event(Any()))
+//                }) {
+//                    Timber.d(it)
+//                }
+//            addDisposable(disposable)
         } else {
+            val createTravelList = travels
+                .filter { it.userExist.not() && it.serverId == 0 }
+            val updateTravelList = travels
+                .filter { it.userExist.not() && it.serverId != 0 }
+
+            val updateTravelCardList = travelCards
+                .filter { it.userExist.not() && it.serverId != 0 }
+
             // 로컬부터 데이터 다 올려야 함
         }
     }
+    fun getTraveling() = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
 }

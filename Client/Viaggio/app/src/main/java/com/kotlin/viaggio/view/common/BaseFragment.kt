@@ -21,6 +21,7 @@ import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.r0adkll.slidr.model.SlidrInterface
 import com.tbruyelle.rxpermissions2.RxPermissions
+import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import java.lang.ref.WeakReference
 import javax.inject.Inject

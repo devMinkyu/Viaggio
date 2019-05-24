@@ -8,6 +8,7 @@ import dagger.internal.Beta
 import dagger.multibindings.Multibinds
 
 
+@Suppress("unused")
 @Beta
 @Module(includes = [AndroidInjectionModule::class])
 abstract class AndroidXInjectionModule private constructor(){

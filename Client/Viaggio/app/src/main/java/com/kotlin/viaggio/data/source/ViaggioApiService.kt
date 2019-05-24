@@ -2,7 +2,6 @@ package com.kotlin.viaggio.data.source
 
 import androidx.annotation.Keep
 import com.kotlin.viaggio.data.obj.*
-import io.reactivex.Flowable
 import io.reactivex.Single
 import okhttp3.Interceptor
 import retrofit2.Response
@@ -57,28 +56,17 @@ interface ViaggioApiService {
 
     // travel
     @POST("api/v1/my/travels")
-    @FormUrlEncoded
+//    @Body(
+//        "Content-Type: application/json"
+//    )
     fun uploadTravel(
-        @Field("localId") localId: Long,
-        @Field("area") area: String,
-        @Field("title") title: String,
-        @Field("travelKind") travelKind: Int,
-        @Field("theme") theme: String,
-        @Field("startDate") startDate: String,
-        @Field("endDate") endDate: String?
+        @Body travel: TravelBody
     ): Single<Response<ViaggioApiTravelResult>>
 
     @PUT("api/v1/my/travels/{serverId}")
-    @FormUrlEncoded
     fun updateTravel(
         @Path("serverId") serverId: Int,
-        @Field("area") area: String,
-        @Field("title") title: String,
-        @Field("theme") theme: String,
-        @Field("endDate") endDate: String?,
-        @Field("imageName") imageName: String,
-        @Field("imageUrl") imageUrl: String,
-        @Field("share") share: Boolean
+        @Body travel: TravelBody
     ): Single<Response<Any>>
 
     @DELETE("api/v1/my/travels/{serverId}")
@@ -87,46 +75,33 @@ interface ViaggioApiService {
     ): Single<Response<Any>>
 
     @GET("api/v1/my/travels")
-    fun getTravels(): Flowable<Response<ViaggioApiTravels>>
+    fun getTravels(): Single<Response<ViaggioApiTravels>>
 
     // travelCard
     @POST("api/v1/my/travelcards/{travelServerId}")
-    @FormUrlEncoded
     fun uploadTravelCard(
         @Path("travelServerId") travelServerId: Int,
-        @Field("localId") localId: Long,
-        @Field("travelLocalId") travelLocalId: Long,
-        @Field("travelOfDay") travelOfDay: Int,
-        @Field("theme") theme: MutableList<String>,
-        @Field("imageName") imageName: MutableList<String>,
-        @Field("imageUrl") imageUrl: MutableList<String>,
-        @Field("date") date: String,
-        @Field("country") country: String,
-        @Field("content") content: String
+        @Body travelCardBody: TravelCardBody
     ): Single<Response<ViaggioApiTravelResult>>
 
     @PUT("api/v1/my/travelcards/{serverId}")
-    @Headers(
-        "Content-Type: application/x-www-form-urlencoded"
-    )
-    @FormUrlEncoded
     fun updateTravelCard(
         @Path("serverId") serverId: Int,
-        @Field("content") content: String
+        @Body travelCardBody: TravelCardBody
     ): Single<Response<Any>>
 
     @DELETE("api/v1/my/travelcards/{serverId}")
     fun deleteTravelCard(
         @Path("serverId") serverId: Int
-    ):Single<Response<Any>>
+    ): Single<Response<Any>>
 
 
     @GET("api/v1/my/travelcards")
-    fun getTravelCards(): Flowable<Response<ViaggioApiTravelCards>>
+    fun getTravelCards(): Single<Response<ViaggioApiTravelCards>>
 
     // sync
     @GET("api/v1/sync/count")
-    fun sycnCheckCount():Single<Response<ViaggioApiSync>>
+    fun sycnCheckCount(): Single<Response<ViaggioApiSync>>
 
     @Singleton
     class TokenInterceptor @Inject constructor() : Interceptor {

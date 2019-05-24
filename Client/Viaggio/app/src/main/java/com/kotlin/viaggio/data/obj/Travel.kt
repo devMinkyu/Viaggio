@@ -22,6 +22,21 @@ data class Travel(
     var share: Boolean = false,
     @field:JvmField var isDelete:Boolean = false
 )
+data class TravelBody(
+    var localId: Long = 0,
+    var serverId: Int = 0,
+    @Suppress("ArrayInDataClass") var area: MutableList<Area> = mutableListOf(),
+    var title: String = "",
+    // 0 해외여행, 1 국내여행
+    var travelKind:Int =0,
+    var startDate: String? = null,
+    var endDate: String? = null,
+    @Suppress("ArrayInDataClass") var theme: MutableList<String> = mutableListOf(),
+    var imageName: String = "",
+    var imageUrl: String = "",
+    var share: Boolean = false,
+    @field:JvmField var isDelete:Boolean = false
+)
 
 data class Traveled(
     var id: Long = 0,
@@ -45,6 +60,20 @@ data class TravelCard(
     @Suppress("ArrayInDataClass") var imageUrl: MutableList<String> = mutableListOf(),
     var content: String = "",
     var date: Date = Date(),
+    @field:JvmField var isDelete:Boolean = false
+)
+data class TravelCardBody(
+    var localId: Long = 0,
+    var serverId: Int = 0,
+    var travelLocalId: Long = 0,
+    var travelServerId: Int = 0,
+    var travelOfDay: Int = 1,
+    var country:String = "",
+    @Suppress("ArrayInDataClass") var theme: MutableList<String> = mutableListOf(),
+    @Suppress("ArrayInDataClass") var imageNames: MutableList<String> = mutableListOf(),
+    @Suppress("ArrayInDataClass") var imageUrl: MutableList<String> = mutableListOf(),
+    var content: String = "",
+    var date: String = "",
     @field:JvmField var isDelete:Boolean = false
 )
 

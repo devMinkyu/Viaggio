@@ -23,35 +23,36 @@ class TravelModel @Inject constructor() : BaseModel() {
     lateinit var gson: Gson
 
     val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH)
-    fun uploadTravel(travel: Travel): Single<Response<ViaggioApiTravelResult>> {
+    private fun travelOfTravelBodyConvert(travel: Travel):TravelBody {
         val dateFormated = dateFormat.format(travel.startDate)
         val endDateFormated = travel.endDate?.let {
             dateFormat.format(travel.endDate)
         }
+        return TravelBody().apply {
+            localId = travel.localId
+            startDate = dateFormated
+            endDate = endDateFormated
+            area = travel.area
+            theme = travel.theme
+            imageName = travel.imageName
+            imageUrl = travel.imageUrl
+            isDelete = travel.isDelete
+            serverId = travel.serverId
+            share = travel.share
+            title = travel.title
+            travelKind = travel.travelKind
+        }
+    }
+    fun uploadTravel(travel: Travel): Single<Response<ViaggioApiTravelResult>> {
         return api.uploadTravel(
-            localId = travel.localId,
-            title = travel.title,
-            area = gson.toJson(travel.area),
-            travelKind = travel.travelKind,
-            startDate = dateFormated,
-            endDate = endDateFormated,
-            theme = gson.toJson(travel.theme)
+            travel = travelOfTravelBodyConvert(travel)
         ).subscribeOn(Schedulers.io())
     }
 
     fun updateTravel(travel: Travel) :Single<Response<Any>> {
-        val endDateFormated = travel.endDate?.let {
-            dateFormat.format(travel.endDate)
-        }
         return api.updateTravel(
             serverId = travel.serverId,
-            area = gson.toJson(travel.area),
-            theme = gson.toJson(travel.theme),
-            imageName = travel.imageName,
-            imageUrl = travel.imageUrl,
-            title = travel.title,
-            share = travel.share,
-            endDate = endDateFormated
+            travel = travelOfTravelBodyConvert(travel)
         ).subscribeOn(Schedulers.io())
     }
     fun deleteTravel(travelId: Int) =
@@ -59,32 +60,40 @@ class TravelModel @Inject constructor() : BaseModel() {
     fun getTravels() =
             api.getTravels().subscribeOn(Schedulers.io())
 
-
-    fun uploadTravelCard(travelCard: TravelCard):Single<Response<ViaggioApiTravelResult>> {
+    private fun travelCardOfTravelCardBodyConvert(travelCard: TravelCard):TravelCardBody {
         val dateFormated = dateFormat.format(travelCard.date)
+        return TravelCardBody().apply {
+            localId = travelCard.localId
+            serverId = travelCard.serverId
+            travelLocalId = travelCard.travelLocalId
+            travelServerId = travelCard.travelServerId
+            travelOfDay = travelCard.travelOfDay
+            country = travelCard.country
+            theme = travelCard.theme
+            imageNames = travelCard.imageNames
+            imageUrl = travelCard.imageUrl
+            content = travelCard.content
+            date = dateFormated
+            isDelete = travelCard.isDelete
+        }
+    }
+    fun uploadTravelCard(travelCard: TravelCard):Single<Response<ViaggioApiTravelResult>> {
         return api.uploadTravelCard(
             travelServerId = travelCard.travelServerId,
-            travelOfDay = travelCard.travelOfDay,
-            country = travelCard.country,
-            content = travelCard.content,
-            date = dateFormated,
-            localId = travelCard.localId,
-            travelLocalId = travelCard.travelLocalId,
-            theme = travelCard.theme,
-            imageUrl = travelCard.imageUrl,
-            imageName = travelCard.imageNames
+            travelCardBody = travelCardOfTravelCardBodyConvert(travelCard)
         ).subscribeOn(Schedulers.io())
     }
 
     fun updateTravelCard(travelCard: TravelCard) =
         api.updateTravelCard(
             serverId = travelCard.serverId,
-            content = travelCard.content
+            travelCardBody = travelCardOfTravelCardBodyConvert(travelCard)
         ).subscribeOn(Schedulers.io())
     fun deleteTravelCard(travelCardId: Int) =
         api.deleteTravelCard(
             serverId = travelCardId
         ).subscribeOn(Schedulers.io())
+
     fun getTravelCards() =
         api.getTravelCards().subscribeOn(Schedulers.io())
 

@@ -1,13 +1,12 @@
 package com.kotlin.viaggio.ioc.module.common
 
-import android.util.Log
 import androidx.fragment.app.Fragment
 import dagger.android.support.HasSupportFragmentInjector
 import timber.log.Timber
 
 class AndroidXInjection{
     companion object {
-        val TAG = AndroidXInjection::class.java.simpleName
+        val TAG:String = AndroidXInjection::class.java.simpleName
         /**
          * Injects `fragment` if an associated [dagger.android.AndroidInjector] implementation
          * can be found, otherwise throws an [IllegalArgumentException].
@@ -29,9 +28,6 @@ class AndroidXInjection{
          * [HasSupportFragmentInjector].
          */
         fun inject(fragment: Fragment) {
-            checkNotNull(fragment) {
-                "fragment"
-            }
             val hasAndroidXFragmentInjector =
                 findHasFragmentInjector(fragment)
 
@@ -44,11 +40,6 @@ class AndroidXInjection{
             )
 
             val fragmentInjector = hasAndroidXFragmentInjector.androidXFragmentInjector()
-            checkNotNull(fragmentInjector) {
-                String.format(
-                    "%s.supportFragmentInjector() returned null"
-                    , hasAndroidXFragmentInjector::class.java.name)
-            }
             fragmentInjector.inject(fragment)
         }
 
