@@ -138,7 +138,11 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         }
         fun uploadCheck() {
             if (checkInternet()) {
-                UploadCheckActionDialogFragment().show(fragmentManager!!, UploadCheckActionDialogFragment.TAG)
+                if(getViewModel().getTraveling()) {
+                     toast("여행을 종료 해주시길 바랍니다.")
+                } else {
+                    UploadCheckActionDialogFragment().show(fragmentManager!!, UploadCheckActionDialogFragment.TAG)
+                }
             } else {
                 showNetWorkError()
             }

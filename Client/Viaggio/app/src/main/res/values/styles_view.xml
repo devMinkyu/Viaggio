@@ -82,6 +82,7 @@
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusTopEnd">10dp</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
+        <item name="hintTextColor">@android:color/white</item>
     </style>
 
     <style name="ViewStyle.Viaggio.SignBtn" parent="@style/Widget.MaterialComponents.Button.TextButton">

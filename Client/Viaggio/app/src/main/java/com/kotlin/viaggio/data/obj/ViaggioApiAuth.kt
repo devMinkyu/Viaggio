@@ -10,8 +10,9 @@ data class ViaggioApiAuth(
 
 data class ViaggioApiAWSAuth(val AWS_IdentityId: String, val AWS_Token: String)
 data class ViaggioApiTravelResult(var id: Int = 0)
-data class ViaggioApiTravels(var travel: List<Travel>)
-data class ViaggioApiTravelCards(var travelCard: List<TravelCard>)
+data class ViaggioApiTravels(var travels: List<Travel>)
+data class ViaggioApiTravelCards(var travelCards: List<TravelCard>)
 data class ViaggioApiSync(var travelCount: Int = 0, var travelCardCount: Int = 0)
+data class ViaggioApiSyncId(val localId: Long, val serverId: Int)
 
 
