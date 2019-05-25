@@ -2,31 +2,35 @@ from flask import jsonify, request
 from . import api
 from .. import db
 from ..models import Travel, TravelCard
-from ..forms.travelcard import CreateTravelCardForm
 from ..errors import bad_request
-from datetime import datetime
 
 
 @api.route('/my/travelcards/<int:travelId>', methods=['POST'])
 def create_travelCard(travelId):
-    form = CreateTravelCardForm(request.form)
-    if form.validate():
-        travelCard = TravelCard(travelId=travelId,
-                                localId=request.form.get('localId'),
-                                travelLocalId=request.form.get('travelLocalId'),
-                                travelOfDay=request.form.get('travelOfDay'),
-                                country=request.form.get('country'),
-                                theme=request.form.get('theme'),
-                                content=request.form.get('content'),
-                                imageName=request.form.get('imageName'),
-                                imageUrl=request.form.get('imageUrl'),
-                                date=datetime.strptime(request.form.get('date'), "%Y-%m-%d %H:%M:%S") if request.form.get('date') else request.form.get('date'))
+    if request.json.get('localId') is None:
+        return bad_request(400, 'localId is required.')
+    if TravelCard.query.filter_by(localId=request.json.get('localId')).first():
+        return bad_request(400, 'LocalId already exist.')
+    if request.json.get('travelLocalId') is None:
+        return bad_request(400, 'travelLocalId is required.')
+
+    travelCard = TravelCard(travelId=travelId,
+                            localId=request.json.get('localId'),
+                            travelLocalId=request.json.get('travelLocalId'),
+                            travelOfDay=request.json.get('travelOfDay'),
+                            country=request.json.get('country'),
+                            theme=request.json.get('theme'),
+                            content=request.json.get('content'),
+                            imageName=request.json.get('imageNames'),
+                            imageUrl=request.json.get('imageUrl'),
+                            date=request.json.get('date'))
+
+    try:
         db.session.add(travelCard)
         db.session.commit()
         return jsonify({ 'id': travelCard.id }), 200
-
-    if form.localId.errors:
-        return bad_request(401, form.localId.errors[0])
+    except:
+        return jsonify({ 'result': 'Create TravelCard is failed.' }), 500
 
 
 @api.route('/my/travelcards/<int:travelId>')
@@ -37,19 +41,32 @@ def get_travelCards(travelId):
     }), 200
 
 
-@api.route('/my/travelcard/<int:travelCardId>')
+@api.route('/my/travelcards/<int:travelCardId>')
 def get_travelCard(travelCardId):
     travelCard = TravelCard.query.filter_by(id=travelCardId).first_or_404()
     return jsonify({
-        'travelCard': travelCard.as_dict()
+        'travelCard': travelCard.to_json()
     }), 200
+
+
+@api.route('/my/travelcards')
+def get_allTravelCard():
+    travels = Travel.query.filter_by(userId=request.user.id, isDelete=False)
+    travels = [travel.to_json() for travel in travels]
+    travelCards = []
+    for travel in travels:
+        tempTravelCards = TravelCard.query.filter_by(travelId=travel['serverId'], isDelete=False)
+        tempTravelCards = [travelCard.to_json() for travelCard in tempTravelCards]
+        travelCards.append(tempTravelCards)
+        
+    return jsonify({ 'travelCards': travelCards }), 200
 
 
 @api.route('/my/travelcards/<int:travelCardId>', methods=['PUT'])
 def update_travelCard(travelCardId):
     travelCard = TravelCard.query.filter_by(id=travelCardId).first_or_404()
-    if request.form.get('content') is not None:
-        travelCard.content = request.form.get('content')
+    if request.json.get('content') is not None:
+        travelCard.content = request.json.get('content')
     db.session.commit()
     return jsonify({ 'result': 'Travel card is updated.' })
 
