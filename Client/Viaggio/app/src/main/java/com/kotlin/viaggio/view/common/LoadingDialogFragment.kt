@@ -17,13 +17,6 @@ class LoadingDialogFragment: AbstractBaseDialogFragment() {
         return inflater.inflate(R.layout.fragment_dialog_loading, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        close.setOnClickListener {
-
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         loading_anim.playAnimation()

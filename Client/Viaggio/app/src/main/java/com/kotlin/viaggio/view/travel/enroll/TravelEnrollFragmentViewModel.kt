@@ -130,8 +130,6 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
             theme = travelThemeList.toMutableList(),
             travelKind = travelKind
         )
-        prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, "${chooseCountry[0].country}_${chooseCountry[0].city}")
-            .observeOn(Schedulers.io()).blockingAwait()
 
         val disposable = travelLocalModel.createTravel(travel)
             .andThen {
@@ -139,6 +137,8 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                     travelingSetting()
                     prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, travel.localId).observeOn(Schedulers.io())
                         .blockingAwait()
+                    prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, "${chooseCountry[0].country}_${chooseCountry[0].city}")
+                        .observeOn(Schedulers.io()).blockingAwait()
                 }
                 val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
                 val mode = prefUtilService.getInt(AndroidPrefUtilService.Key.UPLOAD_MODE).blockingGet()
