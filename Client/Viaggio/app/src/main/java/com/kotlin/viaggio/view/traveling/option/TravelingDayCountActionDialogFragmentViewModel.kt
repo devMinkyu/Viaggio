@@ -8,6 +8,7 @@ import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 class TravelingDayCountActionDialogFragmentViewModel @Inject constructor() : BaseViewModel() {
@@ -26,8 +27,10 @@ class TravelingDayCountActionDialogFragmentViewModel @Inject constructor() : Bas
             .subscribe ({travelVal ->
                 if(travelVal.endDate == null){
                     traveling = true
-                    val lastDayCount = prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet()
-                    dayCountLiveData.postValue(Event(lastDayCount))
+                    val day = Math.floor(
+                        ((Calendar.getInstance().time.time - travelVal.startDate!!.time).toDouble() / 1000) / (24 * 60 * 60)
+                    ).toInt()
+                    dayCountLiveData.postValue(Event(day + 1))
                 }else{
                     val day = Math.floor(
                         ((travelVal.endDate!!.time - travelVal.startDate!!.time).toDouble() / 1000) / (24 * 60 * 60)

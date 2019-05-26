@@ -22,6 +22,7 @@ data class Travel(
     var share: Boolean = false,
     @field:JvmField var isDelete:Boolean = false
 )
+data class TravelBodyList(var travels: List<TravelBody>)
 data class TravelBody(
     var localId: Long = 0,
     var serverId: Int = 0,

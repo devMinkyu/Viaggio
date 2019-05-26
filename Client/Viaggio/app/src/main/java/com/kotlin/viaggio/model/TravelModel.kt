@@ -4,7 +4,6 @@ import com.google.gson.Gson
 import com.kotlin.viaggio.data.obj.*
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.ViaggioApiService
-import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -23,7 +22,7 @@ class TravelModel @Inject constructor() : BaseModel() {
     lateinit var gson: Gson
 
     val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH)
-    private fun travelOfTravelBodyConvert(travel: Travel):TravelBody {
+    private fun travelOfTravelBodyConvert(travel: Travel): TravelBody {
         val dateFormated = dateFormat.format(travel.startDate)
         val endDateFormated = travel.endDate?.let {
             dateFormat.format(travel.endDate)
@@ -43,24 +42,43 @@ class TravelModel @Inject constructor() : BaseModel() {
             travelKind = travel.travelKind
         }
     }
+    fun createTravels(travels: List<Travel>): Single<Response<ViaggioApiTravelsResult>> {
+        val result = travels.map {
+            travelOfTravelBodyConvert(it)
+        }
+        val data = TravelBodyList(result)
+        return api.createTravels(data).subscribeOn(Schedulers.io())
+    }
+
     fun uploadTravel(travel: Travel): Single<Response<ViaggioApiTravelResult>> {
         return api.uploadTravel(
             travel = travelOfTravelBodyConvert(travel)
         ).subscribeOn(Schedulers.io())
     }
 
-    fun updateTravel(travel: Travel) :Single<Response<Any>> {
+    fun updateTravel(travel: Travel): Single<Response<Any>> {
         return api.updateTravel(
             serverId = travel.serverId,
             travel = travelOfTravelBodyConvert(travel)
         ).subscribeOn(Schedulers.io())
     }
+
     fun deleteTravel(travelId: Int) =
         api.deleteTravel(travelId).subscribeOn(Schedulers.io())
-    fun getTravels() =
-            api.getTravels().subscribeOn(Schedulers.io())
 
-    private fun travelCardOfTravelCardBodyConvert(travelCard: TravelCard):TravelCardBody {
+    fun getTravels(): Single<List<TravelBody>> {
+        return api.getTravels().subscribeOn(Schedulers.io())
+            .flatMap {
+                if (it.isSuccessful) {
+                    Single.just(it.body()!!.travels)
+                } else {
+                    Single.just(listOf())
+                }
+            }
+    }
+
+
+    private fun travelCardOfTravelCardBodyConvert(travelCard: TravelCard): TravelCardBody {
         val dateFormated = dateFormat.format(travelCard.date)
         return TravelCardBody().apply {
             localId = travelCard.localId
@@ -75,9 +93,11 @@ class TravelModel @Inject constructor() : BaseModel() {
             content = travelCard.content
             date = dateFormated
             isDelete = travelCard.isDelete
+
         }
     }
-    fun uploadTravelCard(travelCard: TravelCard):Single<Response<ViaggioApiTravelResult>> {
+
+    fun uploadTravelCard(travelCard: TravelCard): Single<Response<ViaggioApiTravelResult>> {
         return api.uploadTravelCard(
             travelServerId = travelCard.travelServerId,
             travelCardBody = travelCardOfTravelCardBodyConvert(travelCard)
@@ -89,17 +109,26 @@ class TravelModel @Inject constructor() : BaseModel() {
             serverId = travelCard.serverId,
             travelCardBody = travelCardOfTravelCardBodyConvert(travelCard)
         ).subscribeOn(Schedulers.io())
+
     fun deleteTravelCard(travelCardId: Int) =
         api.deleteTravelCard(
             serverId = travelCardId
         ).subscribeOn(Schedulers.io())
 
-    fun getTravelCards() =
-        api.getTravelCards().subscribeOn(Schedulers.io())
+    fun getTravelCards(): Single<List<TravelCardBody>> {
+        return api.getTravelCards().subscribeOn(Schedulers.io())
+            .flatMap {
+                if(it.isSuccessful) {
+                    Single.just(it.body()!!.travelCards)
+                } else{
+                    Single.just(listOf())
+                }
+            }
+
+    }
 
     fun sync() =
-        api.sycnCheckCount().subscribeOn(Schedulers.io())
-
+        api.syncCheckCount().subscribeOn(Schedulers.io())
 
 
 }

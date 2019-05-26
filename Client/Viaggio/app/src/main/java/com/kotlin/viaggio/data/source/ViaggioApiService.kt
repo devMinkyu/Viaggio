@@ -56,12 +56,14 @@ interface ViaggioApiService {
 
     // travel
     @POST("api/v1/my/travels")
-//    @Body(
-//        "Content-Type: application/json"
-//    )
     fun uploadTravel(
         @Body travel: TravelBody
     ): Single<Response<ViaggioApiTravelResult>>
+
+    @POST("api/v1/sync/travels")
+    fun createTravels(
+        @Body travels: TravelBodyList
+    ): Single<Response<ViaggioApiTravelsResult>>
 
     @PUT("api/v1/my/travels/{serverId}")
     fun updateTravel(
@@ -101,7 +103,7 @@ interface ViaggioApiService {
 
     // sync
     @GET("api/v1/sync/count")
-    fun sycnCheckCount(): Single<Response<ViaggioApiSync>>
+    fun syncCheckCount(): Single<Response<ViaggioApiSync>>
 
     @Singleton
     class TokenInterceptor @Inject constructor() : Interceptor {
