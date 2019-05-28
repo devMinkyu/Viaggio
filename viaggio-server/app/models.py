@@ -83,6 +83,13 @@ class Travel(db.Model):
         }
         return json_travel
 
+    def sync_create_json(self):
+        json_sync = {
+            'serverId': self.id,
+            'localId': self.localId
+        }
+        return json_sync
+
 
 class TravelCard(db.Model):
     __tablename__ = 'travelcards'

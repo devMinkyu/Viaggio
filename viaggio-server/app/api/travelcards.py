@@ -57,7 +57,8 @@ def get_allTravelCard():
     for travel in travels:
         tempTravelCards = TravelCard.query.filter_by(travelId=travel['serverId'], isDelete=False)
         tempTravelCards = [travelCard.to_json() for travelCard in tempTravelCards]
-        travelCards.append(tempTravelCards)
+        for travelCard in tempTravelCards:
+            travelCards.append(travelCard)
         
     return jsonify({ 'travelCards': travelCards }), 200
 
