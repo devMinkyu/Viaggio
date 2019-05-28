@@ -228,8 +228,8 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel() {
                     it.onComplete()
                 }
                 .subscribe({
-                    rxEventBus.travelUpdate.onNext(Any())
                     completeLiveData.postValue(Event(Any()))
+                    rxEventBus.travelUpdate.onNext(Any())
                 }) {
                     Timber.d(it)
                 }

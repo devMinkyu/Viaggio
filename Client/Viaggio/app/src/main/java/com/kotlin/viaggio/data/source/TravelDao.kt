@@ -38,7 +38,7 @@ interface TravelDao {
     fun getTravelCardDes(travelId: Long): DataSource.Factory<Int, TravelCard>
 
     @Insert
-    fun insertTravelCard(vararg travelCard: TravelCard)
+    fun  insertTravelCard(vararg travelCard: TravelCard)
 
     @Query("SELECT * FROM travelCards WHERE travelLocalId IN(:travelOfDayId) And isDelete = 0 ORDER BY date DESC")
     fun getTravelCardsPaged(travelOfDayId: Long): DataSource.Factory<Int, TravelCard>

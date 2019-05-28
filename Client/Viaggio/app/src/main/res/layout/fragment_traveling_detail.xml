@@ -145,6 +145,16 @@
                             android:text="@{@string/travel_card_image_count(viewModel.currentImageSize, viewModel.imageSize)}"
                             tools:text="13 / 20"
                             tools:ignore="SpUsage"/>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|end"
+                            app:srcCompat="@drawable/icon_detail"
+                            android:layout_marginEnd="13dp"
+                            android:layout_marginBottom="12dp"
+                            android:visibility="@{viewModel.imageShow ? View.VISIBLE:View.GONE}"
+                    />
                     <com.kotlin.viaggio.widget.PageIndicatorView
                             android:id="@id/travelOfDayImageIndicator"
                             android:layout_width="wrap_content"
