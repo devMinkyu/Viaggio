@@ -9,13 +9,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
-import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFragmentInjector {
+abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasSupportFragmentInjector{
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
     @Inject
@@ -33,8 +33,7 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidXFra
         (getViewModel() as BaseViewModel).initialize()
     }
 
-    override fun androidXFragmentInjector() = fragmentInjector
-
+    override fun supportFragmentInjector() = fragmentInjector
     fun getViewModel(): E =
         viewModelProvider.let { vmpRef ->
             vmpRef?.get()?.let {
