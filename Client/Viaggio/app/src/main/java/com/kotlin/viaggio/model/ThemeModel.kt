@@ -29,6 +29,12 @@ class ThemeModel @Inject constructor() : BaseModel() {
             db.get().themeDao().insertTheme(theme)
         }.subscribeOn(Schedulers.io())
 
+
+    fun deleteTheme(theme: Theme) =
+        Completable.fromAction {
+            db.get().themeDao().deleteTheme(theme)
+        }.subscribeOn(Schedulers.io())
+
     fun getThemes():Single<List<Theme>> {
         return db.get().themeDao().getThemes().subscribeOn(Schedulers.io())
     }

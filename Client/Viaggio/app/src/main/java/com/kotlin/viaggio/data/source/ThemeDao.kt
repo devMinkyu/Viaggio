@@ -20,4 +20,7 @@ interface ThemeDao {
 
     @Update
     fun updateTheme(theme: Theme)
+
+    @Delete
+    fun deleteTheme(theme: Theme)
 }
