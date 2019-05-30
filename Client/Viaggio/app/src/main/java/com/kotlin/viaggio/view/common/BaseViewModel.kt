@@ -9,11 +9,13 @@ import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.RxEventBus
+import com.kotlin.viaggio.worker.DataFetchWorker
 import com.kotlin.viaggio.worker.DeleteTravelWorker
 import com.kotlin.viaggio.worker.UpdateTravelWorker
 import com.kotlin.viaggio.worker.UploadTravelWorker
 import dagger.Lazy
 import io.reactivex.disposables.Disposable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -48,6 +50,14 @@ abstract class BaseViewModel:ViewModel() {
         disposables.add(disposable)
     }
     open fun initialize() {}
+
+    fun dataFetch() {
+        val con = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val work = PeriodicWorkRequestBuilder<DataFetchWorker>(3, TimeUnit.DAYS)
+            .setConstraints(con)
+            .build()
+        WorkManager.getInstance(appCtx.get()).enqueue(work)
+    }
 
     fun deleteWork(data: Any) {
         val workData = loadData(data)

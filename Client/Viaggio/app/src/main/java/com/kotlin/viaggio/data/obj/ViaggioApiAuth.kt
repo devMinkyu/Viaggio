@@ -16,4 +16,8 @@ data class ViaggioApiTravelCards(var travelCards: List<TravelCardBody>)
 data class ViaggioApiSync(var travelCount: Int = 0, var travelCardCount: Int = 0)
 data class ViaggioApiSyncId(val localId: Long, val serverId: Int)
 
+data class ViaggioApiTheme(var themes:List<Theme>)
+data class ViaggioApiCountry(var contries: List<Country>)
+data class ViaggioApiDomestics(var domestics: List<Country>)
+
 

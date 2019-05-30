@@ -3,25 +3,21 @@ package com.kotlin.viaggio.view.traveling.country
 import android.text.TextUtils
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.MutableLiveData
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import com.google.gson.reflect.TypeToken
-import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.obj.Area
 import com.kotlin.viaggio.data.obj.Country
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.event.Event
+import com.kotlin.viaggio.model.CountryModel
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
-import com.kotlin.viaggio.worker.UpdateTravelWorker
 import timber.log.Timber
-import java.io.InputStreamReader
 import javax.inject.Inject
 
 class TravelingDomesticsCountryFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
+    @Inject
+    lateinit var countryModel: CountryModel
 
     val domesticsLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
     val completeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
@@ -33,15 +29,18 @@ class TravelingDomesticsCountryFragmentViewModel @Inject constructor() : BaseVie
     var travel = Travel()
     override fun initialize() {
         super.initialize()
+        val disposable = countryModel.getCountries(1)
+            .subscribe({
+                groupDomestics = it
+                domesticsLiveData.postValue(Event(Any()))
+            }) {
+                Timber.d(it)
+            }
+        addDisposable(disposable)
 
-        val inputStream = InputStreamReader(appCtx.get().assets.open("domestics.json"))
-        val type = object : TypeToken<List<Country>>() {}.type
-        groupDomestics = gson.fromJson(inputStream, type)
 
-        domesticsLiveData.value = Event(Any())
-
-        if (option) {
-            val disposable = travelLocalModel.getTravel()
+        val selectedDisposable = if (option) {
+            travelLocalModel.getTravel()
                 .subscribe({
                     travel = it
                     if (selectedCities.isNullOrEmpty()) {
@@ -51,17 +50,16 @@ class TravelingDomesticsCountryFragmentViewModel @Inject constructor() : BaseVie
                 }) {
                     Timber.d(it)
                 }
-            addDisposable(disposable)
         } else {
-            val disposable = rxEventBus.travelSelectedCity.subscribe {
+            rxEventBus.travelSelectedCity.subscribe {
                 if (check.not()) {
                     selectedCities.clear()
                     selectedCities.addAll(it)
                     domesticsLiveData.value = Event(Any())
                 }
             }
-            addDisposable(disposable)
         }
+        addDisposable(selectedDisposable)
     }
 
     fun selectedCity() {

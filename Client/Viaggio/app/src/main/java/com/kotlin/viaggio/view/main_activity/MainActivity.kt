@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import com.github.ajalt.reprint.core.Reprint
 import com.github.ajalt.reprint.rxjava2.RxReprint
@@ -39,16 +40,19 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        showHome()
+        handleIntent(intent)
+
 //        if (getViewModel().checkTutorial()) {
 //            getViewModel().initSetting()
 //            showHome()
 //        } else {
 //            showTutorial()
 //        }
-        getViewModel().initSetting()
-        showHome()
-
-        handleIntent(intent)
+//        window.setFlags(
+//            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+//            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+//        )
 
         getViewModel().finishActivity.observe(this, Observer {
             it.getContentIfNotHandled()?.let {

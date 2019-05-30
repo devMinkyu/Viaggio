@@ -28,6 +28,8 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
     val showToast:MutableLiveData<Event<Any>> = MutableLiveData()
     var traveling = false
     var travelType = 0
+
+    val backButtonSubject: Subject<Long> = BehaviorSubject.createDefault(0L).toSerialized()
     override fun initialize() {
         super.initialize()
         traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
@@ -55,17 +57,16 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
                 addDisposable(userModel.getAws().subscribe())
             }
         }
+
+        if(prefUtilService.getBool(AndroidPrefUtilService.Key.FIRST_LOGIN, true).blockingGet()) {
+            prefUtilService.putBool(AndroidPrefUtilService.Key.FIRST_LOGIN, false).blockingAwait()
+            prefUtilService.putInt(AndroidPrefUtilService.Key.IMAGE_MODE, 0).blockingAwait()
+            prefUtilService.putInt(AndroidPrefUtilService.Key.UPLOAD_MODE, 0).blockingAwait()
+            dataFetch()
+        }
     }
 
-    val backButtonSubject: Subject<Long> =
-        BehaviorSubject.createDefault(0L)
-            .toSerialized()
 
     fun checkTutorial() = prefUtilService.getBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK).blockingGet() ?: false
-    fun initSetting() {
-        prefUtilService.putInt(AndroidPrefUtilService.Key.IMAGE_MODE, 0).blockingAwait()
-        prefUtilService.putInt(AndroidPrefUtilService.Key.UPLOAD_MODE, 0).blockingAwait()
-    }
-
     fun getLock() = prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet() ?: false
 }

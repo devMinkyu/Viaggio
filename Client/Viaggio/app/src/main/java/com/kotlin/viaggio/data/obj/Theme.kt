@@ -16,3 +16,7 @@ data class ThemeData(
     var authority:Boolean = false,
     var select:ObservableBoolean = ObservableBoolean(false)
 )
+
+data class ThemeBody(
+    var themes:List<Theme>
+)

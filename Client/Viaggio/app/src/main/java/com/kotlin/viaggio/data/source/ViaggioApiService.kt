@@ -105,6 +105,19 @@ interface ViaggioApiService {
     @GET("api/v1/sync/count")
     fun syncCheckCount(): Single<Response<ViaggioApiSync>>
 
+    // country
+    @GET("api/v1/commons/countries")
+    @Headers("No-Authentication: true")
+    fun getCountries(): Single<Response<ViaggioApiCountry>>
+    // domestics
+    @GET("api/v1/commons/domestics")
+    @Headers("No-Authentication: true")
+    fun getDomestics(): Single<Response<ViaggioApiDomestics>>
+    // theme
+    @GET("api/v1/commons/themes")
+    @Headers("No-Authentication: true")
+    fun getThemes(): Single<Response<ViaggioApiTheme>>
+
     @Singleton
     class TokenInterceptor @Inject constructor() : Interceptor {
         @Inject

@@ -11,12 +11,22 @@ data class Country(
     var continent: String = "",
     var country: String,
     var url: String = "",
-    @Suppress("ArrayInDataClass") var area: ArrayList<String>
+    @Suppress("ArrayInDataClass") var area: ArrayList<String>,
+    var kind: Int = 0
 )
+// 0 해외
+// 1 국내
 
 data class Area(
     var continent: String = "",
     var country: String ="",
     var city:String ="",
     var selected: ObservableBoolean = ObservableBoolean(false)
+)
+
+data class CountryBody(
+    var contries:List<Country>
+)
+data class DomesticsBody(
+    var domestics:List<Country>
 )
