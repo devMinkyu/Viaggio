@@ -8,24 +8,22 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.SavedStateVMFactory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
-import com.kotlin.viaggio.ioc.module.common.AndroidXInjection
-import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.r0adkll.slidr.model.SlidrInterface
 import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.HasSupportFragmentInjector
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInjector {
+abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjector {
     @Inject
     internal lateinit var viewModel: E
     @Inject
@@ -39,10 +37,9 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidXFragmentInje
 
     var width:Int = 0
     var isShowKeyBoard = false
-
-    override fun androidXFragmentInjector() = fragmentInjector
+    override fun supportFragmentInjector() = fragmentInjector
     override fun onAttach(context: Context) {
-        AndroidXInjection.inject(this)
+        AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 

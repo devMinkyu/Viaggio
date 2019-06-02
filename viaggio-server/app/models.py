@@ -12,7 +12,6 @@ class User(db.Model):
     email = db.Column(db.String(64), unique=True, index=True)
     name = db.Column(db.String(64))
     passwordHash = db.Column(db.String(128))
-    profileImageName = db.Column(db.String(64))
     profileImageUrl = db.Column(db.String(512))
     token = db.Column(db.String(128), unique=True, default=lambda: str(uuid.uuid4()))
     createdDate = db.Column(db.DateTime, default=datetime.utcnow)
@@ -22,7 +21,7 @@ class User(db.Model):
         super(User, self).__init__(**kwargs)
 
     def __repr__(self):
-        return '<User %r>' % self.email, self.name, self.passwordHash, self.profileImageName, self.token, self.createdDate
+        return '<User %r>' % self.email, self.name, self.passwordHash, self.token, self.createdDate
 
     def as_dict(self):
         return {x.name: getattr(self, x.name) for x in self.__table__.columns}
@@ -84,6 +83,13 @@ class Travel(db.Model):
         }
         return json_travel
 
+    def sync_create_json(self):
+        json_sync = {
+            'serverId': self.id,
+            'localId': self.localId
+        }
+        return json_sync
+
 
 class TravelCard(db.Model):
     __tablename__ = 'travelcards'
@@ -91,7 +97,7 @@ class TravelCard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     travelId = db.Column(db.Integer, db.ForeignKey('travels.id'), nullable=False)
     localId = db.Column(db.BigInteger, nullable=False, unique=True)
-    travelLocalId = db.Column(db.Integer, nullable=False)
+    travelLocalId = db.Column(db.BigInteger, nullable=False)
     travelOfDay = db.Column(db.Integer, default=1)
     country = db.Column(db.String(32))
     theme = db.Column(db.PickleType)
@@ -114,14 +120,14 @@ class TravelCard(db.Model):
     def to_json(self):
         json_travelCard = {
             'serverId': self.id,
-            'travelId': self.travelId,
+            'travelServerId': self.travelId,
             'localId': self.localId,
             'travelLocalId': self.travelLocalId,
             'travelOfDay': self.travelOfDay,
             'country': self.country,
             'theme': self.theme,
             'content': self.content,
-            'imageName': self.imageName,
+            'imageNames': self.imageName,
             'imageUrl': self.imageUrl,
             'date': self.date
         }

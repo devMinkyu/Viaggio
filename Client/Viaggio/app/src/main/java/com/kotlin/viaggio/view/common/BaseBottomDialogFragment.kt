@@ -10,13 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.kotlin.viaggio.BuildConfig
-import com.kotlin.viaggio.ioc.module.common.AndroidXInjection
-import com.kotlin.viaggio.ioc.module.common.HasAndroidXFragmentInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.HasSupportFragmentInjector
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialogFragment(), HasAndroidXFragmentInjector {
+abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialogFragment(),
+    HasSupportFragmentInjector {
     @Inject
     internal lateinit var viewModel: E
     @Inject
@@ -24,10 +25,9 @@ abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialo
 
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
     var isShowKeyBoard = false
-
-    override fun androidXFragmentInjector() = fragmentInjector
+    override fun supportFragmentInjector() = fragmentInjector
     override fun onAttach(context: Context) {
-        AndroidXInjection.inject(this)
+        AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }
 

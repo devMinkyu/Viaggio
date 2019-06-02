@@ -60,7 +60,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         travelKind = prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVEL_KINDS).blockingGet()
 
         val themeDisposable = rxEventBus.travelOfTheme
-            .subscribe { t ->
+            .subscribe ({ t ->
                 if (t.isNotEmpty()) {
                     themeExist.set(true)
                     travelThemeList = t.map {
@@ -68,6 +68,8 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                     }
                     travelThemes.set(travelThemeList.joinToString(", "))
                 }
+            }){
+                Timber.d(it)
             }
         addDisposable(themeDisposable)
         val travelingStartOfDayDisposable = rxEventBus.travelingStartOfDay
@@ -130,8 +132,6 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
             theme = travelThemeList.toMutableList(),
             travelKind = travelKind
         )
-        prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, "${chooseCountry[0].country}_${chooseCountry[0].city}")
-            .observeOn(Schedulers.io()).blockingAwait()
 
         val disposable = travelLocalModel.createTravel(travel)
             .andThen {
@@ -139,6 +139,8 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                     travelingSetting()
                     prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, travel.localId).observeOn(Schedulers.io())
                         .blockingAwait()
+                    prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, "${chooseCountry[0].country}_${chooseCountry[0].city}")
+                        .observeOn(Schedulers.io()).blockingAwait()
                 }
                 val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
                 val mode = prefUtilService.getInt(AndroidPrefUtilService.Key.UPLOAD_MODE).blockingGet()

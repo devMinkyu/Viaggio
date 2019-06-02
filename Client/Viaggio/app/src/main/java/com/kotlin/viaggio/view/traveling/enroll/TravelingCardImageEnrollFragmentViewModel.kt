@@ -1,7 +1,9 @@
 package com.kotlin.viaggio.view.traveling.enroll
 
 import android.graphics.Bitmap
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.ImageData
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
@@ -19,6 +21,7 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
     var imageAllList: List<ImageData> = listOf()
     val imageChooseList: MutableList<String> = mutableListOf()
     var imageBitmapChooseList: MutableList<Bitmap> = mutableListOf()
+    val emptyImageNotice = ObservableField<String>()
 
     override fun initialize() {
         super.initialize()
@@ -36,12 +39,16 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
                     }
                     imageChooseList.clear()
                     imageChooseList.addAll(result)
-                    entireChooseCount = if (imageChooseList.isEmpty()) {
-                        imageChooseList.add(imageAllList[0].imageName)
-                        imageAllList[0].chooseCountList.set(1)
-                        1
+                    if(imageAllList.isNotEmpty()) {
+                        entireChooseCount = if (imageChooseList.isEmpty()) {
+                            imageChooseList.add(imageAllList[0].imageName)
+                            imageAllList[0].chooseCountList.set(1)
+                            1
+                        } else {
+                            imageChooseList.size
+                        }
                     } else {
-                        imageChooseList.size
+                        emptyImageNotice.set(appCtx.get().resources.getString(R.string.empty_image))
                     }
                 }
             }

@@ -16,7 +16,7 @@
             android:background="@android:color/transparent"
     >
         <androidx.core.widget.NestedScrollView
-                android:id="@+id/sign_up_container"
+                android:id="@+id/sign_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true">
@@ -42,85 +42,101 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                 />
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/logo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/luncher_icon"
+
+                <com.google.android.material.textfield.TextInputLayout
+                        android:id="@id/signUpNameEdit"
+                        style="@style/ViewStyle.Viaggio.Sign"
+                        android:hint="@string/sign_up_name"
+                        android:textColorHint="@color/very_light_pink"
+                        android:layout_marginTop="150dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        android:layout_marginBottom="200dp"
-                />
-                <EditText
-                        android:id="@id/signUpNameEdit"
-                        style="@style/ViewStyle.Viaggio.Sign"
-                        android:textColorHint="@color/very_light_pink"
-                        android:textColor="@android:color/white"
-                        android:hint="@string/sign_up_name"
-                        android:inputType="text"
-                        android:background="@drawable/sign_edit_txt_bg"
-                        android:text="@={viewModel.name}"
-                        android:layout_marginTop="50dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/logo"
-                        tools:ignore="Autofill"/>
-                <EditText
+                        app:errorEnabled="true">
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/name_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:text="@={viewModel.name}"
+                            android:fontFamily="@font/comfortaa"
+                            android:inputType="text"
+                    />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                         android:id="@id/signUpEmailEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
-                        android:fontFamily="@font/comfortaa"
-                        android:textColorHint="@color/very_light_pink"
-                        android:textColor="@android:color/white"
                         android:hint="@string/sign_in_email"
-                        android:inputType="textWebEmailAddress"
-                        android:background="@drawable/sign_edit_txt_bg"
-                        android:text="@={viewModel.email}"
+                        android:textColorHint="@color/very_light_pink"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/signUpNameEdit"
-                        tools:ignore="Autofill"/>
-                <EditText
+                        app:errorEnabled="true">
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/email_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:text="@={viewModel.email}"
+                            android:fontFamily="@font/comfortaa"
+                            android:inputType="textWebEmailAddress"
+                    />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
                         android:id="@id/signUpPasswordEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
-                        android:textColorHint="@color/very_light_pink"
-                        android:textColor="@android:color/white"
-                        android:maxLength="20"
                         android:hint="@string/sign_in_password"
-                        android:fontFamily="@font/comfortaa"
-                        android:inputType="textWebPassword"
-                        android:background="@drawable/sign_edit_txt_bg"
-                        android:text="@={viewModel.password}"
+                        android:textColorHint="@color/very_light_pink"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/signUpEmailEdit"
-                        tools:ignore="Autofill"/>
-                <EditText
+                        app:errorEnabled="true">
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/pw_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:maxLength="20"
+                            android:text="@={viewModel.password}"
+                            android:fontFamily="@font/comfortaa"
+                            android:inputType="textWebPassword"
+                    />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
                         android:id="@id/signUpConfirmPasswordEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
-                        android:textColorHint="@color/very_light_pink"
-                        android:textColor="@android:color/white"
-                        android:maxLength="20"
                         android:hint="@string/sign_up_confirm_password"
-                        android:fontFamily="@font/comfortaa"
-                        android:inputType="textWebPassword"
-                        android:background="@drawable/sign_edit_txt_bg"
-                        android:text="@={viewModel.confirmPassword}"
+                        android:textColorHint="@color/very_light_pink"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/signUpPasswordEdit"
-                        tools:ignore="Autofill"/>
-                <TextView
+                        app:errorEnabled="true">
+                    <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/confirm_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:maxLength="20"
+                            android:text="@={viewModel.confirmPassword}"
+                            android:fontFamily="@font/comfortaa"
+                            android:inputType="textWebPassword"
+                    />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
                         android:id="@id/signUpBtn"
-                        style="@style/ViewStyle.Viaggio.Sign"
+                        style="@style/ViewStyle.Viaggio.SignBtn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/signUpConfirmPasswordEdit"
                         android:text="@string/sign_up"
                         android:onClick="@{() -> viewHandler.signUp()}"
                         android:enabled="@{viewModel.isFormValid}"
                         android:backgroundTint="@{viewModel.isFormValid ? @color/colorPrimary:@color/brown_grey}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/signUpConfirmPasswordEdit"/>
+                        tools:backgroundTint="@color/colorPrimary"
+                />
                 <Space
                         android:layout_width="match_parent"
                         android:layout_height="50dp"

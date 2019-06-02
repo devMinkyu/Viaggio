@@ -1,12 +1,16 @@
 package com.kotlin.viaggio.view.setting
 
 import android.Manifest
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.PermissionError
 import com.kotlin.viaggio.view.common.BaseFragment
@@ -60,6 +64,22 @@ class SettingMyProfileFragment : BaseFragment<SettingMyProfileFragmentViewModel>
         getViewModel().imageViewShow.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 baseIntent("http://viaggio.kotlin.com/setting/profile/image/")
+            }
+        })
+        getViewModel().imageNameLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {image ->
+                val drawable = context?.getDrawable(R.drawable.oval_bg) as GradientDrawable
+                profileImage.background = drawable
+                profileImage.clipToOutline = true
+                if(TextUtils.isEmpty(image)) {
+                    Glide.with(profileImage)
+                        .load(ResourcesCompat.getDrawable(resources, R.drawable.icon_profile, null))
+                        .into(profileImage)
+                } else {
+                    Glide.with(profileImage)
+                        .load(image)
+                        .into(profileImage)
+                }
             }
         })
     }

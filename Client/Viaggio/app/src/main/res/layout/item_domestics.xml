@@ -23,6 +23,7 @@
                 android:text="@{data.city}"
                 android:textSize="14dp"
                 android:gravity="center"
+                app:rippleColor="@color/rippleColor"
                 app:chipMinHeight="42dp"
                 app:chipCornerRadius="10dp"
                 app:chipStrokeWidth="1dp"

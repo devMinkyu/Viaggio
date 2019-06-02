@@ -13,6 +13,9 @@ def create_app(config_name):
 
     db.init_app(app)
 
+    from .commons import commons as commons_blueprint
+    app.register_blueprint(commons_blueprint, url_prefix='/api/v1/commons')
+
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/api/v1/auth')
 

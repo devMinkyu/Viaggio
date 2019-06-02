@@ -3,6 +3,11 @@ package com.kotlin.viaggio.model
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.paging.DataSource
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
+import com.kotlin.viaggio.BuildConfig
+import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
@@ -12,6 +17,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,6 +27,10 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
     lateinit var rxEventBus: RxEventBus
     @Inject
     lateinit var prefUtilService: AndroidPrefUtilService
+    @Inject
+    lateinit var transferUtility: TransferUtility
+    @Inject
+    lateinit var config: DeveloperAuthenticationProvider
 
     private fun getTravelingId() = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID)
     private fun getSelectedTravelingId() = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID)
@@ -59,6 +69,11 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
             }.subscribeOn(Schedulers.io())
         }
     }
+    fun createTravels(vararg travel: Travel): Completable {
+        return Completable.fromAction {
+            db.get().travelDao().insertTravel(*travel)
+        }.subscribeOn(Schedulers.io())
+    }
 
     fun getTravel(): Single<Travel> {
         return db.get().travelDao().getTravel(getSelectedTravelingId().blockingGet()).subscribeOn(Schedulers.io())
@@ -80,9 +95,9 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
         }.subscribeOn(Schedulers.io())
     }
 
-    fun createTravelCard(travelCard: TravelCard): Completable {
+    fun createTravelCard(vararg travelCard: TravelCard): Completable {
         return Completable.fromAction {
-            db.get().travelDao().insertTravelCard(travelCard)
+            db.get().travelDao().insertTravelCard(*travelCard)
         }
             .subscribeOn(Schedulers.io())
     }
@@ -119,4 +134,37 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
         return db.get().travelDao().getTravelCard(getSelectedTravelingCardId().blockingGet())
             .subscribeOn(Schedulers.io())
     }
+
+    fun clearTravel() =
+        Completable.fromAction {
+            db.get().clearAllTables()
+        }.subscribeOn(Schedulers.io())
+    fun saveAwsImageToLocal(travelCards: List<TravelCard>):Completable {
+        val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
+        val awsToken = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
+        config.setInfo(awsId, awsToken)
+        val list = travelCards.filter { travelCard ->
+            travelCard.imageNames.isNotEmpty()
+        }.map {travelCard ->
+            val filePath = travelCard.imageNames.first().split("/").dropLast(1).joinToString("/")
+            travelCard.imageUrl.map {url ->
+                Completable.create { emitter ->
+                    val imageName = url.split("/").last()
+                    val downloadObserver = transferUtility.download(BuildConfig.S3_UPLOAD_BUCKET, url, File("$filePath/$imageName"))
+                    downloadObserver.setTransferListener(object : TransferListener {
+                        override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
+                        override fun onStateChanged(id: Int, state: TransferState?) {
+                            if (state == TransferState.COMPLETED) {
+                                emitter.onComplete()
+                            }
+                        }
+                        override fun onError(id: Int, ex: Exception?) {
+                        }
+                    })
+                }
+            }
+        }.flatten()
+        return Completable.merge(list)
+    }
+
 }

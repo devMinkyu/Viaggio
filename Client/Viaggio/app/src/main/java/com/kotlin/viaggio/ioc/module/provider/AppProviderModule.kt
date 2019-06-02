@@ -19,6 +19,7 @@ import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.AppDatabase
+import com.kotlin.viaggio.data.source.MIGRATION_1_2
 import com.kotlin.viaggio.view.App
 import dagger.Module
 import dagger.Provides
@@ -64,7 +65,7 @@ class AppProviderModule {
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java, "viaggio-android-db"
-        )
+        ).addMigrations(MIGRATION_1_2)
             .build()
     }
 

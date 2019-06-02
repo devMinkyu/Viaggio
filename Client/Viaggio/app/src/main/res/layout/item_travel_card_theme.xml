@@ -15,6 +15,7 @@
             android:textColor="@color/almost_black"
             android:textSize="14dp"
             android:gravity="center"
+            app:rippleColor="@color/rippleColor"
             app:chipMinHeight="38dp"
             app:chipCornerRadius="5dp"
             app:chipBackgroundColor="@color/very_light_pink_three"

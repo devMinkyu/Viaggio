@@ -7,7 +7,6 @@ import okhttp3.Interceptor
 import retrofit2.Response
 import retrofit2.http.*
 import java.io.IOException
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -40,9 +39,8 @@ interface ViaggioApiService {
     @FormUrlEncoded
     fun updateUserName(
         @Field("name") name: String,
-        @Field("profileImageName") profileImageName: String,
         @Field("profileImageUrl") profileImageUrl: String
-    ): Single<Response<ViaggioResult>>
+    ): Single<Response<Any>>
 
     @POST("api/v1/users/changepwd")
     @FormUrlEncoded
@@ -50,36 +48,27 @@ interface ViaggioApiService {
         @Field("oldPasswordHash") oldPasswordHash: String,
         @Field("passwordHash") passwordHash: String,
         @Field("passwordHash2") passwordHash2: String
-    ): Single<Response<ViaggioResult>>
+    ): Single<Response<Any>>
 
     @GET("api/v1/users/logout")
-    fun logOut(): Single<Response<ViaggioResult>>
+    fun logOut(): Single<Response<Any>>
 
 
     // travel
     @POST("api/v1/my/travels")
-    @FormUrlEncoded
     fun uploadTravel(
-        @Field("localId") localId: Long,
-        @Field("area") area: String,
-        @Field("title") title: String,
-        @Field("travelKind") travelKind: Int,
-        @Field("theme") theme: String,
-        @Field("startDate") startDate: String,
-        @Field("endDate") endDate: String?
-    ): Single<Response<ViaggioTravelResult>>
+        @Body travel: TravelBody
+    ): Single<Response<ViaggioApiTravelResult>>
+
+    @POST("api/v1/sync/travels")
+    fun createTravels(
+        @Body travels: TravelBodyList
+    ): Single<Response<ViaggioApiTravelsResult>>
 
     @PUT("api/v1/my/travels/{serverId}")
-    @FormUrlEncoded
     fun updateTravel(
         @Path("serverId") serverId: Int,
-        @Field("area") area: String,
-        @Field("title") title: String,
-        @Field("theme") theme: String,
-        @Field("endDate") endDate: Date?,
-        @Field("imageName") imageName: String,
-        @Field("imageUrl") imageUrl: String,
-        @Field("share") share: Boolean
+        @Body travel: TravelBody
     ): Single<Response<Any>>
 
     @DELETE("api/v1/my/travels/{serverId}")
@@ -87,36 +76,47 @@ interface ViaggioApiService {
         @Path("serverId") serverId: Int
     ): Single<Response<Any>>
 
+    @GET("api/v1/my/travels")
+    fun getTravels(): Single<Response<ViaggioApiTravels>>
+
     // travelCard
     @POST("api/v1/my/travelcards/{travelServerId}")
-    @FormUrlEncoded
     fun uploadTravelCard(
         @Path("travelServerId") travelServerId: Int,
-        @Field("localId") localId: Long,
-        @Field("travelLocalId") travelLocalId: Long,
-        @Field("travelOfDay") travelOfDay: Int,
-        @Field("theme") theme: MutableList<String>,
-        @Field("imageName") imageName: MutableList<String>,
-        @Field("imageUrl") imageUrl: MutableList<String>,
-        @Field("date") date: String,
-        @Field("country") country: String,
-        @Field("content") content: String
-    ): Single<Response<ViaggioTravelResult>>
+        @Body travelCardBody: TravelCardBody
+    ): Single<Response<ViaggioApiTravelResult>>
 
     @PUT("api/v1/my/travelcards/{serverId}")
-    @Headers(
-        "Content-Type: application/x-www-form-urlencoded"
-    )
-    @FormUrlEncoded
     fun updateTravelCard(
         @Path("serverId") serverId: Int,
-        @Field("content") content: String
+        @Body travelCardBody: TravelCardBody
     ): Single<Response<Any>>
 
     @DELETE("api/v1/my/travelcards/{serverId}")
     fun deleteTravelCard(
         @Path("serverId") serverId: Int
-    ):Single<Response<Any>>
+    ): Single<Response<Any>>
+
+
+    @GET("api/v1/my/travelcards")
+    fun getTravelCards(): Single<Response<ViaggioApiTravelCards>>
+
+    // sync
+    @GET("api/v1/sync/count")
+    fun syncCheckCount(): Single<Response<ViaggioApiSync>>
+
+    // country
+    @GET("api/v1/commons/countries")
+    @Headers("No-Authentication: true")
+    fun getCountries(): Single<Response<ViaggioApiCountry>>
+    // domestics
+    @GET("api/v1/commons/domestics")
+    @Headers("No-Authentication: true")
+    fun getDomestics(): Single<Response<ViaggioApiDomestics>>
+    // theme
+    @GET("api/v1/commons/themes")
+    @Headers("No-Authentication: true")
+    fun getThemes(): Single<Response<ViaggioApiTheme>>
 
     @Singleton
     class TokenInterceptor @Inject constructor() : Interceptor {

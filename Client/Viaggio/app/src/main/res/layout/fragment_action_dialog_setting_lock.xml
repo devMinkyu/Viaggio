@@ -205,6 +205,7 @@
                 android:text="@string/pw_btn"
                 android:layout_marginBottom="40dp"
                 android:onClick="@{()->viewHandler.directPw()}"
+                app:rippleColor="@color/rippleColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/finger_print_anim"
                 app:layout_constraintEnd_toEndOf="@id/finger_print_anim"

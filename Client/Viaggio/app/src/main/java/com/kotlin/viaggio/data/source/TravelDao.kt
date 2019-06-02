@@ -13,7 +13,7 @@ import io.reactivex.Single
 interface TravelDao {
     // Travel
     @Insert
-    fun insertTravel(travel: Travel)
+    fun insertTravel(vararg travel: Travel)
 
     @Insert
     fun insertAllTravel(vararg travel: Travel)
@@ -21,7 +21,7 @@ interface TravelDao {
     @Query("SELECT * FROM travels Where isDelete = 0 Order By startDate Asc")
     fun getTravels(): Single<List<Travel>>
 
-    @Query("SELECT * FROM travels Where userExist = 0")
+    @Query("SELECT * FROM travels")
     fun getNotUploadTravels(): Single<List<Travel>>
 
     @Query("SELECT * FROM travels WHERE localId IN(:id) And isDelete = 0 limit 1")
@@ -38,7 +38,7 @@ interface TravelDao {
     fun getTravelCardDes(travelId: Long): DataSource.Factory<Int, TravelCard>
 
     @Insert
-    fun insertTravelCard(vararg travelCard: TravelCard)
+    fun  insertTravelCard(vararg travelCard: TravelCard)
 
     @Query("SELECT * FROM travelCards WHERE travelLocalId IN(:travelOfDayId) And isDelete = 0 ORDER BY date DESC")
     fun getTravelCardsPaged(travelOfDayId: Long): DataSource.Factory<Int, TravelCard>
@@ -49,7 +49,7 @@ interface TravelDao {
     @Query("SELECT * FROM travelCards Where isDelete = 0")
     fun getTravelCards(): Single<MutableList<TravelCard>>
 
-    @Query("SELECT * FROM travelCards Where userExist = 0")
+    @Query("SELECT * FROM travelCards")
     fun getNotUploadTravelCards(): Single<MutableList<TravelCard>>
 
     @Query("SELECT * FROM travelCards WHERE localId IN(:travelCardId) And isDelete = 0 limit 1")

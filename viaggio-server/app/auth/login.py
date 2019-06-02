@@ -25,6 +25,7 @@ def login():
             return jsonify({
                 'email': user.email,
                 'name': user.name,
+                'profileImageUrl': user.profileImageUrl,
                 'token': user.token,
                 'AWS_IdentityId': response['IdentityId'],
                 'AWS_Token': response['Token'] }), 200

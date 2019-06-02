@@ -1,18 +1,15 @@
 package com.kotlin.viaggio.data.source
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.kotlin.viaggio.data.obj.Theme
 import io.reactivex.Single
 
 @Dao
 interface ThemeDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTheme(theme: Theme)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAllTheme(vararg Theme: Theme)
 
     @Query("SELECT * FROM themes")
@@ -23,4 +20,7 @@ interface ThemeDao {
 
     @Update
     fun updateTheme(theme: Theme)
+
+    @Delete
+    fun deleteTheme(theme: Theme)
 }

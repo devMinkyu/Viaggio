@@ -1,16 +1,16 @@
 package com.kotlin.viaggio.ioc.component
 
-import com.kotlin.viaggio.ioc.module.common.AndroidXInjectionModule
 import com.kotlin.viaggio.ioc.module.injector.AppInjectorModule
 import com.kotlin.viaggio.view.App
 import dagger.Component
 import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
-        AndroidXInjectionModule::class,
+        AndroidSupportInjectionModule::class,
         AppInjectorModule::class
     ]
 )

@@ -44,9 +44,7 @@ def change_name():
         if request.user is None:
             return bad_request(401, 'There is no user matched with token when change user name.')
         request.user.name = request.form['name']
-        if request.form.get('profileImageName') is not None \
-                and request.form.get('profileImageUrl') is not None:
-            request.user.profileImageName = request.form['profileImageName']
+        if request.form.get('profileImageUrl') is not None:
             request.user.profileImageUrl = request.form['profileImageUrl']
         db.session.add(request.user)
         db.session.commit()

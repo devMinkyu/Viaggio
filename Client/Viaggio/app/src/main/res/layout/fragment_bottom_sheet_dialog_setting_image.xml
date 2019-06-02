@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:onClick="@{()->viewHandler.close()}"
+                app:rippleColor="@color/rippleColor"
                 app:icon="@drawable/ic_clear_black_24dp"
                 app:iconTint="@color/almost_black"
                 app:iconGravity="textEnd"

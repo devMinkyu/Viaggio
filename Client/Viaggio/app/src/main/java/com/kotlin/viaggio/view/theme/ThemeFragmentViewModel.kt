@@ -2,45 +2,55 @@ package com.kotlin.viaggio.view.theme
 
 import android.text.TextUtils
 import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.reflect.TypeToken
-import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.Theme
 import com.kotlin.viaggio.data.obj.ThemeData
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.event.Event
+import com.kotlin.viaggio.model.ThemeModel
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import timber.log.Timber
-import java.io.InputStreamReader
 import javax.inject.Inject
 
 class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
+    @Inject
+    lateinit var themeModel: ThemeModel
 
     val themesListLiveData: MutableLiveData<Event<List<ThemeData>>> = MutableLiveData()
     val completeLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
+    val addLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
+    val removeLiveData: MutableLiveData<Event<Int>> = MutableLiveData()
 
+    val customTheme: ObservableField<String> = ObservableField("")
     val selectedTheme: ObservableArrayList<ThemeData> = ObservableArrayList()
 
     var option = false
     var travel = Travel()
+    var themeList: MutableList<ThemeData> = mutableListOf()
     override fun initialize() {
         super.initialize()
-        val inputStream =
-            InputStreamReader(appCtx.get().assets.open(appCtx.get().resources.getString(R.string.travel_theme_json)))
-        val type = object : TypeToken<List<Theme>>() {}.type
+        val disposable = themeModel.getThemes()
+            .subscribe({ themes ->
+                val list = themes.map {
+                    ThemeData(theme = it.theme, authority = it.authority)
+                }
+                themesListLiveData.postValue(Event(list))
+                settingTheme(list)
+            }) {
+                Timber.d(it)
+            }
+        addDisposable(disposable)
 
-        val themes: List<Theme> = gson.fromJson(inputStream, type)
+    }
 
-        val list = themes.map {
-            ThemeData(theme = it.theme, authority = it.authority)
-        }
-        themesListLiveData.value = Event(list)
-
-        if (option) {
-            val disposable = travelLocalModel.getTravel()
+    private fun settingTheme(list: List<ThemeData>) {
+        themeList = list.toMutableList()
+        val selectedDisposable = if (option) {
+            travelLocalModel.getTravel()
                 .subscribe({
                     travel = it
                     it.theme.map { themeVal ->
@@ -56,26 +66,55 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
                 }) {
                     Timber.d(it)
                 }
-            addDisposable(disposable)
         } else {
-            val disposable = rxEventBus.travelOfTheme
+            rxEventBus.travelOfTheme
                 .subscribe { t ->
-                    t.map { selected ->
-                        val item = list.first {
-                            selected.theme == it.theme
+                    if (option.not()) {
+                        t.map { selected ->
+                            val item = list.first {
+                                selected.theme == it.theme
+                            }
+                            item.select.set(true)
+                            if (selectedTheme.contains(item).not()) {
+                                selectedTheme.add(item)
+                            }
                         }
-                        item.select.set(true)
-                        if (selectedTheme.contains(item).not()) {
-                            selectedTheme.add(item)
-                        }
+                        themesListLiveData.postValue(Event(list))
                     }
-                    if(option.not()){
-                        themesListLiveData.value = Event(list)
-                    }
+                }
+        }
+        addDisposable(selectedDisposable)
+    }
+
+    fun createCustomTheme() {
+        if (TextUtils.isEmpty(customTheme.get()).not()) {
+            val item = Theme(theme = "# ${customTheme.get()}", authority = true)
+            customTheme.set("")
+            val disposable = themeModel.createTheme(item)
+                .subscribe({
+                    val result = ThemeData(theme = item.theme, authority = item.authority)
+                    themeList.add(result)
+                    addLiveData.postValue(Event(Any()))
+                }) {
+                    Timber.d(it)
                 }
             addDisposable(disposable)
         }
+    }
 
+    fun removeCustomTheme(data: ThemeData, index: Int) {
+        val item = Theme(theme = data.theme, authority = data.authority)
+        val disposable = themeModel.deleteTheme(item)
+            .subscribe({
+                themeList.remove(data)
+                removeLiveData.postValue(Event(index))
+                if (selectedTheme.contains(data)) {
+                    selectedTheme.remove(data)
+                }
+            }) {
+                Timber.d(it)
+            }
+        addDisposable(disposable)
     }
 
     fun sendTheme() {
@@ -101,8 +140,8 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
         } else {
             option = true
-            rxEventBus.travelOfTheme.onNext(selectedTheme)
             completeLiveData.value = Event(Any())
+            rxEventBus.travelOfTheme.onNext(selectedTheme)
         }
     }
 }

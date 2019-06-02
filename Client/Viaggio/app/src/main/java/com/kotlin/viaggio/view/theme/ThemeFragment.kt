@@ -2,9 +2,12 @@ package com.kotlin.viaggio.view.theme
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -18,11 +21,13 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_theme.*
+import kotlinx.android.synthetic.main.item_theme.view.*
 import org.jetbrains.anko.support.v4.toast
 
 
 class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentThemeBinding
+    lateinit var adapter:RecyclerView.Adapter<ThemeViewHolder>
     override fun onAttach(context: Context) {
         super.onAttach(context)
         arguments?.let {
@@ -31,12 +36,12 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
     }
     override fun onResume() {
         super.onResume()
-        if(getViewModel().option.not()){
-            if(sliderInterface == null)
-                sliderInterface = Slidr.replace(container, SlidrConfig.Builder().position(
-                    SlidrPosition.TOP)
-                    .build())
-        }
+//        if(getViewModel().option.not()){
+//            if(sliderInterface == null)
+//                sliderInterface = Slidr.replace(container, SlidrConfig.Builder().position(
+//                    SlidrPosition.TOP)
+//                    .build())
+//        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,6 +53,7 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         val layoutManager = FlexboxLayoutManager(context)
         layoutManager.flexWrap = FlexWrap.WRAP
         layoutManager.justifyContent = JustifyContent.CENTER
@@ -59,16 +65,27 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
 
         getViewModel().themesListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { theme ->
-                themeList.adapter = object : RecyclerView.Adapter<ThemeViewHolder>(){
+                adapter = object : RecyclerView.Adapter<ThemeViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
                         ThemeViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_theme, parent, false))
-                    override fun getItemCount() = theme.size
+                    override fun getItemCount() = getViewModel().themeList.size
 
                     override fun onBindViewHolder(holder: ThemeViewHolder, position: Int) {
-                        holder.binding?.data = theme[position]
-                        holder.binding?.viewHandler = holder.ThemesViewHandler()
+                        if(position < getViewModel().themeList.size){
+                            holder.binding?.data = getViewModel().themeList[position]
+                            holder.binding?.viewHandler = holder.ThemesViewHandler()
+                            holder.itemView.themeName.setOnCloseIconClickListener {
+                                val index = getViewModel().themeList.indexOf(holder.binding!!.data)
+                                if(index < adapter.itemCount) {
+                                    getViewModel().removeCustomTheme(getViewModel().themeList[index], index)
+                                }
+
+                            }
+                        }
+
                     }
                 }
+                themeList.adapter = adapter
             }
         })
         getViewModel().completeLiveData.observe(this, Observer {
@@ -77,6 +94,30 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
                 fragmentPopStack()
             }
         })
+        getViewModel().addLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                adapter.notifyItemInserted(getViewModel().themeList.size - 1)
+            }
+        })
+        getViewModel().removeLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {index ->
+                adapter.notifyItemRemoved(index)
+            }
+        })
+
+        custom_theme.setOnEditorActionListener { _, actionId, _ ->
+            when(actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    getViewModel().createCustomTheme()
+                    adapter.notifyItemInserted(getViewModel().themeList.size)
+                    false
+                }
+                else -> {
+                    getViewModel().createCustomTheme()
+                    false
+                }
+            }
+        }
     }
 
     inner class ViewHandler{
@@ -94,6 +135,9 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
         }
         fun close(){
             fragmentPopStack()
+        }
+        fun themeClear() {
+            getViewModel().customTheme.set("")
         }
     }
     inner class ThemeViewHolder(view:View): RecyclerView.ViewHolder(view){

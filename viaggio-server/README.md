@@ -35,3 +35,11 @@ You can set environment variable in .env file. For using .env file, install env 
 ## AWS SDK
 
 You can install AWS SDK with `pip install boto3` command. Using this SDK you can get access authentication AWS.
+
+
+## Deployment
+
+You can deploy server using aws elasticbeanstalk. First, install module globally with `sudo pip install awsebcli` command.
+Second, create an elasticbeanstalk repo with `eb init -p python-3.6 my-app --region us-east-1`. This will set up a new environment my-app.
+Third, `eb create flask-env -db.engine mysql`.
+Finally `eb deploy`.

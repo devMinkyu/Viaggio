@@ -4,21 +4,22 @@ import android.text.TextUtils
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
-import com.google.gson.reflect.TypeToken
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.Area
 import com.kotlin.viaggio.data.obj.Country
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.event.Event
+import com.kotlin.viaggio.model.CountryModel
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import timber.log.Timber
-import java.io.InputStreamReader
 import javax.inject.Inject
 
 class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
+    @Inject
+    lateinit var countryModel: CountryModel
 
     private val countryList:MutableList<Country> = mutableListOf()
     val continentList:MutableList<String> = mutableListOf()
@@ -35,30 +36,29 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
     var travel = Travel()
     override fun initialize() {
         super.initialize()
+        val disposable = countryModel.getCountries(0)
+            .subscribe({list ->
+                val countries = list.sortedBy { it.country }
+                countryList.clear()
+                countryList.addAll(countries)
+                continentList.add(appCtx.get().resources.getString(R.string.total))
+                val list1= countries.distinctBy {
+                    it.continent
+                }.map {
+                    it.continent
+                }
+                continentList.addAll(list1)
 
-        val inputStream = InputStreamReader(appCtx.get().assets.open(appCtx.get().getString(R.string.travel_country_json)))
-        val type = object : TypeToken<List<Country>>() {}.type
+                countryLiveData.postValue(Event(countryList))
+                continentLiveData.postValue(Event(Any()))
+            }) {
+                Timber.d(it)
+            }
 
-        val countries: List<Country> = gson.fromJson(inputStream, type)
-        val list = countries.sortedBy {
-            it.country
-        }
-        countryList.clear()
-        countryList.addAll(list)
+        addDisposable(disposable)
 
-        continentList.add(appCtx.get().resources.getString(R.string.total))
-        val list1= countries.distinctBy {
-            it.continent
-        }.map {
-            it.continent
-        }
-        continentList.addAll(list1)
-
-        countryLiveData.value = Event(countryList)
-        continentLiveData.value = Event(Any())
-
-        if(option){
-            val disposable = travelLocalModel.getTravel()
+        val selectedCityDisposable = if(option){
+            travelLocalModel.getTravel()
                 .subscribe({
                     travel = it
                     if(chooseArea.isNullOrEmpty()){
@@ -68,16 +68,15 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
                 }){
                     Timber.d(it)
                 }
-            addDisposable(disposable)
         }else{
-            val selectedCityDisposable = rxEventBus.travelSelectedCity.subscribe {
+            rxEventBus.travelSelectedCity.subscribe {
                 if(chooseArea.isNullOrEmpty()){
                     chooseArea.addAll(it)
                     chooseAreaLiveData.value = Event(Any())
                 }
             }
-            addDisposable(selectedCityDisposable)
         }
+        addDisposable(selectedCityDisposable)
 
         val typeDisposable = rxEventBus.travelType.subscribe {
             travelType.set(it)

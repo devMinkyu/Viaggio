@@ -25,7 +25,6 @@ class ChangePasswordForm(Form):
 
 class ChangeUserInfoForm(Form):
     name = StringField('Name', validators=[DataRequired(), length(1, 64)])
-    profileImageName = StringField('ProfileImageName', validators=[length(0, 64)])
     profileImageUrl = StringField('ProfileImageUrl', validators=[length(0, 512)])
 
 

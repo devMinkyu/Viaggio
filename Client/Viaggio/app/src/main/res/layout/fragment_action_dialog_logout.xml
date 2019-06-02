@@ -43,6 +43,7 @@
         <com.google.android.material.button.MaterialButton
                 android:id="@id/travelingFinishCancelBtn"
                 style="@style/ViewStyle.Viaggio.Option"
+                android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:text="@string/finish_no"
                 android:onClick="@{()->viewHandler.cancel()}"
                 android:layout_marginBottom="28dp"
