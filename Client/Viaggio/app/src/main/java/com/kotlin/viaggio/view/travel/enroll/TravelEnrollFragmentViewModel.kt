@@ -60,7 +60,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         travelKind = prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVEL_KINDS).blockingGet()
 
         val themeDisposable = rxEventBus.travelOfTheme
-            .subscribe { t ->
+            .subscribe ({ t ->
                 if (t.isNotEmpty()) {
                     themeExist.set(true)
                     travelThemeList = t.map {
@@ -68,6 +68,8 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                     }
                     travelThemes.set(travelThemeList.joinToString(", "))
                 }
+            }){
+                Timber.d(it)
             }
         addDisposable(themeDisposable)
         val travelingStartOfDayDisposable = rxEventBus.travelingStartOfDay

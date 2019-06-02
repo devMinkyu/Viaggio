@@ -56,6 +56,9 @@ abstract class BaseViewModel:ViewModel() {
         val work = PeriodicWorkRequestBuilder<DataFetchWorker>(3, TimeUnit.DAYS)
             .setConstraints(con)
             .build()
+//        val work = OneTimeWorkRequestBuilder<DataFetchWorker>()
+//            .setConstraints(con)
+//            .build()
         WorkManager.getInstance(appCtx.get()).enqueue(work)
     }
 

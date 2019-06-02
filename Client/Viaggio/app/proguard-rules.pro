@@ -165,3 +165,6 @@
 -keep class com.kotlin.viaggio.data.obj.Country {*;}
 -keep class com.kotlin.viaggio.data.obj.Travel {*;}
 -keep class com.kotlin.viaggio.data.obj.TravelCard {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiCountry {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiTheme {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiDomestics {*;}

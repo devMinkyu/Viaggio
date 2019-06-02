@@ -1,20 +1,15 @@
 package com.kotlin.viaggio.view.main_activity
 
 import android.text.TextUtils
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.github.ajalt.reprint.core.AuthenticationResult
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.BackpressureStrategy
-import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
-import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -26,6 +21,7 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
 
     val finishActivity:MutableLiveData<Event<Any>> = MutableLiveData()
     val showToast:MutableLiveData<Event<Any>> = MutableLiveData()
+
     var traveling = false
     var travelType = 0
 
@@ -65,8 +61,6 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
             dataFetch()
         }
     }
-
-
     fun checkTutorial() = prefUtilService.getBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK).blockingGet() ?: false
     fun getLock() = prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet() ?: false
 }

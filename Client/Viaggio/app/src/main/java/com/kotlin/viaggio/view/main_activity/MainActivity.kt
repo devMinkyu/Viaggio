@@ -1,13 +1,14 @@
 package com.kotlin.viaggio.view.main_activity
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import android.view.WindowManager
 import androidx.lifecycle.Observer
-import com.github.ajalt.reprint.core.Reprint
-import com.github.ajalt.reprint.rxjava2.RxReprint
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.ActivityResult
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.camera.CameraFragment
@@ -30,18 +31,21 @@ import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import org.jetbrains.anko.toast
+import timber.log.Timber
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
     companion object {
         val TAG: String = MainActivity::class.java.simpleName
+        const val MY_REQUEST_CODE:Int = 1004
     }
     var settingLockActionDialogFragment: SettingLockActionDialogFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        showHome()
         handleIntent(intent)
+        showHome()
+//        appUpdateCheck()
 
 //        if (getViewModel().checkTutorial()) {
 //            getViewModel().initSetting()
@@ -299,4 +303,50 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         }
     }
 
+    private fun appUpdateCheck() {
+        val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
+        appUpdateInfoTask.addOnSuccessListener {
+            when{
+                it.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS -> {
+                    toast("1111")
+                    appUpdateManager.startUpdateFlowForResult(it,AppUpdateType.IMMEDIATE, this, MY_REQUEST_CODE)
+                }
+                it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)-> {
+                    toast("2222")
+                    appUpdateManager.startUpdateFlowForResult(it,AppUpdateType.IMMEDIATE, this, MY_REQUEST_CODE)
+                }
+                it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE -> {
+                    toast("33333")
+                    appUpdateManager.startUpdateFlowForResult(it,AppUpdateType.IMMEDIATE, this, MY_REQUEST_CODE)
+                }
+                else -> {
+                    toast("${it.updateAvailability()}")
+                    toast("${appUpdateManager.appUpdateInfo}")
+                    showHome()
+                }
+            }
+        }
+        appUpdateInfoTask.addOnFailureListener {
+            Timber.d(it)
+            showHome()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == MY_REQUEST_CODE){
+            when(resultCode) {
+                Activity.RESULT_OK -> {
+                    showHome()
+                }
+                Activity.RESULT_CANCELED -> {
+                    showHome()
+                }
+                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
+                    appUpdateCheck()
+                }
+            }
+        }
+    }
 }

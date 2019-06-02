@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.worker
 
 import android.content.Context
+import android.util.Log
 import androidx.work.WorkerParameters
 import com.kotlin.viaggio.data.obj.Country
 import com.kotlin.viaggio.data.obj.Theme
@@ -17,6 +18,7 @@ class DataFetchWorker @Inject constructor(context: Context, params: WorkerParame
     @Inject
     lateinit var countryModel: CountryModel
 
+    @Suppress("UNCHECKED_CAST")
     override fun doWork(): Result {
         super.doWork()
         val countrySingle = countryModel.getDataFetchCountries()
@@ -44,8 +46,6 @@ class DataFetchWorker @Inject constructor(context: Context, params: WorkerParame
 
             Completable.merge(listOf(c1, c3))
         }.blockingAwait()
-
-
         return Result.success()
     }
 }

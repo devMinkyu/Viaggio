@@ -42,7 +42,9 @@ class CountryModel @Inject constructor() : BaseModel() {
         api.getCountries().subscribeOn(Schedulers.io())
             .flatMap {
                 if (it.isSuccessful) {
-                    Single.just(it.body()!!.contries)
+                    it.body()?.let {body ->
+                        Single.just(body.contries)
+                    }?:Single.just(listOf())
                 } else {
                     Single.just(listOf())
                 }
@@ -52,7 +54,9 @@ class CountryModel @Inject constructor() : BaseModel() {
         api.getDomestics().subscribeOn(Schedulers.io())
             .flatMap {
                 if(it.isSuccessful) {
-                    Single.just(it.body()!!.domestics)
+                    it.body()?.let { body ->
+                        Single.just(body.domestics)
+                    }?:Single.just(listOf())
                 } else {
                     Single.just(listOf())
                 }

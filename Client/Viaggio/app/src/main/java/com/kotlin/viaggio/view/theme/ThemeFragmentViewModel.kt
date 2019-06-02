@@ -23,17 +23,18 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
     val themesListLiveData: MutableLiveData<Event<List<ThemeData>>> = MutableLiveData()
     val completeLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
     val addLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
+    val removeLiveData: MutableLiveData<Event<Int>> = MutableLiveData()
 
-    val customTheme:ObservableField<String> = ObservableField("")
+    val customTheme: ObservableField<String> = ObservableField("")
     val selectedTheme: ObservableArrayList<ThemeData> = ObservableArrayList()
 
     var option = false
     var travel = Travel()
-    var themeList:MutableList<ThemeData> = mutableListOf()
+    var themeList: MutableList<ThemeData> = mutableListOf()
     override fun initialize() {
         super.initialize()
         val disposable = themeModel.getThemes()
-            .subscribe({themes ->
+            .subscribe({ themes ->
                 val list = themes.map {
                     ThemeData(theme = it.theme, authority = it.authority)
                 }
@@ -45,7 +46,8 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(disposable)
 
     }
-    private fun settingTheme(list:List<ThemeData>){
+
+    private fun settingTheme(list: List<ThemeData>) {
         themeList = list.toMutableList()
         val selectedDisposable = if (option) {
             travelLocalModel.getTravel()
@@ -64,46 +66,52 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
                 }) {
                     Timber.d(it)
                 }
-        } else {rxEventBus.travelOfTheme
-            .subscribe { t ->
-                t.map { selected ->
-                    val item = list.first {
-                        selected.theme == it.theme
-                    }
-                    item.select.set(true)
-                    if (selectedTheme.contains(item).not()) {
-                        selectedTheme.add(item)
+        } else {
+            rxEventBus.travelOfTheme
+                .subscribe { t ->
+                    if (option.not()) {
+                        t.map { selected ->
+                            val item = list.first {
+                                selected.theme == it.theme
+                            }
+                            item.select.set(true)
+                            if (selectedTheme.contains(item).not()) {
+                                selectedTheme.add(item)
+                            }
+                        }
+                        themesListLiveData.postValue(Event(list))
                     }
                 }
-                if(option.not()){
-                    themesListLiveData.value = Event(list)
-                }
-            }
         }
         addDisposable(selectedDisposable)
     }
 
     fun createCustomTheme() {
-        if(TextUtils.isEmpty(customTheme.get()).not()){
-            val item = Theme(theme = customTheme.get()!!, authority = true)
+        if (TextUtils.isEmpty(customTheme.get()).not()) {
+            val item = Theme(theme = "# ${customTheme.get()}", authority = true)
             customTheme.set("")
             val disposable = themeModel.createTheme(item)
                 .subscribe({
                     val result = ThemeData(theme = item.theme, authority = item.authority)
                     themeList.add(result)
                     addLiveData.postValue(Event(Any()))
-                }){
+                }) {
                     Timber.d(it)
                 }
             addDisposable(disposable)
         }
     }
-    fun removeCustomTheme(data:ThemeData) {
+
+    fun removeCustomTheme(data: ThemeData, index: Int) {
         val item = Theme(theme = data.theme, authority = data.authority)
         val disposable = themeModel.deleteTheme(item)
             .subscribe({
                 themeList.remove(data)
-            }){
+                removeLiveData.postValue(Event(index))
+                if (selectedTheme.contains(data)) {
+                    selectedTheme.remove(data)
+                }
+            }) {
                 Timber.d(it)
             }
         addDisposable(disposable)
@@ -132,8 +140,8 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
         } else {
             option = true
-            rxEventBus.travelOfTheme.onNext(selectedTheme)
             completeLiveData.value = Event(Any())
+            rxEventBus.travelOfTheme.onNext(selectedTheme)
         }
     }
 }

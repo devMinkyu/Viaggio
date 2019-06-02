@@ -77,8 +77,7 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
                             holder.itemView.themeName.setOnCloseIconClickListener {
                                 val index = getViewModel().themeList.indexOf(holder.binding!!.data)
                                 if(index < adapter.itemCount) {
-                                    getViewModel().removeCustomTheme(getViewModel().themeList[index])
-                                    adapter.notifyItemRemoved(index)
+                                    getViewModel().removeCustomTheme(getViewModel().themeList[index], index)
                                 }
 
                             }
@@ -98,6 +97,11 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
         getViewModel().addLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 adapter.notifyItemInserted(getViewModel().themeList.size - 1)
+            }
+        })
+        getViewModel().removeLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {index ->
+                adapter.notifyItemRemoved(index)
             }
         })
 

@@ -19,9 +19,9 @@ class ThemeModel @Inject constructor() : BaseModel() {
     @Inject
     lateinit var gson: Gson
 
-    fun createThemes(thems: List<Theme>) =
+    fun createThemes(themes: List<Theme>) =
         Completable.fromAction {
-            db.get().themeDao().insertAllTheme(*thems.toTypedArray())
+            db.get().themeDao().insertAllTheme(*themes.toTypedArray())
         }.subscribeOn(Schedulers.io())
 
     fun createTheme(theme: Theme) =
@@ -39,19 +39,12 @@ class ThemeModel @Inject constructor() : BaseModel() {
         return db.get().themeDao().getThemes().subscribeOn(Schedulers.io())
     }
 
-    fun getThemes(themes: List<String>) {
-
-    }
-
-    fun updateTheme(theme: Theme) =
-        Completable.fromAction {
-
-        }
-
     fun getDataFetchTheme() = api.getThemes().subscribeOn(Schedulers.io())
         .flatMap {
             if(it.isSuccessful) {
-                Single.just(it.body()!!.themes)
+                it.body()?.let {body ->
+                    Single.just(body.themes)
+                }?:Single.just(listOf())
             } else {
                 Single.just(listOf())
             }
