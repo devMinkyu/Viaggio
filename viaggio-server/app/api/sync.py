@@ -108,3 +108,20 @@ def create_travelcards():
     except:
         db.session.rollback()
         return jsonify({ 'result': 'Create travel cards sync is failed.'}), 500
+
+
+@api.route('/sync/travelcards', methods=['PUT'])
+def update_travelcards():
+    reqTravelCards = request.json['travelCards']
+    for reqTravelCard in reqTravelCards:
+        if reqTravelCard['serverId'] is None:
+            return bad_request(400, 'serverId is required for update.')
+        travelCard = TravelCard.query.get(reqTravelCard['serverId'])
+        if reqTravelCard.get('content') is not None:
+            travelCard.content = reqTravelCard.get('content')
+    
+    try:
+        db.session.commit()
+        return jsonify({ 'result': 'Update is successed!' }), 200
+    except:
+        return jsonify({ 'result': 'Update is failed.' }), 500
