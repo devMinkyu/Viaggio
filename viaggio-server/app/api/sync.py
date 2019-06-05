@@ -3,7 +3,7 @@ from . import api
 from .. import db
 from ..models import Travel, TravelCard
 from ..errors import bad_request
-from datetime import datetime
+from functools import reduce
 
 
 @api.route('/sync/count')
@@ -47,10 +47,28 @@ def create_travels():
     return jsonify({ 'travels': createdTravels })
 
 
-# @api.route('/sync/travels', methods=['PUT'])
-# def update_travels():
-#     reqTravels = request.json['travels']
-#     travels = Travel.query.filter_by(userId=request.user.id)
-#     travels = [travel.to_json() for travel in travels]
-#     for reqTravel in reqTravels:
-        # list(filter(lambda x: x > 0, li))
+@api.route('/sync/travels', methods=['PUT'])
+def update_travels():
+    reqTravels = request.json['travels']
+    for reqTravel in reqTravels:
+        travel = Travel.query.get(reqTravel['serverId'])
+        if reqTravel['title'] is not None:
+            travel.title = reqTravel['title']
+        if reqTravel['area'] is not None:
+            travel.area = reqTravel['area']
+        if reqTravel['endDate'] is not None:
+            travel.endDate = reqTravel['endDate']
+        if reqTravel['theme'] is not None:
+            travel.theme = reqTravel['theme']
+        if reqTravel['imageName'] is not None:
+            travel.imageName = reqTravel['imageName']
+        if reqTravel['imageUrl'] is not None:
+            travel.imageUrl = reqTravel['imageUrl']
+        if reqTravel['share'] is not None:
+            travel.share = reqTravel['share']
+
+    try:
+        db.session.commit()
+        return jsonify({ 'result': 'Update is successed!' }), 200
+    except:
+        return jsonify({ 'result': 'Update is failed.' }), 500
