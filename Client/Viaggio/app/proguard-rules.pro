@@ -171,6 +171,7 @@
 
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelsData {*;}
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelCardsData {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiAuth {*;}
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiAWSAuth {*;}
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelResult {*;}
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelsResult {*;}
@@ -178,3 +179,7 @@
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiTravels {*;}
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelCards {*;}
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiSync {*;}
+-keep class com.kotlin.viaggio.data.obj.TravelBody {*;}
+-keep class com.kotlin.viaggio.data.obj.TravelCardBody {*;}
+-keep class com.kotlin.viaggio.data.obj.TravelBodyList {*;}
+-keep class com.kotlin.viaggio.data.obj.TravelCardBodyList {*;}

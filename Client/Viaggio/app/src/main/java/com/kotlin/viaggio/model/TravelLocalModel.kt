@@ -139,6 +139,7 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
         Completable.fromAction {
             db.get().clearAllTables()
         }.subscribeOn(Schedulers.io())
+
     fun saveAwsImageToLocal(travelCards: List<TravelCard>):Completable {
         val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
         val awsToken = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
