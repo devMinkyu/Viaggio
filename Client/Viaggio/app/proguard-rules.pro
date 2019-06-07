@@ -168,3 +168,13 @@
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiCountry {*;}
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiTheme {*;}
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiDomestics {*;}
+
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelsData {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelCardsData {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiAWSAuth {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelResult {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelsResult {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelCardsResult {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiTravels {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelCards {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiSync {*;}

@@ -8,9 +8,11 @@ data class ViaggioApiAuth(
 )
 //var imageUrl: String = "",
 data class ViaggioApiTravelsData(var localId: Long = 0, var serverId: Int)
+data class ViaggioApiTravelCardsData(var localId: Long = 0, var serverId: Int, var travelLocalId:Long = 0, var travelServerId:Int)
 data class ViaggioApiAWSAuth(val AWS_IdentityId: String, val AWS_Token: String)
 data class ViaggioApiTravelResult(var id: Int = 0)
 data class ViaggioApiTravelsResult(var travels:List<ViaggioApiTravelsData>)
+data class ViaggioApiTravelCardsResult(var travelCards:List<ViaggioApiTravelCardsData>)
 data class ViaggioApiTravels(var travels: List<TravelBody>)
 data class ViaggioApiTravelCards(var travelCards: List<TravelCardBody>)
 data class ViaggioApiSync(var travelCount: Int = 0, var travelCardCount: Int = 0)

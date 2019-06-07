@@ -1,9 +1,11 @@
 package com.kotlin.viaggio.model
 
+import android.accounts.NetworkErrorException
 import com.google.gson.Gson
 import com.kotlin.viaggio.data.obj.*
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.ViaggioApiService
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -42,12 +44,27 @@ class TravelModel @Inject constructor() : BaseModel() {
             travelKind = travel.travelKind
         }
     }
-    fun createTravels(travels: List<Travel>): Single<Response<ViaggioApiTravelsResult>> {
+    fun createSyncTravels(travels: List<Travel>): Single<Response<ViaggioApiTravelsResult>> {
         val result = travels.map {
             travelOfTravelBodyConvert(it)
         }
         val data = TravelBodyList(result)
         return api.createTravels(data).subscribeOn(Schedulers.io())
+    }
+
+    fun updateSyncTravels(travels: List<Travel>): Completable {
+        val result = travels.map {
+            travelOfTravelBodyConvert(it)
+        }
+        val data = TravelBodyList(result)
+        return api.updateTravels(data).subscribeOn(Schedulers.io())
+            .flatMapCompletable {
+                if(it.isSuccessful) {
+                    Completable.complete()
+                } else {
+                    Completable.error(NetworkErrorException("Data sync error"))
+                }
+            }
     }
 
     fun uploadTravel(travel: Travel): Single<Response<ViaggioApiTravelResult>> {
@@ -125,6 +142,37 @@ class TravelModel @Inject constructor() : BaseModel() {
                 }
             }
 
+    }
+
+
+
+    fun createSyncTravelCards(travelCards: List<TravelCard>): Completable {
+        val result = travelCards.map {
+            travelCardOfTravelCardBodyConvert(it)
+        }
+        val data = TravelCardBodyList(result)
+        return api.createTravelCards(data).subscribeOn(Schedulers.io())
+            .flatMapCompletable {
+                if(it.isSuccessful) {
+                    Completable.complete()
+                } else {
+                    Completable.error(NetworkErrorException("Data sync error"))
+                }
+            }
+    }
+    fun updateSyncTravelCards(travelCards: List<TravelCard>): Completable {
+        val result = travelCards.map {
+            travelCardOfTravelCardBodyConvert(it)
+        }
+        val data = TravelCardBodyList(result)
+        return api.updateTravelCards(data).subscribeOn(Schedulers.io())
+            .flatMapCompletable {
+                if(it.isSuccessful) {
+                    Completable.complete()
+                } else {
+                    Completable.error(NetworkErrorException("Data sync error"))
+                }
+            }
     }
 
     fun sync() =

@@ -65,6 +65,11 @@ interface ViaggioApiService {
         @Body travels: TravelBodyList
     ): Single<Response<ViaggioApiTravelsResult>>
 
+    @PUT("api/v1/sync/travels")
+    fun updateTravels(
+        @Body travels: TravelBodyList
+    ): Single<Response<Any>>
+
     @PUT("api/v1/my/travels/{serverId}")
     fun updateTravel(
         @Path("serverId") serverId: Int,
@@ -80,6 +85,16 @@ interface ViaggioApiService {
     fun getTravels(): Single<Response<ViaggioApiTravels>>
 
     // travelCard
+    @POST("api/v1/sync/travelcards")
+    fun createTravelCards(
+        @Body travelCards: TravelCardBodyList
+    ): Single<Response<ViaggioApiTravelCardsResult>>
+
+    @PUT("api/v1/sync/travelcards")
+    fun updateTravelCards(
+        @Body travelCards: TravelCardBodyList
+    ): Single<Response<Any>>
+
     @POST("api/v1/my/travelcards/{travelServerId}")
     fun uploadTravelCard(
         @Path("travelServerId") travelServerId: Int,
