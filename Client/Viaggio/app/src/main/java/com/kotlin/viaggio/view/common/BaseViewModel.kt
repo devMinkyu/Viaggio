@@ -51,6 +51,14 @@ abstract class BaseViewModel:ViewModel() {
     }
     open fun initialize() {}
 
+    fun syncDataFetch() {
+        val con = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val work = OneTimeWorkRequestBuilder<DataFetchWorker>()
+            .setConstraints(con)
+            .build()
+        WorkManager.getInstance(appCtx.get()).enqueue(work)
+    }
+
     fun dataFetch() {
         val con = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
         val work = PeriodicWorkRequestBuilder<DataFetchWorker>(3, TimeUnit.DAYS)

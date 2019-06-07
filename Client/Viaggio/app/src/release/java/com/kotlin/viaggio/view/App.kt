@@ -11,7 +11,6 @@ class App : BaseApp() {
 
     override fun onCreate() {
         super.onCreate()
-
         Timber.plant(object : Timber.DebugTree() {
             override fun createStackElementTag(element: StackTraceElement) =
                 super.createStackElementTag(element) + " : " + element.lineNumber

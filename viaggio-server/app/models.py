@@ -50,8 +50,8 @@ class Travel(db.Model):
     area = db.Column(db.PickleType)
     title = db.Column(db.String(64))
     theme = db.Column(db.PickleType)
-    imageName = db.Column(db.String(32))
-    imageUrl = db.Column(db.String(128))
+    imageName = db.Column(db.String(512))
+    imageUrl = db.Column(db.String(512))
     share = db.Column(db.Boolean, default=False)
     isDelete = db.Column(db.Boolean, default=False)
     travlecard = db.relationship('TravelCard', backref='travel', lazy='dynamic')
@@ -132,6 +132,15 @@ class TravelCard(db.Model):
             'date': self.date
         }
         return json_travelCard
+
+    def sync_create_json(self):
+        json_sync = {
+            'travelServerId': self.travelId,
+            'travelLocalId': self.travelLocalId,
+            'serverId': self.id,
+            'localId': self.localId
+        }
+        return json_sync
 
 
 class AnalysisTheme(db.Model):

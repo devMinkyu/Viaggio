@@ -46,7 +46,7 @@ data class Traveled(
     var title:String ="",
     var countries:String = ""
 )
-
+data class TravelCardBodyList(var travelCards: List<TravelCardBody>)
 @Entity(tableName = "travelCards")
 data class TravelCard(
     @PrimaryKey var localId: Long = 0,
