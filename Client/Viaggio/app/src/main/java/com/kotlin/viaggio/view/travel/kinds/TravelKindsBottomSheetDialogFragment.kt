@@ -1,19 +1,13 @@
 package com.kotlin.viaggio.view.travel.kinds
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.view.common.BaseBottomDialogFragment
-import com.kotlin.viaggio.view.common.BaseViewModel
 import org.jetbrains.anko.support.v4.toast
-import ru.slybeaver.slycalendarview.SlyCalendarDialog
-import java.util.*
-import javax.inject.Inject
 
 
 class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKindsBottomSheetDialogFragmentViewModel>() {

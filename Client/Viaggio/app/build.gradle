@@ -144,7 +144,7 @@ dependencies {
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // viewPager2
-    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha04'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha05'
 
     // lottie
     implementation "com.airbnb.android:lottie:3.0.3"
@@ -179,7 +179,6 @@ dependencies {
     implementation 'com.r0adkll:slidableactivity:2.0.6'
 
     // calendar
-    implementation 'com.github.psinetron:slycalendarview:0.0.9'
     implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
 
     // image crop
