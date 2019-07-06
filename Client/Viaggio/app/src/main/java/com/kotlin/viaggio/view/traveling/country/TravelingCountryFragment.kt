@@ -21,10 +21,9 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_country.*
-import kotlinx.android.synthetic.main.item_selected_city.view.*
 import kotlinx.android.synthetic.main.item_traveling_country.view.*
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.support.v4.dip
-import org.jetbrains.anko.support.v4.toast
 
 
 class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>() {
@@ -127,7 +126,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         fun confirm(){
             if(getViewModel().option){
                 if(getViewModel().chooseArea.isEmpty()){
-                    toast(resources.getString(R.string.empty_country_hint))
+                    view?.snackbar(resources.getString(R.string.empty_country_hint))
                 }else{
                     showLoading()
                     getViewModel().confirm()

@@ -18,7 +18,7 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_setting_my_profile.*
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.design.snackbar
 
 
 class SettingMyProfileFragment : BaseFragment<SettingMyProfileFragmentViewModel>() {
@@ -55,7 +55,7 @@ class SettingMyProfileFragment : BaseFragment<SettingMyProfileFragmentViewModel>
         getViewModel().permissionRequestMsg.observe(this, Observer {
             it.getContentIfNotHandled()?.let { permissionError ->
                 when (permissionError) {
-                    PermissionError.STORAGE_PERMISSION -> toast(resources.getString(R.string.storage_permission))
+                    PermissionError.STORAGE_PERMISSION -> view.snackbar(resources.getString(R.string.storage_permission))
                     else -> {
                     }
                 }

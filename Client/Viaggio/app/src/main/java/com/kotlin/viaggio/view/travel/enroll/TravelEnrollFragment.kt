@@ -16,7 +16,7 @@ import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrListener
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_travel_enroll.*
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.design.snackbar
 
 
 class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
@@ -59,7 +59,7 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
         getViewModel().permissionRequestMsg.observe(this, Observer {
             it.getContentIfNotHandled()?.let { permissionError ->
                 when (permissionError) {
-                    PermissionError.NECESSARY_PERMISSION -> toast(resources.getString(R.string.camera_permission))
+                    PermissionError.NECESSARY_PERMISSION -> view.snackbar(resources.getString(R.string.camera_permission))
                     else -> {
                     }
                 }
@@ -68,8 +68,8 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
         getViewModel().errorMsg.observe(this, Observer {
             it.getContentIfNotHandled()?.let { error ->
                 when(error){
-                    TravelingError.THEME_EMPTY -> toast(resources.getString(R.string.theme_empty))
-                    TravelingError.COUNTRY_EMPTY -> toast(resources.getString(R.string.country_empty))
+                    TravelingError.THEME_EMPTY -> view.snackbar(resources.getString(R.string.theme_empty))
+                    TravelingError.COUNTRY_EMPTY -> view.snackbar(resources.getString(R.string.country_empty))
                     else -> {}
                 }
             }

@@ -16,7 +16,7 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_setting.*
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.design.snackbar
 
 
 class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
@@ -53,7 +53,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
             it.getContentIfNotHandled()?.let { value ->
                 stopLoading()
                 if (value) {
-                    toast(resources.getText(R.string.sync_check_done))
+                    view.snackbar(resources.getText(R.string.sync_check_done))
                 } else {
                     if (checkInternet()) {
                         SyncActionDialogFragment().show(fragmentManager!!, SyncActionDialogFragment.TAG)
@@ -82,7 +82,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 stopLoading()
-                toast("완료 되었습니다.")
+                view.snackbar("완료 되었습니다.")
             }
         })
 
@@ -139,7 +139,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         fun uploadCheck() {
             if (checkInternet()) {
                 if(getViewModel().getTraveling()) {
-                     toast("여행을 종료 해주시길 바랍니다.")
+                     view?.snackbar("여행을 종료 해주시길 바랍니다.")
                 } else {
                     UploadCheckActionDialogFragment().show(fragmentManager!!, UploadCheckActionDialogFragment.TAG)
                 }

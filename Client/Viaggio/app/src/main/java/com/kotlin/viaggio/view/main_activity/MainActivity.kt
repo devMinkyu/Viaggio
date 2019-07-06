@@ -29,7 +29,10 @@ import com.kotlin.viaggio.view.traveling.country.TravelingDomesticsCountryFragme
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
+import com.kotlin.viaggio.view.traveling.image.TravelCardImageModifyFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
+import org.jetbrains.anko.contentView
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.toast
 import timber.log.Timber
 
@@ -65,7 +68,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         })
         getViewModel().showToast.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                toast(resources.getString(R.string.finish_of_msg))
+                contentView?.snackbar(resources.getString(R.string.finish_of_msg))
             }
         })
     }
@@ -128,6 +131,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         }
                         "card" -> showTravelingEnroll()
                         "calendar" -> showTravelCalendar()
+                        "modify" -> showTravelCardImageModify()
                     }
                 "setting" ->
                     when (appLinkData.lastPathSegment) {
@@ -155,6 +159,10 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 }
             }
         }
+    }
+
+    private fun showTravelCardImageModify() {
+        baseShowAddLeftAddBackFragment(TravelCardImageModifyFragment())
     }
 
     private fun showLock() {
@@ -309,15 +317,12 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         appUpdateInfoTask.addOnSuccessListener {
             when{
                 it.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS -> {
-                    toast("1111")
                     appUpdateManager.startUpdateFlowForResult(it,AppUpdateType.IMMEDIATE, this, MY_REQUEST_CODE)
                 }
                 it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)-> {
-                    toast("2222")
                     appUpdateManager.startUpdateFlowForResult(it,AppUpdateType.IMMEDIATE, this, MY_REQUEST_CODE)
                 }
                 it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE -> {
-                    toast("33333")
                     appUpdateManager.startUpdateFlowForResult(it,AppUpdateType.IMMEDIATE, this, MY_REQUEST_CODE)
                 }
                 else -> {

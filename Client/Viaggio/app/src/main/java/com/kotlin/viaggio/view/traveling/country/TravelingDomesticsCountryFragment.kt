@@ -20,7 +20,7 @@ import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_domestics_country.*
 import kotlinx.android.synthetic.main.item_domestics.view.*
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.design.snackbar
 
 
 class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountryFragmentViewModel>() {
@@ -96,7 +96,7 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
         fun confirm() {
             if (getViewModel().option) {
                 if (getViewModel().selectedCities.isEmpty()) {
-                    toast(resources.getString(R.string.empty_country_hint))
+                    view?.snackbar(resources.getString(R.string.empty_country_hint))
                 } else {
                     showLoading()
                     getViewModel().selectedCity()

@@ -173,6 +173,10 @@
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
                         android:pathPattern="/setting/profile/image/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/traveling/image/modify/"/>
             </intent-filter>
         </activity>
     </application>

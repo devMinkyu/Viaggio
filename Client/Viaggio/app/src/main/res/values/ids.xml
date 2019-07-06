@@ -256,4 +256,13 @@
     <item name="settingLock" type="id"/>
     <item name="settingLockNotice" type="id"/>
     <item name="finger_print_anim" type="id"/>
+    <item name="travelOptionImageChange" type="id"/>
+    <item name="travelCardImageCgl" type="id"/>
+    <item name="travelCardCurrentImageList" type="id"/>
+    <item name="travelCardNewImageList" type="id"/>
+    <item name="travelCardImageLgl" type="id"/>
+    <item name="travelCardNewImageHint" type="id"/>
+    <item name="travelCardCurrentImageCount" type="id"/>
+    <item name="travelCardCurrentImageHint" type="id"/>
+    <item name="travelingPagerImgDelete" type="id"/>
 </resources>

@@ -18,6 +18,19 @@
     >
 
         <com.google.android.material.chip.Chip
+                android:id="@id/travelOptionImageChange"
+                style="@style/ViewStyle.Viaggio.Travel.Option"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/travel_card_image_modify"
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/common_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="@{()->viewHandler.imageModify()}"
+        />
+
+        <com.google.android.material.chip.Chip
                 android:id="@id/travelOptionTitle"
                 style="@style/ViewStyle.Viaggio.Travel.Option"
                 android:fontFamily="sans-serif-light"
@@ -26,7 +39,7 @@
                 android:paddingEnd="@dimen/common_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelOptionImageChange"
                 android:onClick="@{()->viewHandler.modify()}"
         />
 
@@ -41,12 +54,6 @@
                 android:paddingStart="0dp"
                 android:paddingEnd="@dimen/common_margin"
                 android:onClick="@{()->viewHandler.delete()}"
-        />
-
-        <Space android:layout_width="match_parent"
-               android:layout_height="@dimen/common_top"
-               app:layout_constraintTop_toBottomOf="@id/travelOptionAddCountry"
-               app:layout_constraintBottom_toBottomOf="parent"
         />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

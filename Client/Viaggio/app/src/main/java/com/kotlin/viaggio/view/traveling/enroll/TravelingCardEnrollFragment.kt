@@ -3,14 +3,16 @@ package com.kotlin.viaggio.view.traveling.enroll
 import android.Manifest
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
-import com.kotlin.viaggio.data.obj.PermissionError
 import com.kotlin.viaggio.databinding.FragmentTravelingCardEnrollBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingCitiesActionDialogFragment
@@ -22,7 +24,7 @@ import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_travel_card_theme.view.*
 import kotlinx.android.synthetic.main.item_traveling_card_img.view.*
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.design.snackbar
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -86,21 +88,6 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                 }
             }
         }
-
-        getViewModel().permissionRequestMsg.observe(this, Observer {
-            it.getContentIfNotHandled()?.let { permissionError ->
-                when (permissionError) {
-                    PermissionError.STORAGE_PERMISSION -> toast(resources.getString(R.string.storage_permission))
-                    else -> {
-                    }
-                }
-            }
-        })
-        getViewModel().imageViewShow.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {
-                baseIntent("http://viaggio.kotlin.com/traveling/enroll/image/")
-            }
-        })
         loadView()
 
         getViewModel().themeLiveData.observe(this, Observer {
@@ -179,17 +166,6 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                     Glide.with(itemView)
                         .load(image)
                         .into(itemView.travelingPagerImg)
-//                    val imgDir = File(context?.filesDir, "images/")
-//                    if (TextUtils.isEmpty(image).not()) {
-//                        val imgFile = File(imgDir, image)
-//                        if (imgFile.exists()) {
-//                            Uri.fromFile(imgFile).let { uri ->
-//                                Glide.with(itemView)
-//                                    .load(uri)
-//                                    .into(itemView.travelingPagerImg)
-//                            }
-//                        } else { }
-//                    } else { }
                 }
                 else -> { }
             }
@@ -204,7 +180,13 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE
                     )
-                )
+                ).observe(this@TravelingCardEnrollFragment, Observer {
+                        if(it) {
+                            baseIntent("http://viaggio.kotlin.com/traveling/enroll/image/")
+                        } else {
+                            view?.snackbar(resources.getString(R.string.storage_permission))
+                        }
+                    })
             }
         }
     }

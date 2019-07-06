@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.view.common.BaseBottomDialogFragment
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.design.snackbar
 
 
 class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKindsBottomSheetDialogFragmentViewModel>() {
@@ -24,7 +24,7 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
     inner class ViewHandler{
         fun selectedKinds(kinds: String){
             if(getViewModel().travel){
-                toast(resources.getText(R.string.traveling))
+                view?.snackbar(resources.getText(R.string.traveling))
             }else{
                 getViewModel().selectKind(kinds)
                 getViewModel().travelType(0)

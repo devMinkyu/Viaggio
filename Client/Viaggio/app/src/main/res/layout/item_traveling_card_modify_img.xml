@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.traveling.image.TravelCardModifyImageViewHandler"/>
+
+        <variable name="viewHandler" type="TravelCardModifyImageViewHandler"/>
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+            android:layout_width="@dimen/travel_card_image_modify_size"
+            android:layout_height="@dimen/travel_card_image_modify_size"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            app:rippleColor="@color/rippleColor"
+            android:onClick="@{() -> viewHandler.add()}"
+            app:cardBackgroundColor="@color/very_light_pink_three"
+            app:cardElevation="5dp"
+            app:cardCornerRadius="10dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/add_travel"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@id/travelingPagerImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+            />
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@id/travelingPagerImgDelete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/icon_add_answer"
+                    android:padding="12dp"
+                    android:onClick="@{() -> viewHandler.delete()}"
+                    app:layout_constraintEnd_toEndOf="@id/travelingPagerImg"
+                    app:layout_constraintTop_toTopOf="@id/travelingPagerImg"
+            />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

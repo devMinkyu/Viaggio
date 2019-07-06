@@ -101,18 +101,24 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
 
         getViewModel().changeCardLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {value ->
-                if(value){
-                    val frag = TravelingDetailActionDialogFragment()
-                    val arg = Bundle()
-                    arg.putIntArray(ArgName.TRAVEL_CARD_LOCATION.name, getViewModel().modifyLocation)
-                    frag.arguments = arg
-                    frag.show(fragmentManager!!, TravelingDetailActionDialogFragment.TAG)
-                }else{
-                    val frag = TravelingDeleteActionDialogFragment()
-                    val arg = Bundle()
-                    arg.putBoolean(ArgName.TRAVEL_CARD_MODE.name, true)
-                    frag.arguments = arg
-                    frag.show(fragmentManager!!, TravelingDeleteActionDialogFragment.TAG)
+                when(value) {
+                    0 -> {
+                        val frag = TravelingDetailActionDialogFragment()
+                        val arg = Bundle()
+                        arg.putIntArray(ArgName.TRAVEL_CARD_LOCATION.name, getViewModel().modifyLocation)
+                        frag.arguments = arg
+                        frag.show(fragmentManager!!, TravelingDetailActionDialogFragment.TAG)
+                    }
+                    1 -> {
+                        val frag = TravelingDeleteActionDialogFragment()
+                        val arg = Bundle()
+                        arg.putBoolean(ArgName.TRAVEL_CARD_MODE.name, true)
+                        frag.arguments = arg
+                        frag.show(fragmentManager!!, TravelingDeleteActionDialogFragment.TAG)
+                    }
+                    2 -> {
+                        baseIntent("http://viaggio.kotlin.com/traveling/image/modify/")
+                    }
                 }
             }
         })
