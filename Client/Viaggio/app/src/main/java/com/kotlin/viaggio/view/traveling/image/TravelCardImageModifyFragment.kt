@@ -24,6 +24,7 @@ import java.io.File
 
 class TravelCardImageModifyFragment : BaseFragment<TravelCardImageModifyFragmentViewModel>() {
     lateinit var binding: FragmentTravelCardImageModifyImageBinding
+    lateinit var imageAdapter: RecyclerView.Adapter<TravelCardCurrentImageViewHolder>
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_travel_card_image_modify_image, container, false)
         binding.viewModel = getViewModel()
@@ -42,7 +43,7 @@ class TravelCardImageModifyFragment : BaseFragment<TravelCardImageModifyFragment
             it.getContentIfNotHandled()?.let {list ->
                 val imgDir = File(context?.filesDir, "images/")
                 if(imgDir.exists()) {
-                    travelCardCurrentImageList.adapter = object :RecyclerView.Adapter<TravelCardCurrentImageViewHolder>() {
+                    imageAdapter = object :RecyclerView.Adapter<TravelCardCurrentImageViewHolder>() {
                         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)
                                 = TravelCardCurrentImageViewHolder(layoutInflater.inflate(R.layout.item_traveling_card_modify_img, parent, false))
                         override fun getItemCount() = list.size
@@ -51,6 +52,7 @@ class TravelCardImageModifyFragment : BaseFragment<TravelCardImageModifyFragment
                             holder.binding?.viewHandler = holder.TravelCardCurrentImageViewHandler()
                         }
                     }
+                    travelCardCurrentImageList.adapter = imageAdapter
                 }
             }
         })
@@ -82,7 +84,16 @@ class TravelCardImageModifyFragment : BaseFragment<TravelCardImageModifyFragment
             fragmentPopStack()
         }
         fun confirm() {
-
+            showLoading()
+            getViewModel().save().observe(this@TravelCardImageModifyFragment, Observer {
+                if(it) {
+                    stopLoading()
+                    fragmentPopStack()
+                } else {
+                    stopLoading()
+                    view?.snackbar(resources.getString(R.string.travel_card_image_modify_fail))
+                }
+            })
         }
     }
 
@@ -100,7 +111,9 @@ class TravelCardImageModifyFragment : BaseFragment<TravelCardImageModifyFragment
 
         inner class TravelCardCurrentImageViewHandler: TravelCardModifyImageViewHandler {
             override fun delete() {
-                
+                getViewModel().deleteImage(fileNamePath).observe(this@TravelCardImageModifyFragment, Observer {
+                    imageAdapter.notifyItemRemoved(it)
+                })
             }
             override fun add() {}
         }

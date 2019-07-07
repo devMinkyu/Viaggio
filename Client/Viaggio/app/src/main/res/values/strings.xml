@@ -163,4 +163,5 @@
     <string name="travel_card_image_modify_current">등록된 사진</string>
     <string name="travel_card_image_modify_new">새로운 사진</string>
     <string name="travel_card_image_modify_total_count">/ %d</string>
+    <string name="travel_card_image_modify_fail">업로드 실패</string>
 </resources>
