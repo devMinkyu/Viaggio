@@ -35,6 +35,9 @@
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"
                 android:value="ocr" />
         <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
+        <meta-data
+                android:name="io.fabric.ApiKey"
+                android:value="863923097a741e0e5349ccecbc0ec8db14bd5144" />
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="com.kotlin.viaggio.fileprovider"
@@ -170,6 +173,10 @@
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
                         android:pathPattern="/setting/profile/image/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/traveling/image/modify/"/>
             </intent-filter>
         </activity>
     </application>

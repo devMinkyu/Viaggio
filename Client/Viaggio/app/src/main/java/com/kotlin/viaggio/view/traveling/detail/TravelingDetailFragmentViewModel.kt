@@ -35,7 +35,7 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
     val imageShow = ObservableBoolean(false)
 
     val travelOfDayCardImageListLiveData = MutableLiveData<Event<List<String>>>()
-    val changeCardLiveData = MutableLiveData<Event<Boolean>>()
+    val changeCardLiveData = MutableLiveData<Event<Int>>()
     val completeLiveData = MutableLiveData<Event<Boolean>>()
 
 

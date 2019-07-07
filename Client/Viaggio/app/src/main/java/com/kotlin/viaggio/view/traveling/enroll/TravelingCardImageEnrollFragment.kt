@@ -134,7 +134,7 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
         inner class TravelingOfDayImgViewHandler {
             fun imagePicker() {
                 if (binding?.chooseCount?.get() == 0) {
-                    if (getViewModel().entireChooseCount < 20) {
+                    if (getViewModel().entireChooseCount < getViewModel().imageLimitCount) {
                         if(getViewModel().imageChooseList.isNotEmpty()){
                             getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
                         }

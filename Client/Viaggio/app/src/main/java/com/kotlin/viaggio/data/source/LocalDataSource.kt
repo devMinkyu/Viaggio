@@ -214,9 +214,9 @@ class LocalDataSource @Inject constructor() {
                         val sampleSize = qualitySizeCalculation(fileName)
                         val resizedBitmap = Bitmap.createBitmap(cameraImg, 0, 0, cameraImg.width, cameraImg.height, matrix, true)
                         if(sampleSize > 1){
-                            Bitmap.createScaledBitmap(resizedBitmap, resizedBitmap.width,resizedBitmap.height,true)
-                        } else {
                             Bitmap.createScaledBitmap(resizedBitmap, (resizedBitmap.width/sampleSize).toInt(),(resizedBitmap.height/sampleSize).toInt(),true)
+                        } else {
+                            Bitmap.createScaledBitmap(resizedBitmap, resizedBitmap.width,resizedBitmap.height,true)
                         }
                     }
 

@@ -28,6 +28,7 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val traveling = ObservableField<String>("")
     val travelingKind = ObservableField<String>("")
+    var travelingId = 0L
 
     override fun initialize() {
         super.initialize()
@@ -35,6 +36,8 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
         travelOption.add(appCtx.get().resources.getString(R.string.total))
         travelOption.add(appCtx.get().resources.getString(R.string.travel_overseas))
         travelOption.add(appCtx.get().resources.getString(R.string.travel_domestic))
+
+        travelingId = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
 
         if(prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()){
             traveling.set(appCtx.get().resources.getString(R.string.traveling_notice))
@@ -56,6 +59,7 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(disposable)
         val travelUpdateDisposable = rxEventBus.travelUpdate
             .subscribe {
+                travelingId = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
                 fetchData()
             }
         addDisposable(travelUpdateDisposable)

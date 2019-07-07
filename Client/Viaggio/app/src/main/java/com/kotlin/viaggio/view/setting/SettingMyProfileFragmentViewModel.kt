@@ -30,8 +30,8 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
     @Inject
     lateinit var config: DeveloperAuthenticationProvider
 
-    val email = ObservableField<String>("")
-    val name = ObservableField<String>("").apply {
+    val email = ObservableField("")
+    val name = ObservableField("").apply {
         addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 check()

@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
@@ -18,6 +19,7 @@ import com.kotlin.viaggio.data.obj.Traveled
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import com.kotlin.viaggio.view.travel.option.TravelOptionBottomSheetDialogFragment
+import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
 import kotlinx.android.synthetic.main.fragment_travel.*
 import kotlinx.android.synthetic.main.item_travel.view.*
 import java.text.SimpleDateFormat
@@ -40,7 +42,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val spinnerAdapter =
-            ArrayAdapter<String>(context!!, R.layout.spinner_continent_item, getViewModel().travelOption)
+            ArrayAdapter(context!!, R.layout.spinner_continent_item, getViewModel().travelOption)
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
 
         travelSpinner.adapter = spinnerAdapter
@@ -114,6 +116,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                     }
                 }
                 binding.data = travel
+                binding.traveling = if(travel.id == getViewModel().travelingId) ObservableBoolean(true) else ObservableBoolean(false)
 
                 if (TextUtils.isEmpty(travelList[position].imageName)) {
                     Glide.with(view.travelBackground)
@@ -149,6 +152,9 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                         TravelOptionBottomSheetDialogFragment.TAG
                     )
                 }
+            }
+            view.domesticsName.setOnClickListener {
+                TravelingFinishActionDialogFragment().show(fragmentManager!!, TravelingFinishActionDialogFragment.TAG)
             }
             container.addView(view)
             return view

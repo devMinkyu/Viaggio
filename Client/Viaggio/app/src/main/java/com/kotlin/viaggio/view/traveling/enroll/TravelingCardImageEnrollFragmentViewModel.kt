@@ -23,6 +23,8 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
     var imageBitmapChooseList: MutableList<Bitmap> = mutableListOf()
     val emptyImageNotice = ObservableField<String>()
 
+    var imageLimitCount = 20
+
     override fun initialize() {
         super.initialize()
         val disposable = rxEventBus.travelCacheImages
@@ -73,9 +75,16 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
             imageAllList[0].chooseCountList.set(1)
             imagePathList.value = Event(imageAllList)
         }
+
+        val imageCountDisposable = rxEventBus.travelCardImageModifyCount
+            .subscribe{
+                imageLimitCount -= it
+        }
+        addDisposable(imageCountDisposable)
     }
 
     fun selectImage() {
+        rxEventBus.travelCardImageModifyCount.onNext(0)
         rxEventBus.travelCardImages.onNext(imageBitmapChooseList)
         rxEventBus.travelCacheImages.onNext(imageAllList)
     }

@@ -28,7 +28,7 @@ import io.fotoapparat.parameter.ScaleType
 import io.fotoapparat.selector.*
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.item_camera_image.view.*
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.design.snackbar
 
 
 class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
@@ -69,7 +69,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         getViewModel().permissionRequestMsg.observe(this, Observer {
             it.getContentIfNotHandled()?.let { permissionError ->
                 when (permissionError) {
-                    PermissionError.STORAGE_PERMISSION -> toast(resources.getString(R.string.storage_permission))
+                    PermissionError.STORAGE_PERMISSION -> view.snackbar(resources.getString(R.string.storage_permission))
                     else -> {
                     }
                 }

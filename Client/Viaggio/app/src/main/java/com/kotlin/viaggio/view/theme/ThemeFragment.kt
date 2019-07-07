@@ -2,7 +2,6 @@ package com.kotlin.viaggio.view.theme
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +16,9 @@ import com.google.android.flexbox.JustifyContent
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseFragment
-import com.r0adkll.slidr.Slidr
-import com.r0adkll.slidr.model.SlidrConfig
-import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_theme.*
 import kotlinx.android.synthetic.main.item_theme.view.*
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.design.snackbar
 
 
 class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
@@ -124,7 +120,7 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
         fun confirm(){
             if(getViewModel().option){
                 if(getViewModel().selectedTheme.isEmpty()){
-                    toast(resources.getString(R.string.empty_country_hint))
+                    view?.snackbar(resources.getString(R.string.empty_country_hint))
                 }else{
                     showLoading()
                     getViewModel().sendTheme()

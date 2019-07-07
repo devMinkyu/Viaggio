@@ -16,7 +16,7 @@ import com.kotlin.viaggio.databinding.ItemThemeBinding
 import com.kotlin.viaggio.view.common.BaseDialogFragment
 import com.kotlin.viaggio.view.theme.ThemeViewHandler
 import kotlinx.android.synthetic.main.fragment_action_dialog_traveling_themes.*
-import org.jetbrains.anko.support.v4.toast
+import org.jetbrains.anko.design.snackbar
 
 class TravelingThemesActionDialogFragment:BaseDialogFragment<TravelingThemesActionDialogFragmentViewModel>(){
     companion object {
@@ -83,7 +83,7 @@ class TravelingThemesActionDialogFragment:BaseDialogFragment<TravelingThemesActi
                             getViewModel().chooseThemesList.add(it)
                             it.select.set(it.select.get().not())
                         }else{
-                            toast(resources.getText(R.string.theme_max))
+                            view?.snackbar(resources.getText(R.string.theme_max))
                         }
                     }
                 }

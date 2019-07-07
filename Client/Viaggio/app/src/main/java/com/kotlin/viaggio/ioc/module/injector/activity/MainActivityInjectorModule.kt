@@ -27,6 +27,7 @@ import com.kotlin.viaggio.view.traveling.country.TravelingDomesticsCountryFragme
 import com.kotlin.viaggio.view.traveling.detail.TravelingImageDetailActionDialogFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
+import com.kotlin.viaggio.view.traveling.image.TravelCardImageModifyFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingCitiesActionDialogFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingDayCountActionDialogFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingThemesActionDialogFragment
@@ -152,5 +153,7 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun syncActionDialogFragment(): SyncActionDialogFragment
+    @ContributesAndroidInjector
+    fun travelCardImageModifyFragment(): TravelCardImageModifyFragment
 
 }

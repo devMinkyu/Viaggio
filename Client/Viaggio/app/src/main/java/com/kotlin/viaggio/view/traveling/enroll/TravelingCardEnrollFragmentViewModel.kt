@@ -5,6 +5,7 @@ import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
@@ -35,8 +36,6 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     val complete: MutableLiveData<Event<Any>> = MutableLiveData()
     val imageLiveData:MutableLiveData<Event<List<Any>>> = MutableLiveData()
     val themeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
-    val permissionRequestMsg: MutableLiveData<Event<PermissionError>> = MutableLiveData()
-    val imageViewShow: MutableLiveData<Event<Any>> = MutableLiveData()
 
     val contents = ObservableField<String>("").apply {
         addOnPropertyChangedCallback(object :androidx.databinding.Observable.OnPropertyChangedCallback(){
@@ -115,15 +114,13 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
             else -> isFormValid.set(true)
         }
     }
-    fun permissionCheck(request: Observable<Boolean>?) {
+    fun permissionCheck(request: Observable<Boolean>?): LiveData<Boolean> {
+        val imageViewShow: MutableLiveData<Boolean> = MutableLiveData()
         val disposable = request?.subscribe { t ->
-            if (t) {
-                imageViewShow.value = Event(Any())
-            } else {
-                permissionRequestMsg.value = Event(PermissionError.STORAGE_PERMISSION)
-            }
+            imageViewShow.value = t
         }
         disposable?.let { addDisposable(it) }
+        return imageViewShow
     }
 
     fun saveCard(){

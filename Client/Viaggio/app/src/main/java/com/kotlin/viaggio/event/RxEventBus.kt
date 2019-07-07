@@ -36,7 +36,7 @@ class RxEventBus @Inject constructor() {
     val travelingOption:PublishSubject<Any> = PublishSubject.create()
     val travelCardUpdate: PublishSubject<Any> = PublishSubject.create()
     val userUpdate: PublishSubject<Any> = PublishSubject.create()
-    val travelCardChange: PublishSubject<Boolean> = PublishSubject.create()
+    val travelCardChange: PublishSubject<Int> = PublishSubject.create()
     val uploadCheck: PublishSubject<Boolean> = PublishSubject.create()
     val sync: PublishSubject<Boolean> = PublishSubject.create()
     val userImage: PublishSubject<String> = PublishSubject.create()
@@ -44,4 +44,5 @@ class RxEventBus @Inject constructor() {
     val travelDelete: PublishSubject<Any> = PublishSubject.create()
 
     val completeLock: PublishSubject<Any> = PublishSubject.create()
+    val travelCardImageModifyCount: BehaviorSubject<Int> = BehaviorSubject.create()
 }

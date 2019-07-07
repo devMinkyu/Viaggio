@@ -75,7 +75,7 @@ class AppProviderModule {
     @Provides
     @Singleton
     internal fun provideFirebaseMlkitCloudOcr() = FirebaseVisionCloudTextRecognizerOptions.Builder()
-        .setLanguageHints(Arrays.asList("en", "ko"))
+        .setLanguageHints(listOf("en", "ko"))
         .build()
 
     @Provides
@@ -100,7 +100,7 @@ class AppProviderModule {
     @Provides
     @Singleton
     internal fun provideAmazonS3(credential: CognitoCachingCredentialsProvider) :AmazonS3Client{
-        val s3 = AmazonS3Client(credential)
+        val s3 = AmazonS3Client(credential, Region.getRegion(Regions.AP_NORTHEAST_2))
         s3.setRegion(Region.getRegion(Regions.US_EAST_2))
         s3.endpoint = "s3.us-east-2.amazonaws.com"
         return s3

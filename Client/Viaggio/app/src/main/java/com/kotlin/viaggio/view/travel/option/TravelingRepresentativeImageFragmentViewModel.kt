@@ -13,6 +13,7 @@ import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.UpdateTravelWorker
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
 class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : BaseViewModel() {
@@ -39,7 +40,7 @@ class TravelingRepresentativeImageFragmentViewModel @Inject constructor() : Base
                 }
                 imageNamesListLiveDate.postValue(Event(list))
             }){
-
+                Timber.d(it)
             }
         addDisposable(disposable)
     }

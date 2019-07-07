@@ -19,6 +19,7 @@ buildscript {
         google()
         jcenter()
         maven {
+            mavenCentral()
             url 'https://maven.fabric.io/public'
         }
         
@@ -41,6 +42,7 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
         maven { url "https://kotlin.bintray.com/kotlinx/" }
+        maven { url 'https://maven.fabric.io/public' }
     }
 }
 
