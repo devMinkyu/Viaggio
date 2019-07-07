@@ -99,18 +99,6 @@
                 app:layout_constraintTop_toBottomOf="@id/travelOptionAddTheme"
                 android:onClick="@{()->viewHandler.changeRepresentativeImage()}"
         />
-
-        <com.google.android.material.chip.Chip
-                android:id="@id/travelOptionFinish"
-                style="@style/ViewStyle.Viaggio.Travel.Option"
-                android:text="@string/travel_option_finish"
-                android:visibility="@{viewModel.traveling ? View.VISIBLE:View.GONE}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/travelOptionRepresentativeImage"
-                android:onClick="@{()->viewHandler.finish()}"
-        />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

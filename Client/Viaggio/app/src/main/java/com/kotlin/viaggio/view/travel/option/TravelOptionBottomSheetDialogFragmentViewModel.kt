@@ -12,7 +12,7 @@ import javax.inject.Inject
 class TravelOptionBottomSheetDialogFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
-    val traveling = ObservableBoolean(false)
+
     val isExistTravelCard = ObservableBoolean(false)
     var travel = Travel()
     override fun initialize() {
@@ -20,9 +20,7 @@ class TravelOptionBottomSheetDialogFragmentViewModel @Inject constructor() : Bas
 
         val travelIngId = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
         val selectedTravelId = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()
-        if(travelIngId == selectedTravelId){
-            traveling.set(true)
-        }
+
 
         val disposable = travelLocalModel.getTravel()
             .subscribe({

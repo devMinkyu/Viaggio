@@ -45,10 +45,5 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
             baseIntent("http://viaggio.kotlin.com/option/image/")
             dismiss()
         }
-
-        fun finish(){
-            TravelingFinishActionDialogFragment().show(fragmentManager!!, TravelingFinishActionDialogFragment.TAG)
-            dismiss()
-        }
     }
 }
