@@ -71,9 +71,11 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
                     ImageData(imageName = it)
                 }
             imageAllList = result
-            imageChooseList.add(imageAllList[0].imageName)
-            imageAllList[0].chooseCountList.set(1)
-            imagePathList.value = Event(imageAllList)
+            if(imageAllList.isNotEmpty()) {
+                imageChooseList.add(imageAllList[0].imageName)
+                imageAllList[0].chooseCountList.set(1)
+                imagePathList.value = Event(imageAllList)
+            }
         }
 
         val imageCountDisposable = rxEventBus.travelCardImageModifyCount
