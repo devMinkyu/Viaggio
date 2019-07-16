@@ -1,5 +1,7 @@
 package com.kotlin.viaggio.view.travel.option
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -71,10 +73,31 @@ class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFrag
 
     inner class ViewHandler {
         fun feed() {
-
+            val type = "image/*"
+            val mediaPath = getViewModel().list[getViewModel().chooseIndex]
+            val share = Intent(Intent.ACTION_SEND)
+            share.type = type
+            val media = File(mediaPath)
+            val uri = Uri.fromFile(media)
+            share.putExtra(Intent.EXTRA_STREAM, uri)
+            startActivity(Intent.createChooser(share, "Share to"))
         }
         fun story() {
+            val mediaPath = getViewModel().list[getViewModel().chooseIndex]
+            val media = File(mediaPath)
+            val stickerAssetUri:Uri = Uri.fromFile(media)
+            val attributionLinkUrl = "https://www.my-aweseome-app.com/p/BhzbIOUBval/"
+            val intent = Intent("com.instagram.share.ADD_TO_STORY")
+//            intent.type = MEDIA_TYPE_JPEG
+            intent.putExtra("interactive_asset_uri", stickerAssetUri)
+            intent.putExtra("content_url", attributionLinkUrl)
 
+            val activity = activity?.let {
+                it.grantUriPermission("com.instagram.android",stickerAssetUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                if(it.packageManager.resolveActivity(intent, 0) != null) {
+                    it.startActivityForResult(intent, 0)
+                }
+            }
         }
         fun back() {
             fragmentPopStack()

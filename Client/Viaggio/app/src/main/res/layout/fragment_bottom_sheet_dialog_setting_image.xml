@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="@id/toolbar"
                 app:layout_constraintBottom_toBottomOf="@id/toolbar"
                 app:layout_constraintEnd_toEndOf="@id/toolbar"
-        />
+                tools:ignore="PrivateResource"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +67,6 @@
                 android:layout_marginTop="5dp"
                 android:paddingStart="0dp"
                 android:paddingEnd="@dimen/common_margin"
-                app:chipMinTouchTargetSize="0dp"
                 app:chipIcon="@{viewModel.mode == 0 ? @drawable/icon_check:@drawable/trans_bg}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,7 +84,6 @@
                 app:layout_constraintTop_toBottomOf="@id/travelOptionTitle"
                 android:paddingStart="0dp"
                 android:paddingEnd="@dimen/common_margin"
-                app:chipMinTouchTargetSize="0dp"
                 app:chipIcon="@{viewModel.mode == 1 ? @drawable/icon_check:@drawable/trans_bg}"
                 android:onClick="@{()->viewHandler.check(1)}"
         />

@@ -81,6 +81,15 @@ android {
         abortOnError false
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
 }
 
 dependencies {
@@ -89,16 +98,16 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'com.google.android.play:core:1.6.1'
-    implementation 'com.google.android.material:material:1.1.0-alpha07'
+    implementation 'com.google.android.material:material:1.1.0-alpha08'
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
-    implementation 'com.google.android.material:material:1.1.0-alpha07'
+    implementation 'com.google.android.material:material:1.1.0-alpha08'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test:runner:1.3.0-alpha02'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
 
     // workmanager
-    def work_version = "2.1.0-rc01"
+    def work_version = "2.1.0"
     implementation "androidx.work:work-runtime-ktx:$work_version"
     implementation "androidx.work:work-rxjava2:$work_version"
 
@@ -139,15 +148,15 @@ dependencies {
 //    implementation "androidx.navigation:navigation-ui:$nav_version"
 
     //firebase
-    implementation 'com.google.firebase:firebase-core:17.0.0'
-    implementation 'com.google.firebase:firebase-ml-vision:21.0.0'
+    implementation 'com.google.firebase:firebase-core:17.0.1'
+    implementation 'com.google.firebase:firebase-ml-vision:22.0.0'
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     // viewPager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0-alpha06'
 
     // lottie
-    implementation "com.airbnb.android:lottie:3.0.6"
+    implementation 'com.airbnb.android:lottie:3.0.7'
 
     // gilde
     implementation "com.github.bumptech.glide:glide:$glide_version"
@@ -160,12 +169,12 @@ dependencies {
     // flex
     implementation 'com.google.android:flexbox:1.1.0'
 
-    def room_version = "2.1.0-alpha07"
+    def room_version = '2.2.0-alpha01'
     // room
-    implementation "androidx.room:room-runtime:2.1.0"
+    implementation 'androidx.room:room-runtime:2.2.0-alpha01'
     kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:2.1.0"
-    implementation "androidx.room:room-rxjava2:2.1.0"
+    implementation 'androidx.room:room-ktx:2.2.0-alpha01'
+    implementation 'androidx.room:room-rxjava2:2.2.0-alpha01'
     testImplementation "androidx.room:room-testing:$room_version"
 
     // paging
@@ -191,21 +200,20 @@ dependencies {
 
     // aws
     //Base SDK
-    implementation 'com.amazonaws:aws-android-sdk-core:2.13.4'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.13.7'
     //AppSync SDK
-    implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.0'
-    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:2.10.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.1'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 
-    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.4'
-    implementation 'com.amazonaws:aws-android-sdk-s3:2.13.4'
-    implementation 'com.amazonaws:aws-android-sdk-cognito:2.13.4'
+    implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.7'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.13.7'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.13.7'
 
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
     implementation 'com.github.ajalt.reprint:core:3.3.1@aar'
     implementation 'com.github.ajalt.reprint:rxjava2:3.3.1@aar'
-
 
     implementation 'com.github.curioustechizen.android-ago:library:1.4.0'
     implementation 'net.skoumal.fragmentback:fragment-back:0.2.3'

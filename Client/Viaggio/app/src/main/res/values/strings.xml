@@ -168,4 +168,6 @@
     <string name="travel_card_image_modify_fail">업로드 실패</string>
     <string name="travel_delete_fail">여행 삭제 실패. 다시 시도해주세요.</string>
     <string name="travel_delete_success">삭제가 완료되었습니다.</string>
+    <string name="travel_option_instagram_share_story">STORIES</string>
+    <string name="travel_option_instagram_share_feed">FEED</string>
 </resources>
