@@ -21,6 +21,7 @@ import com.kotlin.viaggio.view.theme.ThemeFragment
 import com.kotlin.viaggio.view.travel.TravelFragment
 import com.kotlin.viaggio.view.travel.calendar.TravelCalendarFragment
 import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
+import com.kotlin.viaggio.view.travel.option.TravelingInstagramShareFragment
 import com.kotlin.viaggio.view.travel.option.TravelingRepresentativeImageFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
@@ -154,6 +155,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         "image" -> {
                             showOptionImage()
                         }
+                        "share" -> {
+                            showInstagrmShare()
+                        }
                     }
                 else -> {
                 }
@@ -161,8 +165,12 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         }
     }
 
+    private fun showInstagrmShare() {
+        baseShowLeftAddBackFragment(TravelingInstagramShareFragment())
+    }
+
     private fun showTravelCardImageModify() {
-        baseShowAddLeftAddBackFragment(TravelCardImageModifyFragment())
+        baseShowLeftAddBackFragment(TravelCardImageModifyFragment())
     }
 
     private fun showLock() {

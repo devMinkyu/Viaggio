@@ -5,9 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseBottomDialogFragment
+import com.kotlin.viaggio.view.traveling.TravelingDeleteActionDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
+import org.jetbrains.anko.design.snackbar
 
 
 class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOptionBottomSheetDialogFragmentViewModel>() {
@@ -21,6 +25,27 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
         binding.viewHandler = ViewHandler()
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getViewModel().showLoadingLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                showLoading()
+            }
+        })
+        getViewModel().resultLiveData.observe(this, Observer {
+            stopLoading()
+            it.getContentIfNotHandled()?.let { value ->
+                if(value) {
+                    view.snackbar(getString(R.string.travel_delete_success))
+                    dismiss()
+                } else {
+                    view.snackbar(getString(R.string.travel_delete_fail))
+                }
+            }
+        })
+    }
+
     inner class ViewHandler{
         fun close(){
             dismiss()
@@ -44,6 +69,18 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
         fun changeRepresentativeImage(){
             baseIntent("http://viaggio.kotlin.com/option/image/")
             dismiss()
+        }
+        fun instagramShare() {
+            baseIntent("http://viaggio.kotlin.com/option/instagram/share/")
+            dismiss()
+        }
+        fun travelDelete() {
+            val frag = TravelingDeleteActionDialogFragment()
+            val arg = Bundle()
+            arg.putBoolean(ArgName.TRAVEL_CARD_MODE.name, false)
+            frag.arguments = arg
+            frag.show(fragmentManager!!, TravelingDeleteActionDialogFragment.TAG)
+            showLoading()
         }
     }
 }

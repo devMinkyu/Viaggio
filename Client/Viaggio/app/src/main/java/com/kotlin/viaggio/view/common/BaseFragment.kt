@@ -20,10 +20,11 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
+import net.skoumal.fragmentback.BackFragment
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjector {
+abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjector, BackFragment {
     @Inject
     internal lateinit var viewModel: E
     @Inject
@@ -36,7 +37,6 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
     var sliderInterface: SlidrInterface? = null
 
     var width:Int = 0
-    var isShowKeyBoard = false
     override fun supportFragmentInjector() = fragmentInjector
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -50,16 +50,6 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
         width = context!!.resources.displayMetrics.widthPixels
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.viewTreeObserver.addOnGlobalLayoutListener {
-            val r = Rect()
-            view.getWindowVisibleDisplayFrame(r)
-            val heightDiff = view.rootView.height - (r.bottom - r.top)
-            isShowKeyBoard = heightDiff > 500
-        }
-    }
-
     override fun onStart() {
         super.onStart()
         val traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
@@ -71,8 +61,8 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
     override fun onStop() {
         super.onStop()
         sliderInterface = null
-        if(isShowKeyBoard){
-            hideKeyBoard()
+        view?.let {
+            hideKeyBoard(it)
         }
     }
 
@@ -137,20 +127,28 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
         }
     }
 
-    fun showKeyBoard() {
+    fun showKeyBoard(view: View) {
         activity?.let {
-            (it as BaseActivity<*>).showKeyBoard()
+            (it as BaseActivity<*>).showKeyBoard(view)
         }
     }
 
-    fun hideKeyBoard() {
+    fun hideKeyBoard(view: View) {
         activity?.let {
-            (it as BaseActivity<*>).hideKeyBoard()
+            (it as BaseActivity<*>).hideKeyBoard(view)
         }
     }
     fun showNetWorkError(){
         activity?.let {
             (it as BaseActivity<*>).showNetWorkError()
         }
+    }
+
+    // back interface
+    override fun onBackPressed(): Boolean {
+        return false
+    }
+    override fun getBackPriority(): Int {
+        return BackFragment.NORMAL_BACK_PRIORITY
     }
 }

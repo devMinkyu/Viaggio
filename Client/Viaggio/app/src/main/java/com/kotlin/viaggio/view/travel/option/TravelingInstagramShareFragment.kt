@@ -10,16 +10,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.databinding.FragmentTravelingInstagramShareBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_representative_image.*
 import kotlinx.android.synthetic.main.item_traveling_representative_image.view.*
 import java.io.File
 
 
-class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativeImageFragmentViewModel>() {
-    lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingRepresentativeImageBinding
+class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFragmentViewModel>() {
+    lateinit var binding: FragmentTravelingInstagramShareBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_representative_image, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_instagram_share, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
         return binding.root
@@ -43,25 +44,18 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
                         getViewModel().choose[0].set(true)
                         getViewModel().chooseIndex = 0
 
-                        travelingRepresentativeImageList.adapter =
-                            object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-                                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                                    TravelingRepresentativeImageViewHolder(
-                                        LayoutInflater.from(parent.context).inflate(
-                                            R.layout.item_traveling_representative_image,
-                                            parent,
-                                            false
-                                        )
-                                    )
-
-                                override fun getItemCount() = imageNames.size
-                                override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                                    holder as TravelingRepresentativeImageViewHolder
-                                    holder.binding?.viewHandler = holder.TravelingRepresentativeImageViewHandler()
-                                    holder.binding?.choose = getViewModel().choose[position]
-                                    holder.imageBinding(imageNames[position])
-                                }
+                        travelingRepresentativeImageList.adapter = object :RecyclerView.Adapter<TravelingInstagramShareViewHolder>() {
+                            override fun onCreateViewHolder(
+                                parent: ViewGroup,
+                                viewType: Int
+                            ) = TravelingInstagramShareViewHolder(layoutInflater.inflate(R.layout.item_traveling_representative_image, parent, false))
+                            override fun getItemCount() = imageNames.size
+                            override fun onBindViewHolder(holder: TravelingInstagramShareViewHolder, position: Int) {
+                                holder.binding?.viewHandler = holder.TravelingInstagramShareViewHandler()
+                                holder.binding?.choose = getViewModel().choose[position]
+                                holder.imageBinding(imageNames[position])
                             }
+                        }
                     }
                 }
             }
@@ -76,20 +70,32 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
     }
 
     inner class ViewHandler {
-        fun confirm() {
-            showLoading()
-            getViewModel().changeRepresentative()
-        }
+        fun feed() {
 
+        }
+        fun story() {
+
+        }
         fun back() {
             fragmentPopStack()
         }
+        fun next() {
+            getViewModel().share.set(true)
+        }
     }
 
-    inner class TravelingRepresentativeImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    override fun onBackPressed(): Boolean {
+        return if(getViewModel().share.get()) {
+            getViewModel().share.set(false)
+            true
+        } else {
+            false
+        }
+    }
+
+    inner class TravelingInstagramShareViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingRepresentativeImageBinding>(view)
         private lateinit var fileNamePath: String
-        private val imgDir = File(context?.filesDir, "images/")
 
         fun imageBinding(string: String) {
             fileNamePath = string
@@ -101,10 +107,9 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
             Glide.with(itemView.travelingRepresentativeListImage)
                 .load(string)
                 .into(itemView.travelingRepresentativeListImage)
-
         }
 
-        inner class TravelingRepresentativeImageViewHandler: TravelImagePickerViewHandler {
+        inner class TravelingInstagramShareViewHandler: TravelImagePickerViewHandler {
             override fun imagePicker() {
                 val index = getViewModel().list.indexOf(fileNamePath)
                 if (index != getViewModel().chooseIndex) {
@@ -120,8 +125,4 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
             }
         }
     }
-}
-
-interface TravelImagePickerViewHandler{
-    fun imagePicker()
 }

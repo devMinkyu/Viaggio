@@ -265,4 +265,6 @@
     <item name="travelCardCurrentImageCount" type="id"/>
     <item name="travelCardCurrentImageHint" type="id"/>
     <item name="travelingPagerImgDelete" type="id"/>
+    <item name="travelOptionTravelDelete" type="id"/>
+    <item name="travelOptionInstagramShare" type="id"/>
 </resources>

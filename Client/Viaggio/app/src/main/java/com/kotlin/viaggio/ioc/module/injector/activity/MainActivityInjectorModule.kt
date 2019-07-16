@@ -14,6 +14,7 @@ import com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import com.kotlin.viaggio.view.travel.option.TravelOptionBottomSheetDialogFragment
 import com.kotlin.viaggio.view.travel.option.TravelTitleBottomSheetDialogFragment
+import com.kotlin.viaggio.view.travel.option.TravelingInstagramShareFragment
 import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
@@ -153,7 +154,11 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun syncActionDialogFragment(): SyncActionDialogFragment
+
     @ContributesAndroidInjector
     fun travelCardImageModifyFragment(): TravelCardImageModifyFragment
+
+    @ContributesAndroidInjector
+    fun travelingInstagramShareFragment(): TravelingInstagramShareFragment
 
 }

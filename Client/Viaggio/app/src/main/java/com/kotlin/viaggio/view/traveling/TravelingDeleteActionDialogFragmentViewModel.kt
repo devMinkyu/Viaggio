@@ -11,6 +11,5 @@ class TravelingDeleteActionDialogFragmentViewModel @Inject constructor() : BaseV
         } else{
             rxEventBus.travelDelete.onNext(Any())
         }
-
     }
 }

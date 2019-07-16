@@ -91,14 +91,14 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
     }
     inner class ViewHandler{
         fun close(){
-            if(getViewModel().isShowKeyBoard){
-                hideKeyBoard()
+            view?.let {
+                hideKeyBoard(it)
             }
             dismiss()
         }
         fun save(){
-            if(getViewModel().isShowKeyBoard){
-                hideKeyBoard()
+            view?.let {
+                hideKeyBoard(it)
             }
             getViewModel().save()
         }

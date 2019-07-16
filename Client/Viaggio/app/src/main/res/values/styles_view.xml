@@ -101,7 +101,7 @@
         <item name="android:layout_height">@dimen/sign_height</item>
     </style>
     <style name="ViewStyle.Viaggio.Travel.Option">
-        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_height">40dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="chipStartPadding">@dimen/common_margin</item>
         <item name="android:textColor">@color/setting_enable_color</item>

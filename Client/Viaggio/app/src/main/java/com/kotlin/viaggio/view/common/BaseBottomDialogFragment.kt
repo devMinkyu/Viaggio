@@ -24,7 +24,7 @@ abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialo
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
-    var isShowKeyBoard = false
+
     override fun supportFragmentInjector() = fragmentInjector
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -37,20 +37,10 @@ abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialo
         (getViewModel() as BaseViewModel).initialize()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.viewTreeObserver.addOnGlobalLayoutListener {
-            val r = Rect()
-            view.getWindowVisibleDisplayFrame(r)
-            val heightDiff = view.rootView.height - (r.bottom - r.top)
-            isShowKeyBoard = heightDiff > 500
-        }
-    }
-
     override fun onStop() {
         super.onStop()
-        if(isShowKeyBoard){
-            hideKeyBoard()
+        view?.let {
+            hideKeyBoard(it)
         }
     }
 
@@ -96,16 +86,15 @@ abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialo
             (it as BaseActivity<*>).stopLoading()
         }
     }
-
-    fun showKeyBoard() {
+    fun showKeyBoard(view: View) {
         activity?.let {
-            (it as BaseActivity<*>).showKeyBoard()
+            (it as BaseActivity<*>).showKeyBoard(view)
         }
     }
 
-    fun hideKeyBoard() {
+    fun hideKeyBoard(view: View) {
         activity?.let {
-            (it as BaseActivity<*>).hideKeyBoard()
+            (it as BaseActivity<*>).hideKeyBoard(view)
         }
     }
 }

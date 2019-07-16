@@ -67,6 +67,7 @@
                 android:layout_marginTop="5dp"
                 android:paddingStart="0dp"
                 android:paddingEnd="@dimen/common_margin"
+                app:chipMinTouchTargetSize="0dp"
                 app:chipIcon="@{viewModel.mode == 0 ? @drawable/icon_check:@drawable/trans_bg}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -84,11 +85,12 @@
                 app:layout_constraintTop_toBottomOf="@id/travelOptionTitle"
                 android:paddingStart="0dp"
                 android:paddingEnd="@dimen/common_margin"
+                app:chipMinTouchTargetSize="0dp"
                 app:chipIcon="@{viewModel.mode == 1 ? @drawable/icon_check:@drawable/trans_bg}"
                 android:onClick="@{()->viewHandler.check(1)}"
         />
         <Space android:layout_width="match_parent"
-               android:layout_height="50dp"
+               android:layout_height="40dp"
                app:layout_constraintTop_toBottomOf="@id/travelOptionAddCountry"
                app:layout_constraintBottom_toBottomOf="parent"
         />

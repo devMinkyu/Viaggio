@@ -107,6 +107,11 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
             db.get().travelDao().updateTravelCard(travelCard)
         }.subscribeOn(Schedulers.io())
     }
+    fun updateTravelCards(travelCards: List<TravelCard>):Completable{
+        return Completable.fromAction {
+            db.get().travelDao().updateTravelCard(*travelCards.toTypedArray())
+        }.subscribeOn(Schedulers.io())
+    }
 
     fun imagePathList(imageChooseList: List<Bitmap>): Single<List<String>> {
         return localDataSource.cacheFile(imageChooseList)

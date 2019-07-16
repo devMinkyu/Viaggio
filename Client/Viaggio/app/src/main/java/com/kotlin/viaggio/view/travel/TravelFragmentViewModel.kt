@@ -26,8 +26,8 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
     var isTravelRefresh = false
     var chooseNum:Int? = null
 
-    val traveling = ObservableField<String>("")
-    val travelingKind = ObservableField<String>("")
+    val traveling = ObservableField("")
+    val travelingKind = ObservableField("")
     var travelingId = 0L
 
     override fun initialize() {

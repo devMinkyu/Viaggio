@@ -172,8 +172,8 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         }
         inner class TravelCardEnrollViewHandler{
             fun imageAdd(){
-                if(isShowKeyBoard){
-                    hideKeyBoard()
+                view?.let {
+                    hideKeyBoard(it)
                 }
                 getViewModel().permissionCheck(
                     rxPermission.request(

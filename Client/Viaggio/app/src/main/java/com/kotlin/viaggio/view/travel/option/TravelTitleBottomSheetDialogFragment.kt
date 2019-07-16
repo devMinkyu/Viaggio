@@ -42,7 +42,7 @@ class TravelTitleBottomSheetDialogFragment : BaseBottomDialogFragment<TravelTitl
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         travelOptionTitle.requestFocus()
-        showKeyBoard()
+        showKeyBoard(view)
         getViewModel().confirmLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 dismiss()

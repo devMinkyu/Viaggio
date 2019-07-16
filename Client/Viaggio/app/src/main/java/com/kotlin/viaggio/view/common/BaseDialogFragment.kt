@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -74,15 +75,15 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
         }
     }
 
-    fun showKeyBoard() {
+    fun showKeyBoard(view: View) {
         activity?.let {
-            (it as BaseActivity<*>).showKeyBoard()
+            (it as BaseActivity<*>).showKeyBoard(view)
         }
     }
 
-    fun hideKeyBoard() {
+    fun hideKeyBoard(view: View) {
         activity?.let {
-            (it as BaseActivity<*>).hideKeyBoard()
+            (it as BaseActivity<*>).hideKeyBoard(view)
         }
     }
 }
