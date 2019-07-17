@@ -49,16 +49,12 @@
                   app:layout_constraintBottom_toBottomOf="@id/toolbar"
                   app:layout_constraintTop_toTopOf="@id/toolbar"
                   tools:ignore="SpUsage"/>
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatImageView
                 style="@style/Widget.MaterialComponents.Button.TextButton"
-                app:rippleColor="@color/rippleColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/colorPrimary"
-                android:text="@string/image_start"
-                android:gravity="center"
-                android:padding="@dimen/common_top"
-                android:fontFamily="sans-serif-black"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/icon_instagram_bg"
+                android:layout_marginEnd="@dimen/common_top"
                 android:visibility="@{viewModel.share ? View.GONE:View.VISIBLE}"
                 android:onClick="@{()->viewHandler.next()}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -78,36 +74,58 @@
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/story"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                style="@style/Widget.MaterialComponents.Button"
                 app:cornerRadius="10dp"
                 app:rippleColor="@color/rippleColor"
                 android:onClick="@{() -> viewHandler.story()}"
-                android:layout_width="80dp"
-                android:layout_height="90dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="@dimen/common_margin"
                 android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
-                app:backgroundTint="@color/brown_grey_three"
+                app:backgroundTint="@android:color/white"
                 app:layout_constraintEnd_toStartOf="@id/feed"
                 app:layout_constraintTop_toBottomOf="@id/travelingRepresentativeImage"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintHorizontal_chainStyle="packed"
         />
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/icon_story"
+                android:elevation="5dp"
+                android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
+                app:layout_constraintStart_toStartOf="@id/story"
+                app:layout_constraintEnd_toEndOf="@id/story"
+                app:layout_constraintTop_toTopOf="@id/story"
+                app:layout_constraintBottom_toBottomOf="@id/story"
+        />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/feed"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="90dp"
+                android:layout_height="100dp"
+                style="@style/Widget.MaterialComponents.Button"
                 app:cornerRadius="10dp"
                 app:rippleColor="@color/rippleColor"
                 android:onClick="@{() -> viewHandler.feed()}"
                 android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
-                android:layout_width="80dp"
-                android:layout_height="90dp"
                 android:layout_marginTop="@dimen/common_margin"
-                app:backgroundTint="@color/brown_grey_three"
+                app:backgroundTint="@android:color/white"
                 app:layout_constraintStart_toEndOf="@id/story"
                 app:layout_constraintTop_toBottomOf="@id/travelingRepresentativeImage"
                 app:layout_constraintEnd_toEndOf="parent"
+        />
+        <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/icon_feed"
+                android:elevation="5dp"
+                android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
+                app:layout_constraintStart_toStartOf="@id/feed"
+                app:layout_constraintEnd_toEndOf="@id/feed"
+                app:layout_constraintTop_toTopOf="@id/feed"
+                app:layout_constraintBottom_toBottomOf="@id/feed"
         />
 
         <TextView android:layout_width="wrap_content"
@@ -121,7 +139,6 @@
                   app:layout_constraintEnd_toEndOf="@id/story"
                   app:layout_constraintTop_toBottomOf="@id/story"
                   tools:ignore="SpUsage"/>
-
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:fontFamily="@font/rubik"

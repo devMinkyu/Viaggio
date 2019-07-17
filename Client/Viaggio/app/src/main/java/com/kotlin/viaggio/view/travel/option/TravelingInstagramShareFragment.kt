@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,10 +17,20 @@ import com.kotlin.viaggio.databinding.FragmentTravelingInstagramShareBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_representative_image.*
 import kotlinx.android.synthetic.main.item_traveling_representative_image.view.*
+import org.jetbrains.anko.design.snackbar
 import java.io.File
 
 
 class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFragmentViewModel>() {
+    companion object{
+        const val MEDIA_TYPE_JPEG = "image/jpeg"
+        const val INSTAGRAM_PACKAGE = "com.instagram.android"
+        const val FILE_PROVIDER_AUTHORITY = "com.kotlin.viaggio.fileprovider"
+        const val IMAGE_TYPE = "image/*"
+        const val SHARE_TO = "Share to"
+        const val ADD_TO_STORY = "com.instagram.share.ADD_TO_STORY"
+        const val INTERACTIVE_ASSET_URI ="interactive_asset_uri"
+    }
     lateinit var binding: FragmentTravelingInstagramShareBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_instagram_share, container, false)
@@ -71,32 +82,53 @@ class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFrag
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        if(getViewModel().share.get()) {
+            fragmentPopStack()
+        }
+    }
+
     inner class ViewHandler {
         fun feed() {
-            val type = "image/*"
-            val mediaPath = getViewModel().list[getViewModel().chooseIndex]
-            val share = Intent(Intent.ACTION_SEND)
-            share.type = type
-            val media = File(mediaPath)
-            val uri = Uri.fromFile(media)
-            share.putExtra(Intent.EXTRA_STREAM, uri)
-            startActivity(Intent.createChooser(share, "Share to"))
+            context?.let { context ->
+                context.packageManager.getLaunchIntentForPackage(INSTAGRAM_PACKAGE)?.let {
+                    val type = IMAGE_TYPE
+                    val mediaPath = getViewModel().list[getViewModel().chooseIndex]
+                    val share = Intent(Intent.ACTION_SEND)
+                    share.type = type
+                    val media = File(mediaPath)
+                    val uri = FileProvider.getUriForFile(
+                        context,
+                        FILE_PROVIDER_AUTHORITY,
+                        media)
+                    share.putExtra(Intent.EXTRA_STREAM, uri)
+                    startActivity(Intent.createChooser(share, SHARE_TO))
+                }?:view?.snackbar(getString(R.string.travel_instagram_not_install))
+            }
         }
         fun story() {
-            val mediaPath = getViewModel().list[getViewModel().chooseIndex]
-            val media = File(mediaPath)
-            val stickerAssetUri:Uri = Uri.fromFile(media)
-            val attributionLinkUrl = "https://www.my-aweseome-app.com/p/BhzbIOUBval/"
-            val intent = Intent("com.instagram.share.ADD_TO_STORY")
-//            intent.type = MEDIA_TYPE_JPEG
-            intent.putExtra("interactive_asset_uri", stickerAssetUri)
-            intent.putExtra("content_url", attributionLinkUrl)
+            context?.let { context ->
+                context.packageManager.getLaunchIntentForPackage(INSTAGRAM_PACKAGE)?.let {
+                    val mediaPath = getViewModel().list[getViewModel().chooseIndex]
+                    val media = File(mediaPath)
+                    val stickerAssetUri:Uri = FileProvider.getUriForFile(
+                        context,
+                        FILE_PROVIDER_AUTHORITY,
+                        media)
+//            val attributionLinkUrl = "https://www.my-aweseome-app.com/p/BhzbIOUBval/"
+                    val intent = Intent(ADD_TO_STORY)
+                    intent.type = MEDIA_TYPE_JPEG
+                    intent.putExtra(INTERACTIVE_ASSET_URI, stickerAssetUri)
+//            intent.putExtra("content_url", attributionLinkUrl)
 
-            val activity = activity?.let {
-                it.grantUriPermission("com.instagram.android",stickerAssetUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                if(it.packageManager.resolveActivity(intent, 0) != null) {
-                    it.startActivityForResult(intent, 0)
-                }
+                    activity?.let {
+                        it.grantUriPermission(INSTAGRAM_PACKAGE,stickerAssetUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        if(it.packageManager.resolveActivity(intent, 0) != null) {
+                            it.startActivityForResult(intent, 0)
+                        }
+                    }
+                }?:view?.snackbar(getString(R.string.travel_instagram_not_install))
             }
         }
         fun back() {

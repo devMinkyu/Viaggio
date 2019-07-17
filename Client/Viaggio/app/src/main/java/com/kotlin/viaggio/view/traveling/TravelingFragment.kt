@@ -212,6 +212,7 @@ interface TravelCardViewHandler{
 class TravelingItemDecoration :
     RecyclerView.ItemDecoration() {
     private var firstHorMargin: Float? = null
+    private var remainHorMargin: Float? = null
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
         super.getItemOffsets(outRect, view, parent, state)
@@ -221,6 +222,11 @@ class TravelingItemDecoration :
                 ?: (parent.context.resources.getDimension(R.dimen.common_margin))
             firstHorMargin = firstHorMarginVal1
             outRect.top = firstHorMarginVal1.toInt()
+        } else {
+            val remainHorMargin1 = remainHorMargin
+                ?: (parent.context.resources.getDimension(R.dimen.traveling_remain_top))
+            remainHorMargin = remainHorMargin1
+            outRect.top = (remainHorMargin1.toInt() * -1)
         }
     }
 }

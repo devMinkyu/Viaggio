@@ -28,6 +28,7 @@
                     android:background="@color/white_three"
                     android:scrollbarThumbVertical="@color/brown_grey"
                     android:scrollbars="vertical"
+                    android:overScrollMode="never"
                     app:layout_constraintTop_toBottomOf="@id/travelAdd"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -28,4 +28,5 @@
     <dimen name="back_size">36dp</dimen>
     <dimen name="travel_card_image_size">100dp</dimen>
     <dimen name="travel_card_image_modify_size">150dp</dimen>
+    <dimen name="traveling_remain_top">5dp</dimen>
 </resources>
