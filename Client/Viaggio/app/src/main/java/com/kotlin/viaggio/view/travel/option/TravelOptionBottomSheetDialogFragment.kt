@@ -75,12 +75,17 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
             dismiss()
         }
         fun travelDelete() {
-            val frag = TravelingDeleteActionDialogFragment()
-            val arg = Bundle()
-            arg.putBoolean(ArgName.TRAVEL_CARD_MODE.name, false)
-            frag.arguments = arg
-            frag.show(fragmentManager!!, TravelingDeleteActionDialogFragment.TAG)
-            showLoading()
+            getViewModel().checkTraveling().observe(this@TravelOptionBottomSheetDialogFragment, Observer {
+                if(it) {
+                    val frag = TravelingDeleteActionDialogFragment()
+                    val arg = Bundle()
+                    arg.putBoolean(ArgName.TRAVEL_CARD_MODE.name, false)
+                    frag.arguments = arg
+                    frag.show(fragmentManager!!, TravelingDeleteActionDialogFragment.TAG)
+                } else {
+                    view?.snackbar(getString(R.string.traveling))
+                }
+            })
         }
     }
 }

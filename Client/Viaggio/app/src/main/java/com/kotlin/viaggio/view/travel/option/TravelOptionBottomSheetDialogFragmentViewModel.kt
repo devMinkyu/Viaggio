@@ -96,4 +96,17 @@ class TravelOptionBottomSheetDialogFragmentViewModel @Inject constructor() : Bas
             }
         addDisposable(disposable)
     }
+
+    fun checkTraveling(): LiveData<Boolean> {
+        val result = MutableLiveData<Boolean>()
+        val traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
+        if(traveling){
+            result.value = travelLocalModel.getSelectedTravelingId().blockingGet() != travelLocalModel.getTravelingId().blockingGet()
+        } else {
+            result.value = true
+        }
+        travelLocalModel
+
+        return result
+    }
 }

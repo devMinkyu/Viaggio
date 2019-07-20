@@ -32,8 +32,8 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
     @Inject
     lateinit var config: DeveloperAuthenticationProvider
 
-    private fun getTravelingId() = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID)
-    private fun getSelectedTravelingId() = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID)
+    fun getTravelingId() = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID)
+    fun getSelectedTravelingId() = prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID)
     private fun getSelectedTravelingCardId() =
         prefUtilService.getLong(AndroidPrefUtilService.Key.SELECTED_TRAVELING_CARD_ID)
 
