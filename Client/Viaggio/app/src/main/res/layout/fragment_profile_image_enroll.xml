@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
 >
     <data>
         <import type="android.view.View"/>
@@ -33,13 +33,11 @@
                     app:layout_constraintTop_toTopOf="@id/toolbar"
                     app:layout_constraintBottom_toBottomOf="@id/toolbar"
                     app:layout_constraintStart_toStartOf="parent"/>
-            <TextView
-                    android:layout_width="wrap_content"
+            <Spinner
+                    android:id="@id/travelingOfDayEnrollSpinner"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLength="10"
-                    android:text="@string/total_image"
-                    android:textAppearance="@style/TextAppearance.Viaggio.Navigation.Scroll"
+                    android:background="@android:color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/back"
                     app:layout_constraintBottom_toBottomOf="@id/back"
@@ -72,6 +70,21 @@
                     app:layout_constraintTop_toBottomOf="@id/toolbar"
             />
 
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.emptyImageNotice}"
+                    android:textSize="20dp"
+                    android:textColor="@color/brown_grey"
+                    android:fontFamily="sans-serif"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:layout_marginEnd="@dimen/common_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="empty_image"
+                    tools:ignore="SpUsage"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

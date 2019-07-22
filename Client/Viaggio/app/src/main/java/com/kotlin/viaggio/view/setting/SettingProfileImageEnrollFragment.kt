@@ -5,6 +5,8 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -50,6 +52,21 @@ class SettingProfileImageEnrollFragment : BaseFragment<SettingProfileImageEnroll
                         holder.imageBinding(list[position].imageName)
                         holder.binding?.choose = list[position].chooseCountList
                         holder.binding?.viewHandler = holder.SettingProfileImageEnrollViewHandler()
+                    }
+                }
+            }
+        })
+        getViewModel().folderNameListLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { list ->
+                val spinnerAdapter =
+                    ArrayAdapter(context!!, R.layout.spinner_continent_item, list)
+                spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
+
+                travelingOfDayEnrollSpinner.adapter = spinnerAdapter
+                travelingOfDayEnrollSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        getViewModel().fetchImage(list[position])
                     }
                 }
             }

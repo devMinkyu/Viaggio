@@ -267,4 +267,5 @@
     <item name="travelingPagerImgDelete" type="id"/>
     <item name="travelOptionTravelDelete" type="id"/>
     <item name="travelOptionInstagramShare" type="id"/>
+    <item name="travelingOfDayEnrollSpinner" type="id"/>
 </resources>

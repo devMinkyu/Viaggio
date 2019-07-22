@@ -11,6 +11,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import com.kotlin.viaggio.android.ClearCache
@@ -125,20 +126,74 @@ class LocalDataSource @Inject constructor() {
     }
 
     @SuppressLint("Recycle")
+    fun folderName(): MutableList<String> {
+        val folderList: MutableList<String> = mutableListOf()
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf("distinct ${MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME}")
+        appCtx.get().contentResolver?.query(
+            uri,
+            projection,
+            "",
+            null,
+            MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME + " asc"
+        )?.let {cursor->
+            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME)
+            while (cursor.moveToNext()) {
+                val absolutePathOfImage = cursor.getString(columnIndex)
+                if (TextUtils.isEmpty(absolutePathOfImage).not()) {
+                    folderList.add(absolutePathOfImage)
+                }
+            }
+            cursor.close()
+        }
+        return folderList
+    }
+
+    @SuppressLint("Recycle")
+    fun imageOfFolder(folder:String): MutableList<String> {
+        val imageOfFolderList: MutableList<String> = mutableListOf()
+        val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        val projection = arrayOf(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, MediaStore.MediaColumns.DATA)
+
+        var lastIndex2: Int
+        appCtx.get().contentResolver?.query(
+            uri,
+            projection,
+            MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME + "= '${folder}'",
+            null,
+            MediaStore.MediaColumns.DATE_ADDED + " desc"
+        )?.let {cursor->
+            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+            val columnBucketDisplayName = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME)
+            while (cursor.moveToNext()) {
+                val absolutePathOfImage = cursor.getString(columnIndex)
+                val nameOfFile = cursor.getString(columnBucketDisplayName)
+                lastIndex2 = absolutePathOfImage.lastIndexOf(nameOfFile)
+                lastIndex2 = if (lastIndex2 >= 0) lastIndex2 else nameOfFile.length - 1
+
+                if (TextUtils.isEmpty(absolutePathOfImage).not()) {
+                    imageOfFolderList.add(absolutePathOfImage)
+                }
+            }
+            cursor.close()
+        }
+        return imageOfFolderList
+    }
+
+    @SuppressLint("Recycle")
     fun imageAllPath(): MutableList<String> {
         val list: MutableList<String> = mutableListOf()
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME)
 
-        val cursor = appCtx.get().contentResolver?.query(
+        var lastIndex: Int
+        appCtx.get().contentResolver?.query(
             uri,
             projection,
             null,
             null,
             MediaStore.MediaColumns.DATE_ADDED + " desc"
-        )
-        var lastIndex: Int
-        cursor?.let {
+        )?.let {cursor ->
             val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
             val columnDisplayName = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
             while (cursor.moveToNext()) {
@@ -151,8 +206,8 @@ class LocalDataSource @Inject constructor() {
                     list.add(absolutePathOfImage)
                 }
             }
+            cursor.close()
         }
-        cursor?.close()
         return list
     }
 

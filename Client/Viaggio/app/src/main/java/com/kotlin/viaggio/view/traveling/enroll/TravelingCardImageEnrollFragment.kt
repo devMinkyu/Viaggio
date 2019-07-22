@@ -2,6 +2,8 @@ package com.kotlin.viaggio.view.traveling.enroll
 
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -79,6 +81,23 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
             }
             if(getViewModel().imageChooseList.isNotEmpty()){
                 travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
+            }
+        })
+
+        getViewModel().folderNameListLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { list ->
+
+                val spinnerAdapter =
+                    ArrayAdapter(context!!, R.layout.spinner_continent_item, list)
+                spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
+
+                travelingOfDayEnrollSpinner.adapter = spinnerAdapter
+                travelingOfDayEnrollSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                        getViewModel().fetchImage(list[position])
+                    }
+                }
             }
         })
         travelingOfDayEnrollImageList.setOnScrollChangeListener { _, _, _, _, _ ->

@@ -33,13 +33,11 @@
                     app:layout_constraintTop_toTopOf="@id/toolbar"
                     app:layout_constraintBottom_toBottomOf="@id/toolbar"
                     app:layout_constraintStart_toStartOf="parent"/>
-            <TextView
-                    android:layout_width="wrap_content"
+            <Spinner
+                    android:id="@id/travelingOfDayEnrollSpinner"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:maxLength="10"
-                    android:text="@string/total_image"
-                    android:textAppearance="@style/TextAppearance.Viaggio.Navigation.Scroll"
+                    android:background="@android:color/white"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/back"
                     app:layout_constraintBottom_toBottomOf="@id/back"

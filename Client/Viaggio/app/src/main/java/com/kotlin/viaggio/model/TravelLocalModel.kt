@@ -43,8 +43,10 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
     fun savePicture(photoResult: PhotoResult) =
         localDataSource.savePhotoResult(photoResult)
 
-    fun imageAllPath() =
-        localDataSource.imageAllPath()
+    fun imageAllPath() = localDataSource.imageAllPath()
+    fun folderName() = localDataSource.folderName()
+
+    fun imageOfFolder(folder:String) = localDataSource.imageOfFolder(folder)
 
     fun createTravel(travel: Travel): Completable {
         val bitmap = rxEventBus.travelOfFirstImage.value

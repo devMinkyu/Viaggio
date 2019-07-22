@@ -15,6 +15,7 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
     lateinit var travelLocalModel: TravelLocalModel
 
     val imagePathList: MutableLiveData<Event<List<ImageData>>> = MutableLiveData()
+    val folderNameListLiveData: MutableLiveData<Event<List<String>>> = MutableLiveData()
 
     var entireChooseCount: Int = 1
 
@@ -49,9 +50,9 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
                         } else {
                             imageChooseList.size
                         }
-                    } else {
-                        emptyImageNotice.set(appCtx.get().resources.getString(R.string.empty_image))
                     }
+                } else {
+                    folderName()
                 }
             }
         addDisposable(disposable)
@@ -65,6 +66,21 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
             }
         addDisposable(bitmapDisposable)
 
+        val imageCountDisposable = rxEventBus.travelCardImageModifyCount
+            .subscribe{
+                imageLimitCount -= it
+        }
+        addDisposable(imageCountDisposable)
+        folderName()
+        imageAllFetch()
+    }
+
+    private fun folderName() {
+        val folderName = travelLocalModel.folderName()
+        folderName.add(0, appCtx.get().getString(R.string.total_image))
+        folderNameListLiveData.value = Event(folderName)
+    }
+    private fun imageAllFetch() {
         if (imageAllList.isEmpty()) {
             val result = travelLocalModel.imageAllPath()
                 .map {
@@ -75,19 +91,31 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
                 imageChooseList.add(imageAllList[0].imageName)
                 imageAllList[0].chooseCountList.set(1)
                 imagePathList.value = Event(imageAllList)
+            } else {
+                emptyImageNotice.set(appCtx.get().resources.getString(R.string.empty_image))
             }
         }
-
-        val imageCountDisposable = rxEventBus.travelCardImageModifyCount
-            .subscribe{
-                imageLimitCount -= it
-        }
-        addDisposable(imageCountDisposable)
     }
 
     fun selectImage() {
         rxEventBus.travelCardImageModifyCount.onNext(0)
         rxEventBus.travelCardImages.onNext(imageBitmapChooseList)
         rxEventBus.travelCacheImages.onNext(imageAllList)
+    }
+
+    fun fetchImage(folder: String) {
+        emptyImageNotice.set("")
+        if(folder == appCtx.get().getString(R.string.total_image)) {
+            imageAllFetch()
+            imagePathList.value = Event(imageAllList)
+        } else {
+            val list = imageAllList.filter {
+                it.imageName.contains(folder)
+            }
+            if(list.isNullOrEmpty()) {
+                emptyImageNotice.set(appCtx.get().resources.getString(R.string.empty_image))
+            }
+            imagePathList.value = Event(list)
+        }
     }
 }
