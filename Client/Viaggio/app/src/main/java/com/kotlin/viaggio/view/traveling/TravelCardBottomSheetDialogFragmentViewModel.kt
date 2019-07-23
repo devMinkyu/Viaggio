@@ -5,14 +5,10 @@ import javax.inject.Inject
 
 
 class TravelCardBottomSheetDialogFragmentViewModel @Inject constructor() : BaseViewModel() {
-    fun modify(){
-        rxEventBus.travelCardChange.onNext(0)
+    fun modify(index:Int){
+        rxEventBus.travelCardChange.onNext(index)
     }
     fun delete(){
         rxEventBus.travelCardChange.onNext(1)
-    }
-
-    fun imageModify() {
-        rxEventBus.travelCardChange.onNext(2)
     }
 }

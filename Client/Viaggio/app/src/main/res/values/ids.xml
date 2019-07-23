@@ -269,4 +269,6 @@
     <item name="travelOptionInstagramShare" type="id"/>
     <item name="travelingOfDayEnrollSpinner" type="id"/>
     <item name="backToTop" type="id"/>
+    <item name="travelOptionArea" type="id"/>
+    <item name="travelOptionTheme" type="id"/>
 </resources>

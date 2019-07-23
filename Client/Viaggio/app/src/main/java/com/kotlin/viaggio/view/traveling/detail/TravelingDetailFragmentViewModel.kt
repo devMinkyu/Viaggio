@@ -7,6 +7,7 @@ import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.TravelCard
+import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -25,10 +26,10 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
     lateinit var travelLocalModel: TravelLocalModel
 
     val dayCount = ObservableInt(0)
-    val content = ObservableField<String>("")
-    val country = ObservableField<String>("")
-    val theme = ObservableField<String>("")
-    val date = ObservableField<String>("")
+    val content = ObservableField("")
+    val country = ObservableField("")
+    val theme = ObservableField("")
+    val date = ObservableField("")
 
     val imageSize = ObservableInt(0)
     val currentImageSize = ObservableInt(1)
@@ -37,7 +38,6 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
     val travelOfDayCardImageListLiveData = MutableLiveData<Event<List<String>>>()
     val changeCardLiveData = MutableLiveData<Event<Int>>()
     val completeLiveData = MutableLiveData<Event<Boolean>>()
-
 
     var timeDisposable:Disposable? = null
     var travelCard = TravelCard()
@@ -131,5 +131,9 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
                 imageShow.set(false)
             }
         timeDisposable = disposable
+    }
+
+    fun selectedCountry() {
+        prefUtilService.putString(AndroidPrefUtilService.Key.SELECTED_COUNTRY, travelCard.country).blockingAwait()
     }
 }

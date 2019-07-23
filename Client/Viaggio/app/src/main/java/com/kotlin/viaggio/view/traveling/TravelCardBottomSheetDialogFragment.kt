@@ -25,11 +25,19 @@ class TravelCardBottomSheetDialogFragment : BaseBottomDialogFragment<TravelCardB
             dismiss()
         }
         fun imageModify() {
-            getViewModel().imageModify()
+            getViewModel().modify(2)
             dismiss()
         }
         fun modify(){
-            getViewModel().modify()
+            getViewModel().modify(0)
+            dismiss()
+        }
+        fun areaModify() {
+            getViewModel().modify(3)
+            dismiss()
+        }
+        fun themeModify() {
+            getViewModel().modify(4)
             dismiss()
         }
         fun delete(){

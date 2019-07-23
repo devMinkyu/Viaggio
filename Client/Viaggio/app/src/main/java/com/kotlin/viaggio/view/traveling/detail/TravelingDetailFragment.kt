@@ -16,6 +16,8 @@ import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingDeleteActionDialogFragment
+import com.kotlin.viaggio.view.traveling.option.TravelingCitiesActionDialogFragment
+import com.kotlin.viaggio.view.traveling.option.TravelingThemesActionDialogFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
@@ -118,6 +120,21 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                     }
                     2 -> {
                         baseIntent("http://viaggio.kotlin.com/traveling/image/modify/")
+                    }
+                    3 -> {
+                        getViewModel().selectedCountry()
+                        val frag = TravelingCitiesActionDialogFragment()
+                        val arg = Bundle()
+                        arg.putBoolean(ArgName.TRAVEL_CARD_CHANGE_MODE.name, true)
+                        frag.arguments = arg
+                        frag.show(fragmentManager!!, TravelingCitiesActionDialogFragment.TAG)
+                    }
+                    4 -> {
+                        val frag = TravelingThemesActionDialogFragment()
+                        val arg = Bundle()
+                        arg.putBoolean(ArgName.TRAVEL_CARD_CHANGE_MODE.name, true)
+                        frag.arguments = arg
+                        frag.show(fragmentManager!!, TravelingThemesActionDialogFragment.TAG)
                     }
                 }
             }

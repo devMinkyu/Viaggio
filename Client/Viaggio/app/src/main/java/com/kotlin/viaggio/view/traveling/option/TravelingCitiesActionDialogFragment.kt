@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.traveling.option
 
+import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.*
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.databinding.ItemOptionCityBinding
 import com.kotlin.viaggio.view.common.BaseDialogFragment
 import kotlinx.android.synthetic.main.fragment_action_dialog_traveling_cities.*
@@ -18,6 +20,14 @@ class TravelingCitiesActionDialogFragment:BaseDialogFragment<TravelingCitiesActi
     companion object {
         val TAG: String = TravelingCitiesActionDialogFragment::class.java.simpleName
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        arguments?.let {
+            getViewModel().changeMode = it.getBoolean(ArgName.TRAVEL_CARD_CHANGE_MODE.name, false)
+        }
+    }
+
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentActionDialogTravelingCitiesBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_action_dialog_traveling_cities, container, false)
@@ -63,7 +73,11 @@ class TravelingCitiesActionDialogFragment:BaseDialogFragment<TravelingCitiesActi
             dismiss()
         }
         fun confirm(){
-            getViewModel().confirm()
+            if(getViewModel().changeMode) {
+                getViewModel().change()
+            } else {
+                getViewModel().confirm()
+            }
         }
     }
 

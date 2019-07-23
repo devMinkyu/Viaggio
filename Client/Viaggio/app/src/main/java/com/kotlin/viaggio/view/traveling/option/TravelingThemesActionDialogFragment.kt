@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.traveling.option
 
+import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.databinding.ItemThemeBinding
 import com.kotlin.viaggio.view.common.BaseDialogFragment
 import com.kotlin.viaggio.view.theme.ThemeViewHandler
@@ -21,6 +23,12 @@ import org.jetbrains.anko.design.snackbar
 class TravelingThemesActionDialogFragment:BaseDialogFragment<TravelingThemesActionDialogFragmentViewModel>(){
     companion object {
         val TAG: String = TravelingThemesActionDialogFragment::class.java.simpleName
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        arguments?.let {
+            getViewModel().changeMode = it.getBoolean(ArgName.TRAVEL_CARD_CHANGE_MODE.name, false)
+        }
     }
     lateinit var binding:com.kotlin.viaggio.databinding.FragmentActionDialogTravelingThemesBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -66,7 +74,11 @@ class TravelingThemesActionDialogFragment:BaseDialogFragment<TravelingThemesActi
             dismiss()
         }
         fun confirm(){
-            getViewModel().confirm()
+            if(getViewModel().changeMode) {
+                getViewModel().change()
+            } else {
+                getViewModel().confirm()
+            }
         }
     }
 
