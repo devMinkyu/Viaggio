@@ -24,6 +24,7 @@ import java.text.DateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.math.floor
 
 
 class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
@@ -39,9 +40,9 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val themeExist = ObservableBoolean(false)
     val countryExist = ObservableBoolean(false)
-    val travelingStartOfDay = ObservableField<String>("")
-    val travelingStartOfCountry = ObservableField<String>("")
-    val travelThemes = ObservableField<String>("")
+    val travelingStartOfDay = ObservableField("")
+    val travelingStartOfCountry = ObservableField("")
+    val travelThemes = ObservableField("")
 
     private var startDate = Date()
     var endDate:Date? = null
@@ -112,6 +113,13 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(countryDisposable)
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        rxEventBus.travelOfTheme.onNext(listOf())
+        rxEventBus.travelSelectedCity.onNext(listOf())
+        rxEventBus.travelingStartOfDay.onNext(listOf())
+    }
+
     fun permissionCheck(request: Observable<Boolean>?) {
         val disposable = request?.subscribe { t ->
             if (t) {
@@ -174,9 +182,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
         val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
         prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay)
             .observeOn(Schedulers.io()).blockingAwait()
-        val day = Math.floor(
-            ((cal.time.time - startDate.time).toDouble() / 1000) / (24 * 60 * 60)
-        ).toInt()
+        val day = floor(((cal.time.time - startDate.time).toDouble() / 1000) / (24 * 60 * 60)).toInt()
         cal.time = startDate
 
         prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, day + 1)

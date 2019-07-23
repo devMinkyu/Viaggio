@@ -35,6 +35,7 @@ import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
 import com.kotlin.viaggio.view.traveling.image.TravelCardImageModifyFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import org.jetbrains.anko.contentView
+import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
@@ -44,12 +45,16 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
     var settingLockActionDialogFragment: SettingLockActionDialogFragment? = null
 
+    private var appUpdateManager:AppUpdateManager? = null
+    private var listener:InstallStateUpdatedListener? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+        appUpdateCheck()
         handleIntent(intent)
         showHome()
-        appUpdateCheck()
 
 //        if (getViewModel().checkTutorial()) {
 //            getViewModel().initSetting()
@@ -319,10 +324,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         }
     }
 
-    private var appUpdateManager:AppUpdateManager? = null
-    private var listener:InstallStateUpdatedListener? = null
     private fun appUpdateCheck() {
-        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         appUpdateManager?.let {
             it.appUpdateInfo.addOnSuccessListener {appUpdateInfo ->
                 if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
@@ -346,7 +348,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         appUpdateManager?.registerListener(listener)
     }
     private fun popupSnackBarForCompleteUpdate() {
-        contentView?.snackbar("업데이트 버전 다운로드 완료", "설치/재시작") {
+        contentView?.longSnackbar(getString(R.string.in_app_update_complete), getString(R.string.in_app_update_restart)) {
             appUpdateManager?.completeUpdate()
         }
     }
@@ -354,22 +356,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_UPDATE) {
             if (resultCode != Activity.RESULT_OK) {
-                contentView?.snackbar("업데이트가 취소 되었습니다.")
+                contentView?.snackbar(getString(R.string.in_app_update_restart))
             }
         }
-//        if(requestCode == REQUEST_CODE_UPDATE){
-//            when(resultCode) {
-//                Activity.RESULT_OK -> {
-//                    showHome()
-//                }
-//                Activity.RESULT_CANCELED -> {
-//                    showHome()
-//                }
-//                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
-//                    appUpdateCheck()
-//                }
-//            }
-//        }
     }
 
     override fun onStop() {
@@ -377,19 +366,16 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         appUpdateManager?.unregisterListener(listener)
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        appUpdateManager?.let {
-//            it.appUpdateInfo
-//                .addOnSuccessListener {
-//                        appUpdateInfo ->
-//                    if(appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
-//                        it.startUpdateFlowForResult(appUpdateInfo,
-//                            AppUpdateType.IMMEDIATE,
-//                            this,
-//                            REQUEST_CODE_UPDATE)
-//                    }
-//                }
-//        }
-//    }
+    override fun onResume() {
+        super.onResume()
+        appUpdateManager?.let {
+            it.appUpdateInfo
+                .addOnSuccessListener {
+                        appUpdateInfo ->
+                    if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+                        popupSnackBarForCompleteUpdate()
+                    }
+                }
+        }
+    }
 }
