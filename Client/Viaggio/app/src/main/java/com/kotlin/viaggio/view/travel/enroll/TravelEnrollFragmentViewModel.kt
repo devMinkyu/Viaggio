@@ -50,6 +50,7 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     override fun initialize() {
         super.initialize()
+        syncDataFetch()
         if(TextUtils.isEmpty(travelingStartOfDay.get())){
             val cal = Calendar.getInstance()
             startDate = cal.time

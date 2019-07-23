@@ -19,7 +19,6 @@
                 android:background="@color/white_three"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@id/countryList"
                     android:layout_width="0dp"
@@ -58,6 +57,7 @@
                     android:gravity="center"
                     android:padding="15dp"
                     android:fontFamily="sans-serif-black"
+                    android:visibility="@{viewModel.selectedCities.size == 0 ? View.GONE:View.VISIBLE}"
                     android:onClick="@{()->viewHandler.confirm()}"
                     app:rippleColor="@color/rippleColor"
                     app:layout_constraintTop_toTopOf="@id/back"
@@ -77,6 +77,71 @@
                     android:text="@string/travel_country_notice"
                     tools:ignore="SpUsage"/>
 
+            <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewModel.loadingData ? View.VISIBLE:View.GONE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+            <com.google.android.material.button.MaterialButton
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    android:text="@string/travel_empty_data_btn"
+                    android:gravity="center"
+                    android:padding="@dimen/common_top"
+                    android:fontFamily="sans-serif-black"
+                    android:visibility="@{viewModel.isExistData ? View.GONE:View.VISIBLE}"
+                    android:onClick="@{()->viewHandler.fetchData()}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:rippleColor="@color/rippleColor"
+            />
+            <LinearLayout
+                    android:id="@+id/auto"
+                    android:layout_width="0dp"
+                    android:layout_height="495dp"
+                    android:orientation="vertical"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:layout_marginEnd="@dimen/common_margin"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+                <AutoCompleteTextView
+                        android:id="@+id/autoCompleteTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/tutorial_skip_btn_bg"
+                        android:gravity="center_vertical"
+                        android:inputType="text"
+                        android:textSize="16.5dp"
+                        android:drawableStart="@drawable/ic_search_black_24dp"
+                        android:drawablePadding="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="5dp"
+                        android:hint="@string/auto_complete_hint"
+                        android:textColorHint="@color/brown_grey"
+                        android:completionThreshold="1" tools:ignore="SpUsage"/>
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@id/backToTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:onClick="@{() -> viewHandler.backToTop()}"
+                    app:srcCompat="@drawable/icon_back_to_top"
+                    android:layout_marginEnd="@dimen/common_margin"
+                    android:layout_marginBottom="30dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:focusable="true"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

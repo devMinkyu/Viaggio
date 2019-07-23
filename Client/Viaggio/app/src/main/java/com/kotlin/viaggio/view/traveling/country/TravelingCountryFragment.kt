@@ -84,7 +84,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         })
 
         getViewModel().continentLiveData.observe(this, Observer {
-            val spinnerAdapter = ArrayAdapter<String>(context!!, R.layout.spinner_continent_item, getViewModel().continentList)
+            val spinnerAdapter = ArrayAdapter(context!!, R.layout.spinner_continent_item, getViewModel().continentList)
             spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
 
             countrySpinner.adapter = spinnerAdapter
@@ -133,6 +133,20 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
                 }
             }else{
                 getViewModel().confirm()
+            }
+        }
+        fun fetchData() {
+            if(checkInternet()) {
+                getViewModel().isExistData.set(true)
+                getViewModel().loadingData.set(true)
+                getViewModel().reDataFetch().observe(this@TravelingCountryFragment, Observer {
+                    if (it != null && it.state.isFinished) {
+                        getViewModel().loadingData.set(false)
+                        getViewModel().countryDataFetch()
+                    }
+                })
+            } else {
+                showNetWorkError()
             }
         }
     }

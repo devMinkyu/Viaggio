@@ -138,6 +138,20 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
         fun themeClear() {
             getViewModel().customTheme.set("")
         }
+        fun fetchData() {
+            if(checkInternet()) {
+                getViewModel().isExistData.set(true)
+                getViewModel().loadingData.set(true)
+                getViewModel().reDataFetch().observe(this@ThemeFragment, Observer {
+                    if (it != null && it.state.isFinished) {
+                        getViewModel().loadingData.set(false)
+                        getViewModel().themeDataFetch()
+                    }
+                })
+            } else {
+                showNetWorkError()
+            }
+        }
     }
     inner class ThemeViewHolder(view:View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemThemeBinding>(view)

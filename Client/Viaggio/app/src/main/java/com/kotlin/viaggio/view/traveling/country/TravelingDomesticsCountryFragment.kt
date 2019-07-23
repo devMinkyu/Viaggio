@@ -3,10 +3,14 @@ package com.kotlin.viaggio.view.traveling.country
 import android.content.Context
 import android.graphics.Rect
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -56,26 +60,34 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
         countryList.layoutManager = LinearLayoutManager(context)
         countryList.addItemDecoration(DomesticsItemDecoration())
         getViewModel().domesticsLiveData.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {
+            it.getContentIfNotHandled()?.let {list ->
                 countryList.adapter = object : RecyclerView.Adapter<TravelingDomesticsCountryViewHolder>() {
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                        TravelingDomesticsCountryViewHolder(
-                            LayoutInflater.from(parent.context).inflate(
-                                R.layout.item_traveling_domestics_country,
-                                parent,
-                                false
-                            )
-                        )
-
+                        TravelingDomesticsCountryViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_domestics_country, parent, false))
                     override fun getItemCount() = getViewModel().groupDomestics.size
-
                     override fun onBindViewHolder(holder: TravelingDomesticsCountryViewHolder, position: Int) {
                         holder.binding?.data = getViewModel().groupDomestics[position].country
-                        val item = getViewModel().groupDomestics[position].area.map { areaVal ->
-                            Area(country = getViewModel().groupDomestics[position].country, city = areaVal)
+                        val item = list.filter { areaVal ->
+                            areaVal.country == getViewModel().groupDomestics[position].country
                         }
                         holder.cityCreateView(item)
                     }
+                }
+                val adapter = ArrayAdapter(context!!, R.layout.spinner_dropdown_auto_item, getViewModel().autoSearchList)
+                autoCompleteTextView.setAdapter(adapter)
+                autoCompleteTextView.onItemClickListener = AdapterView.OnItemClickListener { p0, _, p2, _ ->
+                    val item = p0.getItemAtPosition(p2).toString()
+                    val index = getViewModel().autoSearchList.indexOf(item)
+                    list.firstOrNull { area ->
+                        area.city == item
+                    }?.let { area ->
+                        if(getViewModel().selectedCities.contains(area).not()) {
+                            getViewModel().selectedBooleans[index].set(true)
+                            getViewModel().selectedCities.add(area)
+                        }
+                    }
+                    view.snackbar(String.format(getString(R.string.travel_auto_selected), item))
+                    autoCompleteTextView.text.clear()
                 }
             }
         })
@@ -86,6 +98,26 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
                 fragmentPopStack()
             }
         })
+
+        countryList.setOnScrollChangeListener { _, _, _, _, _ ->
+            if (!countryList.canScrollVertically(-1)) {
+                val animator1 = backToTop.animate().setDuration(250)
+                    .translationY(backToTop.height.toFloat() + 150f)
+                animator1.start()
+                val animator2 = auto.animate().setDuration(350)
+                    .alpha(1f)
+                    .translationY(0f)
+                animator2.start()
+            } else {
+                val animator1 = backToTop.animate().setDuration(250)
+                    .translationY(0f)
+                animator1.start()
+                val animator2 = auto.animate().setDuration(350)
+                    .alpha(0f)
+                    .translationY((auto.height.toFloat() + 150f) * -1)
+                animator2.start()
+            }
+        }
     }
 
     inner class ViewHandler {
@@ -93,6 +125,9 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
             fragmentPopStack()
         }
 
+        fun backToTop() {
+            countryList.smoothScrollToPosition(0)
+        }
         fun confirm() {
             if (getViewModel().option) {
                 if (getViewModel().selectedCities.isEmpty()) {
@@ -103,6 +138,21 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
                 }
             } else {
                 getViewModel().selectedCity()
+            }
+        }
+
+        fun fetchData() {
+            if(checkInternet()) {
+                getViewModel().isExistData.set(true)
+                getViewModel().loadingData.set(true)
+                getViewModel().reDataFetch().observe(this@TravelingDomesticsCountryFragment, Observer {
+                    if (it != null && it.state.isFinished) {
+                        getViewModel().loadingData.set(false)
+                        getViewModel().domesticsDataFetch()
+                    }
+                })
+            } else {
+                showNetWorkError()
             }
         }
     }
@@ -155,7 +205,7 @@ class DomesticsItemDecoration :
 
         if (parent.getChildAdapterPosition(view) == 0) {
             val firstHorMarginVal1 = firstHorMargin
-                ?: (parent.context.resources.getDimension(R.dimen.tool_bar))
+                ?: (parent.context.resources.getDimension(R.dimen.travel_card_end))
             firstHorMargin = firstHorMarginVal1
             outRect.top = firstHorMarginVal1.toInt()
         }

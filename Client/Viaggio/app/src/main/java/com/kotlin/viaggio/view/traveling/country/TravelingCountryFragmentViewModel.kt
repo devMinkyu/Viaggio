@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.traveling.country
 
 import android.text.TextUtils
 import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.R
@@ -32,30 +33,14 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
     var travelType = ObservableInt(0)
     val chooseArea:ObservableArrayList<Area> = ObservableArrayList()
 
+    val isExistData = ObservableBoolean(false)
+    val loadingData = ObservableBoolean(false)
+
     var option = false
     var travel = Travel()
     override fun initialize() {
         super.initialize()
-        val disposable = countryModel.getCountries(0)
-            .subscribe({list ->
-                val countries = list.sortedBy { it.country }
-                countryList.clear()
-                countryList.addAll(countries)
-                continentList.add(appCtx.get().resources.getString(R.string.total))
-                val list1= countries.distinctBy {
-                    it.continent
-                }.map {
-                    it.continent
-                }
-                continentList.addAll(list1)
-
-                countryLiveData.postValue(Event(countryList))
-                continentLiveData.postValue(Event(Any()))
-            }) {
-                Timber.d(it)
-            }
-
-        addDisposable(disposable)
+        countryDataFetch()
 
         val selectedCityDisposable = if(option){
             travelLocalModel.getTravel()
@@ -93,6 +78,34 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
             chooseAreaLiveData.value = Event(Any())
         }
         addDisposable(areaDisposable)
+    }
+
+    fun countryDataFetch() {
+        val disposable = countryModel.getCountries(0)
+            .subscribe({list ->
+                if(list.isEmpty()) {
+                    isExistData.set(false)
+                } else {
+                    isExistData.set(true)
+                    val countries = list.sortedBy { it.country }
+                    countryList.clear()
+                    countryList.addAll(countries)
+                    continentList.add(appCtx.get().resources.getString(R.string.total))
+                    val list1= countries.distinctBy {
+                        it.continent
+                    }.map {
+                        it.continent
+                    }
+                    continentList.addAll(list1)
+
+                    countryLiveData.postValue(Event(countryList))
+                    continentLiveData.postValue(Event(Any()))
+                }
+            }) {
+                Timber.d(it)
+            }
+
+        addDisposable(disposable)
     }
 
     fun selectedCountry(country: String?) {

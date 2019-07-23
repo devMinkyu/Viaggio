@@ -1,6 +1,8 @@
 package com.kotlin.viaggio.view.common
 
 import android.content.Context
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.work.*
 import com.google.gson.Gson
@@ -51,6 +53,16 @@ abstract class BaseViewModel:ViewModel() {
     }
     open fun initialize() {}
 
+    fun reDataFetch(): LiveData<WorkInfo> {
+        val con = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val work = OneTimeWorkRequestBuilder<DataFetchWorker>()
+            .setConstraints(con)
+            .build()
+        return WorkManager.getInstance(appCtx.get()).let {
+            it.enqueue(work)
+            it.getWorkInfoByIdLiveData(work.id)
+        }
+    }
     fun syncDataFetch() {
         val con = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
         val work = OneTimeWorkRequestBuilder<DataFetchWorker>()
@@ -61,7 +73,7 @@ abstract class BaseViewModel:ViewModel() {
 
     fun dataFetch() {
         val con = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-        val work = PeriodicWorkRequestBuilder<DataFetchWorker>(3, TimeUnit.DAYS)
+        val work = PeriodicWorkRequestBuilder<DataFetchWorker>(7, TimeUnit.DAYS)
             .setConstraints(con)
             .build()
 //        val work = OneTimeWorkRequestBuilder<DataFetchWorker>()

@@ -121,6 +121,34 @@
                         android:visibility="@{viewModel.selectedTheme.size == 0 ? View.GONE:View.VISIBLE}"
                         android:onClick="@{() -> viewHandler.confirm()}"
                         android:text="@string/theme_start"/>
+
+                <ProgressBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="@{viewModel.loadingData ? View.VISIBLE:View.GONE}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+                <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:text="@string/travel_empty_data_btn"
+                        android:gravity="center"
+                        android:padding="@dimen/common_top"
+                        android:fontFamily="sans-serif-black"
+                        android:visibility="@{viewModel.isExistData ? View.GONE:View.VISIBLE}"
+                        android:onClick="@{()->viewHandler.fetchData()}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:rippleColor="@color/rippleColor"
+                />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </FrameLayout>

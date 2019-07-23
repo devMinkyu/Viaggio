@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.traveling.country
 
 import android.text.TextUtils
 import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.obj.Area
 import com.kotlin.viaggio.data.obj.Country
@@ -19,7 +20,7 @@ class TravelingDomesticsCountryFragmentViewModel @Inject constructor() : BaseVie
     @Inject
     lateinit var countryModel: CountryModel
 
-    val domesticsLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
+    val domesticsLiveData: MutableLiveData<Event<List<Area>>> = MutableLiveData()
     val completeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
 
     var groupDomestics: List<Country> = listOf()
@@ -27,17 +28,16 @@ class TravelingDomesticsCountryFragmentViewModel @Inject constructor() : BaseVie
     var check = false
     var option = false
     var travel = Travel()
+
+    val isExistData = ObservableBoolean(false)
+    val loadingData = ObservableBoolean(false)
+
+    var selectedBooleans = listOf<ObservableBoolean>()
+    var autoSearchList = listOf<String>()
+
     override fun initialize() {
         super.initialize()
-        val disposable = countryModel.getCountries(1)
-            .subscribe({
-                groupDomestics = it
-                domesticsLiveData.postValue(Event(Any()))
-            }) {
-                Timber.d(it)
-            }
-        addDisposable(disposable)
-
+        domesticsDataFetch()
 
         val selectedDisposable = if (option) {
             travelLocalModel.getTravel()
@@ -45,7 +45,7 @@ class TravelingDomesticsCountryFragmentViewModel @Inject constructor() : BaseVie
                     travel = it
                     if (selectedCities.isNullOrEmpty()) {
                         selectedCities.addAll(it.area)
-                        domesticsLiveData.postValue(Event(Any()))
+                        reFetch()
                     }
                 }) {
                     Timber.d(it)
@@ -55,11 +55,39 @@ class TravelingDomesticsCountryFragmentViewModel @Inject constructor() : BaseVie
                 if (check.not()) {
                     selectedCities.clear()
                     selectedCities.addAll(it)
-                    domesticsLiveData.value = Event(Any())
+                    reFetch()
                 }
             }
         }
         addDisposable(selectedDisposable)
+    }
+
+    fun domesticsDataFetch() {
+        val disposable = countryModel.getCountries(1)
+            .subscribe({
+                isExistData.set(it.isNotEmpty())
+                autoSearchList = it.map {countryVal ->
+                    countryVal.area
+                }.flatten()
+
+                selectedBooleans = autoSearchList.map {
+                    ObservableBoolean(false)
+                }
+                groupDomestics = it
+                reFetch()
+            }) {
+                Timber.d(it)
+            }
+        addDisposable(disposable)
+    }
+    private fun reFetch() {
+        val list = groupDomestics.map {countryVal ->
+            countryVal.area.map {areaVal ->
+                val index = autoSearchList.indexOf(areaVal)
+                Area(country = countryVal.country, city = areaVal, selected = selectedBooleans[index])
+            }
+        }.flatten()
+        domesticsLiveData.postValue(Event(list))
     }
 
     fun selectedCity() {

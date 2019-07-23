@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.theme
 
 import android.text.TextUtils
 import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.obj.Theme
@@ -31,10 +32,18 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
     var option = false
     var travel = Travel()
     var themeList: MutableList<ThemeData> = mutableListOf()
+
+    val isExistData = ObservableBoolean(false)
+    val loadingData = ObservableBoolean(false)
     override fun initialize() {
         super.initialize()
+        themeDataFetch()
+    }
+
+    fun themeDataFetch() {
         val disposable = themeModel.getThemes()
             .subscribe({ themes ->
+                isExistData.set(themes.isNotEmpty())
                 val list = themes.map {
                     ThemeData(theme = it.theme, authority = it.authority)
                 }
@@ -44,7 +53,6 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
                 Timber.d(it)
             }
         addDisposable(disposable)
-
     }
 
     private fun settingTheme(list: List<ThemeData>) {
