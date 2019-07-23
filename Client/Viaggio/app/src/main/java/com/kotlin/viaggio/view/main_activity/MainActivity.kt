@@ -5,9 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.model.ActivityResult
+import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
@@ -34,13 +36,11 @@ import com.kotlin.viaggio.view.traveling.image.TravelCardImageModifyFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.toast
-import timber.log.Timber
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
     companion object {
         val TAG: String = MainActivity::class.java.simpleName
-        const val MY_REQUEST_CODE:Int = 1004
+        const val REQUEST_CODE_UPDATE:Int = 1004
     }
     var settingLockActionDialogFragment: SettingLockActionDialogFragment? = null
 
@@ -49,7 +49,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         setContentView(R.layout.activity_main)
         handleIntent(intent)
         showHome()
-//        appUpdateCheck()
+        appUpdateCheck()
 
 //        if (getViewModel().checkTutorial()) {
 //            getViewModel().initSetting()
@@ -319,47 +319,77 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         }
     }
 
+    private var appUpdateManager:AppUpdateManager? = null
+    private var listener:InstallStateUpdatedListener? = null
     private fun appUpdateCheck() {
-        val appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
-        val appUpdateInfoTask = appUpdateManager.appUpdateInfo
-        appUpdateInfoTask.addOnSuccessListener {
-            when{
-                it.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS -> {
-                    appUpdateManager.startUpdateFlowForResult(it,AppUpdateType.IMMEDIATE, this, MY_REQUEST_CODE)
-                }
-                it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)-> {
-                    appUpdateManager.startUpdateFlowForResult(it,AppUpdateType.IMMEDIATE, this, MY_REQUEST_CODE)
-                }
-                it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE -> {
-                    appUpdateManager.startUpdateFlowForResult(it,AppUpdateType.IMMEDIATE, this, MY_REQUEST_CODE)
-                }
-                else -> {
-                    toast("${it.updateAvailability()}")
-                    toast("${appUpdateManager.appUpdateInfo}")
-                    showHome()
+        appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
+        appUpdateManager?.let {
+            it.appUpdateInfo.addOnSuccessListener {appUpdateInfo ->
+                if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                    it.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.FLEXIBLE, // or AppUpdateType.FLEXIBLE
+                        this,
+                        REQUEST_CODE_UPDATE
+                    )
                 }
             }
         }
-        appUpdateInfoTask.addOnFailureListener {
-            Timber.d(it)
-            showHome()
+
+        listener = InstallStateUpdatedListener {
+            // Handle install state
+            if (it.installStatus() == InstallStatus.DOWNLOADED) {
+                popupSnackBarForCompleteUpdate()
+            }
+        }
+        appUpdateManager?.registerListener(listener)
+    }
+    private fun popupSnackBarForCompleteUpdate() {
+        contentView?.snackbar("업데이트 버전 다운로드 완료", "설치/재시작") {
+            appUpdateManager?.completeUpdate()
         }
     }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == MY_REQUEST_CODE){
-            when(resultCode) {
-                Activity.RESULT_OK -> {
-                    showHome()
-                }
-                Activity.RESULT_CANCELED -> {
-                    showHome()
-                }
-                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
-                    appUpdateCheck()
-                }
+        if (requestCode == REQUEST_CODE_UPDATE) {
+            if (resultCode != Activity.RESULT_OK) {
+                contentView?.snackbar("업데이트가 취소 되었습니다.")
             }
         }
+//        if(requestCode == REQUEST_CODE_UPDATE){
+//            when(resultCode) {
+//                Activity.RESULT_OK -> {
+//                    showHome()
+//                }
+//                Activity.RESULT_CANCELED -> {
+//                    showHome()
+//                }
+//                ActivityResult.RESULT_IN_APP_UPDATE_FAILED -> {
+//                    appUpdateCheck()
+//                }
+//            }
+//        }
     }
+
+    override fun onStop() {
+        super.onStop()
+        appUpdateManager?.unregisterListener(listener)
+    }
+
+//    override fun onResume() {
+//        super.onResume()
+//        appUpdateManager?.let {
+//            it.appUpdateInfo
+//                .addOnSuccessListener {
+//                        appUpdateInfo ->
+//                    if(appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+//                        it.startUpdateFlowForResult(appUpdateInfo,
+//                            AppUpdateType.IMMEDIATE,
+//                            this,
+//                            REQUEST_CODE_UPDATE)
+//                    }
+//                }
+//        }
+//    }
 }
