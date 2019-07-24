@@ -55,7 +55,6 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         countryList.layoutManager = GridLayoutManager(context,2)
-        countryList.isNestedScrollingEnabled = false
 
         val width = context!!.resources.displayMetrics.widthPixels - dip(59)
 
