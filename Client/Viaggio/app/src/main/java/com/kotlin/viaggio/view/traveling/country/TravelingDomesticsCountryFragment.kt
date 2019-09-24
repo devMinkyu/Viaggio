@@ -99,23 +99,25 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
             }
         })
 
-        countryList.setOnScrollChangeListener { _, _, _, _, _ ->
-            if (!countryList.canScrollVertically(-1)) {
-                val animator1 = backToTop.animate().setDuration(250)
-                    .translationY(backToTop.height.toFloat() + 150f)
-                animator1.start()
-                val animator2 = auto.animate().setDuration(350)
-                    .alpha(1f)
-                    .translationY(0f)
-                animator2.start()
-            } else {
-                val animator1 = backToTop.animate().setDuration(250)
-                    .translationY(0f)
-                animator1.start()
-                val animator2 = auto.animate().setDuration(350)
-                    .alpha(0f)
-                    .translationY((auto.height.toFloat() + 150f) * -1)
-                animator2.start()
+        countryList?.let {
+            countryList.setOnScrollChangeListener { _, _, _, _, _ ->
+                if (countryList.canScrollVertically(-1).not()) {
+                    val animator1 = backToTop.animate().setDuration(250)
+                        .translationY(backToTop.height.toFloat() + 150f)
+                    animator1.start()
+                    val animator2 = auto.animate().setDuration(350)
+                        .alpha(1f)
+                        .translationY(0f)
+                    animator2.start()
+                } else {
+                    val animator1 = backToTop.animate().setDuration(250)
+                        .translationY(0f)
+                    animator1.start()
+                    val animator2 = auto.animate().setDuration(350)
+                        .alpha(0f)
+                        .translationY((auto.height.toFloat() + 150f) * -1)
+                    animator2.start()
+                }
             }
         }
     }

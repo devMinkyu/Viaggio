@@ -51,7 +51,7 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        travelingDetailDayImg.isNestedScrollingEnabled = false
         val imgDir = File(context?.filesDir, "images/")
         getViewModel().travelOfDayCardImageListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { imageNames ->
