@@ -1,8 +1,6 @@
 package com.kotlin.viaggio.view.traveling.option
 
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +25,6 @@ class TravelingDayCountActionDialogFragment:BaseDialogFragment<TravelingDayCount
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val drawable = context?.getDrawable(R.drawable.dialog_bg) as GradientDrawable
-        travelingDayCountActionList.background = drawable
         travelingDayCountActionList.clipToOutline = true
         travelingDayCountActionList.layoutManager = GridLayoutManager(context,4)
 
@@ -61,7 +57,6 @@ class TravelingDayCountActionDialogFragment:BaseDialogFragment<TravelingDayCount
             dismiss()
         }
     }
-
 
     inner class TravelingDayCountViewHolder(view: View): RecyclerView.ViewHolder(view){
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemOptionDayCountBinding>(view)

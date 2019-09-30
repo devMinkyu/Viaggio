@@ -1,7 +1,6 @@
 package com.kotlin.viaggio.view.traveling.option
 
 import android.content.Context
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,8 +39,6 @@ class TravelingThemesActionDialogFragment:BaseDialogFragment<TravelingThemesActi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val drawable = context?.getDrawable(R.drawable.dialog_bg) as GradientDrawable
-        travelingThemesActionList.background = drawable
         travelingThemesActionList.clipToOutline = true
         travelingThemesActionList.layoutManager = FlexboxLayoutManager(context).apply {
             flexWrap = FlexWrap.WRAP

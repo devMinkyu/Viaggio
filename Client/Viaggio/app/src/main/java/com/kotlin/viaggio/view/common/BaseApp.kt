@@ -35,11 +35,7 @@ abstract class BaseApp : MultiDexApplication(), HasActivityInjector, HasServiceI
                     @Suppress("UNCHECKED_CAST")
                     val applicationInjector = applicationInjector() as AndroidInjector<BaseApp>
                     applicationInjector.inject(this)
-                    if (needToInject) {
-                        throw IllegalStateException(
-                            "The AndroidInjector returned from applicationInjector() did not inject the " + "DaggerApplication"
-                        )
-                    }
+                    check(!needToInject) { "The AndroidInjector returned from applicationInjector() did not inject the " + "DaggerApplication" }
                 }
             }
         }

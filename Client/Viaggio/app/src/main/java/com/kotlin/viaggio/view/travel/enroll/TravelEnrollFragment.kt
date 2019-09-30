@@ -80,7 +80,7 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
                 stopLoading()
                 baseIntent("http://viaggio.kotlin.com/home/main/")
 
-                fragmentManager?.let { fm ->
+                parentFragmentManager.let { fm ->
                     val cnt = fm.backStackEntryCount
                     for (i in 0 until cnt) {
                         fm.popBackStackImmediate()

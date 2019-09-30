@@ -51,7 +51,7 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
             dismiss()
         }
         fun changeTitle(){
-            TravelTitleBottomSheetDialogFragment().show(fragmentManager!!, TravelTitleBottomSheetDialogFragment.TAG)
+            TravelTitleBottomSheetDialogFragment().show(parentFragmentManager, TravelTitleBottomSheetDialogFragment.TAG)
             dismiss()
         }
         fun addCountry(){
@@ -81,7 +81,7 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
                     val arg = Bundle()
                     arg.putBoolean(ArgName.TRAVEL_CARD_MODE.name, false)
                     frag.arguments = arg
-                    frag.show(fragmentManager!!, TravelingDeleteActionDialogFragment.TAG)
+                    frag.show(parentFragmentManager, TravelingDeleteActionDialogFragment.TAG)
                 } else {
                     view?.snackbar(getString(R.string.traveling))
                 }

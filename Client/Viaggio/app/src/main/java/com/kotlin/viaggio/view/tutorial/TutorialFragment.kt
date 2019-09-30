@@ -39,15 +39,11 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
                         }
                     }
                 }
-                tutorialPagerIndicator.setCurrPageNumber(0)
-                tutorialPagerIndicator.setTotalPageNumber(list.size)
-
+            tutorialPagerIndicator.setViewPager2(tutorialPager)
                 tutorialPager.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
                     override fun onPageSelected(position: Int) {
-                        if(position < list.size) {
-                            super.onPageSelected(position)
-                            tutorialPagerIndicator.setCurrPageNumber(position)
-                        }else{
+                        if(position < list.size)
+                        else{
                             tutorialPager.setCurrentItem(0, false)
                         }
                     }

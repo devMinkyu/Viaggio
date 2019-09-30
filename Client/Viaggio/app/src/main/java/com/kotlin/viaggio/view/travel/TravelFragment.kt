@@ -1,18 +1,24 @@
 package com.kotlin.viaggio.view.travel
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.Observer
 import androidx.viewpager.widget.PagerAdapter
 import com.bumptech.glide.Glide
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.Traveled
@@ -20,6 +26,7 @@ import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import com.kotlin.viaggio.view.travel.option.TravelOptionBottomSheetDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
+import com.kotlin.viaggio.widget.CustomTypefaceSpan
 import kotlinx.android.synthetic.main.fragment_travel.*
 import kotlinx.android.synthetic.main.item_travel.view.*
 import java.text.SimpleDateFormat
@@ -38,7 +45,6 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
         binding.viewHandler = ViewHandler()
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val spinnerAdapter =
@@ -71,6 +77,12 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                 travelPager.setCurrentItem(position, false)
             }
         })
+
+        context?.let { mContext ->
+            MobileAds.initialize(mContext)
+            val adRequest = AdRequest.Builder().build()
+            adView.loadAd(adRequest)
+        }
     }
 
     override fun onStart() {
@@ -135,7 +147,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
 
 
             view.travelNonBack.setOnClickListener {
-                TravelKindsBottomSheetDialogFragment().show(fragmentManager!!, TravelKindsBottomSheetDialogFragment.TAG)
+                TravelKindsBottomSheetDialogFragment().show(parentFragmentManager, TravelKindsBottomSheetDialogFragment.TAG)
             }
             view.travelBackground.setOnClickListener {
                 if (travelList.size > position) {
@@ -148,13 +160,13 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                     getViewModel().chooseNum = position
                     getViewModel().selectedTravelId(travelList[position].localId)
                     TravelOptionBottomSheetDialogFragment().show(
-                        fragmentManager!!,
+                        parentFragmentManager,
                         TravelOptionBottomSheetDialogFragment.TAG
                     )
                 }
             }
             view.domesticsName.setOnClickListener {
-                TravelingFinishActionDialogFragment().show(fragmentManager!!, TravelingFinishActionDialogFragment.TAG)
+                TravelingFinishActionDialogFragment().show(parentFragmentManager, TravelingFinishActionDialogFragment.TAG)
             }
             container.addView(view)
             return view
@@ -162,6 +174,23 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
 
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
             container.removeView(`object` as View)
+        }
+        private fun noticeHighlight(textView: TextView) {
+            val notice:String = resources.getString(R.string.non_travel_notice)
+            val firstIndex = notice.indexOf("%&!&%", 0)
+            val lastIndex = notice.indexOf("%&!&%", firstIndex + 1) - 5
+
+            val msg = notice.replace("%&!&%", "")
+            if(firstIndex != -1) {
+                val spannableBuilder = SpannableStringBuilder(msg)
+                context?.let { contextVal ->
+                    val font = ResourcesCompat.getFont(contextVal, Typeface.BOLD)
+                    spannableBuilder.setSpan(CustomTypefaceSpan("", font!!), firstIndex + 1, lastIndex + 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+                    textView.text = spannableBuilder
+                }
+            } else {
+                textView.text = msg
+            }
         }
     }
 

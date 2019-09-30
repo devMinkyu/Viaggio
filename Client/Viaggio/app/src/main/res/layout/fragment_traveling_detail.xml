@@ -127,6 +127,20 @@
                             android:layout_height="match_parent"
                             android:elevation="0dp"
                             app:layout_collapseMode="parallax"/>
+                    <com.hrskrs.instadotlib.InstaDotView
+                            android:id="@+id/instaDotView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:dot_activeColor="@color/ultramarine"
+                            app:dot_activeSize="6dp"
+                            app:dot_inactiveColor="@color/brown_grey"
+                            app:dot_inactiveSize="5dp"
+                            app:dot_margin="5dp"
+                            app:dot_mediumSize="4dp"
+                            app:dot_smallSize="3dp"
+                            android:layout_marginBottom="@dimen/common_top"
+                            android:layout_gravity="center|bottom"
+                            />
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

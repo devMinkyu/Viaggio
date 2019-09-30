@@ -1,7 +1,6 @@
 package com.kotlin.viaggio.view.traveling.option
 
 import android.content.Context
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.flexbox.*
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.databinding.ItemOptionCityBinding
@@ -38,8 +39,6 @@ class TravelingCitiesActionDialogFragment:BaseDialogFragment<TravelingCitiesActi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val drawable = context?.getDrawable(R.drawable.dialog_bg) as GradientDrawable
-        travelingCitiesActionList.background = drawable
         travelingCitiesActionList.clipToOutline = true
         travelingCitiesActionList.layoutManager = FlexboxLayoutManager(context).apply {
             flexWrap = FlexWrap.WRAP

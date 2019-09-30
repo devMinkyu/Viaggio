@@ -2,6 +2,7 @@
 
 package com.kotlin.viaggio.ioc.module.injector.activity
 
+import com.kotlin.viaggio.view.back.BackActionDialogFragment
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.setting.*
 import com.kotlin.viaggio.view.sign.SignFragment
@@ -160,5 +161,8 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun travelingInstagramShareFragment(): TravelingInstagramShareFragment
+
+    @ContributesAndroidInjector
+    fun backActionDialogFragment(): BackActionDialogFragment
 
 }

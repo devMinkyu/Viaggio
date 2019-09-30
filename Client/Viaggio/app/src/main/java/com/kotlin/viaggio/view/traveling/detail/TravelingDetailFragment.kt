@@ -55,6 +55,7 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
         val imgDir = File(context?.filesDir, "images/")
         getViewModel().travelOfDayCardImageListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { imageNames ->
+                instaDotView.noOfPages = imageNames.size
                 if(imageNames.isNotEmpty()){
                     val params = appBar.layoutParams
                     params.width = width
@@ -80,7 +81,8 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                             val arg = Bundle()
                             arg.putInt(ArgName.TRAVEL_CARD_IMG_POSITION.name, position + 1)
                             frag.arguments = arg
-                            frag.show(fragmentManager!!, TravelingImageDetailActionDialogFragment.TAG)
+
+                            frag.show(parentFragmentManager, TravelingImageDetailActionDialogFragment.TAG)
                         }
                     }
                 }
@@ -89,6 +91,7 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
         travelingDetailDayImg.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                instaDotView.onPageChange(position)
                 getViewModel().currentImageSize.set(position + 1)
                 getViewModel().timeDisposable?.dispose()
                 getViewModel().imageShow.set(true)
@@ -109,14 +112,14 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                         val arg = Bundle()
                         arg.putIntArray(ArgName.TRAVEL_CARD_LOCATION.name, getViewModel().modifyLocation)
                         frag.arguments = arg
-                        frag.show(fragmentManager!!, TravelingDetailActionDialogFragment.TAG)
+                        frag.show(parentFragmentManager, TravelingDetailActionDialogFragment.TAG)
                     }
                     1 -> {
                         val frag = TravelingDeleteActionDialogFragment()
                         val arg = Bundle()
                         arg.putBoolean(ArgName.TRAVEL_CARD_MODE.name, true)
                         frag.arguments = arg
-                        frag.show(fragmentManager!!, TravelingDeleteActionDialogFragment.TAG)
+                        frag.show(parentFragmentManager, TravelingDeleteActionDialogFragment.TAG)
                     }
                     2 -> {
                         baseIntent("http://viaggio.kotlin.com/traveling/image/modify/")
@@ -127,14 +130,14 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
                         val arg = Bundle()
                         arg.putBoolean(ArgName.TRAVEL_CARD_CHANGE_MODE.name, true)
                         frag.arguments = arg
-                        frag.show(fragmentManager!!, TravelingCitiesActionDialogFragment.TAG)
+                        frag.show(parentFragmentManager, TravelingCitiesActionDialogFragment.TAG)
                     }
                     4 -> {
                         val frag = TravelingThemesActionDialogFragment()
                         val arg = Bundle()
                         arg.putBoolean(ArgName.TRAVEL_CARD_CHANGE_MODE.name, true)
                         frag.arguments = arg
-                        frag.show(fragmentManager!!, TravelingThemesActionDialogFragment.TAG)
+                        frag.show(parentFragmentManager, TravelingThemesActionDialogFragment.TAG)
                     }
                 }
             }
@@ -159,7 +162,7 @@ class TravelingDetailFragment:BaseFragment<TravelingDetailFragmentViewModel>() {
             val location = IntArray(2)
             travelingDetailDayTravelCardList.getLocationOnScreen(location)
             getViewModel().modifyLocation = location
-            TravelCardBottomSheetDialogFragment().show(fragmentManager!!, TravelCardBottomSheetDialogFragment.TAG)
+            TravelCardBottomSheetDialogFragment().show(parentFragmentManager, TravelCardBottomSheetDialogFragment.TAG)
         }
     }
 }

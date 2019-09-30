@@ -93,7 +93,7 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
             getViewModel().travelTerm(startDate, endDate)
 
             baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
-            fragmentManager?.popBackStackImmediate()
+            parentFragmentManager.popBackStackImmediate()
         }
     }
     inner class SundayDecorator:DayViewDecorator{

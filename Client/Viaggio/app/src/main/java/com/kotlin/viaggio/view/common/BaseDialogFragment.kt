@@ -12,10 +12,11 @@ import com.kotlin.viaggio.BuildConfig
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
+import net.skoumal.fragmentback.BackFragment
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(), HasSupportFragmentInjector {
+abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(), HasSupportFragmentInjector, BackFragment {
     @Inject
     internal lateinit var viewModel: E
     @Inject
@@ -85,5 +86,13 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
         activity?.let {
             (it as BaseActivity<*>).hideKeyBoard(view)
         }
+    }
+
+    // back interface
+    override fun onBackPressed(): Boolean {
+        return false
+    }
+    override fun getBackPriority(): Int {
+        return BackFragment.NORMAL_BACK_PRIORITY
     }
 }

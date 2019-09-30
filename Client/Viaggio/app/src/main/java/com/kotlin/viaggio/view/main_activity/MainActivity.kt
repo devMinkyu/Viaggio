@@ -13,6 +13,7 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
+import com.kotlin.viaggio.view.back.BackActionDialogFragment
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.setting.*
@@ -69,7 +70,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
         getViewModel().finishActivity.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                finish()
+                BackActionDialogFragment().show(supportFragmentManager, BackActionDialogFragment.TAG)
             }
         })
         getViewModel().showToast.observe(this, Observer {

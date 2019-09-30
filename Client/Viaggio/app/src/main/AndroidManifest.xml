@@ -39,6 +39,14 @@
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="863923097a741e0e5349ccecbc0ec8db14bd5144" />
+<!--        sample api Key-->
+        <meta-data
+                android:name="com.google.android.gms.ads.APPLICATION_ID"
+                android:value="ca-app-pub-3940256099942544~3347511713"/>
+<!--        <meta-data-->
+<!--                android:name="com.google.android.gms.ads.APPLICATION_ID"-->
+<!--                android:value="{$ADMOB_API_KEY}"/>-->
+
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="com.kotlin.viaggio.fileprovider"

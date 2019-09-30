@@ -70,7 +70,7 @@ class SettingLockFragment : BaseFragment<SettingLockFragmentViewModel>() {
                 val arg = Bundle()
                 arg.putBoolean(ArgName.LOCK_ENROLL_MODE.name, true)
                 frag.arguments = arg
-                frag.show(fragmentManager!!, SettingLockActionDialogFragment.TAG)
+                frag.show(parentFragmentManager, SettingLockActionDialogFragment.TAG)
                 getViewModel().lockApp.set(false)
             }
         }
@@ -79,7 +79,7 @@ class SettingLockFragment : BaseFragment<SettingLockFragmentViewModel>() {
             val arg = Bundle()
             arg.putBoolean(ArgName.LOCK_ENROLL_MODE.name, true)
             frag.arguments = arg
-            frag.show(fragmentManager!!, SettingLockActionDialogFragment.TAG)
+            frag.show(parentFragmentManager, SettingLockActionDialogFragment.TAG)
         }
     }
 }

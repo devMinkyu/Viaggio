@@ -108,7 +108,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
             val themeListView = inflater.inflate(R.layout.item_travel_card_theme, null)
             themeListView.themeName.text = resources.getString(R.string.theme_start)
             themeListView.themeName.setOnClickListener {
-                TravelingThemesActionDialogFragment().show(fragmentManager!!, TravelingThemesActionDialogFragment.TAG)
+                TravelingThemesActionDialogFragment().show(parentFragmentManager, TravelingThemesActionDialogFragment.TAG)
             }
             main.addView(themeListView)
         }else{
@@ -117,7 +117,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                 val themeListView = inflater.inflate(R.layout.item_travel_card_theme, null)
                 themeListView.themeName.text = it
                 themeListView.themeName.setOnClickListener {
-                    TravelingThemesActionDialogFragment().show(fragmentManager!!, TravelingThemesActionDialogFragment.TAG)
+                    TravelingThemesActionDialogFragment().show(parentFragmentManager, TravelingThemesActionDialogFragment.TAG)
                 }
                 themeListView.right = resources.getDimension(R.dimen.theme_traveling_card).toInt()
                 main.addView(themeListView)
@@ -142,11 +142,11 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
 
         fun changeCountry(){
             getViewModel().selectedCountry()
-            TravelingCitiesActionDialogFragment().show(fragmentManager!!, TravelingCitiesActionDialogFragment.TAG)
+            TravelingCitiesActionDialogFragment().show(parentFragmentManager, TravelingCitiesActionDialogFragment.TAG)
         }
 
         fun changeDayCount(){
-            TravelingDayCountActionDialogFragment().show(fragmentManager!!, TravelingDayCountActionDialogFragment.TAG)
+            TravelingDayCountActionDialogFragment().show(parentFragmentManager, TravelingDayCountActionDialogFragment.TAG)
         }
     }
 

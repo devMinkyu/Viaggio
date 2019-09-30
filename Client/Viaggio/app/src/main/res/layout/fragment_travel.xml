@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:ads="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="android.view.View"/>
         <import type="com.kotlin.viaggio.view.travel.TravelFragment.ViewHandler"/>
@@ -79,16 +80,34 @@
                 android:text="@{viewModel.traveling}"
                 tools:text="@string/traveling_notice"
                 tools:ignore="SpUsage"/>
+        <Space
+                android:id="@+id/verticalSpace1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintVertical_weight="95"
+                app:layout_constraintTop_toBottomOf="@id/title_sub"
+                app:layout_constraintBottom_toTopOf="@id/travelSpinner"
+                />
         <Spinner
                 android:id="@id/travelSpinner"
-                android:layout_width="130dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.3611111111"
                 android:background="@drawable/spinner_bg"
                 android:backgroundTint="@color/white_three"
-                android:layout_marginBottom="25dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toTopOf="@id/travelPager"/>
+                app:layout_constraintTop_toBottomOf="@id/verticalSpace1"
+                app:layout_constraintBottom_toTopOf="@id/verticalSpace2"
+                />
+        <Space
+                android:id="@+id/verticalSpace2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintVertical_weight="25"
+                app:layout_constraintTop_toBottomOf="@id/travelSpinner"
+                app:layout_constraintBottom_toTopOf="@id/travelPager"
+                />
         <androidx.viewpager.widget.ViewPager
                 android:id="@id/travelPager"
                 android:layout_width="0dp"
@@ -98,10 +117,29 @@
                 android:overScrollMode="never"
                 android:paddingEnd="@dimen/card_padding"
                 android:paddingStart="@dimen/card_padding"
-                android:layout_marginBottom="60.3dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/verticalSpace2"
+                app:layout_constraintBottom_toTopOf="@id/verticalSpace3"
                 app:layout_constraintEnd_toEndOf="parent"
         />
+        <Space
+                android:id="@+id/verticalSpace3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintVertical_weight="25"
+                app:layout_constraintTop_toBottomOf="@id/travelPager"
+                app:layout_constraintBottom_toTopOf="@id/adView"
+                />
+        <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                ads:adSize="SMART_BANNER"
+                ads:adUnitId="@string/viaggio_abmob_banner_api_key"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -107,7 +107,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
     }
 
     fun fragmentPopStack(){
-        fragmentManager?.popBackStack()
+        parentFragmentManager.popBackStack()
     }
 
     fun checkInternet():Boolean{

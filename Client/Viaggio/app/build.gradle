@@ -7,6 +7,7 @@ apply plugin: "kotlin-kapt"
 apply plugin: 'com.amazonaws.appsync'
 apply plugin: 'io.fabric'
 //apply plugin: "androidx.navigation.safeargs.kotlin"
+
 android {
     compileSdkVersion rootProject.targetSdkVersion
 
@@ -42,10 +43,21 @@ android {
         buildConfigField("String", "S3_UPLOAD_BUCKET", "\"${viaggio_bucket}\"")
         buildConfigField("String", "S3_POOL_ID", "\"${aws_s3_pool_id}\"")
         buildConfigField("String", "AWS_LOGIN_PROVIDER", "\"${aws_login_provider_dev}\"")
+        buildConfigField("String", "VIAGGIO_ADMOB_API_KEY", "\"${viaggio_admob}\"")
+
+        resValue("string", "viaggio_abmob_banner_api_key", "${viaggio_admob_banner}")
+        manifestPlaceholders = [
+                FABRIC_API_KEY : "\"${viaggio_fabric}\"",
+                ADMOB_API_KEY : "\"${viaggio_admob}\""
+        ]
         multiDexEnabled true
     }
     buildTypes {
         debug {
+            resValue("string", "viaggio_abmob_banner_api_key", "${viaggio_admob_banner_dev}")
+            manifestPlaceholders = [
+                    ADMOB_API_KEY : "\"${viaggio_admob_dev}\""
+            ]
             applicationIdSuffix ".debug"
             minifyEnabled false
             debuggable true
@@ -70,7 +82,6 @@ android {
             proguardFile 'proguard-gson.pro'
             proguardFile 'proguard-rxjava.pro'
             proguardFile 'proguard-aws.pro'
-
         }
     }
 
@@ -151,6 +162,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.0'
     implementation 'com.google.firebase:firebase-ml-vision:23.0.0'
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation 'com.google.android.gms:play-services-ads:18.2.0'
 
     // viewPager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0-beta04'
@@ -212,12 +224,14 @@ dependencies {
 
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
-    implementation 'com.github.ajalt.reprint:core:3.3.1@aar'
-    implementation 'com.github.ajalt.reprint:rxjava2:3.3.1@aar'
+    implementation 'com.github.ajalt.reprint:core:3.3.2@aar'
+    implementation 'com.github.ajalt.reprint:rxjava2:3.3.2@aar'
 
     implementation 'com.github.curioustechizen.android-ago:library:1.4.0'
     implementation 'net.skoumal.fragmentback:fragment-back:0.2.3'
 
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.1'
+    implementation 'com.github.hrskrs:InstaDotView:1.1'
     // fingerprint
 //    implementation "androidx.biometric:biometric:1.0.0-alpha04"
 }
