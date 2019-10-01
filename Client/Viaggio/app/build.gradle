@@ -43,21 +43,13 @@ android {
         buildConfigField("String", "S3_UPLOAD_BUCKET", "\"${viaggio_bucket}\"")
         buildConfigField("String", "S3_POOL_ID", "\"${aws_s3_pool_id}\"")
         buildConfigField("String", "AWS_LOGIN_PROVIDER", "\"${aws_login_provider_dev}\"")
-        buildConfigField("String", "VIAGGIO_ADMOB_API_KEY", "\"${viaggio_admob}\"")
 
         resValue("string", "viaggio_abmob_banner_api_key", "${viaggio_admob_banner}")
-        manifestPlaceholders = [
-                FABRIC_API_KEY : "\"${viaggio_fabric}\"",
-                ADMOB_API_KEY : "\"${viaggio_admob}\""
-        ]
         multiDexEnabled true
     }
     buildTypes {
         debug {
             resValue("string", "viaggio_abmob_banner_api_key", "${viaggio_admob_banner_dev}")
-            manifestPlaceholders = [
-                    ADMOB_API_KEY : "\"${viaggio_admob_dev}\""
-            ]
             applicationIdSuffix ".debug"
             minifyEnabled false
             debuggable true

@@ -42,10 +42,10 @@
 <!--        sample api Key-->
         <meta-data
                 android:name="com.google.android.gms.ads.APPLICATION_ID"
-                android:value="ca-app-pub-3940256099942544~3347511713"/>
+                android:value="@string/viaggio_admob_dev"/>
 <!--        <meta-data-->
 <!--                android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-<!--                android:value="{$ADMOB_API_KEY}"/>-->
+<!--                android:value="@string/viaggio_admob"/>-->
 
         <provider
                 android:name="androidx.core.content.FileProvider"

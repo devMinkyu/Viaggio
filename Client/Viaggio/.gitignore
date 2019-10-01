@@ -15,3 +15,4 @@ app/release/app.aab
 app/libs/
 app/src/main/res/assets/
 /gradle.properties
+app/src/main/res/values/secrets.xml
