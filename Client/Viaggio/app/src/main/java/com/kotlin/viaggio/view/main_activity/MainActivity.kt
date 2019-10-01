@@ -13,9 +13,10 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
-import com.kotlin.viaggio.view.back.BackActionDialogFragment
+import com.kotlin.viaggio.view.popup.BackActionDialogFragment
 import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
+import com.kotlin.viaggio.view.popup.ReviewActionDialogFragment
 import com.kotlin.viaggio.view.setting.*
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
@@ -76,6 +77,12 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         getViewModel().showToast.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 contentView?.snackbar(resources.getString(R.string.finish_of_msg))
+            }
+        })
+
+        getViewModel().reviewRequest().observe(this, Observer {
+            if(it.not()) {
+                ReviewActionDialogFragment().show(supportFragmentManager, ReviewActionDialogFragment.TAG)
             }
         })
     }

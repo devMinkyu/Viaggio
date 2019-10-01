@@ -23,6 +23,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.Traveled
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.kotlin.viaggio.view.popup.ReviewActionDialogFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import com.kotlin.viaggio.view.travel.option.TravelOptionBottomSheetDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment

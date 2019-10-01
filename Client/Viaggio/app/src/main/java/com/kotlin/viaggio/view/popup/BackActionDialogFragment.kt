@@ -1,4 +1,4 @@
-package com.kotlin.viaggio.view.back
+package com.kotlin.viaggio.view.popup
 
 import android.os.Bundle
 import android.view.LayoutInflater

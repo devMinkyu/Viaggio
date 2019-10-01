@@ -7,8 +7,8 @@
     <data>
 
         <import type="android.view.View" />
-        <import type="com.kotlin.viaggio.view.back.BackActionDialogFragment.ViewHandler" />
-        <import type="com.kotlin.viaggio.view.back.BackActionDialogFragmentViewModel" />
+        <import type="com.kotlin.viaggio.view.popup.BackActionDialogFragment.ViewHandler" />
+        <import type="com.kotlin.viaggio.view.popup.BackActionDialogFragmentViewModel" />
         <variable
                 name="viewModel"
                 type="BackActionDialogFragmentViewModel" />

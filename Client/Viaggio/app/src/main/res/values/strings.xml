@@ -181,5 +181,8 @@
     <string name="in_app_update_fail">업데이트가 취소 되었습니다.</string>
     <string name="in_app_update_restart">설치/재시작</string>
 
+    <string name="review">리뷰 남기기</string>
+    <string name="review_next">다음에 남기기</string>
+    <string name="review_contents">Viaggio가 마음에 드시나요??😍\n리뷰와✍ 평점⭐으로 알려주시면\n더욱 좋은 Viaggio로 보답하겠습니다.😎👍</string>
 
 </resources>

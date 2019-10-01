@@ -23,6 +23,9 @@ class AndroidPrefUtilService @Inject constructor() {
     fun getInt(key: Key): Single<Int> {
         return Single.just(sp.getInt(key.name, -1))
     }
+    fun getInt(key: Key, defaultVal: Int): Single<Int> {
+        return Single.just(sp.getInt(key.name, defaultVal))
+    }
 
     fun getString(key: Key): Single<String> {
         return Single.just(sp.getString(key.name, "")!!)
@@ -72,7 +75,7 @@ class AndroidPrefUtilService @Inject constructor() {
         ,TRAVELING_ID,TRAVELING_KINDS, TRAVELING_LAST_COUNTRIES, SELECTED_TRAVELING_CARD_ID,
         SELECT_TRAVEL_ID, TRAVEL_KINDS, USER_NAME, AWS_ID, AWS_TOKEN, SELECTED_COUNTRY, LOCK_APP,
         FINGER_PRINT_LOCK_APP, LOCK_PW, NEW_AWS, SYNCING,
-
-        IMAGE_MODE, UPLOAD_MODE, USER_IMAGE_PROFILE, USER_IMAGE_PROFILE_URL, FIRST_LOGIN
+        IMAGE_MODE, UPLOAD_MODE, USER_IMAGE_PROFILE, USER_IMAGE_PROFILE_URL, FIRST_LOGIN,
+        GIVE_REVIEW, FREQUENCY_APP, PERIOD_APP, NEXT_REVIEW_PERIOD_APP, NEXT_GIVE_REVIEW
     }
 }

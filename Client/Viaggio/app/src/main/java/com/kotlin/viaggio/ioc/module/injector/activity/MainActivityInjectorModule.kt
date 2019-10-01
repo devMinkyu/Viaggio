@@ -2,8 +2,9 @@
 
 package com.kotlin.viaggio.ioc.module.injector.activity
 
-import com.kotlin.viaggio.view.back.BackActionDialogFragment
+import com.kotlin.viaggio.view.popup.BackActionDialogFragment
 import com.kotlin.viaggio.view.camera.CameraFragment
+import com.kotlin.viaggio.view.popup.ReviewActionDialogFragment
 import com.kotlin.viaggio.view.setting.*
 import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
@@ -164,5 +165,8 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun backActionDialogFragment(): BackActionDialogFragment
+
+    @ContributesAndroidInjector
+    fun reviewActionDialogFragment(): ReviewActionDialogFragment
 
 }
