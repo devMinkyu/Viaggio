@@ -31,7 +31,6 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasSupportFrag
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-
         (getViewModel() as BaseViewModel).initialize()
     }
 

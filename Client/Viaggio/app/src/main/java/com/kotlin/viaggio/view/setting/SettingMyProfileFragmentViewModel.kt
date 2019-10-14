@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
+import com.amazonaws.services.s3.AmazonS3Client
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
 import com.kotlin.viaggio.data.obj.Error
@@ -29,6 +30,8 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
     lateinit var transferUtility: TransferUtility
     @Inject
     lateinit var config: DeveloperAuthenticationProvider
+    @Inject
+    lateinit var amazonS3Client: AmazonS3Client
 
     val email = ObservableField("")
     val name = ObservableField("").apply {
@@ -87,6 +90,7 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
             userModel.userProfile(imageName)
                 .flatMap {imageName ->
                     if (TextUtils.isEmpty(image).not()) {
+//                        amazonS3Client.deleteObject(BuildConfig.S3_UPLOAD_BUCKET, "users/${image.split("/").last()}/${image}")
                         File(image).delete()
                     }
                     if(newAws) {

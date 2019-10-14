@@ -91,6 +91,7 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
                 imageChooseList.add(imageAllList[0].imageName)
                 imageAllList[0].chooseCountList.set(1)
                 imagePathList.value = Event(imageAllList)
+                emptyImageNotice.set("")
             } else {
                 emptyImageNotice.set(appCtx.get().resources.getString(R.string.empty_image))
             }
@@ -112,8 +113,11 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
             val list = imageAllList.filter {
                 it.imageName.contains(folder)
             }
+
             if(list.isNullOrEmpty()) {
                 emptyImageNotice.set(appCtx.get().resources.getString(R.string.empty_image))
+            } else {
+                emptyImageNotice.set("")
             }
             imagePathList.value = Event(list)
         }

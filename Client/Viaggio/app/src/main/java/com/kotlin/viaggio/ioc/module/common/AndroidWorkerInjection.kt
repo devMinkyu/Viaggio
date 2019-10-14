@@ -6,11 +6,9 @@ import dagger.android.AndroidInjector
 
 object AndroidWorkerInjection {
     fun inject(worker: Worker) {
-        checkNotNull(worker) { "worker" }
         val context = worker.applicationContext
         if (context is HasWorkerInjector) {
             val workerInjector = context.workerInjector()
-            checkNotNull(workerInjector) { "${context.javaClass}.workerInjector() return null" }
             try {
                 workerInjector.inject(worker)
             } catch (e: Exception) {
