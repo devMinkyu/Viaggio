@@ -43,7 +43,11 @@ class BackActionDialogFragment:BaseDialogFragment<BackActionDialogFragmentViewMo
             }
         }
     }
-    
+
+    override fun onBackPressed(): Boolean {
+        return super.onBackPressed()
+    }
+
     inner class ViewHandler{
         fun close() {
             dismiss()

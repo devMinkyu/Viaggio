@@ -70,11 +70,11 @@ class AppProviderModule {
 
     @Provides
     @Singleton
-    internal fun provideFirebaseMlkitDeviceOcr() = FirebaseVision.getInstance().onDeviceTextRecognizer
+    internal fun provideFirebaseMlKitDeviceOcr() = FirebaseVision.getInstance().onDeviceTextRecognizer
 
     @Provides
     @Singleton
-    internal fun provideFirebaseMlkitCloudOcr() = FirebaseVisionCloudTextRecognizerOptions.Builder()
+    internal fun provideFirebaseMlKitCloudOcr() = FirebaseVisionCloudTextRecognizerOptions.Builder()
         .setLanguageHints(listOf("en", "ko"))
         .build()
 

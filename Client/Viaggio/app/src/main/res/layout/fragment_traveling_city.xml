@@ -32,7 +32,7 @@
                     app:iconTint="@color/almost_black"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-            />
+                    tools:ignore="PrivateResource" />
             <TextView
                     android:id="@id/cityNotice"
                     android:layout_width="wrap_content"
