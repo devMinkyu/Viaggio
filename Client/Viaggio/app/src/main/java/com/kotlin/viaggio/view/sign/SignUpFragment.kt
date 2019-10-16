@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions.bitmapTransform
@@ -21,11 +22,11 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+    override fun onStart() {
+        super.onStart()
+        activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorPrimary, null)
     }
+
     override fun onResume() {
         super.onResume()
         if (sliderInterface == null)
@@ -37,8 +38,9 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
     }
     override fun onStop() {
         super.onStop()
-        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.white_three, null)
     }
+
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSignUpBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sign_up, container, false)
@@ -49,25 +51,11 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        context?.let { context ->
-            Glide.with(context)
-                .load(R.drawable.background)
-                .apply(bitmapTransform(BlurTransformation(20, 1)))
-                .into(signUpContainer)
-        }
-
         getViewModel().complete.observe(this, Observer {
             stopLoading()
             it.getContentIfNotHandled()?.let {
                 baseIntent("http://viaggio.kotlin.com/home/main/")
-
-                parentFragmentManager.let { fm ->
-                    val cnt = fm.backStackEntryCount
-                    for (i in 0 until cnt) {
-                        fm.popBackStackImmediate()
-                    }
-                }
+                parentFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             }
         })
         getViewModel().error.observe(this, Observer {

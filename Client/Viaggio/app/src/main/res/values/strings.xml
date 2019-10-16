@@ -48,7 +48,8 @@
 
     <string name="tutorial_skip">건너뛰기</string>
     <string name="sign_in_sign">로그인 하기</string>
-    <string name="tutorial_login">로그인 하기</string>
+    <string name="google_login_contents">Sign in with Google</string>
+    <string name="tutorial_login">로그인</string>
     <string name="sign_in_email">이메일</string>
     <string name="sign_in_password">비밀번호</string>
     <string name="sign_up">회원가입</string>

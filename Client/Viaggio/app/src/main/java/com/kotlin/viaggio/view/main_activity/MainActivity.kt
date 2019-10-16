@@ -90,7 +90,8 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount == 0) {
-            getViewModel().backButtonSubject.onNext(System.currentTimeMillis())
+            BackActionDialogFragment().show(supportFragmentManager, BackActionDialogFragment.TAG)
+//            getViewModel().backButtonSubject.onNext(System.currentTimeMillis())
         } else {
             super.onBackPressed()
         }

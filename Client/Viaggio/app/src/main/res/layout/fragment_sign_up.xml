@@ -24,17 +24,51 @@
                     android:background="@color/white_three"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.constraintlayout.widget.Guideline
+                        android:id="@id/homeLgl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="@dimen/common_margin" />
+
+                <androidx.constraintlayout.widget.Guideline
+                        android:id="@id/homeRgl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="@dimen/common_margin" />
+
+                <View
                         android:id="@id/signUpContainer"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/background"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                />
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace1"
+                        android:background="@drawable/sign_bg"
+                        />
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:lineSpacingExtra="2.5sp"
+                        android:fontFamily="@font/rubik"
+                        android:layout_margin="@dimen/common_margin"
+                        app:layout_constraintEnd_toEndOf="@id/homeRgl"
+                        app:layout_constraintBottom_toBottomOf="@id/signUpContainer"
+                        android:text="@string/sign_up"
+                        />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="130dp"
+                        app:srcCompat="@drawable/luncher_icon"
+                        app:layout_constraintStart_toStartOf="@id/signUpContainer"
+                        app:layout_constraintEnd_toEndOf="@id/signUpContainer"
+                        app:layout_constraintTop_toTopOf="@id/signUpContainer"
+                        app:layout_constraintBottom_toBottomOf="@id/signUpContainer"
+                        />
                 <com.google.android.material.button.MaterialButton
                         style="@style/ViewStyle.Viaggio.Back"
                         app:iconTint="@android:color/white"
@@ -43,27 +77,44 @@
                         app:layout_constraintTop_toTopOf="parent"
                 />
 
+                <Space
+                        android:id="@+id/verticalSpace1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintVertical_weight="30"
+                        app:layout_constraintTop_toBottomOf="@id/signUpContainer"
+                        app:layout_constraintBottom_toTopOf="@id/signUpNameEdit"
+                        />
+
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@id/signUpNameEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
                         android:hint="@string/sign_up_name"
                         android:textColorHint="@color/very_light_pink"
-                        android:layout_marginTop="150dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/verticalSpace1"
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace2"
                         app:errorEnabled="true">
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/name_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/black"
                             android:text="@={viewModel.name}"
                             android:fontFamily="@font/comfortaa"
                             android:inputType="text"
                     />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <Space
+                        android:id="@+id/verticalSpace2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintVertical_weight="10"
+                        app:layout_constraintTop_toBottomOf="@id/signUpNameEdit"
+                        app:layout_constraintBottom_toTopOf="@id/signUpEmailEdit"
+                        />
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@id/signUpEmailEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
@@ -71,18 +122,28 @@
                         android:textColorHint="@color/very_light_pink"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/signUpNameEdit"
+                        app:layout_constraintTop_toBottomOf="@id/verticalSpace2"
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace3"
                         app:errorEnabled="true">
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/email_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/black"
                             android:text="@={viewModel.email}"
                             android:fontFamily="@font/comfortaa"
                             android:inputType="textWebEmailAddress"
                     />
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
+                        android:id="@+id/verticalSpace3"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintVertical_weight="10"
+                        app:layout_constraintTop_toBottomOf="@id/signUpEmailEdit"
+                        app:layout_constraintBottom_toTopOf="@id/signUpPasswordEdit"
+                        />
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@id/signUpPasswordEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
@@ -90,13 +151,14 @@
                         android:textColorHint="@color/very_light_pink"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/signUpEmailEdit"
+                        app:layout_constraintTop_toBottomOf="@id/verticalSpace3"
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace4"
                         app:errorEnabled="true">
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/pw_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/black"
                             android:maxLength="20"
                             android:text="@={viewModel.password}"
                             android:fontFamily="@font/comfortaa"
@@ -104,6 +166,14 @@
                     />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <Space
+                        android:id="@+id/verticalSpace4"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintVertical_weight="10"
+                        app:layout_constraintTop_toBottomOf="@id/signUpPasswordEdit"
+                        app:layout_constraintBottom_toTopOf="@id/signUpConfirmPasswordEdit"
+                        />
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@id/signUpConfirmPasswordEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
@@ -111,13 +181,14 @@
                         android:textColorHint="@color/very_light_pink"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/signUpPasswordEdit"
+                        app:layout_constraintTop_toBottomOf="@id/verticalSpace4"
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace5"
                         app:errorEnabled="true">
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/confirm_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/black"
                             android:maxLength="20"
                             android:text="@={viewModel.confirmPassword}"
                             android:fontFamily="@font/comfortaa"
@@ -125,12 +196,21 @@
                     />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <Space
+                        android:id="@+id/verticalSpace5"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintVertical_weight="30"
+                        app:layout_constraintTop_toBottomOf="@id/signUpConfirmPasswordEdit"
+                        app:layout_constraintBottom_toTopOf="@id/signUpBtn"
+                        />
                 <com.google.android.material.button.MaterialButton
                         android:id="@id/signUpBtn"
                         style="@style/ViewStyle.Viaggio.SignBtn"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/signUpConfirmPasswordEdit"
+                        app:layout_constraintTop_toBottomOf="@id/verticalSpace5"
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace6"
                         android:text="@string/sign_up"
                         android:onClick="@{() -> viewHandler.signUp()}"
                         android:enabled="@{viewModel.isFormValid}"
@@ -138,11 +218,13 @@
                         tools:backgroundTint="@color/colorPrimary"
                 />
                 <Space
+                        android:id="@+id/verticalSpace6"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintVertical_weight="100"
                         app:layout_constraintTop_toBottomOf="@id/signUpBtn"
                         app:layout_constraintBottom_toBottomOf="parent"
-                />
+                        />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </FrameLayout>

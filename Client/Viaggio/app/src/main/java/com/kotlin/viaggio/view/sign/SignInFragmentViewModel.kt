@@ -1,12 +1,17 @@
 package com.kotlin.viaggio.view.sign
 
 import android.text.TextUtils
+import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.data.obj.Error
 import com.kotlin.viaggio.data.obj.SignError
-import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
@@ -22,7 +27,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
     lateinit var userModel: UserModel
     @Inject
     lateinit var encryption: Encryption
-
+    lateinit var googleSignInClient: GoogleSignInClient
     val email = ObservableField<String>().apply {
         addOnPropertyChangedCallback(object :androidx.databinding.Observable.OnPropertyChangedCallback(){
             override fun onPropertyChanged(sender: androidx.databinding.Observable?, propertyId: Int) {
@@ -42,6 +47,15 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
     private var validateFormDisposable: Disposable? = null
     val error: MutableLiveData<Event<SignError>> = MutableLiveData()
     var complete: MutableLiveData<Event<Any>> = MutableLiveData()
+
+    override fun initialize() {
+        super.initialize()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(BuildConfig.GOOGLE_WEB_CLIENT_ID)
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(appCtx.get(), gso)
+    }
 
     private fun validateForm() {
         validateFormDisposable?.dispose()
@@ -81,5 +95,11 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
                 Timber.d(it)
             }
         addDisposable(disposable)
+    }
+
+    fun handleSignInResult(account: GoogleSignInAccount?) {
+        account?.idToken?.let { idToken ->
+            Log.d("hoho", idToken)
+        }
     }
 }

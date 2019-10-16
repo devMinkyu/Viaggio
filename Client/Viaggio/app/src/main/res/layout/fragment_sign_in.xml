@@ -23,17 +23,40 @@
                     android:background="@color/white_three"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.constraintlayout.widget.Guideline
+                        android:id="@id/homeLgl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="@dimen/common_margin" />
+
+                <androidx.constraintlayout.widget.Guideline
+                        android:id="@id/homeRgl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="@dimen/common_margin" />
+
+                <View
                         android:id="@id/signInContainer"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/background"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                />
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace1"
+                        android:background="@drawable/sign_bg"
+                        />
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:lineSpacingExtra="2.5sp"
+                        android:fontFamily="@font/rubik"
+                        android:layout_margin="@dimen/common_margin"
+                        app:layout_constraintEnd_toEndOf="@id/homeRgl"
+                        app:layout_constraintBottom_toBottomOf="@id/signInContainer"
+                        android:text="@string/tutorial_login"
+                        />
                 <com.google.android.material.button.MaterialButton
                         style="@style/ViewStyle.Viaggio.Back"
                         app:iconTint="@android:color/white"
@@ -41,16 +64,24 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                 />
+                <Space
+                        android:id="@+id/verticalSpace1"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintVertical_weight="30"
+                        app:layout_constraintTop_toBottomOf="@id/signInContainer"
+                        app:layout_constraintBottom_toTopOf="@id/signInEmailEdit"
+                        />
 
                 <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/logo"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="130dp"
                         app:srcCompat="@drawable/luncher_icon"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginTop="150dp"
+                        app:layout_constraintStart_toStartOf="@id/signInContainer"
+                        app:layout_constraintEnd_toEndOf="@id/signInContainer"
+                        app:layout_constraintTop_toTopOf="@id/signInContainer"
+                        app:layout_constraintBottom_toBottomOf="@id/signInContainer"
                 />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -58,22 +89,30 @@
                         style="@style/ViewStyle.Viaggio.Sign"
                         android:hint="@string/sign_in_email"
                         android:textColorHint="@color/very_light_pink"
-                        android:layout_marginTop="30dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/logo"
+                        app:layout_constraintTop_toBottomOf="@id/verticalSpace1"
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace2"
                         app:errorEnabled="true">
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/email_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/black"
                             android:text="@={viewModel.email}"
                             android:fontFamily="@font/comfortaa"
                             android:inputType="textWebEmailAddress"
                     />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <Space
+                        android:id="@+id/verticalSpace2"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintVertical_weight="10"
+                        app:layout_constraintTop_toBottomOf="@id/signInEmailEdit"
+                        app:layout_constraintBottom_toTopOf="@id/signInPasswordEdit"
+                        />
                 <com.google.android.material.textfield.TextInputLayout
                         android:id="@id/signInPasswordEdit"
                         style="@style/ViewStyle.Viaggio.Sign"
@@ -81,25 +120,34 @@
                         android:textColorHint="@color/very_light_pink"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/signInEmailEdit"
+                        app:layout_constraintTop_toBottomOf="@id/verticalSpace2"
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace3"
                         app:errorEnabled="true">
                     <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/password_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/black"
                             android:text="@={viewModel.password}"
                             android:fontFamily="@font/comfortaa"
                             android:inputType="textWebPassword"
                     />
                 </com.google.android.material.textfield.TextInputLayout>
-
+                <Space
+                        android:id="@+id/verticalSpace3"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintVertical_weight="30"
+                        app:layout_constraintTop_toBottomOf="@id/signInPasswordEdit"
+                        app:layout_constraintBottom_toTopOf="@id/signInBtn"
+                        />
                 <com.google.android.material.button.MaterialButton
                         android:id="@id/signInBtn"
                         style="@style/ViewStyle.Viaggio.SignBtn"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/signInPasswordEdit"
+                        app:layout_constraintTop_toBottomOf="@id/verticalSpace3"
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace4"
                         android:backgroundTint="@{viewModel.isFormValid ? @color/colorPrimary:@color/brown_grey}"
                         android:text="@string/sign_in_sign"
                         android:enabled="@{viewModel.isFormValid}"
@@ -107,11 +155,55 @@
                         tools:backgroundTint="@color/colorPrimary"
                 />
                 <Space
+                        android:id="@+id/verticalSpace4"
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="0dp"
                         app:layout_constraintTop_toBottomOf="@id/signInBtn"
+                        app:layout_constraintBottom_toTopOf="@id/googleInBtn"
+                        />
+                <com.google.android.material.button.MaterialButton
+                        android:id="@id/googleInBtn"
+                        style="@style/ViewStyle.Viaggio.SignBtn"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/verticalSpace4"
+                        app:layout_constraintBottom_toTopOf="@id/verticalSpace5"
+                        app:icon="@drawable/img_logo_google"
+                        app:iconTintMode="add"
+                        app:iconTint="@android:color/transparent"
+                        app:iconPadding="-40dp"
+                        android:backgroundTint="@android:color/white"
+                        android:text="@string/google_login_contents"
+                        android:fontFamily="@font/rubik"
+                        android:textColor="@color/black"
+                        app:strokeColor="@color/black"
+                        app:strokeWidth="0.5dp"
+                        android:onClick="@{() -> viewHandler.googleSingIn()}"
+                />
+                <Space
+                        android:id="@+id/verticalSpace5"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintVertical_weight="100"
+                        app:layout_constraintTop_toBottomOf="@id/googleInBtn"
                         app:layout_constraintBottom_toBottomOf="parent"
                 />
+                <TextView
+                        android:id="@id/signUpBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:lineSpacingExtra="2.5sp"
+                        android:fontFamily="@font/rubik"
+                        android:onClick="@{()->viewHandler.signUp()}"
+                        android:padding="@dimen/common_margin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/verticalSpace5"
+                        app:layout_constraintBottom_toBottomOf="@id/verticalSpace5"
+                        android:text="@string/sign_up"
+                        />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </FrameLayout>

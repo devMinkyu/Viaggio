@@ -37,6 +37,7 @@ android {
         versionCode version_code.toInteger()
         versionName version_name
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"${android_google_login_prd}\"")
         buildConfigField("String", "OPEN_WEATHER", "\"${viaggio_open_weather}\"")
         buildConfigField("String", "OPEN_WEATHER_API_KEY", "\"${viaggio_open_weather_api_key}\"")
         buildConfigField("String", "SERVER_HOST", "\"${viaggio_dev_server_host_release}\"")
@@ -52,6 +53,7 @@ android {
             buildConfigField("String", "S3_UPLOAD_BUCKET", "\"${viaggio_bucket_dev}\"")
             buildConfigField("String", "SERVER_HOST", "\"${viaggio_dev_server_host_dev}\"")
             resValue("string", "viaggio_abmob_banner_api_key", "${viaggio_admob_banner_dev}")
+            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"${android_google_login_dev}\"")
             applicationIdSuffix ".debug"
             minifyEnabled false
             debuggable true
@@ -157,6 +159,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-ml-vision:23.0.0'
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.google.android.gms:play-services-ads:18.2.0'
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
 
     // viewPager2
     implementation 'androidx.viewpager2:viewpager2:1.0.0-beta05'

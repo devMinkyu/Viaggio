@@ -271,4 +271,7 @@
     <item name="backToTop" type="id"/>
     <item name="travelOptionArea" type="id"/>
     <item name="travelOptionTheme" type="id"/>
+    <item name="googleInBtn" type="id" />
+    <item name="homeLgl" type="id" />
+    <item name="homeRgl" type="id" />
 </resources>

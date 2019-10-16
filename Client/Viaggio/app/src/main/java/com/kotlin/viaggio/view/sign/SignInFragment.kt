@@ -1,30 +1,34 @@
 package com.kotlin.viaggio.view.sign
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions.bitmapTransform
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.SignError
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
-import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.fragment_sign_in.*
+import org.jetbrains.anko.support.v4.toast
+import timber.log.Timber
 
 class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+    companion object {
+        val TAG: String = SignInFragment::class.java.simpleName
+        const val GOOGLE_SIGN_CODE = 200
+    }
+    override fun onStart() {
+        super.onStart()
+        activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorPrimary, null)
     }
     override fun onResume() {
         super.onResume()
@@ -35,9 +39,10 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
                     .build()
             )
     }
+
     override fun onStop() {
         super.onStop()
-        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.white_three, null)
     }
 
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSignInBinding
@@ -50,23 +55,11 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context?.let { context ->
-            Glide.with(context)
-                .load(R.drawable.background)
-                .apply(bitmapTransform(BlurTransformation(20, 1)))
-                .into(signInContainer)
-        }
         getViewModel().complete.observe(this, Observer {
             stopLoading()
             it.getContentIfNotHandled()?.let {
                 baseIntent("http://viaggio.kotlin.com/home/main/")
-
-                parentFragmentManager.let { fm ->
-                    val cnt = fm.backStackEntryCount
-                    for (i in 0 until cnt) {
-                        fm.popBackStackImmediate()
-                    }
-                }
+                parentFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             }
         })
         getViewModel().error.observe(this, Observer {
@@ -105,9 +98,29 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
                 showNetWorkError()
             }
         }
-
+        fun googleSingIn() {
+            val signInIntent = getViewModel().googleSignInClient.signInIntent
+            startActivityForResult(signInIntent, GOOGLE_SIGN_CODE)
+        }
+        fun signUp() {
+            baseIntent("http://viaggio.kotlin.com/login/create/")
+        }
         fun back() {
             fragmentPopStack()
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == GOOGLE_SIGN_CODE) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                toast(account!!.idToken!!)
+                getViewModel().handleSignInResult(account)
+            } catch (e: ApiException) {
+                toast("$e")
+                Timber.tag(TAG).d(e)
+            }
         }
     }
 }

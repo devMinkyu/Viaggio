@@ -93,7 +93,8 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         }
 
         fun sign() {
-            baseIntent("http://viaggio.kotlin.com/home/login/")
+//            baseIntent("http://viaggio.kotlin.com/home/login/")
+            baseIntent("http://viaggio.kotlin.com/login/normal/")
         }
 
         fun imageSetting() {
@@ -108,7 +109,8 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
             if (getViewModel().isLogin.get()) {
                 SettingAutoBottomSheetDialogFragment().show(parentFragmentManager, SettingAutoBottomSheetDialogFragment.TAG)
             } else {
-                baseIntent("http://viaggio.kotlin.com/home/login/")
+//                baseIntent("http://viaggio.kotlin.com/home/login/")
+                baseIntent("http://viaggio.kotlin.com/login/normal/")
             }
         }
 

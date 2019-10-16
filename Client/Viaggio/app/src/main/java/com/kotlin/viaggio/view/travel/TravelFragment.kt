@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.travel
 
+import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.SpannableStringBuilder
@@ -38,7 +39,10 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
     companion object {
         val TAG: String = TravelFragment::class.java.simpleName
     }
-
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.white_three, null)
+    }
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_travel, container, false)
