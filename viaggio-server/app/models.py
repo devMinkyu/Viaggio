@@ -9,7 +9,7 @@ class User(db.Model):
     __tablename__ = 'users'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
     id = db.Column(db.Integer, primary_key=True)
-    googleId = db.Column(db.BigInteger, unique=True)
+    googleId = db.Column(db.String(128), unique=True)
     email = db.Column(db.String(64), unique=True, index=True)
     name = db.Column(db.String(64))
     passwordHash = db.Column(db.String(128))
