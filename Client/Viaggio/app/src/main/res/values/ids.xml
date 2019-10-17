@@ -278,4 +278,11 @@
     <item name="travelDayTripLgl" type="id" />
     <item name="travelDayTripSubTitle" type="id" />
     <item name="travelDayTripStart" type="id" />
+    <item name="travelDayTripList" type="id" />
+    <item name="homeCgl" type="id" />
+    <item name="travelingItemThemeImg1" type="id" />
+    <item name="TravelingItemTheme1" type="id" />
+    <item name="travelingItemInfo1" type="id" />
+    <item name="travelingItemThemeBg" type="id" />
+    <item name="travelingItemThemeBg1" type="id" />
 </resources>

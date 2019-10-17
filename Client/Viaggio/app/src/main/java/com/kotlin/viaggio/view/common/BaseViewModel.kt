@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.common
 
 import android.content.Context
+import android.content.res.Resources
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -30,6 +31,8 @@ abstract class BaseViewModel:ViewModel() {
     lateinit var rxEventBus: RxEventBus
     @Inject
     lateinit var gson: Gson
+    @Inject
+    lateinit var resources: Resources
 
     private val disposables = mutableListOf<Disposable?>()
 

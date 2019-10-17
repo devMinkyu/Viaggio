@@ -31,6 +31,7 @@ import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingDomesticsCountryFragment
+import com.kotlin.viaggio.view.traveling.day_trip.TravelDayTripFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
@@ -127,6 +128,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 "traveling" ->
                     when (appLinkData.lastPathSegment) {
                         "days" -> showTraveling()
+                        "trip" -> showTravelDayTrip()
                         "start" -> showTraveling()
                         "detail" -> {
                             showTravelingDetail()
@@ -177,6 +179,8 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             }
         }
     }
+
+
 
     private fun showInstagrmShare() {
         baseShowLeftAddBackFragment(TravelingInstagramShareFragment())
@@ -265,7 +269,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     private fun showSetting() {
         baseShowTopAddBackFragment(SettingFragment())
     }
-
+    private fun showTravelDayTrip() {
+        baseShowAddLeftAddBackFragment(TravelDayTripFragment())
+    }
     private fun showTraveling() {
         baseShowAddLeftAddBackFragment(TravelingFragment())
     }

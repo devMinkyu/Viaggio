@@ -36,7 +36,12 @@ class LogoutActionDialogFragment:BaseDialogFragment<LogoutActionDialogFragmentVi
             dismiss()
         }
         fun logout(){
-            getViewModel().logout()
+            if(checkInternet()) {
+                getViewModel().logout()
+            } else {
+                showNetWorkError()
+            }
+
         }
     }
 }

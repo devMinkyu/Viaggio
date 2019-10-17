@@ -126,10 +126,14 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                     travel.period = if (endDate == null) {
                         "${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)} ~"
                     } else {
-                        "${SimpleDateFormat(
-                            "yyyy.MM.dd",
-                            Locale.ENGLISH
-                        ).format(startDate)} ~ ${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(endDate)}"
+                        if(travelKind == 2) {
+                            SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)
+                        } else {
+                            "${SimpleDateFormat(
+                                "yyyy.MM.dd",
+                                Locale.ENGLISH
+                            ).format(startDate)} ~ ${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(endDate)}"
+                        }
                     }
                 }
                 binding.data = travel
@@ -157,7 +161,11 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             view.travelBackground.setOnClickListener {
                 if (travelList.size > position) {
                     getViewModel().selectedTravelId(travelList[position].localId)
-                    baseIntent("http://viaggio.kotlin.com/traveling/days/")
+                    if(travelList[position].travelKind == 2) {
+                        baseIntent("http://viaggio.kotlin.com/traveling/day/trip/")
+                    } else {
+                        baseIntent("http://viaggio.kotlin.com/traveling/days/")
+                    }
                 }
             }
             view.travelMore.setOnClickListener {

@@ -1,8 +1,6 @@
 package com.kotlin.viaggio.view.sign
 
-import android.content.res.Resources
 import android.text.TextUtils
-import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
@@ -30,8 +28,6 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
     lateinit var userModel: UserModel
     @Inject
     lateinit var encryption: Encryption
-    @Inject
-    lateinit var resources: Resources
     lateinit var googleSignInClient: GoogleSignInClient
     val email = ObservableField<String>().apply {
         addOnPropertyChangedCallback(object :androidx.databinding.Observable.OnPropertyChangedCallback(){

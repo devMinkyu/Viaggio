@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.model
 
+import android.util.Log
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
 import com.kotlin.viaggio.data.obj.GoogleSignInBody
 import com.kotlin.viaggio.data.obj.ViaggioApiAWSAuth
@@ -70,8 +71,8 @@ class UserModel @Inject constructor() :BaseModel(){
             .subscribeOn(Schedulers.io())
     }
 
-    fun userProfile(imageName:String):Single<List<String>>{
-        return localDataSource.recordImage(arrayOf(imageName))
+    fun userProfile(imageName:String, profile:String):Single<List<String>>{
+        return localDataSource.recordImage(arrayOf(imageName), profile)
     }
 
     fun updateUser(name:String, profileImageUrl:String): Single<Response<Any>>{

@@ -15,6 +15,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView.SELECTION_MODE_RANGE
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView.SELECTION_MODE_SINGLE
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
@@ -52,12 +53,16 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(getViewModel().travelKind == 2) {
+            calendarView.selectionMode = SELECTION_MODE_SINGLE
+        } else {
+            calendarView.selectionMode = SELECTION_MODE_RANGE
+        }
 
         calendarView.state().edit()
             .setMinimumDate(CalendarDay.from(2010, 1, 1))
             .setMaximumDate(CalendarDay.today())
             .commit()
-        calendarView.selectionMode = SELECTION_MODE_RANGE
         calendarView.addDecorator(SundayDecorator())
 
         calendarView.setOnRangeSelectedListener { _, dates ->
@@ -65,12 +70,17 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
             getViewModel().list.addAll(dates)
         }
         calendarView.setOnDateChangedListener { _, date, selected ->
-            if(selected && getViewModel().option){
-                val startDate = convertDate(date)
-                getViewModel().selectedDate(startDate)
-                fragmentPopStack()
-            }else{
+            if(getViewModel().travelKind == 2) {
                 getViewModel().list.clear()
+                getViewModel().list.add(date)
+            } else {
+                if(selected && getViewModel().option){
+                    val startDate = convertDate(date)
+                    getViewModel().selectedDate(startDate)
+                    fragmentPopStack()
+                }else{
+                    getViewModel().list.clear()
+                }
             }
         }
     }

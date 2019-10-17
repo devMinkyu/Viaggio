@@ -5,7 +5,10 @@ import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import androidx.work.*
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
+import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.WorkerName
 import com.kotlin.viaggio.data.obj.Area
 import com.kotlin.viaggio.data.obj.PermissionError
@@ -16,7 +19,6 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.worker.TimeCheckWorker
-import com.kotlin.viaggio.worker.UploadTravelWorker
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -80,9 +82,15 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
                     if(it.size > 1){
                         startDate = it[0]
                         endDate = it[1]
-                        travelingStartOfDay.set(
-                            "${DateFormat.getDateInstance(DateFormat.LONG).format(startDate)} ~ ${DateFormat.getDateInstance(DateFormat.LONG).format(endDate)}"
-                        )
+                        if(travelKind == 2) {
+                            travelingStartOfDay.set(
+                                DateFormat.getDateInstance(DateFormat.LONG).format(startDate)
+                            )
+                        } else {
+                            travelingStartOfDay.set(
+                                "${DateFormat.getDateInstance(DateFormat.LONG).format(startDate)} ~ ${DateFormat.getDateInstance(DateFormat.LONG).format(endDate)}"
+                            )
+                        }
                         rxEventBus.travelingStartOfDay.onNext(listOf())
                     }else{
                         startDate = it[0]
@@ -141,6 +149,9 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
             theme = travelThemeList.toMutableList(),
             travelKind = travelKind
         )
+        if(travel.travelKind == 2) {
+            travel.title = resources.getString(R.string.travel_day_trip)
+        }
 
         val disposable = travelLocalModel.createTravel(travel)
             .andThen {

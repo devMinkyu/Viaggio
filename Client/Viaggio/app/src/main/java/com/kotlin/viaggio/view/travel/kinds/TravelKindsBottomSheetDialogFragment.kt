@@ -31,7 +31,7 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
                 dismiss()
             }
         }
-        fun selectBeforeKinds(kinds: Int){
+        fun selectBeforeKinds(kinds: Int) {
             getViewModel().selectKind(kinds)
             baseIntent("http://viaggio.kotlin.com/home/calendar/")
             dismiss()

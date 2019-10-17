@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.kotlin.viaggio.view.traveling.day_trip.TravelDayTripFragment.ViewHandler"/>
+        <import type="com.kotlin.viaggio.view.traveling.day_trip.TravelDayTripFragmentViewModel"/>
+
+        <variable name="viewModel" type="TravelDayTripFragmentViewModel"/>
+        <variable name="viewHandler" type="ViewHandler"/>
+    </data>
+    <FrameLayout android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:background="@android:color/transparent"
+    >
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@id/travelingContainer"
+                android:background="@color/white_three">
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@id/travelDayTripList"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:scrollbarSize="5dp"
+                    android:background="@color/white_three"
+                    android:scrollbarThumbVertical="@color/brown_grey"
+                    android:scrollbars="vertical"
+                    android:overScrollMode="never"
+                    app:layout_constraintTop_toBottomOf="@id/travelAdd"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+
+            />
+            <View
+                    android:layout_width="3.5dp"
+                    android:layout_height="0dp"
+                    android:background="@color/colorPrimary"
+                    android:visibility="@{viewModel.notEmpty ? View.VISIBLE:View.GONE}"
+                    app:layout_constraintStart_toStartOf="@id/travelDayTripList"
+                    app:layout_constraintEnd_toEndOf="@id/travelDayTripList"
+                    app:layout_constraintTop_toTopOf="@id/travelDayTripList"
+                    app:layout_constraintBottom_toBottomOf="@id/travelDayTripList"
+                    />
+            <com.google.android.material.button.MaterialButton
+                    android:id="@id/travelAdd"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="15dp"
+                    android:textColor="@color/almost_black"
+                    android:text="@string/travel_card_enroll_notice"
+                    android:layout_marginTop="@dimen/common_top"
+                    android:layout_marginStart="@dimen/common_margin"
+                    android:layout_marginEnd="@dimen/common_margin"
+                    android:letterSpacing="-0.02"
+                    android:onClick="@{()->viewHandler.enroll()}"
+                    app:rippleColor="@color/rippleColor"
+                    app:cornerRadius="10dp"
+                    app:backgroundTint="@color/very_light_pink_three"
+                    app:layout_constraintTop_toBottomOf="@id/toolbar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="SpUsage"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="13.5sp"
+                    android:textColor="@color/very_light_pink"
+                    android:lineSpacingExtra="2.5sp"
+                    android:gravity="center_horizontal"
+                    android:fontFamily="sans-serif-medium"
+                    android:visibility="@{viewModel.notEmpty ? View.GONE:View.VISIBLE}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="@string/travel_card_empty_notice"
+            />
+            <View
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@color/white_three"
+            />
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/back"
+                    style="@style/ViewStyle.Viaggio.Back"
+                    android:layout_marginTop="0dp"
+                    android:onClick="@{()->viewHandler.close()}"
+                    app:layout_constraintTop_toTopOf="@id/toolbar"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                    app:layout_constraintStart_toStartOf="parent"
+            />
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLength="10"
+                    android:text="@{viewModel.title}"
+                    android:textAppearance="@style/TextAppearance.Viaggio.Navigation.Scroll"
+                    tools:text="재미가 있는 여행입니다"
+                    app:layout_constraintTop_toTopOf="@id/toolbar"
+                    app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+            />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

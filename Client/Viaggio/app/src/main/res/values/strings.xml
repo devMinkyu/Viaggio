@@ -48,7 +48,7 @@
 
     <string name="tutorial_skip">건너뛰기</string>
     <string name="sign_in_sign">로그인 하기</string>
-    <string name="google_login_contents">Sign in with Google</string>
+    <string name="google_login_contents">구글 로그인</string>
     <string name="tutorial_login">로그인</string>
     <string name="sign_in_email">이메일</string>
     <string name="sign_in_password">비밀번호</string>
@@ -76,8 +76,8 @@
     <string name="travel_overseas">✈ 해외 여행</string>
     <string name="travel_overseas_subtitle">세계 곳곳을 다니면서 행복한 여행의 기억을 남기세요!</string>
     <string name="travel_domestic">🇰🇷 국내 여행</string>
-    <string name="travel_domestic_subtitle">외국 만큼 좋은 여행지가 많은 국내 여행의 기억을 남기세요!</string>
-    <string name="travel_day_trip">당일 치기 여행</string>
+    <string name="travel_domestic_subtitle">외국 만큼 좋은 여행지가 많은 국내 여행을 남기세요!</string>
+    <string name="travel_day_trip">⚡ 당일 치기 여행</string>
     <string name="travel_day_trip_subtitle">바쁜 일상에서 벗어나 당일치기 여행을 기억에 남기세요!</string>
     <string name="travel_before_overseas">다녀온 해외 여행</string>
     <string name="travel_before_overseas_subtitle">아쉬웠던 해외 여행의 추억을\n다시 생각 하면서 남기는 것이 어떨까요?</string>

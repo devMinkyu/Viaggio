@@ -102,6 +102,7 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
             }
         }
         fun googleSingIn() {
+            showLoading()
             val signInIntent = getViewModel().googleSignInClient.signInIntent
             startActivityForResult(signInIntent, GOOGLE_SIGN_CODE)
         }

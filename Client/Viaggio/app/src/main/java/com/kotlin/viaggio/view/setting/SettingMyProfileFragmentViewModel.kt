@@ -87,12 +87,12 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
         val disposable = if(imageName == image){
             userModel.updateUser(name.get()!!, prefUtilService.getString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE_URL).blockingGet())
         }else{
-            userModel.userProfile(imageName)
+            if (TextUtils.isEmpty(image).not()) {
+                File(image).delete()
+            }
+            userModel.userProfile(imageName, email.get()!!)
                 .flatMap {imageName ->
-                    if (TextUtils.isEmpty(image).not()) {
-//                        amazonS3Client.deleteObject(BuildConfig.S3_UPLOAD_BUCKET, "users/${image.split("/").last()}/${image}")
-                        File(image).delete()
-                    }
+
                     if(newAws) {
                         imageAwsSave(imageName)
                     } else {

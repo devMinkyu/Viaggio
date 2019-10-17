@@ -44,6 +44,7 @@
                 android:id="@id/travelOverseasSubTitle"
                 style="@style/ViewStyle.Viaggio.Kinds.Sub"
                 android:text="@string/travel_overseas_subtitle"
+                android:lineSpacingExtra="5sp"
                 app:layout_constraintTop_toBottomOf="@id/travelOverseasTitle"
                 app:layout_constraintStart_toStartOf="@id/travelOverseasTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
@@ -93,6 +94,7 @@
                 android:id="@id/travelDomesticSubTitle"
                 style="@style/ViewStyle.Viaggio.Kinds.Sub"
                 android:text="@string/travel_domestic_subtitle"
+                android:lineSpacingExtra="5sp"
                 app:layout_constraintTop_toBottomOf="@id/travelDomesticTitle"
                 app:layout_constraintStart_toStartOf="@id/travelDomesticTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
@@ -144,6 +146,7 @@
                 android:id="@id/travelDayTripSubTitle"
                 style="@style/ViewStyle.Viaggio.Kinds.Sub"
                 android:text="@string/travel_day_trip_subtitle"
+                android:lineSpacingExtra="5sp"
                 app:layout_constraintStart_toStartOf="@id/travelDayTripTitle"
                 app:layout_constraintTop_toBottomOf="@id/travelDayTripTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
@@ -164,7 +167,7 @@
                 android:layout_height="60dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 app:rippleColor="@color/rippleColor"
-                android:onClick='@{()->viewHandler.selectBeforeKinds(0)}'
+                android:onClick='@{()->viewHandler.selectBeforeKinds(2)}'
                 app:layout_constraintStart_toStartOf="@id/travelDayTripTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelDayTripStart"
                 app:layout_constraintTop_toTopOf="@id/travelDayTripTitle"
@@ -195,6 +198,7 @@
                 android:id="@id/travelBeforeOverseasSubTitle"
                 style="@style/ViewStyle.Viaggio.Kinds.Sub"
                 android:text="@string/travel_before_overseas_subtitle"
+                android:lineSpacingExtra="5sp"
                 app:layout_constraintStart_toStartOf="@id/travelBeforeOverseasTitle"
                 app:layout_constraintTop_toBottomOf="@id/travelBeforeOverseasTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
@@ -243,6 +247,7 @@
         <TextView
                 android:id="@id/travelBeforeDomesticSubTitle"
                 style="@style/ViewStyle.Viaggio.Kinds.Sub"
+                android:lineSpacingExtra="5sp"
                 android:text="@string/travel_before_domestic_subtitle"
                 app:layout_constraintTop_toBottomOf="@id/travelBeforeDomesticTitle"
                 app:layout_constraintStart_toStartOf="@id/travelBeforeDomesticTitle"

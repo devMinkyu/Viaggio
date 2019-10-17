@@ -2,6 +2,7 @@ package com.kotlin.viaggio.view.common
 
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -85,6 +86,16 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
     fun hideKeyBoard(view: View) {
         activity?.let {
             (it as BaseActivity<*>).hideKeyBoard(view)
+        }
+    }
+    fun checkInternet():Boolean{
+        val cm = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+        return activeNetwork != null
+    }
+    fun showNetWorkError(){
+        activity?.let {
+            (it as BaseActivity<*>).showNetWorkError()
         }
     }
 

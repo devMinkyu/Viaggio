@@ -57,7 +57,6 @@ interface ViaggioApiService {
     @GET("api/v1/users/logout")
     fun logOut(): Single<Response<Any>>
 
-
     // travel
     @POST("api/v1/my/travels")
     fun uploadTravel(

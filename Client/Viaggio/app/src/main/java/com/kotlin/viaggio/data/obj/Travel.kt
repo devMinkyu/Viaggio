@@ -90,5 +90,6 @@ data class TravelCardValue(
     var country:String = "",
     var theme: String = "",
     var imageName: String = "",
-    var content: String = ""
+    var content: String = "",
+    var time: String = ""
 )

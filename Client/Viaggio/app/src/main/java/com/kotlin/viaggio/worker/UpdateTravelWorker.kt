@@ -76,6 +76,7 @@ class UpdateTravelWorker @Inject constructor(context: Context, params: WorkerPar
                                         }
                                     }
                                     override fun onError(id: Int, ex: Exception?) {
+                                        emitter.onError(ex as Throwable)
                                     }
                                 })
                             }.subscribeOn(Schedulers.io())

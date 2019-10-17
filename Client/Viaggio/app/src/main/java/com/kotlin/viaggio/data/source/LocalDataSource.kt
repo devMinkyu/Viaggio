@@ -222,7 +222,7 @@ class LocalDataSource @Inject constructor() {
             }
         }).subscribeOn(Schedulers.io())
             .flatMap {
-                recordImage(arrayOf(it.absolutePath))
+                recordImage(arrayOf(it.absolutePath), "")
             }
     }
     fun cacheFile(bitmaps: List<Bitmap>): Single<List<String>> {
@@ -240,10 +240,10 @@ class LocalDataSource @Inject constructor() {
             emitter.onSuccess(result)
         }).subscribeOn(Schedulers.io())
             .flatMap {
-                recordImage(it.toTypedArray())
+                recordImage(it.toTypedArray(), "")
             }
     }
-    fun recordImage(fileNames: Array<String>):Single<List<String>> {
+    fun recordImage(fileNames: Array<String>, profile:String):Single<List<String>> {
         return Single.create(SingleOnSubscribe<List<String>> {
             val imageListUri:MutableList<String> = mutableListOf()
             for ((index, fileName) in fileNames.withIndex()) {
@@ -281,10 +281,14 @@ class LocalDataSource @Inject constructor() {
                     }
                     try {
                         if(imageDir.exists()){
-                            val imgName = String.format(
-                                Locale.getDefault(),
-                                IMG_NAME_FORMAT, System.currentTimeMillis(), index)
-                            val imgNameHash = encryption.encryptionValue(imgName)
+                            val imgNameHash = if(TextUtils.isEmpty(profile)) {
+                                val imgName = String.format(
+                                    Locale.getDefault(),
+                                    IMG_NAME_FORMAT, System.currentTimeMillis(), index)
+                                encryption.encryptionValue(imgName)
+                            } else {
+                                profile
+                            }
                             val localFile = File(imageDir, "$imgNameHash.jpg")
                             localFile.createNewFile()
 
