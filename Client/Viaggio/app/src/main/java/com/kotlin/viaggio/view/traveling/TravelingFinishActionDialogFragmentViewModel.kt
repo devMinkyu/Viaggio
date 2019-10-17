@@ -35,7 +35,6 @@ class TravelingFinishActionDialogFragmentViewModel @Inject constructor() : BaseV
                 completables.add(prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, false))
                 completables.add(prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_KINDS, -1))
                 completables.add(prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, 0))
-                completables.add(prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, 0))
                 completables.add(prefUtilService.putString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES, ""))
                 completables.add(prefUtilService.putLong(AndroidPrefUtilService.Key.TRAVELING_ID, 0))
 

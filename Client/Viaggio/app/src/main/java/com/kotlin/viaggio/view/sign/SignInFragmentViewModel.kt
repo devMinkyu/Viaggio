@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.sign
 
+import android.content.res.Resources
 import android.text.TextUtils
 import android.util.Log
 import androidx.databinding.ObservableBoolean
@@ -10,6 +11,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.kotlin.viaggio.BuildConfig
+import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.Error
 import com.kotlin.viaggio.data.obj.SignError
 import com.kotlin.viaggio.event.Event
@@ -18,6 +20,7 @@ import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.view.sign.common.Encryption
 import com.tag_hive.saathi.saathi.error.InvalidFormException
 import io.reactivex.Maybe
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,6 +30,8 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
     lateinit var userModel: UserModel
     @Inject
     lateinit var encryption: Encryption
+    @Inject
+    lateinit var resources: Resources
     lateinit var googleSignInClient: GoogleSignInClient
     val email = ObservableField<String>().apply {
         addOnPropertyChangedCallback(object :androidx.databinding.Observable.OnPropertyChangedCallback(){
@@ -46,6 +51,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
 
     private var validateFormDisposable: Disposable? = null
     val error: MutableLiveData<Event<SignError>> = MutableLiveData()
+    val googleErrorMsg = MutableLiveData<Event<String>>()
     var complete: MutableLiveData<Event<Any>> = MutableLiveData()
 
     override fun initialize() {
@@ -81,9 +87,10 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
         val encryptionPassword = encryption.encryptionValue(password.get()!!)
 
         val disposable = userModel.signIn(email.get()!!, encryptionPassword)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({ t1->
                 if(t1.isSuccessful){
-                    complete.postValue(Event(Any()))
+                    complete.value = Event(Any())
                 }else{
                     val errorMsg: Error = gson.fromJson(t1.errorBody()?.string(), Error::class.java)
                     when(errorMsg.message){
@@ -99,7 +106,20 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
 
     fun handleSignInResult(account: GoogleSignInAccount?) {
         account?.idToken?.let { idToken ->
-            Log.d("hoho", idToken)
+            userModel.googleSignIn(idToken)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if(it.isSuccessful) {
+                        complete.value = Event(Any())
+                    } else {
+                        val errorMsg: Error = gson.fromJson(it.errorBody()?.string(), Error::class.java)
+                        when(errorMsg.message){
+                            400 -> googleErrorMsg.value = Event(resources.getString(R.string.err_exist_email))
+                        }
+                    }
+                }) {
+                    Timber.d(it)
+                }
         }
     }
 }

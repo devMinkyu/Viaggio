@@ -1,10 +1,12 @@
 package com.kotlin.viaggio.model
 
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
+import com.kotlin.viaggio.data.obj.GoogleSignInBody
 import com.kotlin.viaggio.data.obj.ViaggioApiAWSAuth
 import com.kotlin.viaggio.data.obj.ViaggioApiAuth
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.ViaggioApiService
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
@@ -17,21 +19,26 @@ class UserModel @Inject constructor() :BaseModel(){
     @Inject
     lateinit var api: ViaggioApiService
     @Inject
-    lateinit var pref: AndroidPrefUtilService
-    @Inject
     lateinit var config: DeveloperAuthenticationProvider
     @Inject
-    lateinit var prefUtilService: AndroidPrefUtilService
+    lateinit var pref: AndroidPrefUtilService
+
+    fun googleSignIn(idToken:String) : Single<Response<ViaggioApiAuth>> {
+        return api.googleSignIn(GoogleSignInBody(idToken))
+            .doOnSuccess {
+                it.body()?.also { auth ->
+                    saveUserInformation(auth)
+                    config.setInfo(auth.AWS_IdentityId, auth.AWS_Token)
+                }
+            }
+            .subscribeOn(Schedulers.io())
+    }
 
     fun signIn(email:String, password:String):Single<Response<ViaggioApiAuth>> =
             api.signIn(email = email, passwordHash = password)
                 .doOnSuccess {
                     it.body()?.also {auth ->
-                        prefUtilService.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token).blockingAwait()
-                        prefUtilService.putString(AndroidPrefUtilService.Key.USER_ID, auth.email).blockingAwait()
-                        prefUtilService.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).blockingAwait()
-                        pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId).blockingAwait()
-                        pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token).blockingAwait()
+                        saveUserInformation(auth)
                         config.setInfo(auth.AWS_IdentityId, auth.AWS_Token)
                     }
                 }
@@ -41,11 +48,7 @@ class UserModel @Inject constructor() :BaseModel(){
         return api.signUp(name = name, email = email, passwordHash2 = password2, passwordHash = password)
             .doOnSuccess {
                 it.body()?.also {auth ->
-                    prefUtilService.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token).blockingAwait()
-                    prefUtilService.putString(AndroidPrefUtilService.Key.USER_ID, auth.email).blockingAwait()
-                    prefUtilService.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name).blockingAwait()
-                    pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId).blockingAwait()
-                    pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token).blockingAwait()
+                    saveUserInformation(auth)
                     config.setInfo(auth.AWS_IdentityId, auth.AWS_Token)
                 }
             }
@@ -55,9 +58,12 @@ class UserModel @Inject constructor() :BaseModel(){
         return api.getAws()
             .doOnSuccess {
                 it.body()?.also {auth ->
-                    pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId).blockingAwait()
-                    pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token).blockingAwait()
-                    pref.putBool(AndroidPrefUtilService.Key.NEW_AWS, true).blockingAwait()
+                    Completable.mergeArray(
+                        pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId),
+                        pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token),
+                        pref.putBool(AndroidPrefUtilService.Key.NEW_AWS, true)
+                    )
+                    .blockingAwait()
                     config.setInfo(auth.AWS_IdentityId, auth.AWS_Token)
                 }
             }
@@ -81,4 +87,16 @@ class UserModel @Inject constructor() :BaseModel(){
 
     fun logOut(): Single<Response<Any>> = api.logOut()
         .subscribeOn(Schedulers.io())
+
+    private fun saveUserInformation(auth:ViaggioApiAuth) {
+        Completable.mergeArray(
+            pref.putString(AndroidPrefUtilService.Key.USER_ID, auth.email),
+            pref.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token),
+            pref.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name),
+            pref.putBool(AndroidPrefUtilService.Key.GOOGLE_LOGIN, auth.isGoogleId),
+            pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId),
+            pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token),
+            pref.putBool(AndroidPrefUtilService.Key.NEW_AWS, true)
+        ).blockingAwait()
+    }
 }

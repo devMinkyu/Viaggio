@@ -274,4 +274,8 @@
     <item name="googleInBtn" type="id" />
     <item name="homeLgl" type="id" />
     <item name="homeRgl" type="id" />
+    <item name="travelDayTripTitle" type="id" />
+    <item name="travelDayTripLgl" type="id" />
+    <item name="travelDayTripSubTitle" type="id" />
+    <item name="travelDayTripStart" type="id" />
 </resources>

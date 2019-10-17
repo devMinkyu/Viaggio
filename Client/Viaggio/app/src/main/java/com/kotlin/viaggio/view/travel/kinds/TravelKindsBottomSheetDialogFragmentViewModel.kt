@@ -13,18 +13,7 @@ class TravelKindsBottomSheetDialogFragmentViewModel @Inject constructor() : Base
         travel = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING, false).blockingGet()
     }
 
-    fun selectKind(kinds: String){
-        when(kinds){
-            "overseas" ->{
-                prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVEL_KINDS, 0).blockingAwait()
-            }
-            "domestic" ->{
-                prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVEL_KINDS, 1).blockingAwait()
-            }
-        }
-    }
-
-    fun travelType(i: Int) {
-        rxEventBus.travelType.onNext(i)
+    fun selectKind(kinds: Int){
+        prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVEL_KINDS, kinds).blockingAwait()
     }
 }

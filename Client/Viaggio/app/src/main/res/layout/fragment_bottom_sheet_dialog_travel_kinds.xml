@@ -45,7 +45,9 @@
                 style="@style/ViewStyle.Viaggio.Kinds.Sub"
                 android:text="@string/travel_overseas_subtitle"
                 app:layout_constraintTop_toBottomOf="@id/travelOverseasTitle"
-                app:layout_constraintStart_toStartOf="@id/travelOverseasTitle"/>
+                app:layout_constraintStart_toStartOf="@id/travelOverseasTitle"
+                app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
+                />
         <View
                 android:id="@id/travelOverseasLgl"
                 android:layout_width="0dp"
@@ -63,7 +65,7 @@
                 android:layout_height="60dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 app:rippleColor="@color/rippleColor"
-                android:onClick='@{()->viewHandler.selectedKinds("overseas")}'
+                android:onClick='@{()->viewHandler.selectedKinds(0)}'
                 app:layout_constraintStart_toStartOf="@id/travelOverseasTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelOverseasStart"
                 app:layout_constraintTop_toTopOf="@id/travelOverseasTitle"
@@ -93,6 +95,7 @@
                 android:text="@string/travel_domestic_subtitle"
                 app:layout_constraintTop_toBottomOf="@id/travelDomesticTitle"
                 app:layout_constraintStart_toStartOf="@id/travelDomesticTitle"
+                app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
         />
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@id/travelDomesticStart"
@@ -110,7 +113,7 @@
                 android:layout_height="60dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 app:rippleColor="@color/rippleColor"
-                android:onClick='@{()->viewHandler.selectedKinds("domestic")}'
+                android:onClick='@{()->viewHandler.selectedKinds(1)}'
                 app:layout_constraintStart_toStartOf="@id/travelDomesticTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelDomesticStart"
                 app:layout_constraintTop_toTopOf="@id/travelDomesticTitle"
@@ -130,10 +133,61 @@
         />
 
         <TextView
+                android:id="@id/travelDayTripTitle"
+                style="@style/ViewStyle.Viaggio.Kinds"
+                android:text="@string/travel_day_trip"
+                app:layout_constraintTop_toBottomOf="@id/travelDomesticLgl"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                />
+        <TextView
+                android:id="@id/travelDayTripSubTitle"
+                style="@style/ViewStyle.Viaggio.Kinds.Sub"
+                android:text="@string/travel_day_trip_subtitle"
+                app:layout_constraintStart_toStartOf="@id/travelDayTripTitle"
+                app:layout_constraintTop_toBottomOf="@id/travelDayTripTitle"
+                app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
+                />
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@id/travelDayTripStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/travel_kind_margin"
+                android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/travelDayTripTitle"
+                app:layout_constraintBottom_toBottomOf="@id/travelDayTripSubTitle"
+                tools:ignore="PrivateResource"/>
+
+        <com.google.android.material.button.MaterialButton
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:rippleColor="@color/rippleColor"
+                android:onClick='@{()->viewHandler.selectBeforeKinds(0)}'
+                app:layout_constraintStart_toStartOf="@id/travelDayTripTitle"
+                app:layout_constraintEnd_toEndOf="@id/travelDayTripStart"
+                app:layout_constraintTop_toTopOf="@id/travelDayTripTitle"
+                app:layout_constraintBottom_toBottomOf="@id/travelDayTripSubTitle"
+                />
+        <View
+                android:id="@id/travelDayTripLgl"
+                android:layout_width="0dp"
+                android:layout_height="0.3dp"
+                android:background="@color/ice_blue"
+                android:layout_marginTop="13dp"
+                android:layout_marginStart="@dimen/travel_kind_margin"
+                android:layout_marginEnd="@dimen/travel_kind_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelDayTripSubTitle"
+                />
+
+        <TextView
                 android:id="@id/travelBeforeOverseasTitle"
                 style="@style/ViewStyle.Viaggio.Kinds"
                 android:text="@string/travel_before_overseas"
-                app:layout_constraintTop_toBottomOf="@id/travelDomesticLgl"
+                app:layout_constraintTop_toBottomOf="@id/travelDayTripLgl"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintVertical_chainStyle="packed"
         />
@@ -143,6 +197,7 @@
                 android:text="@string/travel_before_overseas_subtitle"
                 app:layout_constraintStart_toStartOf="@id/travelBeforeOverseasTitle"
                 app:layout_constraintTop_toBottomOf="@id/travelBeforeOverseasTitle"
+                app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
         />
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@id/travelBeforeOverseasStart"
@@ -160,7 +215,7 @@
                 android:layout_height="60dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 app:rippleColor="@color/rippleColor"
-                android:onClick='@{()->viewHandler.selectBeforeKinds("overseas")}'
+                android:onClick='@{()->viewHandler.selectBeforeKinds(0)}'
                 app:layout_constraintStart_toStartOf="@id/travelBeforeOverseasTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
                 app:layout_constraintTop_toTopOf="@id/travelBeforeOverseasTitle"
@@ -191,6 +246,7 @@
                 android:text="@string/travel_before_domestic_subtitle"
                 app:layout_constraintTop_toBottomOf="@id/travelBeforeDomesticTitle"
                 app:layout_constraintStart_toStartOf="@id/travelBeforeDomesticTitle"
+                app:layout_constraintEnd_toEndOf="@id/travelBeforeOverseasStart"
         />
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@id/travelBeforeDomesticStart"
@@ -207,7 +263,7 @@
                 android:layout_height="60dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 app:rippleColor="@color/rippleColor"
-                android:onClick='@{()->viewHandler.selectBeforeKinds("domestic")}'
+                android:onClick='@{()->viewHandler.selectBeforeKinds(1)}'
                 app:layout_constraintStart_toStartOf="@id/travelBeforeDomesticTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelBeforeDomesticStart"
                 app:layout_constraintTop_toTopOf="@id/travelBeforeDomesticTitle"

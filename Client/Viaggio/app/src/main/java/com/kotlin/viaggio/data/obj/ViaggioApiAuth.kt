@@ -4,7 +4,9 @@ data class ViaggioApiAuth(
     var email: String = "",
     var name: String = "",
     val token: String,
-    val AWS_IdentityId: String, val AWS_Token: String
+    val AWS_IdentityId: String,
+    val AWS_Token: String,
+    val isGoogleId:Boolean = false
 )
 //var imageUrl: String = "",
 data class ViaggioApiTravelsData(var localId: Long = 0, var serverId: Int)
@@ -21,5 +23,6 @@ data class ViaggioApiSyncId(val localId: Long, val serverId: Int)
 data class ViaggioApiTheme(var themes:List<Theme>)
 data class ViaggioApiCountry(var contries: List<Country>)
 data class ViaggioApiDomestics(var domestics: List<Country>)
+
 
 

@@ -141,7 +141,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                         }
                         "domestic" -> showTravelingDomesticCountry()
                         "city" -> {
-                            getViewModel().travelType = appLinkData.pathSegments[1].toInt()
                             showTravelingCity()
                         }
                         "card" -> showTravelingEnroll()
@@ -248,11 +247,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showTravelingCity() {
-        val frag = TravelingCityFragment()
-        val arg = Bundle()
-        arg.putInt(ArgName.TRAVEL_TYPE.name, getViewModel().travelType)
-        frag.arguments = arg
-        baseShowTopAddBackFragment(frag)
+        baseShowTopAddBackFragment(TravelingCityFragment())
     }
 
     private fun showTravelingEnroll() {

@@ -14,8 +14,12 @@ import javax.inject.Singleton
 interface ViaggioApiService {
     // user
     @GET("api/v1/my/aws")
-    @Headers("No-Authentication: true")
     fun getAws(): Single<Response<ViaggioApiAWSAuth>>
+
+    @POST("api/v1/auth/googlesignin")
+    @Headers("No-Authentication: true")
+    fun googleSignIn(@Body body: GoogleSignInBody
+    ): Single<Response<ViaggioApiAuth>>
 
     @POST("api/v1/auth/signup")
     @Headers("No-Authentication: true")

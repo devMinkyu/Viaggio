@@ -141,7 +141,7 @@
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
-                        android:pathPattern="/traveling/..*\\/city/"/>
+                        android:pathPattern="/traveling/city/"/>
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"

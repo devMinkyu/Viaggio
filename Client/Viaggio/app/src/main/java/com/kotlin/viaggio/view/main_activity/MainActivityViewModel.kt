@@ -25,7 +25,6 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
     val showToast:MutableLiveData<Event<Any>> = MutableLiveData()
 
     var traveling = false
-    var travelType = 0
 
     val backButtonSubject: Subject<Long> = BehaviorSubject.createDefault(0L).toSerialized()
     override fun initialize() {
@@ -44,28 +43,7 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
                 }
             }
         addDisposable(disposable)
-
-        val cal = Calendar.getInstance()
-        val lastConnectOfDay = prefUtilService.getInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY).blockingGet()
-        val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
-        val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
-        val nextReview = prefUtilService.getBool(AndroidPrefUtilService.Key.NEXT_GIVE_REVIEW, false).blockingGet()
-
-        if ((currentConnectOfDay - lastConnectOfDay) != 0) {
-            var periodApp = prefUtilService.getInt(AndroidPrefUtilService.Key.PERIOD_APP, 0).blockingGet()?:0
-            periodApp += 1
-            prefUtilService.putInt(AndroidPrefUtilService.Key.PERIOD_APP, periodApp).blockingAwait()
-            if(TextUtils.isEmpty(token).not()){
-                prefUtilService.putBool(AndroidPrefUtilService.Key.NEW_AWS, false).blockingAwait()
-                addDisposable(userModel.getAws().subscribe())
-            }
-            if(nextReview) {
-                var nextPeriodApp = prefUtilService.getInt(AndroidPrefUtilService.Key.NEXT_REVIEW_PERIOD_APP, 0).blockingGet()?:0
-                nextPeriodApp += 1
-                prefUtilService.putInt(AndroidPrefUtilService.Key.NEXT_REVIEW_PERIOD_APP, nextPeriodApp).blockingAwait()
-            }
-        }
-
+        fetchDay()
         if(prefUtilService.getBool(AndroidPrefUtilService.Key.FIRST_LOGIN, true).blockingGet()) {
             Completable.mergeArray(
                 prefUtilService.putBool(AndroidPrefUtilService.Key.FIRST_LOGIN, false),
@@ -75,6 +53,41 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
             .blockingAwait()
             dataFetch()
         }
+    }
+
+    private fun fetchDay() {
+        val cal = Calendar.getInstance()
+        val lastConnectOfDay = prefUtilService.getInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY).blockingGet()
+        val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
+        val completableList = mutableListOf<Completable>()
+        completableList.add(prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay))
+        if ((currentConnectOfDay - lastConnectOfDay) != 0) {
+            val token = prefUtilService.getString(AndroidPrefUtilService.Key.TOKEN_ID).blockingGet()
+            val nextReview = prefUtilService.getBool(AndroidPrefUtilService.Key.NEXT_GIVE_REVIEW, false).blockingGet()
+            var periodApp = prefUtilService.getInt(AndroidPrefUtilService.Key.PERIOD_APP, 0).blockingGet()?:0
+            periodApp += 1
+            completableList.add(prefUtilService.putInt(AndroidPrefUtilService.Key.PERIOD_APP, periodApp))
+
+            if(TextUtils.isEmpty(token).not()){
+                completableList.add(prefUtilService.putBool(AndroidPrefUtilService.Key.NEW_AWS, false))
+                addDisposable(userModel.getAws().subscribe())
+            }
+            if(nextReview) {
+                var nextPeriodApp = prefUtilService.getInt(AndroidPrefUtilService.Key.NEXT_REVIEW_PERIOD_APP, 0).blockingGet()?:0
+                nextPeriodApp += 1
+                completableList.add(prefUtilService.putInt(AndroidPrefUtilService.Key.NEXT_REVIEW_PERIOD_APP, nextPeriodApp))
+            }
+
+            if(traveling) {
+                var travelingOfDayOfCount =
+                    prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet()
+                travelingOfDayOfCount += 1
+                completableList.add(prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, travelingOfDayOfCount))
+            }
+        }
+
+        val disposable = Completable.merge(completableList).subscribe()
+        addDisposable(disposable)
     }
 
     fun reviewRequest():LiveData<Boolean> {
@@ -96,9 +109,9 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
                 .blockingAwait()
                 result.value = false
             } else {
+                prefUtilService.putInt(AndroidPrefUtilService.Key.FREQUENCY_APP, frequencyApp).blockingAwait()
                 result.value = true
             }
-            prefUtilService.putInt(AndroidPrefUtilService.Key.FREQUENCY_APP, frequencyApp).blockingAwait()
         }
         return result
     }

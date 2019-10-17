@@ -27,7 +27,6 @@ class TimeCheckWorker @Inject constructor(context: Context, parameters: WorkerPa
             prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT, travelingOfDayOfCount)
                 .blockingAwait()
         }
-
         return Result.success()
     }
 }
