@@ -170,18 +170,16 @@ class TravelEnrollFragmentViewModel @Inject constructor() : BaseViewModel() {
             }
         addDisposable(disposable)
 
-        val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()
-        WorkManager.getInstance(appCtx.get()).enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name, ExistingPeriodicWorkPolicy.KEEP, timeCheckWork)
         return true
     }
 
     private fun travelingSetting(){
+        val timeCheckWork = PeriodicWorkRequestBuilder<TimeCheckWorker>(1, TimeUnit.DAYS).build()
+        WorkManager.getInstance(appCtx.get()).enqueueUniquePeriodicWork(WorkerName.TRAVELING_OF_DAY_CHECK.name, ExistingPeriodicWorkPolicy.KEEP, timeCheckWork)
+
         val cal = Calendar.getInstance()
         prefUtilService.putBool(AndroidPrefUtilService.Key.TRAVELING, true).observeOn(Schedulers.io()).blockingAwait()
         prefUtilService.putInt(AndroidPrefUtilService.Key.TRAVELING_KINDS, travelKind).observeOn(Schedulers.io()).blockingAwait()
-        val currentConnectOfDay = cal.get(Calendar.DAY_OF_MONTH)
-        prefUtilService.putInt(AndroidPrefUtilService.Key.LAST_CONNECT_OF_DAY, currentConnectOfDay)
-            .observeOn(Schedulers.io()).blockingAwait()
         val day = floor(((cal.time.time - startDate.time).toDouble() / 1000) / (24 * 60 * 60)).toInt()
         cal.time = startDate
 

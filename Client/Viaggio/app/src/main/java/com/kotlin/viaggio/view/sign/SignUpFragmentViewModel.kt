@@ -14,6 +14,7 @@ import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.view.sign.common.Encryption
 import com.tag_hive.saathi.saathi.error.InvalidFormException
 import io.reactivex.Maybe
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
 import javax.inject.Inject
@@ -100,9 +101,10 @@ class SignUpFragmentViewModel @Inject constructor() : BaseViewModel() {
         val encryptionPassword2 = encryption.encryptionValue(confirmPassword.get()!!)
 
         val disposable = userModel.signUp(name = name.get()!!, email = email.get()!!, password = encryptionPassword, password2 = encryptionPassword2)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({ t1->
                 if (t1.isSuccessful){
-                    complete.postValue(Event(Any()))
+                    complete.value = Event(Any())
                 }else{
                     val errorMsg: Error = gson.fromJson(t1.errorBody()?.string(), Error::class.java)
                     when(errorMsg.message){

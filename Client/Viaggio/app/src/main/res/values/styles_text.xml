@@ -63,15 +63,15 @@
     </style>
     <style name="TextAppearance.Viaggio.Travel.Kind">
         <item name="android:textColor">@color/charcoal_two</item>
-        <item name="android:textSize" tools:ignore="SpUsage">15.8dp</item>
+        <item name="android:textSize" tools:ignore="SpUsage">16dp</item>
         <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3.3dp</item>
         <item name="android:letterSpacing">-0.02</item>
         <item name="android:fontFamily">sans-serif-black</item>
     </style>
     <style name="TextAppearance.Viaggio.Travel.Kind.Sub">
         <item name="android:textColor">@color/brown_grey</item>
-        <item name="android:textSize" tools:ignore="SpUsage">9.5dp</item>
-        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3.3dp</item>
+        <item name="android:textSize" tools:ignore="SpUsage">12dp</item>
+        <item name="android:lineSpacingExtra">10sp</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
     <style name="TextAppearance.Viaggio.Travel.Enroll">

@@ -10,3 +10,4 @@ data class User(
     var email:String ="",
     var profileImageName:String = ""
 )
+data class GoogleSignInBody(val id_token: String)

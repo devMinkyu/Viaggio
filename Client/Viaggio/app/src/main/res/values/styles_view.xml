@@ -3,7 +3,7 @@
     </style>
 
     <style name="ViewStyle.Viaggio.Kinds">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAppearance">@style/TextAppearance.Viaggio.Travel.Kind</item>
         <item name="android:layout_marginStart">@dimen/travel_kind_margin</item>
@@ -12,6 +12,7 @@
     <style name="ViewStyle.Viaggio.Kinds.Sub">
         <item name="android:textAppearance">@style/TextAppearance.Viaggio.Travel.Kind.Sub</item>
         <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">@dimen/common_margin</item>
         <item name="android:layout_marginTop">6dp</item>
     </style>
     <style name="ViewStyle.Viaggio.Enroll">

@@ -12,7 +12,7 @@ data class Travel(
     @Suppress("ArrayInDataClass") var area: MutableList<Area> = mutableListOf(),
     var userExist: Boolean = false,
     var title: String = "재미있는 여행",
-    // 0 해외여행, 1 국내여행
+    // 0 해외여행, 1 국내여행, 2 당일치기
     var travelKind:Int =0,
     var startDate: Date? = null,
     var endDate: Date? = null,
@@ -28,7 +28,7 @@ data class TravelBody(
     var serverId: Int = 0,
     @Suppress("ArrayInDataClass") var area: MutableList<Area> = mutableListOf(),
     var title: String = "",
-    // 0 해외여행, 1 국내여행
+    // 0 해외여행, 1 국내여행, 2 당일치기
     var travelKind:Int =0,
     var startDate: String? = null,
     var endDate: String? = null,

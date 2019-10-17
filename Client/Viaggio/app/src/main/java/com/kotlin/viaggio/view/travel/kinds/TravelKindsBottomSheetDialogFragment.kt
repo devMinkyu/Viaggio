@@ -22,20 +22,17 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
         return binding.root
     }
     inner class ViewHandler{
-        fun selectedKinds(kinds: String){
+        fun selectedKinds(kinds: Int){
             if(getViewModel().travel){
                 view?.snackbar(resources.getText(R.string.traveling))
             }else{
                 getViewModel().selectKind(kinds)
-                getViewModel().travelType(0)
                 baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
                 dismiss()
             }
         }
-        fun selectBeforeKinds(kinds: String){
+        fun selectBeforeKinds(kinds: Int){
             getViewModel().selectKind(kinds)
-            getViewModel().travelType(1)
-
             baseIntent("http://viaggio.kotlin.com/home/calendar/")
             dismiss()
         }

@@ -18,6 +18,7 @@ import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_sign_in.*
+import org.jetbrains.anko.design.snackbar
 import org.jetbrains.anko.support.v4.toast
 import timber.log.Timber
 
@@ -26,12 +27,9 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
         val TAG: String = SignInFragment::class.java.simpleName
         const val GOOGLE_SIGN_CODE = 200
     }
-    override fun onStart() {
-        super.onStart()
-        activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorPrimary, null)
-    }
     override fun onResume() {
         super.onResume()
+        activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorPrimary, null)
         if (sliderInterface == null)
             sliderInterface = Slidr.replace(
                 sign_container, SlidrConfig.Builder()
@@ -87,6 +85,11 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
                 }
             }
         })
+        getViewModel().googleErrorMsg.observe(this, Observer {
+            it.getContentIfNotHandled()?.let { string ->
+                view.snackbar(string)
+            }
+        })
     }
 
     inner class ViewHandler {
@@ -115,10 +118,8 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                toast(account!!.idToken!!)
                 getViewModel().handleSignInResult(account)
             } catch (e: ApiException) {
-                toast("$e")
                 Timber.tag(TAG).d(e)
             }
         }

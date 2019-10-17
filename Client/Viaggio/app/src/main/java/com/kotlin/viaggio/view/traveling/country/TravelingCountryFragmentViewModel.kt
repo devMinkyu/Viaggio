@@ -30,7 +30,6 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
     val completeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
     val chooseAreaLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
 
-    var travelType = ObservableInt(0)
     val chooseArea:ObservableArrayList<Area> = ObservableArrayList()
 
     val isExistData = ObservableBoolean(false)
@@ -63,10 +62,6 @@ class TravelingCountryFragmentViewModel @Inject constructor() : BaseViewModel() 
         }
         addDisposable(selectedCityDisposable)
 
-        val typeDisposable = rxEventBus.travelType.subscribe {
-            travelType.set(it)
-        }
-        addDisposable(typeDisposable)
 
         val areaDisposable = rxEventBus.travelCity.subscribe {
             chooseArea.addAll(it)

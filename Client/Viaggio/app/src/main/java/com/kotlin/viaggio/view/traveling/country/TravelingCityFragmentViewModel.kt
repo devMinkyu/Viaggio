@@ -12,8 +12,6 @@ class TravelingCityFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
 
-    var travelType = 0
-
     val cityList = mutableListOf<Area>()
     val complete = MutableLiveData<Event<Any>>()
 

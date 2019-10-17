@@ -1,32 +1,22 @@
 package com.kotlin.viaggio.view.sign
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions.bitmapTransform
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.SignError
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
-import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
-    override fun onStart() {
-        super.onStart()
-        activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorPrimary, null)
-    }
-
     override fun onResume() {
         super.onResume()
         if (sliderInterface == null)
@@ -35,10 +25,6 @@ class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
                     .position(SlidrPosition.LEFT)
                     .build()
             )
-    }
-    override fun onStop() {
-        super.onStop()
-        activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.white_three, null)
     }
 
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSignUpBinding

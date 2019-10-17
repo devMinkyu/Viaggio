@@ -159,7 +159,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         inner class TravelingCountryViewHandler{
             fun selected(){
                 getViewModel().selectedCountry(binding?.data)
-                baseIntent("http://viaggio.kotlin.com/traveling/${getViewModel().travelType.get()}/city/")
+                baseIntent("http://viaggio.kotlin.com/traveling/city/")
             }
         }
     }
