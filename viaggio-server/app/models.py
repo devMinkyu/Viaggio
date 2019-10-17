@@ -9,6 +9,7 @@ class User(db.Model):
     __tablename__ = 'users'
     __table_args__ = {'mysql_collate': 'utf8_general_ci'}
     id = db.Column(db.Integer, primary_key=True)
+    googleId = db.Column(db.String(128), unique=True)
     email = db.Column(db.String(64), unique=True, index=True)
     name = db.Column(db.String(64))
     passwordHash = db.Column(db.String(128))
@@ -21,7 +22,7 @@ class User(db.Model):
         super(User, self).__init__(**kwargs)
 
     def __repr__(self):
-        return '<User %r>' % self.email, self.name, self.passwordHash, self.token, self.createdDate
+        return '<User %r>' % self.email, self.name, self.passwordHash, self.token, self.createdDate, self.googleId
 
     def as_dict(self):
         return {x.name: getattr(self, x.name) for x in self.__table__.columns}
