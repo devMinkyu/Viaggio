@@ -78,7 +78,7 @@
                             app:chipMinHeight="38dp"
                             app:chipBackgroundColor="@color/very_light_pink_three"
                             app:chipCornerRadius="5dp"
-                            android:text="@{@string/travel_card_count(viewModel.dayCount)}"
+                            android:text="@{viewModel.dateOfTime}"
                             android:onClick="@{() -> viewHandler.changeDayCount()}"
                             tools:text="와이너리"
                             tools:ignore="SpUsage"/>
@@ -99,7 +99,7 @@
                             app:chipMinHeight="38dp"
                             app:chipBackgroundColor="@color/very_light_pink_three"
                             app:chipCornerRadius="5dp"
-                            android:text="@{viewModel.country}"
+                            android:text="@{viewModel.mCountry}"
                             android:onClick="@{() -> viewHandler.changeCountry()}"
                             tools:text="보스니아카르비아수_아테나"
                             tools:ignore="SpUsage"/>

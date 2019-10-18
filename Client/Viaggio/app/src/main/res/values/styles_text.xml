@@ -108,25 +108,25 @@
         <item name="android:letterSpacing">-0.02</item>
     </style>
 
-    <style name="TextAppearance.Viaggio.Calendar">
-        <item name="android:textSize" tools:ignore="SpUsage">14dp</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:fontFamily">@font/rubik_medium</item>
-    </style>
-    <style name="TextAppearance.Viaggio.Calendar.Month">
-        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">2.5dp</item>
-    </style>
-    <style name="TextAppearance.Viaggio.Calendar.Week">
-        <item name="android:textSize" tools:ignore="SpUsage">11dp</item>
-        <item name="android:textColor">@color/brown_grey_four</item>
-        <item name="android:fontFamily">@font/rubik</item>
-        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">2dp</item>
-    </style>
-    <style name="TextAppearance.Viaggio.Calendar.Day">
-        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3.8dp</item>
-        <item name="android:textColor">@color/calendar_color</item>
-        <item name="android:fontFamily">@font/rajdhani_medium</item>
-    </style>
+<!--    <style name="TextAppearance.Viaggio.Calendar">-->
+<!--        <item name="android:textSize" tools:ignore="SpUsage">14dp</item>-->
+<!--        <item name="android:textColor">@color/black</item>-->
+<!--        <item name="android:fontFamily">@font/rubik_medium</item>-->
+<!--    </style>-->
+<!--    <style name="TextAppearance.Viaggio.Calendar.Month">-->
+<!--        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">2.5dp</item>-->
+<!--    </style>-->
+<!--    <style name="TextAppearance.Viaggio.Calendar.Week">-->
+<!--        <item name="android:textSize" tools:ignore="SpUsage">11dp</item>-->
+<!--        <item name="android:textColor">@color/brown_grey_four</item>-->
+<!--        <item name="android:fontFamily">@font/rubik</item>-->
+<!--        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">2dp</item>-->
+<!--    </style>-->
+<!--    <style name="TextAppearance.Viaggio.Calendar.Day">-->
+<!--        <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3.8dp</item>-->
+<!--        <item name="android:textColor">@color/calendar_color</item>-->
+<!--        <item name="android:fontFamily">@font/rajdhani_medium</item>-->
+<!--    </style>-->
     <style name="TextAppearance.Viaggio.Lock">
         <item name="android:lineSpacingExtra" tools:ignore="SpUsage">3.8dp</item>
         <item name="android:textColor">@color/almost_black</item>

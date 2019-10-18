@@ -104,7 +104,7 @@ class TravelDayTripFragment : BaseFragment<TravelDayTripFragmentViewModel>() {
                         if (it.imageNames.isNotEmpty()) it.imageNames[Random.nextInt(it.imageNames.size)] else ""
                     travelId = it.travelLocalId
                     travelOfDay = it.travelOfDay
-                    time = SimpleDateFormat("a h:mm", Locale.US).format(it.date)
+                    time = SimpleDateFormat("a h:mm", Locale.getDefault()).format(it.time)
                 }
             }
             when(holder){

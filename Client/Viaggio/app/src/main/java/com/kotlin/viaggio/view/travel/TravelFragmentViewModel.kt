@@ -36,6 +36,7 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
         travelOption.add(appCtx.get().resources.getString(R.string.total))
         travelOption.add(appCtx.get().resources.getString(R.string.travel_overseas))
         travelOption.add(appCtx.get().resources.getString(R.string.travel_domestic))
+        travelOption.add(appCtx.get().resources.getString(R.string.travel_day_trip))
 
         travelingId = prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
 
@@ -84,18 +85,13 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun optionCheck(position:Int){
-        when(position){
-            0 ->{
-                travelListLiveData.postValue(Event(travelList))
-            }
-            1 ->{
-                val list = travelList.filter { it.travelKind == 0 }
-                travelListLiveData.postValue(Event(list))
-            }
-            2 ->{
-                val list = travelList.filter { it.travelKind == 1 }
-                travelListLiveData.postValue(Event(list))
-            }
+        val list = when(position){
+            0 -> travelList
+            1 -> travelList.filter { it.travelKind == 0 }
+            2 -> travelList.filter { it.travelKind == 1 }
+            3 -> travelList.filter { it.travelKind == 2 }
+            else -> travelList
         }
+        travelListLiveData.postValue(Event(list))
     }
 }

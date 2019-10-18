@@ -27,7 +27,11 @@ class TravelKindsBottomSheetDialogFragment : BaseBottomDialogFragment<TravelKind
                 view?.snackbar(resources.getText(R.string.traveling))
             }else{
                 getViewModel().selectKind(kinds)
-                baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
+                if(kinds == 2) {
+                    baseIntent("http://viaggio.kotlin.com/home/calendar/")
+                } else {
+                    baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
+                }
                 dismiss()
             }
         }

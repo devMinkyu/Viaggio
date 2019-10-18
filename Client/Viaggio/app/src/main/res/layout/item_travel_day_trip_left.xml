@@ -24,6 +24,8 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:onClick="@{() -> viewHandler.detail()}"
@@ -101,7 +103,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/oval"
                 android:textSize="15sp"
                 android:textColor="@color/black"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="@font/rubik_medium"
                 android:text="@{data.time}"
                 tools:text="오전 5:00"/>
     </androidx.constraintlayout.widget.ConstraintLayout>

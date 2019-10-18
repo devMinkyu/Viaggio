@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.ContentProvider
 import androidx.multidex.MultiDexApplication
 import androidx.work.Worker
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kotlin.viaggio.ioc.module.common.AndroidWorkerInjection
 import dagger.android.*
 import javax.inject.Inject
@@ -28,6 +29,7 @@ abstract class BaseApp : MultiDexApplication(), HasActivityInjector, HasServiceI
     protected abstract fun applicationInjector(): AndroidInjector<out BaseApp>
     override fun onCreate() {
         super.onCreate()
+        AndroidThreeTen.init(this)
 
         if (needToInject) {
             synchronized(this) {

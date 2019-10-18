@@ -46,7 +46,7 @@ class TravelDayTripFragmentViewModel @Inject constructor() : BaseViewModel() {
     }
 
     private fun loadTravelOfDayPaged() {
-        val factory = travelLocalModel.getTravelCardsPaging()
+        val factory = travelLocalModel.getTravelDayTripPaging()
         val pagedListBuilder = LivePagedListBuilder<Int, TravelCard>(
             factory,
             10

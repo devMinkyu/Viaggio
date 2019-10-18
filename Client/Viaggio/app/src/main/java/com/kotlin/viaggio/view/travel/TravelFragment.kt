@@ -23,6 +23,8 @@ import com.google.android.gms.ads.MobileAds
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.Traveled
+import com.kotlin.viaggio.databinding.FragmentTravelBinding
+import com.kotlin.viaggio.databinding.FragmentTravelBindingImpl
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.popup.ReviewActionDialogFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
@@ -43,7 +45,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
         super.onAttach(context)
         activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.white_three, null)
     }
-    lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelBinding
+    lateinit var binding: FragmentTravelBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_travel, container, false)
         binding.viewModel = getViewModel()
@@ -124,15 +126,15 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                     travel.id = localId
                     travel.title = title
                     travel.period = if (endDate == null) {
-                        "${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)} ~"
+                        "${SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(startDate)} ~"
                     } else {
                         if(travelKind == 2) {
-                            SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(startDate)
+                            SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(startDate)
                         } else {
                             "${SimpleDateFormat(
                                 "yyyy.MM.dd",
-                                Locale.ENGLISH
-                            ).format(startDate)} ~ ${SimpleDateFormat("yyyy.MM.dd", Locale.ENGLISH).format(endDate)}"
+                                Locale.getDefault()
+                            ).format(startDate)} ~ ${SimpleDateFormat("yyyy.MM.dd", Locale.getDefault()).format(endDate)}"
                         }
                     }
                 }

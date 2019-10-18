@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.PermissionError
 import com.kotlin.viaggio.data.obj.TravelingError
+import com.kotlin.viaggio.databinding.FragmentTravelEnrollBinding
+import com.kotlin.viaggio.databinding.FragmentTravelEnrollBindingImpl
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
@@ -23,7 +25,7 @@ class TravelEnrollFragment : BaseFragment<TravelEnrollFragmentViewModel>() {
     companion object {
         val TAG:String = TravelEnrollFragment::class.java.simpleName
     }
-    lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelEnrollBinding
+    lateinit var binding: FragmentTravelEnrollBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_travel_enroll, container, false)
         binding.viewModel = getViewModel()

@@ -92,7 +92,7 @@
                 android:id="@id/travelSpinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.3611111111"
+                app:layout_constraintWidth_percent="0.45"
                 android:background="@drawable/spinner_bg"
                 android:backgroundTint="@color/white_three"
                 app:layout_constraintStart_toStartOf="parent"

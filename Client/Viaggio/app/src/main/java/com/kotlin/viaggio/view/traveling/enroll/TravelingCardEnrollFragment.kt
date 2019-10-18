@@ -1,8 +1,10 @@
 package com.kotlin.viaggio.view.traveling.enroll
 
 import android.Manifest
+import android.app.TimePickerDialog
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +27,6 @@ import kotlinx.android.synthetic.main.fragment_traveling_card_enroll.*
 import kotlinx.android.synthetic.main.item_travel_card_theme.view.*
 import kotlinx.android.synthetic.main.item_traveling_card_img.view.*
 import org.jetbrains.anko.design.snackbar
-import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -134,19 +135,27 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
             getViewModel().saveCard()
         }
 
-        fun enrollOfTime() {
-            val cal = Calendar.getInstance()
-            getViewModel().contents.set("${getViewModel().contents.get()}\n${SimpleDateFormat(resources.getString(R.string.travel_of_day_time_pattern), Locale.ENGLISH).format(cal.time)}\n")
-
-        }
-
         fun changeCountry(){
             getViewModel().selectedCountry()
             TravelingCitiesActionDialogFragment().show(parentFragmentManager, TravelingCitiesActionDialogFragment.TAG)
         }
 
         fun changeDayCount(){
-            TravelingDayCountActionDialogFragment().show(parentFragmentManager, TravelingDayCountActionDialogFragment.TAG)
+            if(getViewModel().travel.travelKind == 2) {
+
+                val listener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+                    getViewModel().timeChange(hourOfDay, minute)
+                }
+                context?.let { mContext ->
+                    val cal = Calendar.getInstance()
+                    val dialog = TimePickerDialog(mContext, listener, cal.get(Calendar.HOUR_OF_DAY),cal.get(Calendar.MINUTE),false)
+                    dialog.show()
+                }
+
+
+            } else {
+                TravelingDayCountActionDialogFragment().show(parentFragmentManager, TravelingDayCountActionDialogFragment.TAG)
+            }
         }
     }
 

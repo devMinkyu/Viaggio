@@ -57,39 +57,48 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasSupportFrag
         return nonNullViewModelProviderVal
     }
 
-    fun baseShowLeftFragment(fragment:BaseFragment<*>){
+//    fun baseShowLeftFragment(fragment:BaseFragment<*>){
+//        supportFragmentManager.beginTransaction()
+//            .setCustomAnimations(R.anim.layout_left_in, R.anim.layout_left_out)
+//            .replace(R.id.content_frame, fragment, null)
+//            .commit()
+//    }
+//    fun baseShowTopAddBackFragment(fragment:BaseFragment<*>){
+//        supportFragmentManager.beginTransaction()
+//            .addToBackStack(null)
+//            .setCustomAnimations(R.anim.layout_top_in, R.anim.layout_top_out,R.anim.layout_pop_top_in, R.anim.layout_pop_top_out)
+//            .add(R.id.content_frame, fragment, null)
+//            .commit()
+//    }
+//    fun baseShowBottomAddBackFragment(fragment:BaseFragment<*>){
+//        supportFragmentManager.beginTransaction()
+//            .addToBackStack(null)
+//            .setCustomAnimations(R.anim.layout_bottom_in, R.anim.layout_bottom_out,R.anim.layout_pop_bottom_in, R.anim.layout_pop_bottom_out)
+//            .add(R.id.content_frame, fragment, null)
+//            .commit()
+//    }
+
+    fun transactionBaseFragment(frag:BaseFragment<*>) {
         supportFragmentManager.beginTransaction()
-            .setCustomAnimations(R.anim.layout_left_in, R.anim.layout_left_out)
-            .replace(R.id.content_frame, fragment, null)
-            .commit()
-    }
-    fun baseShowLeftAddBackFragment(fragment:BaseFragment<*>){
-        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            )
             .addToBackStack(null)
-            .setCustomAnimations(R.anim.layout_left_in, R.anim.layout_left_out,R.anim.layout_pop_left_in, R.anim.layout_pop_left_out)
-            .replace(R.id.content_frame, fragment, null)
-            .commit()
+            .add(R.id.content_frame, frag, null).commit()
     }
-    fun baseShowAddLeftAddBackFragment(fragment:BaseFragment<*>){
+    fun transactionTopFragment(frag:BaseFragment<*>) {
         supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_up,
+                R.anim.fade_out,
+                R.anim.fade_in,
+                R.anim.slide_out_down
+            )
             .addToBackStack(null)
-            .setCustomAnimations(R.anim.layout_left_in, R.anim.layout_left_out,R.anim.layout_pop_left_in, R.anim.layout_pop_left_out)
-            .add(R.id.content_frame, fragment, null)
-            .commit()
-    }
-    fun baseShowTopAddBackFragment(fragment:BaseFragment<*>){
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .setCustomAnimations(R.anim.layout_top_in, R.anim.layout_top_out,R.anim.layout_pop_top_in, R.anim.layout_pop_top_out)
-            .add(R.id.content_frame, fragment, null)
-            .commit()
-    }
-    fun baseShowBottomAddBackFragment(fragment:BaseFragment<*>){
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .setCustomAnimations(R.anim.layout_bottom_in, R.anim.layout_bottom_out,R.anim.layout_pop_bottom_in, R.anim.layout_pop_bottom_out)
-            .add(R.id.content_frame, fragment, null)
-            .commit()
+            .add(R.id.content_frame, frag, null).commit()
     }
 
     fun showLoading() {

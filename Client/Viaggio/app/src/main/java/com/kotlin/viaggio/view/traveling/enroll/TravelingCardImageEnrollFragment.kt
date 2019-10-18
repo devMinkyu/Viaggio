@@ -22,15 +22,15 @@ import kotlinx.android.synthetic.main.item_traveling_of_day_image.view.*
 
 class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFragmentViewModel>() {
     lateinit var binding: FragmentTravelingCardImageEnrollBinding
-    override fun onResume() {
-        super.onResume()
-        if (sliderInterface == null)
-            sliderInterface = Slidr.replace(
-                enroll_container, SlidrConfig.Builder()
-                    .position(SlidrPosition.TOP)
-                    .build()
-            )
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        if (sliderInterface == null)
+//            sliderInterface = Slidr.replace(
+//                enroll_container, SlidrConfig.Builder()
+//                    .position(SlidrPosition.TOP)
+//                    .build()
+//            )
+//    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_card_image_enroll, container, false)

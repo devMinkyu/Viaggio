@@ -16,13 +16,10 @@ import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.text.FirebaseVisionCloudTextRecognizerOptions
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
-import com.kotlin.viaggio.data.source.AndroidPrefUtilService
-import com.kotlin.viaggio.data.source.AppDatabase
-import com.kotlin.viaggio.data.source.MIGRATION_1_2
+import com.kotlin.viaggio.data.source.*
 import com.kotlin.viaggio.view.App
 import dagger.Module
 import dagger.Provides
-import java.util.*
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -43,7 +40,7 @@ class AppProviderModule {
     @Provides
     @Named("ApiToken")
     internal fun provideApiToken(sp: SharedPreferences): String {
-        return sp.getString(AndroidPrefUtilService.Key.TOKEN_ID.name , "")!!
+        return sp.getString(AndroidPrefUtilService.Key.TOKEN_ID.name, "")!!
     }
 
     @Provides
@@ -65,12 +62,14 @@ class AppProviderModule {
             context,
             AppDatabase::class.java, "viaggio-android-db"
         ).addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_2_3)
             .build()
     }
 
     @Provides
     @Singleton
-    internal fun provideFirebaseMlKitDeviceOcr() = FirebaseVision.getInstance().onDeviceTextRecognizer
+    internal fun provideFirebaseMlKitDeviceOcr() =
+        FirebaseVision.getInstance().onDeviceTextRecognizer
 
     @Provides
     @Singleton
@@ -90,7 +89,7 @@ class AppProviderModule {
 
     @Provides
     @Singleton
-    internal fun provideCredential(@Named("Application") context: Context , developerProvider: DeveloperAuthenticationProvider) =
+    internal fun provideCredential(@Named("Application") context: Context, developerProvider: DeveloperAuthenticationProvider) =
         CognitoCachingCredentialsProvider(
             context,
             developerProvider,
@@ -99,7 +98,7 @@ class AppProviderModule {
 
     @Provides
     @Singleton
-    internal fun provideAmazonS3(credential: CognitoCachingCredentialsProvider) :AmazonS3Client{
+    internal fun provideAmazonS3(credential: CognitoCachingCredentialsProvider): AmazonS3Client {
         val s3 = AmazonS3Client(credential, Region.getRegion(Regions.AP_NORTHEAST_2))
         s3.setRegion(Region.getRegion(Regions.US_EAST_2))
         s3.endpoint = "s3.us-east-2.amazonaws.com"

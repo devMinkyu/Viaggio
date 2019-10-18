@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -37,6 +39,7 @@ import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
 import com.kotlin.viaggio.view.traveling.image.TravelCardImageModifyFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
@@ -57,6 +60,11 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         appUpdateManager = AppUpdateManagerFactory.create(applicationContext)
         appUpdateCheck()
         handleIntent(intent)
+//        applicationContext?.let { mContext ->
+//            MobileAds.initialize(mContext)
+//            val adRequest = AdRequest.Builder().build()
+//            adView.loadAd(adRequest)
+//        }
         showHome()
 
 //        if (getViewModel().checkTutorial()) {
@@ -183,19 +191,19 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
 
     private fun showInstagrmShare() {
-        baseShowLeftAddBackFragment(TravelingInstagramShareFragment())
+        transactionBaseFragment(TravelingInstagramShareFragment())
     }
 
     private fun showTravelCardImageModify() {
-        baseShowLeftAddBackFragment(TravelCardImageModifyFragment())
+        transactionBaseFragment(TravelCardImageModifyFragment())
     }
 
     private fun showLock() {
-        baseShowAddLeftAddBackFragment(SettingLockFragment())
+        transactionBaseFragment(SettingLockFragment())
     }
 
     private fun showProfileImage() {
-        baseShowAddLeftAddBackFragment(SettingProfileImageEnrollFragment())
+        transactionBaseFragment(SettingProfileImageEnrollFragment())
     }
 
     private fun showTravelCalendar() {
@@ -203,28 +211,28 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         val arg = Bundle()
         arg.putBoolean(ArgName.TRAVEL_CALENDAR.name, true)
         frag.arguments = arg
-        baseShowBottomAddBackFragment(frag)
+        transactionTopFragment(frag)
     }
 
 
     private fun showCalendar() {
-        baseShowBottomAddBackFragment(TravelCalendarFragment())
+        transactionTopFragment(TravelCalendarFragment())
     }
 
     private fun showTravelingDomesticCountry() {
-        baseShowAddLeftAddBackFragment(TravelingDomesticsCountryFragment())
+        transactionBaseFragment(TravelingDomesticsCountryFragment())
     }
 
     private fun showChangePassword() {
-        baseShowAddLeftAddBackFragment(SettingPasswordFragment())
+        transactionBaseFragment(SettingPasswordFragment())
     }
 
     private fun showMyProfile() {
-        baseShowAddLeftAddBackFragment(SettingMyProfileFragment())
+        transactionBaseFragment(SettingMyProfileFragment())
     }
 
     private fun showOptionImage() {
-        baseShowLeftAddBackFragment(TravelingRepresentativeImageFragment())
+        transactionBaseFragment(TravelingRepresentativeImageFragment())
     }
 
     private fun showOptionDomestics() {
@@ -232,14 +240,14 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         val arg = Bundle()
         arg.putBoolean(ArgName.TRAVEL_OPTION.name, true)
         frag.arguments = arg
-        baseShowLeftAddBackFragment(frag)
+        transactionBaseFragment(frag)
     }
     private fun showOptionCountry() {
         val frag = TravelingCountryFragment()
         val arg = Bundle()
         arg.putBoolean(ArgName.TRAVEL_OPTION.name, true)
         frag.arguments = arg
-        baseShowLeftAddBackFragment(frag)
+        transactionBaseFragment(frag)
     }
 
     private fun showOptionTheme() {
@@ -247,59 +255,59 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         val arg = Bundle()
         arg.putBoolean(ArgName.TRAVEL_OPTION.name, true)
         frag.arguments = arg
-        baseShowLeftAddBackFragment(frag)
+        transactionBaseFragment(frag)
     }
 
     private fun showTravelingCity() {
-        baseShowTopAddBackFragment(TravelingCityFragment())
+        transactionTopFragment(TravelingCityFragment())
     }
 
     private fun showTravelingEnroll() {
-        baseShowAddLeftAddBackFragment(TravelingCardEnrollFragment())
+        transactionBaseFragment(TravelingCardEnrollFragment())
     }
 
     private fun showTravelingEnrollImage() {
-        baseShowTopAddBackFragment(TravelingCardImageEnrollFragment())
+        transactionTopFragment(TravelingCardImageEnrollFragment())
     }
 
     private fun showTravelEnroll() {
-        baseShowAddLeftAddBackFragment(TravelEnrollFragment())
+        transactionBaseFragment(TravelEnrollFragment())
     }
 
     private fun showSetting() {
-        baseShowTopAddBackFragment(SettingFragment())
+        transactionTopFragment(SettingFragment())
     }
     private fun showTravelDayTrip() {
-        baseShowAddLeftAddBackFragment(TravelDayTripFragment())
+        transactionBaseFragment(TravelDayTripFragment())
     }
     private fun showTraveling() {
-        baseShowAddLeftAddBackFragment(TravelingFragment())
+        transactionBaseFragment(TravelingFragment())
     }
 
     private fun showTravelingCountry() {
-        baseShowAddLeftAddBackFragment(TravelingCountryFragment())
+        transactionBaseFragment(TravelingCountryFragment())
     }
 
     private fun showTravelingRepresentative() {
-        baseShowLeftAddBackFragment(TravelingRepresentativeImageFragment())
+        transactionBaseFragment(TravelingRepresentativeImageFragment())
     }
 
 
     private fun showTravelingDetail() {
-        baseShowAddLeftAddBackFragment(TravelingDetailFragment())
+        transactionBaseFragment(TravelingDetailFragment())
     }
 
     private fun showTheme() {
-        baseShowTopAddBackFragment(ThemeFragment())
+        transactionTopFragment(ThemeFragment())
     }
 
     private fun showCamera() {
-        baseShowTopAddBackFragment(CameraFragment())
+        transactionTopFragment(CameraFragment())
     }
 
-    private fun showTutorial() {
-        baseShowLeftFragment(TutorialFragment())
-    }
+//    private fun showTutorial() {
+//        baseShowLeftFragment(TutorialFragment())
+//    }
 
     private fun showHome() {
         supportFragmentManager.beginTransaction()
@@ -309,15 +317,15 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
     }
 
     private fun showSign() {
-        baseShowAddLeftAddBackFragment(SignFragment())
+        transactionBaseFragment(SignFragment())
     }
 
     private fun showSignNormalIn() {
-        baseShowAddLeftAddBackFragment(SignInFragment())
+        transactionBaseFragment(SignInFragment())
     }
 
     private fun showSignCreate() {
-        baseShowAddLeftAddBackFragment(SignUpFragment())
+        transactionBaseFragment(SignUpFragment())
     }
 
     override fun onStart() {

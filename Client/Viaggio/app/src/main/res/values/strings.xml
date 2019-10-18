@@ -179,6 +179,7 @@
     <string name="travel_empty_data_btn">정보 가져오기</string>
     <string name="auto_complete_hint">검색어를 입력하세요.</string>
     <string name="travel_auto_selected">%s 선택되었습니다.</string>
+    <string name="travel_no_end">미정</string>
 
     <string name="in_app_update_complete">업데이트 버전 다운로드 완료</string>
     <string name="in_app_update_fail">업데이트가 취소 되었습니다.</string>
@@ -188,4 +189,7 @@
     <string name="review_next">다음에 남기기</string>
     <string name="review_contents">Viaggio가 마음에 드시나요??😍\n리뷰와✍ 평점⭐으로 알려주시면\n더욱 좋은 Viaggio로 보답하겠습니다.😎👍</string>
 
+    <string name="start_date">시작 날짜</string>
+    <string name="end_date">종료 날짜</string>
+    <string name="clear">초기화</string>
 </resources>

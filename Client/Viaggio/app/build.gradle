@@ -157,7 +157,7 @@ dependencies {
 
     //firebase
     implementation 'com.google.firebase:firebase-core:17.2.0'
-    implementation 'com.google.firebase:firebase-ml-vision:23.0.0'
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.0'
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.google.android.gms:play-services-ads:18.2.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
@@ -196,10 +196,6 @@ dependencies {
 
     // swipe close
     implementation 'com.r0adkll:slidableactivity:2.0.6'
-
-    // calendar
-    implementation 'com.github.prolificinteractive:material-calendarview:2.0.1'
-
     // image crop
     implementation 'com.naver.android.helloyako:imagecropview:1.2.2'
 
@@ -230,6 +226,9 @@ dependencies {
 
     implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.1'
     implementation 'com.github.hrskrs:InstaDotView:1.1'
+
+    implementation 'com.github.kizitonwose:CalendarView:0.2.8'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
     // fingerprint
 //    implementation "androidx.biometric:biometric:1.0.0-alpha04"
 }

@@ -31,6 +31,9 @@ interface TravelDao {
     fun updateTravel(vararg travel: Travel)
 
     // travelCard
+    @Query("SELECT * FROM travelCards WHERE travelLocalId IN(:travelId) And isDelete = 0 ORDER BY time Asc")
+    fun getTravelDayTripAsc(travelId: Long): DataSource.Factory<Int, TravelCard>
+
     @Query("SELECT * FROM travelCards WHERE travelLocalId IN(:travelId) And isDelete = 0 ORDER BY travelOfDay, date Asc")
     fun getTravelCardAsc(travelId: Long): DataSource.Factory<Int, TravelCard>
 

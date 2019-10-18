@@ -167,7 +167,7 @@
                 android:layout_height="60dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 app:rippleColor="@color/rippleColor"
-                android:onClick='@{()->viewHandler.selectBeforeKinds(2)}'
+                android:onClick='@{()->viewHandler.selectedKinds(2)}'
                 app:layout_constraintStart_toStartOf="@id/travelDayTripTitle"
                 app:layout_constraintEnd_toEndOf="@id/travelDayTripStart"
                 app:layout_constraintTop_toTopOf="@id/travelDayTripTitle"

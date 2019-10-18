@@ -118,7 +118,10 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
     fun imagePathList(imageChooseList: List<Bitmap>): Single<List<String>> {
         return localDataSource.cacheFile(imageChooseList)
     }
-
+    fun getTravelDayTripPaging(): DataSource.Factory<Int, TravelCard> {
+        val selectedTravelingId = getSelectedTravelingId().blockingGet()
+        return db.get().travelDao().getTravelDayTripAsc(selectedTravelingId)
+    }
     fun getTravelCardsPaging(): DataSource.Factory<Int, TravelCard> {
         val travelingId = getTravelingId().blockingGet()
         val selectedTravelingId = getSelectedTravelingId().blockingGet()

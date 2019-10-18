@@ -58,10 +58,10 @@ class UpdateTravelWorker @Inject constructor(context: Context, params: WorkerPar
         }
 
         if(travelCard.localId != 0L){
-            if (travelCard.imageNames.isNotEmpty()) {
+            if (travelCard.newImageNames.isNotEmpty()) {
                 userModel.getAws()
                     .flatMapCompletable {
-                        val list = travelCard.imageNames.map {
+                        val list = travelCard.newImageNames.map {
                             Single.create<String> { emitter ->
                                 val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
                                 val awsToken =
@@ -94,6 +94,7 @@ class UpdateTravelWorker @Inject constructor(context: Context, params: WorkerPar
                                     .flatMapCompletable {
                                         if (it.isSuccessful) {
                                             travelCard.userExist = true
+                                            travelCard.newImageNames = mutableListOf()
                                             travelLocalModel.updateTravelCard(travelCard)
                                         } else {
                                             Completable.complete()

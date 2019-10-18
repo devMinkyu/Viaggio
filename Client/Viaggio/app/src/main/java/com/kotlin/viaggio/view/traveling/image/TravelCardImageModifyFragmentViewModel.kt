@@ -54,6 +54,7 @@ class TravelCardImageModifyFragmentViewModel @Inject constructor() : BaseViewMod
                 val item = travelCards.firstOrNull()
                 item?.let {
                     travelCard = it
+                    travelCard.newImageNames = mutableListOf()
                     list.addAll(item.imageNames)
                 }
                 imageRemainderCount.set(String.format(appCtx.get().getString(R.string.travel_card_image_modify_total_count), 20 - list.size))
@@ -97,6 +98,7 @@ class TravelCardImageModifyFragmentViewModel @Inject constructor() : BaseViewMod
         }
         val disposable = travelLocalModel.imagePathList(imageList)
             .flatMapCompletable {
+                travelCard.newImageNames = it.toMutableList()
                 list.addAll(it)
                 travelCard.imageNames = list
                 travelCard.userExist = false

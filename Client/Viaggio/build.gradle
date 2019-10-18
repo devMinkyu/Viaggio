@@ -7,7 +7,7 @@ buildscript {
         retrofit_version= '2.6.0'
         dagger_version = '2.23.2'
         android_arch_lifecycle = '2.0.0'
-        glide_version = '4.9.0'
+        glide_version = '4.10.0'
         jetifier_version = '1.0.0-beta02'
 
         minSdkVersion = 23
