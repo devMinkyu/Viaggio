@@ -79,8 +79,10 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                     }
                 }
             }
-            if(getViewModel().imageChooseList.isNotEmpty()){
+            if(getViewModel().imageChooseList.isNotEmpty()) {
                 travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
+            } else {
+                travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageAllList.first().imageName)
             }
         })
 

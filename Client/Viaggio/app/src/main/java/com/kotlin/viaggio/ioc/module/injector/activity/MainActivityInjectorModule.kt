@@ -2,11 +2,10 @@
 
 package com.kotlin.viaggio.ioc.module.injector.activity
 
-import com.kotlin.viaggio.view.popup.BackActionDialogFragment
 import com.kotlin.viaggio.view.camera.CameraFragment
+import com.kotlin.viaggio.view.popup.BackActionDialogFragment
 import com.kotlin.viaggio.view.popup.ReviewActionDialogFragment
 import com.kotlin.viaggio.view.setting.*
-import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
@@ -17,17 +16,17 @@ import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import com.kotlin.viaggio.view.travel.option.TravelOptionBottomSheetDialogFragment
 import com.kotlin.viaggio.view.travel.option.TravelTitleBottomSheetDialogFragment
 import com.kotlin.viaggio.view.travel.option.TravelingInstagramShareFragment
+import com.kotlin.viaggio.view.travel.option.TravelingRepresentativeImageFragment
+import com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragment
+import com.kotlin.viaggio.view.traveling.TravelingDeleteActionDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCityFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment
-import com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment
-import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
-import com.kotlin.viaggio.view.travel.option.TravelingRepresentativeImageFragment
-import com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragment
-import com.kotlin.viaggio.view.traveling.TravelingDeleteActionDialogFragment
 import com.kotlin.viaggio.view.traveling.country.TravelingDomesticsCountryFragment
 import com.kotlin.viaggio.view.traveling.day_trip.TravelDayTripFragment
+import com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment
+import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.detail.TravelingImageDetailActionDialogFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
@@ -52,9 +51,6 @@ interface MainActivityInjectorModule {
 
     @ContributesAndroidInjector
     fun settingFragment(): SettingFragment
-
-    @ContributesAndroidInjector
-    fun signFragment(): SignFragment
 
     @ContributesAndroidInjector
     fun signInFragment(): SignInFragment

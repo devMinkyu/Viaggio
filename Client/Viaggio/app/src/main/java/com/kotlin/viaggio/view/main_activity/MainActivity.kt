@@ -5,8 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -20,7 +18,6 @@ import com.kotlin.viaggio.view.camera.CameraFragment
 import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.popup.ReviewActionDialogFragment
 import com.kotlin.viaggio.view.setting.*
-import com.kotlin.viaggio.view.sign.SignFragment
 import com.kotlin.viaggio.view.sign.SignInFragment
 import com.kotlin.viaggio.view.sign.SignUpFragment
 import com.kotlin.viaggio.view.theme.ThemeFragment
@@ -38,8 +35,6 @@ import com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment
 import com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment
 import com.kotlin.viaggio.view.traveling.image.TravelCardImageModifyFragment
-import com.kotlin.viaggio.view.tutorial.TutorialFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
@@ -119,7 +114,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                 "home" -> {
                     when (appLinkData.lastPathSegment) {
                         "main" -> showHome()
-                        "login" -> showSign()
                         "camera" -> showCamera()
                         "theme" -> showTheme()
                         "setting" -> showSetting()
@@ -314,10 +308,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             .setCustomAnimations(R.animator.show, 0)
             .replace(R.id.content_frame, TravelFragment(), null)
             .commit()
-    }
-
-    private fun showSign() {
-        transactionBaseFragment(SignFragment())
     }
 
     private fun showSignNormalIn() {

@@ -17,7 +17,7 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
     val imagePathList: MutableLiveData<Event<List<ImageData>>> = MutableLiveData()
     val folderNameListLiveData: MutableLiveData<Event<List<String>>> = MutableLiveData()
 
-    var entireChooseCount: Int = 1
+    var entireChooseCount: Int = 0
 
     var imageAllList: List<ImageData> = listOf()
     val imageChooseList: MutableList<String> = mutableListOf()
@@ -44,9 +44,7 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
                     imageChooseList.addAll(result)
                     if(imageAllList.isNotEmpty()) {
                         entireChooseCount = if (imageChooseList.isEmpty()) {
-                            imageChooseList.add(imageAllList[0].imageName)
-                            imageAllList[0].chooseCountList.set(1)
-                            1
+                            0
                         } else {
                             imageChooseList.size
                         }
@@ -88,8 +86,8 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
                 }
             imageAllList = result
             if(imageAllList.isNotEmpty()) {
-                imageChooseList.add(imageAllList[0].imageName)
-                imageAllList[0].chooseCountList.set(1)
+//                imageChooseList.add(imageAllList[0].imageName)
+//                imageAllList[0].chooseCountList.set(1)
                 imagePathList.value = Event(imageAllList)
                 emptyImageNotice.set("")
             } else {

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import com.kizitonwose.calendarview.model.CalendarDay
 import com.kizitonwose.calendarview.model.CalendarMonth
 import com.kizitonwose.calendarview.model.DayOwner
 import com.kizitonwose.calendarview.ui.DayBinder
@@ -76,19 +77,22 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
         val currentMonth = YearMonth.now()
         exFourCalendar.setup(
             currentMonth.minusMonths(12),
-            currentMonth.plusMonths(12),
+            currentMonth.plusMonths(2),
             daysOfWeek.first()
         )
         exFourCalendar.scrollToMonth(currentMonth)
 
 
         class DayViewContainer(view: View) : ViewContainer(view) {
-            lateinit var day: com.kizitonwose.calendarview.model.CalendarDay // Will be set when this container is bound.
+            lateinit var day: CalendarDay // Will be set when this container is bound.
             val textView = view.exFourDayText
             val roundBgView = view.exFourRoundBgView
 
             init {
                 view.setOnClickListener {
+                    if(day.date.isAfter(today)) {
+                        return@setOnClickListener
+                    }
                     val date = day.date
                     if (getViewModel().travelKind == 2 || getViewModel().option) {
                         getViewModel().startDate = date
@@ -116,7 +120,7 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
             override fun create(view: View) = DayViewContainer(view)
             override fun bind(
                 container: DayViewContainer,
-                day: com.kizitonwose.calendarview.model.CalendarDay
+                day: CalendarDay
             ) {
                 container.day = day
                 val textView = container.textView
@@ -128,38 +132,46 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
 
                 if (day.owner == DayOwner.THIS_MONTH) {
                     textView.text = day.day.toString()
-                    when {
-                        getViewModel().startDate == day.date && getViewModel().endDate == day.date -> {
-                            textView.setTextColorRes(R.color.white)
-                            roundBgView.makeVisible()
-                            roundBgView.setBackgroundResource(R.drawable.calendar_single_selected_bg)
-                        }
-                        getViewModel().startDate == day.date && getViewModel().endDate == null -> {
-                            textView.setTextColorRes(R.color.white)
-                            roundBgView.makeVisible()
-                            roundBgView.setBackgroundResource(R.drawable.calendar_single_selected_bg)
-                        }
-                        day.date == getViewModel().startDate -> {
-                            textView.setTextColorRes(R.color.white)
-                            getViewModel().updateDrawableRadius(textView)
-                            textView.background = getViewModel().startBackground
-                        }
-                        getViewModel().startDate != null && getViewModel().endDate != null && (day.date > getViewModel().startDate && day.date < getViewModel().endDate) -> {
-                            textView.setTextColorRes(R.color.white)
-                            textView.setBackgroundResource(R.drawable.calendar_continuous_selected_bg_middle)
-                        }
-                        day.date == getViewModel().endDate -> {
-                            textView.setTextColorRes(R.color.white)
-                            getViewModel().updateDrawableRadius(textView)
-                            textView.background = getViewModel().endBackground
-                        }
-                        day.date == today -> {
-                            textView.setTextColorRes(R.color.colorAccent)
-                            roundBgView.makeVisible()
-                            roundBgView.setBackgroundResource(R.drawable.calendar_today_bg)
-                        }
-                        else -> textView.setTextColorRes(R.color.greyish_brown)
+                    if (day.date.isAfter(today)) {
+                        textView.setTextColorRes(R.color.light_grey)
+                    } else {
+                        calendarDayTextColor(day, textView, roundBgView)
                     }
+                }
+            }
+
+            fun calendarDayTextColor(day:CalendarDay, textView:TextView, roundBgView:View) {
+                when {
+                    getViewModel().startDate == day.date && getViewModel().endDate == day.date -> {
+                        textView.setTextColorRes(R.color.white)
+                        roundBgView.makeVisible()
+                        roundBgView.setBackgroundResource(R.drawable.calendar_single_selected_bg)
+                    }
+                    getViewModel().startDate == day.date && getViewModel().endDate == null -> {
+                        textView.setTextColorRes(R.color.white)
+                        roundBgView.makeVisible()
+                        roundBgView.setBackgroundResource(R.drawable.calendar_single_selected_bg)
+                    }
+                    day.date == getViewModel().startDate -> {
+                        textView.setTextColorRes(R.color.white)
+                        getViewModel().updateDrawableRadius(textView)
+                        textView.background = getViewModel().startBackground
+                    }
+                    getViewModel().startDate != null && getViewModel().endDate != null && (day.date > getViewModel().startDate && day.date < getViewModel().endDate) -> {
+                        textView.setTextColorRes(R.color.white)
+                        textView.setBackgroundResource(R.drawable.calendar_continuous_selected_bg_middle)
+                    }
+                    day.date == getViewModel().endDate -> {
+                        textView.setTextColorRes(R.color.white)
+                        getViewModel().updateDrawableRadius(textView)
+                        textView.background = getViewModel().endBackground
+                    }
+                    day.date == today -> {
+                        textView.setTextColorRes(R.color.colorAccent)
+                        roundBgView.makeVisible()
+                        roundBgView.setBackgroundResource(R.drawable.calendar_today_bg)
+                    }
+                    else -> textView.setTextColorRes(R.color.greyish_brown)
                 }
             }
         }
