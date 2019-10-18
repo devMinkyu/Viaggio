@@ -8,7 +8,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.Error
 import com.kotlin.viaggio.data.obj.SignError
@@ -53,7 +52,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
     override fun initialize() {
         super.initialize()
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(BuildConfig.GOOGLE_WEB_CLIENT_ID)
+            .requestIdToken(appCtx.get().getString(R.string.server_client_id))
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(appCtx.get(), gso)

@@ -31,8 +31,9 @@
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
 -keepattributes InnerClasses
--keepattributes SourceFile
--keepattributes LineNumberTable
+-keepattributes SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+
 
 -keepattributes RuntimeVisibleAnnotations
 -keepattributes RuntimeInvisibleAnnotations

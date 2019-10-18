@@ -117,11 +117,14 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GOOGLE_SIGN_CODE) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                getViewModel().handleSignInResult(account)
-            } catch (e: ApiException) {
-                Timber.tag(TAG).d(e)
+            task.addOnCompleteListener {
+                if(it.isSuccessful) {
+                    getViewModel().handleSignInResult(task.result)
+                } else {
+                    val e = it.exception
+                    Timber.tag(TAG).d(e)
+                    throw e as Throwable
+                }
             }
         }
     }

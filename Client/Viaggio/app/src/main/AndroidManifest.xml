@@ -39,13 +39,9 @@
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="863923097a741e0e5349ccecbc0ec8db14bd5144" />
-<!--        sample api Key-->
         <meta-data
                 android:name="com.google.android.gms.ads.APPLICATION_ID"
-                android:value="@string/viaggio_admob_dev"/>
-<!--        <meta-data-->
-<!--                android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-<!--                android:value="@string/viaggio_admob"/>-->
+                android:value="@string/viaggio_admob"/>
 
         <provider
                 android:name="androidx.core.content.FileProvider"

@@ -37,7 +37,6 @@ android {
         versionCode version_code.toInteger()
         versionName version_name
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"${android_google_login_prd}\"")
         buildConfigField("String", "OPEN_WEATHER", "\"${viaggio_open_weather}\"")
         buildConfigField("String", "OPEN_WEATHER_API_KEY", "\"${viaggio_open_weather_api_key}\"")
         buildConfigField("String", "SERVER_HOST", "\"${viaggio_dev_server_host_release}\"")
@@ -53,7 +52,6 @@ android {
             buildConfigField("String", "S3_UPLOAD_BUCKET", "\"${viaggio_bucket_dev}\"")
             buildConfigField("String", "SERVER_HOST", "\"${viaggio_dev_server_host_dev}\"")
             resValue("string", "viaggio_abmob_banner_api_key", "${viaggio_admob_banner_dev}")
-            buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"${android_google_login_dev}\"")
             buildConfigField("String", "S3_POOL_ID", "\"${aws_s3_pool_id_dev}\"")
 //            applicationIdSuffix ".debug"
             minifyEnabled false
