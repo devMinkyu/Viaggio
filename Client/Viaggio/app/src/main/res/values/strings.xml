@@ -174,8 +174,8 @@
     <string name="travel_delete_fail">여행 삭제 실패. 다시 시도해주세요.</string>
     <string name="travel_delete_success">삭제가 완료되었습니다.</string>
     <string name="travel_instagram_not_install">인스타그램이 설치 되어 있지 않습니다.</string>
-    <string name="travel_option_instagram_share_story">STORIES</string>
-    <string name="travel_option_instagram_share_feed">FEED</string>
+    <string name="travel_option_instagram_share_story">스토리</string>
+    <string name="travel_option_instagram_share_feed">피드</string>
     <string name="travel_empty_data_btn">정보 가져오기</string>
     <string name="auto_complete_hint">검색어를 입력하세요.</string>
     <string name="travel_auto_selected">%s 선택되었습니다.</string>

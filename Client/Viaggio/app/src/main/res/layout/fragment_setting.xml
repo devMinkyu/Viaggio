@@ -30,6 +30,18 @@
                         android:layout_height="48.5dp"
                         app:layout_constraintTop_toTopOf="parent"
                 />
+                <com.google.android.material.button.MaterialButton
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="@{()->viewHandler.cancel()}"
+                        app:rippleColor="@color/rippleColor"
+                        app:iconGravity="textEnd"
+                        app:icon="@drawable/ic_clear_black_24dp"
+                        app:iconTint="@color/almost_black"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:ignore="PrivateResource" />
                 <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -174,10 +186,7 @@
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:visibility="@{viewModel.isLogin ? View.VISIBLE:View.GONE}"
-                        app:constraint_referenced_ids="settingMyProfile,
-                    settingEtc,settingAutoUploadCheck, settingSync,
-                    settingLogout, settingSignIn, settingProfileImg,
-                    settingName, settingEmail, settingPassword"
+                        app:constraint_referenced_ids="settingMyProfile,settingEtc,settingAutoUploadCheck,settingSync,settingLogout,settingSignIn,settingProfileImg,settingName,settingEmail,settingPassword"
                         tools:ignore="UnknownId"/>
                 <View
                         android:id="@id/settingEntire"

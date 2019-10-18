@@ -62,7 +62,7 @@ data class TravelCard(
     @Suppress("ArrayInDataClass") var newImageNames: MutableList<String> = mutableListOf(),
     var content: String = "",
     var date: Date = Date(),
-    var time: Date? = null,
+    var time: Date = Date(),
     @field:JvmField var isDelete:Boolean = false
 )
 data class TravelCardBody(

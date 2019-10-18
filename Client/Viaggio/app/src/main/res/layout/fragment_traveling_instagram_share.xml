@@ -1,156 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools" xmlns:app="http://schemas.android.com/apk/res-auto">
-    <data>
-        <import type="android.view.View"/>
-        <import type="com.kotlin.viaggio.view.travel.option.TravelingInstagramShareFragment.ViewHandler"/>
-        <import type="com.kotlin.viaggio.view.travel.option.TravelingInstagramShareFragmentViewModel"/>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-        <variable name="viewModel" type="TravelingInstagramShareFragmentViewModel"/>
-        <variable name="viewHandler" type="ViewHandler"/>
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.kotlin.viaggio.view.travel.option.TravelingInstagramShareFragment.ViewHandler" />
+
+        <import type="com.kotlin.viaggio.view.travel.option.TravelingInstagramShareFragmentViewModel" />
+
+        <variable
+                name="viewModel"
+                type="TravelingInstagramShareFragmentViewModel" />
+
+        <variable
+                name="viewHandler"
+                type="ViewHandler" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:background="@color/white_three"
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white_three">
+
         <View
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="48.5dp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/travelingRepresentativeImage"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <Space
+                android:id="@+id/verticalSpace"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/travelingRepresentativeImage"
+                app:layout_constraintTop_toBottomOf="@id/toolbar"
+                app:layout_constraintVertical_weight="0" />
 
         <com.google.android.material.button.MaterialButton
                 style="@style/ViewStyle.Viaggio.Back"
                 android:layout_marginTop="0dp"
                 android:onClick="@{()->viewHandler.back()}"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="@id/toolbar"
-                app:layout_constraintTop_toTopOf="@id/toolbar"
-        />
-        <androidx.appcompat.widget.AppCompatImageView
-                android:id="@id/travelingRepresentativeImage"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                app:layout_constraintTop_toBottomOf="@id/toolbar"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/toolbar" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/travel_option_instagram_share"
+                android:textColor="@color/black"
+                android:textSize="16.5dp"
+                app:layout_constraintBottom_toBottomOf="@id/toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
-        />
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:fontFamily="sans-serif-black"
-                  android:textSize="16.5dp"
-                  android:textColor="@color/black"
-                  android:text="@string/travel_option_instagram_share"
-                  app:layout_constraintStart_toStartOf="parent"
-                  app:layout_constraintEnd_toEndOf="parent"
-                  app:layout_constraintBottom_toBottomOf="@id/toolbar"
-                  app:layout_constraintTop_toTopOf="@id/toolbar"
-                  tools:ignore="SpUsage"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/toolbar"
+                tools:ignore="SpUsage" />
+
         <androidx.appcompat.widget.AppCompatImageView
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:srcCompat="@drawable/icon_instagram_bg"
                 android:layout_marginEnd="@dimen/common_top"
-                android:visibility="@{viewModel.share ? View.GONE:View.VISIBLE}"
                 android:onClick="@{()->viewHandler.next()}"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="@{viewModel.share ? View.GONE:View.VISIBLE}"
                 app:layout_constraintBottom_toBottomOf="@id/toolbar"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/toolbar"
-        />
+                app:srcCompat="@drawable/icon_instagram_bg" />
+
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@id/travelingRepresentativeImageList"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:visibility="@{viewModel.share ? View.GONE:View.VISIBLE}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelingRepresentativeImage" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@id/travelingRepresentativeImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@id/verticalSpace1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/verticalSpace" />
+
+        <Space
+                android:id="@+id/verticalSpace1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/story"
                 app:layout_constraintTop_toBottomOf="@id/travelingRepresentativeImage"
-        />
+                app:layout_constraintVertical_weight="50" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/story"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="90dp"
                 android:layout_height="100dp"
-                style="@style/Widget.MaterialComponents.Button"
-                app:cornerRadius="10dp"
-                app:rippleColor="@color/rippleColor"
-                android:onClick="@{() -> viewHandler.story()}"
                 android:layout_marginEnd="20dp"
-                android:layout_marginTop="@dimen/common_margin"
+                android:onClick="@{() -> viewHandler.story()}"
                 android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
                 app:backgroundTint="@android:color/white"
+                app:cornerRadius="10dp"
+                app:layout_constraintBottom_toTopOf="@id/verticalSpace2"
                 app:layout_constraintEnd_toStartOf="@id/feed"
-                app:layout_constraintTop_toBottomOf="@id/travelingRepresentativeImage"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintHorizontal_chainStyle="packed"
-        />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/verticalSpace1"
+                app:rippleColor="@color/rippleColor" />
+
         <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/icon_story"
                 android:elevation="5dp"
                 android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
-                app:layout_constraintStart_toStartOf="@id/story"
-                app:layout_constraintEnd_toEndOf="@id/story"
-                app:layout_constraintTop_toTopOf="@id/story"
                 app:layout_constraintBottom_toBottomOf="@id/story"
-        />
+                app:layout_constraintEnd_toEndOf="@id/story"
+                app:layout_constraintStart_toStartOf="@id/story"
+                app:layout_constraintTop_toTopOf="@id/story"
+                app:srcCompat="@drawable/icon_story" />
+
+        <Space
+                android:id="@+id/verticalSpace2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/storyContents"
+                app:layout_constraintTop_toBottomOf="@id/story"
+                app:layout_constraintVertical_weight="5" />
+
+        <TextView
+                android:id="@+id/storyContents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik"
+                android:text="@string/travel_option_instagram_share_story"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toTopOf="@id/verticalSpace3"
+                app:layout_constraintEnd_toEndOf="@id/story"
+                app:layout_constraintStart_toStartOf="@id/story"
+                app:layout_constraintTop_toBottomOf="@id/verticalSpace2" />
+
+        <Space
+                android:id="@+id/verticalSpace3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/storyContents"
+                app:layout_constraintVertical_weight="50" />
 
         <com.google.android.material.button.MaterialButton
                 android:id="@+id/feed"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="90dp"
                 android:layout_height="100dp"
-                style="@style/Widget.MaterialComponents.Button"
-                app:cornerRadius="10dp"
-                app:rippleColor="@color/rippleColor"
                 android:onClick="@{() -> viewHandler.feed()}"
                 android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
-                android:layout_marginTop="@dimen/common_margin"
                 app:backgroundTint="@android:color/white"
-                app:layout_constraintStart_toEndOf="@id/story"
-                app:layout_constraintTop_toBottomOf="@id/travelingRepresentativeImage"
+                app:cornerRadius="10dp"
+                app:layout_constraintBottom_toTopOf="@id/verticalSpace2"
                 app:layout_constraintEnd_toEndOf="parent"
-        />
+                app:layout_constraintStart_toEndOf="@id/story"
+                app:layout_constraintTop_toBottomOf="@id/verticalSpace1"
+                app:rippleColor="@color/rippleColor" />
+
         <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/icon_feed"
                 android:elevation="5dp"
                 android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
-                app:layout_constraintStart_toStartOf="@id/feed"
-                app:layout_constraintEnd_toEndOf="@id/feed"
-                app:layout_constraintTop_toTopOf="@id/feed"
                 app:layout_constraintBottom_toBottomOf="@id/feed"
-        />
+                app:layout_constraintEnd_toEndOf="@id/feed"
+                app:layout_constraintStart_toStartOf="@id/feed"
+                app:layout_constraintTop_toTopOf="@id/feed"
+                app:srcCompat="@drawable/icon_feed" />
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:fontFamily="@font/rubik"
-                  android:textSize="13.5dp"
-                  android:textColor="@color/black"
-                  android:text="@string/travel_option_instagram_share_story"
-                  android:layout_marginTop="5dp"
-                  android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
-                  app:layout_constraintStart_toStartOf="@id/story"
-                  app:layout_constraintEnd_toEndOf="@id/story"
-                  app:layout_constraintTop_toBottomOf="@id/story"
-                  tools:ignore="SpUsage"/>
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:fontFamily="@font/rubik"
-                  android:textSize="13.5dp"
-                  android:textColor="@color/black"
-                  android:text="@string/travel_option_instagram_share_feed"
-                  android:layout_marginTop="5dp"
-                  android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
-                  app:layout_constraintStart_toStartOf="@id/feed"
-                  app:layout_constraintEnd_toEndOf="@id/feed"
-                  app:layout_constraintTop_toBottomOf="@id/feed"
-                  tools:ignore="SpUsage"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rubik"
+                android:text="@string/travel_option_instagram_share_feed"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:visibility="@{viewModel.share ? View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toTopOf="@id/verticalSpace3"
+                app:layout_constraintEnd_toEndOf="@id/feed"
+                app:layout_constraintStart_toStartOf="@id/feed"
+                app:layout_constraintTop_toBottomOf="@id/verticalSpace2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
