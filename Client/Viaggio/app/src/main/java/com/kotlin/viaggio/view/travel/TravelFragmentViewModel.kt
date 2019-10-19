@@ -74,6 +74,7 @@ class TravelFragmentViewModel @Inject constructor() : BaseViewModel() {
                 travelList.addAll(it)
                 travelListLiveData.postValue(Event(travelList))
             }){
+                travelListLiveData.postValue(Event(mutableListOf()))
                 Timber.d(it)
             }
 

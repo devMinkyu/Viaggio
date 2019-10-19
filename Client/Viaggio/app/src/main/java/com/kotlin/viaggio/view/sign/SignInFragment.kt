@@ -118,11 +118,9 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             task.addOnCompleteListener {
                 if(it.isSuccessful) {
-                    toast("${task.result!!.idToken}")
-//                    getViewModel().handleSignInResult(task.result)
+                    getViewModel().handleSignInResult(task.result)
                 } else {
                     val e = it.exception
-                    toast("$e")
                     Timber.tag(TAG).d(e)
                     throw e as Throwable
                 }

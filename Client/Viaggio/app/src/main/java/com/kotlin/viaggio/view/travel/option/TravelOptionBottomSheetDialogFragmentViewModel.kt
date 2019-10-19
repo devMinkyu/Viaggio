@@ -38,7 +38,10 @@ class TravelOptionBottomSheetDialogFragmentViewModel @Inject constructor() : Bas
         addDisposable(disposable)
         val travelCardDisposable = travelLocalModel.getTravelCards()
             .subscribe({
-                isExistTravelCard.set(it.isNotEmpty())
+                val list = it.map {travelCard ->
+                    travelCard.imageNames
+                }.flatten()
+                isExistTravelCard.set(list.isNotEmpty())
             }){
                 Timber.d(it)
             }

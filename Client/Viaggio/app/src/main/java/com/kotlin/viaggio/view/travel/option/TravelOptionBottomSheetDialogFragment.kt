@@ -66,7 +66,7 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
             baseIntent("http://viaggio.kotlin.com/option/theme/")
             dismiss()
         }
-        fun changeRepresentativeImage(){
+        fun changeRepresentativeImage() {
             baseIntent("http://viaggio.kotlin.com/option/image/")
             dismiss()
         }

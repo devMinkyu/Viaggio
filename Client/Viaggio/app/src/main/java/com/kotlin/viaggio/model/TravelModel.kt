@@ -23,7 +23,7 @@ class TravelModel @Inject constructor() : BaseModel() {
     @Inject
     lateinit var gson: Gson
 
-    val dateFormat = SimpleDateFormat("YYYY-MM-dd hh:mm:ss", Locale.ENGLISH)
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
     private fun travelOfTravelBodyConvert(travel: Travel): TravelBody {
         val dateFormated = dateFormat.format(travel.startDate)
         val endDateFormated = travel.endDate?.let {

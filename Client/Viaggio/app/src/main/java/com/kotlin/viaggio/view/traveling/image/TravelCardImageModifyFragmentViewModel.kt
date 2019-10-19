@@ -83,8 +83,9 @@ class TravelCardImageModifyFragmentViewModel @Inject constructor() : BaseViewMod
         val result = MutableLiveData<Int>()
         deleteImageList.add(fileNamePath)
         val index = list.indexOf(fileNamePath)
-        list.removeAt(index)
-
+        if(index > 0) {
+            list.removeAt(index)
+        }
         imageRemainderCount.set(String.format(appCtx.get().getString(R.string.travel_card_image_modify_total_count), 20 - list.size))
 
         result.value = index

@@ -33,9 +33,9 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
                 val imgDir = File(context?.filesDir, "images/")
                 if (imgDir.exists()) {
                     if (imageNames.isNotEmpty()) {
-                        travelingRepresentativeImage.layoutParams.also { parms ->
-                            parms.width = width
-                            parms.height = width
+                        travelingRepresentativeImage.layoutParams.also { params ->
+                            params.width = width
+                            params.height = width
                         }
                         Glide.with(travelingRepresentativeImage)
                             .load(imageNames[0])
