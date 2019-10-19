@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.calendar_day_legend.*
 import kotlinx.android.synthetic.main.fragment_travel_calendar.*
 import kotlinx.android.synthetic.main.item_calendar_day.view.*
 import kotlinx.android.synthetic.main.item_calendar_header.view.*
+import kotlinx.coroutines.*
 import org.jetbrains.anko.childrenRecursiveSequence
 import org.jetbrains.anko.design.snackbar
 import org.threeten.bp.LocalDate
@@ -194,13 +195,19 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
 
         getViewModel().updateView.observe(this, androidx.lifecycle.Observer {
             it.getContentIfNotHandled()?.let {
-                getViewModel().startDate = convertLocalDate(getViewModel().travel!!.startDate)
-                if(getViewModel().travel!!.endDate == null) {
-                    getViewModel().travel!!.endDate = getViewModel().travel!!.startDate
+                CoroutineScope(Dispatchers.Main).launch {
+                    withContext(CoroutineScope(Dispatchers.Default).coroutineContext) {
+                        delay(200)
+                    }
+
+                    getViewModel().startDate = convertLocalDate(getViewModel().travel!!.startDate)
+                    if(getViewModel().travel!!.endDate == null) {
+                        getViewModel().travel!!.endDate = getViewModel().travel!!.startDate
+                    }
+                    getViewModel().endDate = convertLocalDate(getViewModel().travel!!.endDate)
+                    exFourCalendar.notifyCalendarChanged()
+                    getViewModel().bindSummaryViews()
                 }
-                getViewModel().endDate = convertLocalDate(getViewModel().travel!!.endDate)
-                exFourCalendar.notifyCalendarChanged()
-                getViewModel().bindSummaryViews()
             }
         })
     }
