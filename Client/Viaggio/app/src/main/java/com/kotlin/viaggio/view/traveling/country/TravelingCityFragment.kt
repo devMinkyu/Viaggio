@@ -82,7 +82,6 @@ class TravelingCityFragment:BaseFragment<TravelingCityFragmentViewModel>(){
         val binding = DataBindingUtil.bind<ItemCityBinding>(view)
 
         inner class TravelingCityViewHandler{
-
             fun select(){
                 binding?.data?.selected?.let {
                     binding.data!!.selected.set(it.get().not())

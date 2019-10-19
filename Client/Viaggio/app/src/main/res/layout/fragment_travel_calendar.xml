@@ -156,7 +156,7 @@
                 <com.google.android.material.button.MaterialButton
                         android:id="@+id/exFourSaveButton"
                         style="@style/ViewStyle.Viaggio.Btn"
-                        android:enabled="@{viewModel.exFourSaveButton}"
+                        android:visibility="@{viewModel.exFourSaveButton ? View.VISIBLE:View.GONE}"
                         android:onClick="@{()->viewHandler.confirm()}"
                         android:text="@string/calendar_save"
                         app:backgroundTint="@color/colorPrimary"

@@ -25,6 +25,7 @@ import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -72,20 +73,22 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
         return@lazy mDrawable as GradientDrawable
     }
 
+    val updateView = MutableLiveData<Event<Any>>()
     override fun initialize() {
         super.initialize()
+        exFourStartDateText.set(resources.getString(R.string.start_date))
+        exFourStartDateColor.set(mContext.getColorStateList(R.color.light_grey))
+        exFourEndDateText.set(resources.getString(R.string.end_date))
+        exFourEndDateColor.set(mContext.getColorStateList(R.color.light_grey))
         if (option) {
             traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
             val disposable = travelLocalModel.getTravel()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     travel = it
-                    startDate = convertLocalDate(it.startDate)
-                    if(it.endDate == null) {
-                        it.endDate = it.startDate
-                    }
-                    endDate = convertLocalDate(it.endDate)
                     travelKind = it.travelKind
                     bindSummaryViews()
+                    updateView.value = Event(Any())
                 }) {
                     Timber.d(it)
                 }
@@ -97,14 +100,7 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    private fun convertLocalDate(date: Date?): LocalDate? {
-        return date?.let {
-            LocalDate.parse(
-                SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(date),
-                DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
-            )
-        }
-    }
+
 
     private var radiusUpdated = false
 
@@ -138,7 +134,7 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
         }
 
         // Enable save button if a range is selected or no date is selected at all, Airbnb style.
-        exFourSaveButton.set(endDate != null || (startDate == null && endDate == null))
+        exFourSaveButton.set(endDate != null)
     }
 
     fun selectedDate(startTime: Date) {

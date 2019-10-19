@@ -31,6 +31,8 @@ import org.jetbrains.anko.childrenRecursiveSequence
 import org.jetbrains.anko.design.snackbar
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
+import org.threeten.bp.format.DateTimeFormatter
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -189,14 +191,34 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
                 container.textView.text = monthTitle
             }
         }
+
+        getViewModel().updateView.observe(this, androidx.lifecycle.Observer {
+            it.getContentIfNotHandled()?.let {
+                getViewModel().startDate = convertLocalDate(getViewModel().travel!!.startDate)
+                if(getViewModel().travel!!.endDate == null) {
+                    getViewModel().travel!!.endDate = getViewModel().travel!!.startDate
+                }
+                getViewModel().endDate = convertLocalDate(getViewModel().travel!!.endDate)
+                exFourCalendar.notifyCalendarChanged()
+                getViewModel().bindSummaryViews()
+            }
+        })
     }
 
-    fun convertDate(date: LocalDate): Date {
+    private fun convertDate(date: LocalDate): Date {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, date.year)
         calendar.set(Calendar.MONTH, date.monthValue - 1)
         calendar.set(Calendar.DATE, date.dayOfMonth)
         return calendar.time
+    }
+    private fun convertLocalDate(date: Date?): LocalDate? {
+        return date?.let {
+            LocalDate.parse(
+                SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(date),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+            )
+        }
     }
 
     inner class ViewHandler {
