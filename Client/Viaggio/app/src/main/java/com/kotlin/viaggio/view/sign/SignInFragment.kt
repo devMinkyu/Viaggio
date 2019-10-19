@@ -10,7 +10,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.ApiException
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.SignError
 import com.kotlin.viaggio.view.common.BaseFragment
@@ -119,9 +118,11 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             task.addOnCompleteListener {
                 if(it.isSuccessful) {
-                    getViewModel().handleSignInResult(task.result)
+                    toast("${task.result!!.idToken}")
+//                    getViewModel().handleSignInResult(task.result)
                 } else {
                     val e = it.exception
+                    toast("$e")
                     Timber.tag(TAG).d(e)
                     throw e as Throwable
                 }
