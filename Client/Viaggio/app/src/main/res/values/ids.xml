@@ -285,4 +285,5 @@
     <item name="travelingItemInfo1" type="id" />
     <item name="travelingItemThemeBg" type="id" />
     <item name="travelingItemThemeBg1" type="id" />
+    <item name="travelOptionCalendar" type="id" />
 </resources>

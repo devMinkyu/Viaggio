@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_travel_calendar.*
 import kotlinx.android.synthetic.main.item_calendar_day.view.*
 import kotlinx.android.synthetic.main.item_calendar_header.view.*
 import org.jetbrains.anko.childrenRecursiveSequence
+import org.jetbrains.anko.design.snackbar
 import org.threeten.bp.LocalDate
 import org.threeten.bp.YearMonth
 import java.util.*
@@ -39,7 +40,8 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         arguments?.let {
-            getViewModel().option = it.getBoolean(ArgName.TRAVEL_CALENDAR.name, false)
+            getViewModel().enrollMode = it.getBoolean(ArgName.TRAVEL_CALENDAR.name, false)
+            getViewModel().option = it.getBoolean(ArgName.MODIFY_CALENDART.name, false)
         }
     }
 
@@ -94,7 +96,7 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
                         return@setOnClickListener
                     }
                     val date = day.date
-                    if (getViewModel().travelKind == 2 || getViewModel().option) {
+                    if (getViewModel().travelKind == 2 || getViewModel().enrollMode || getViewModel().traveling) {
                         getViewModel().startDate = date
                         getViewModel().endDate = date
                         exFourCalendar.notifyCalendarChanged()
@@ -192,7 +194,7 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
     fun convertDate(date: LocalDate): Date {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, date.year)
-        calendar.set(Calendar.MONTH, date.monthValue)
+        calendar.set(Calendar.MONTH, date.monthValue - 1)
         calendar.set(Calendar.DATE, date.dayOfMonth)
         return calendar.time
     }
@@ -209,18 +211,32 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
         }
 
         fun confirm() {
-            if (getViewModel().option) {
+            if(getViewModel().option) {
                 val startDate = convertDate(getViewModel().startDate!!)
-                getViewModel().selectedDate(startDate)
+                val endDate = convertDate(getViewModel().endDate!!)
+                getViewModel().modifyCalendar(startDate, endDate).observe(this@TravelCalendarFragment, androidx.lifecycle.Observer {
+                    if(it) {
+                        parentFragmentManager.popBackStack()
+                    } else {
+                        view?.snackbar("error")
+                        parentFragmentManager.popBackStack()
+                    }
+                })
             } else {
-                if (getViewModel().startDate != null && getViewModel().endDate != null) {
+                if (getViewModel().enrollMode) {
                     val startDate = convertDate(getViewModel().startDate!!)
-                    val endDate = convertDate(getViewModel().endDate!!)
-                    getViewModel().travelTerm(startDate, endDate)
+                    getViewModel().selectedDate(startDate)
+                } else {
+                    if (getViewModel().startDate != null && getViewModel().endDate != null) {
+                        val startDate = convertDate(getViewModel().startDate!!)
+                        val endDate = convertDate(getViewModel().endDate!!)
+                        getViewModel().travelTerm(startDate, endDate)
+                    }
+                    baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
                 }
-                baseIntent("http://viaggio.kotlin.com/traveling/enroll/")
+                parentFragmentManager.popBackStackImmediate()
             }
-            parentFragmentManager.popBackStackImmediate()
+
         }
     }
 }

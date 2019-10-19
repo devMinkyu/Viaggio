@@ -3,20 +3,27 @@ package com.kotlin.viaggio.view.travel.calendar
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable
+import android.text.TextUtils
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import com.kotlin.viaggio.widget.getDrawableCompat
 import com.kotlin.viaggio.widget.setCornerRadius
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDate
 import org.threeten.bp.format.DateTimeFormatter
+import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -25,9 +32,9 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
 
-    val completeLiveData = MutableLiveData<Event<Any>>()
-
+    var enrollMode = false
     var option = false
+    var traveling = false
 
     var travelKind = 0
 
@@ -39,26 +46,66 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     var startDate: LocalDate? = null
     var endDate: LocalDate? = null
+
+    var travel: Travel? = null
     private val headerDateFormatter = DateTimeFormatter.ofPattern("EEE'\n'MMM d")
-    private val mContext:Context by lazy {
+    private val mContext: Context by lazy {
         return@lazy appCtx.get()
     }
     val startBackground: GradientDrawable by lazy {
         val mDrawable = mContext.getDrawableCompat(R.drawable.calendar_continuous_selected_bg_start)
-            ?: ResourcesCompat.getDrawable(resources, R.drawable.calendar_continuous_selected_bg_start, null)
+            ?: ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.calendar_continuous_selected_bg_start,
+                null
+            )
         return@lazy mDrawable as GradientDrawable
     }
 
     val endBackground: GradientDrawable by lazy {
         val mDrawable = mContext.getDrawableCompat(R.drawable.calendar_continuous_selected_bg_end)
-            ?: ResourcesCompat.getDrawable(resources, R.drawable.calendar_continuous_selected_bg_end, null)
+            ?: ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.calendar_continuous_selected_bg_end,
+                null
+            )
         return@lazy mDrawable as GradientDrawable
     }
+
     override fun initialize() {
         super.initialize()
-        travelKind = prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVEL_KINDS).blockingGet()
-        bindSummaryViews()
+        if (option) {
+            traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
+            val disposable = travelLocalModel.getTravel()
+                .subscribe({
+                    travel = it
+                    startDate = convertLocalDate(it.startDate)
+                    if(it.endDate == null) {
+                        it.endDate = it.startDate
+                    }
+                    endDate = convertLocalDate(it.endDate)
+                    travelKind = it.travelKind
+                    bindSummaryViews()
+                }) {
+                    Timber.d(it)
+                }
+            addDisposable(disposable)
+        } else {
+            travelKind =
+                prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVEL_KINDS).blockingGet()
+            bindSummaryViews()
+        }
     }
+
+    private fun convertLocalDate(date: Date?): LocalDate? {
+        return date?.let {
+            LocalDate.parse(
+                SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.getDefault()).format(date),
+                DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss", Locale.getDefault())
+            )
+        }
+    }
+
     private var radiusUpdated = false
 
     fun updateDrawableRadius(textView: TextView) {
@@ -77,7 +124,7 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
             exFourStartDateText.set(resources.getString(R.string.start_date))
             exFourStartDateColor.set(mContext.getColorStateList(R.color.light_grey))
         }
-        if(option) {
+        if (enrollMode || traveling) {
             exFourEndDateText.set(resources.getString(R.string.travel_no_end))
             exFourEndDateColor.set(mContext.getColorStateList(R.color.light_grey))
         } else {
@@ -94,10 +141,46 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
         exFourSaveButton.set(endDate != null || (startDate == null && endDate == null))
     }
 
-    fun selectedDate(startTime: Date){
+    fun selectedDate(startTime: Date) {
         rxEventBus.travelingStartOfDay.onNext(listOf(startTime))
     }
+
     fun travelTerm(startTime: Date, endTime: Date) {
         rxEventBus.travelingStartOfDay.onNext(listOf(startTime, endTime))
+    }
+
+    fun modifyCalendar(startDate: Date, endDate: Date): LiveData<Boolean> {
+        val result = MutableLiveData<Boolean>()
+        if(travel == null) {
+            result.value = false
+        }
+        travel?.let { mTravel ->
+            val mEndDate:Date? = if(traveling) null else endDate
+            mTravel.startDate = startDate
+            mTravel.endDate = mEndDate
+            mTravel.userExist = false
+            val disposable = travelLocalModel.updateTravel(mTravel)
+                .subscribeOn(Schedulers.io())
+                .andThen {
+                    val token = travelLocalModel.getToken()
+                    val mode = travelLocalModel.getUploadMode()
+                    if (TextUtils.isEmpty(token).not() && mode != 2 && mTravel.serverId != 0) {
+                        updateWork(mTravel)
+                        it.onComplete()
+                    } else {
+                        it.onComplete()
+                    }
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe ({
+                    rxEventBus.travelUpdate.onNext(Any())
+                    result.value = true
+                }) {
+                    Timber.d(it)
+                    result.value = false
+                }
+            addDisposable(disposable)
+        }
+        return result
     }
 }

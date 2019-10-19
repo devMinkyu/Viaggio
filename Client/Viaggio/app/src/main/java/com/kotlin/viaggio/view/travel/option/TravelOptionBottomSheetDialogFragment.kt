@@ -50,6 +50,10 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
         fun close(){
             dismiss()
         }
+        fun modifyCalendar() {
+            baseIntent("http://viaggio.kotlin.com/option/calendar/")
+            dismiss()
+        }
         fun changeTitle(){
             TravelTitleBottomSheetDialogFragment().show(parentFragmentManager, TravelTitleBottomSheetDialogFragment.TAG)
             dismiss()

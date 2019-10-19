@@ -160,6 +160,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
                     }
                 "option" ->
                     when (appLinkData.lastPathSegment) {
+                        "calendar" -> {
+                            showOptionCalendar()
+                        }
                         "country" -> {
                             showOptionCountry()
                         }
@@ -182,6 +185,13 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         }
     }
 
+    private fun showOptionCalendar() {
+        val frag = TravelCalendarFragment()
+        val arg = Bundle()
+        arg.putBoolean(ArgName.MODIFY_CALENDART.name, true)
+        frag.arguments = arg
+        transactionTopFragment(frag)
+    }
 
 
     private fun showInstagrmShare() {
