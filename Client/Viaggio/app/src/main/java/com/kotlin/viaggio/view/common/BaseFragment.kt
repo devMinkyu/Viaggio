@@ -145,19 +145,14 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
     }
 
     fun showBottomDialog(frag:BaseBottomDialogFragment<*>, tag:String) {
-        val fragVal = parentFragmentManager.findFragmentByTag(tag)?.run {
-            return
-        }?:frag
-        fragVal.show(parentFragmentManager, tag)
+        activity?.let {
+            (it as BaseActivity<*>).showBottomDialog(frag, tag)
+        }
     }
     fun showDialog(frag: BaseDialogFragment<*>, tag: String) {
-        val fragVal = parentFragmentManager.findFragmentByTag(tag)?.run {
-            return
-        }?:frag
-        fragVal.show(parentFragmentManager, tag)
-    }
-    fun base() {
-
+        activity?.let {
+            (it as BaseActivity<*>).showDialog(frag, tag)
+        }
     }
 
     // back interface

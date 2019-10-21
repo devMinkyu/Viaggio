@@ -130,6 +130,18 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasSupportFrag
     fun showNetWorkError(){
         NetworkDialogFragment().show(supportFragmentManager, NetworkDialogFragment.TAG)
     }
+    fun showBottomDialog(frag:BaseBottomDialogFragment<*>, tag:String) {
+        val fragVal = supportFragmentManager.findFragmentByTag(tag)?.run {
+            return
+        }?:frag
+        fragVal.show(supportFragmentManager, tag)
+    }
+    fun showDialog(frag: BaseDialogFragment<*>, tag: String) {
+        val fragVal = supportFragmentManager.findFragmentByTag(tag)?.run {
+            return
+        }?:frag
+        fragVal.show(supportFragmentManager, tag)
+    }
 
     private fun handleCustomOnBackPressed(): Boolean {
         return false

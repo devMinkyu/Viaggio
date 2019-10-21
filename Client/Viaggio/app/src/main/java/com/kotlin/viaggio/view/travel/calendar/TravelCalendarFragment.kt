@@ -241,9 +241,11 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
 
         fun confirm() {
             if(getViewModel().option) {
+                showLoading()
                 val startDate = convertDate(getViewModel().startDate!!)
                 val endDate = convertDate(getViewModel().endDate!!)
                 getViewModel().modifyCalendar(startDate, endDate).observe(this@TravelCalendarFragment, androidx.lifecycle.Observer {
+                    stopLoading()
                     if(it) {
                         parentFragmentManager.popBackStack()
                     } else {

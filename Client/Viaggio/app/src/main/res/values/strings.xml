@@ -114,6 +114,7 @@
     <string name="travel_option_title">이름 변경</string>
     <string name="travel_option_country">도시 변경</string>
     <string name="travel_option_calendar">날짜 변경</string>
+    <string name="travel_option_calendar_time">날짜/시간 변경</string>
     <string name="travel_option_theme">테마 변경</string>
     <string name="travel_option_image">대표 사진 변경</string>
     <string name="travel_option_finish">여행 종료</string>

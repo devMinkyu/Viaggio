@@ -97,4 +97,14 @@ abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialo
             (it as BaseActivity<*>).hideKeyBoard(view)
         }
     }
+    fun showBottomDialog(frag:BaseBottomDialogFragment<*>, tag:String) {
+        activity?.let {
+            (it as BaseActivity<*>).showBottomDialog(frag, tag)
+        }
+    }
+    fun showDialog(frag: BaseDialogFragment<*>, tag: String) {
+        activity?.let {
+            (it as BaseActivity<*>).showDialog(frag, tag)
+        }
+    }
 }

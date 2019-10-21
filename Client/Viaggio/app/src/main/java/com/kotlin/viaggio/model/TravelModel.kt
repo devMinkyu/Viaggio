@@ -97,6 +97,7 @@ class TravelModel @Inject constructor() : BaseModel() {
 
     private fun travelCardOfTravelCardBodyConvert(travelCard: TravelCard): TravelCardBody {
         val dateFormated = dateFormat.format(travelCard.date)
+        val timeFormated = dateFormat.format(travelCard.time)
         return TravelCardBody().apply {
             localId = travelCard.localId
             serverId = travelCard.serverId
@@ -109,6 +110,7 @@ class TravelModel @Inject constructor() : BaseModel() {
             imageUrl = travelCard.imageUrl
             content = travelCard.content
             date = dateFormated
+            time = timeFormated
             isDelete = travelCard.isDelete
 
         }

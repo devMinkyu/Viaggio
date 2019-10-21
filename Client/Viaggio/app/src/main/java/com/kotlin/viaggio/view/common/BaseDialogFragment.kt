@@ -98,7 +98,16 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
             (it as BaseActivity<*>).showNetWorkError()
         }
     }
-
+    fun showBottomDialog(frag:BaseBottomDialogFragment<*>, tag:String) {
+        activity?.let {
+            (it as BaseActivity<*>).showBottomDialog(frag, tag)
+        }
+    }
+    fun showDialog(frag: BaseDialogFragment<*>, tag: String) {
+        activity?.let {
+            (it as BaseActivity<*>).showDialog(frag, tag)
+        }
+    }
     // back interface
     override fun onBackPressed(): Boolean {
         return false

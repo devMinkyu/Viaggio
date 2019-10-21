@@ -35,7 +35,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         val TAG:String =  TravelingCardEnrollFragmentViewModel::class.java.toString()
     }
 
-    val calendar = Calendar.getInstance()
+    private val writeCalendar = Calendar.getInstance()!!
 
     val complete: MutableLiveData<Event<Any>> = MutableLiveData()
     val imageLiveData:MutableLiveData<Event<List<Any>>> = MutableLiveData()
@@ -48,7 +48,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
             }
         })
     }
-    val dayCount = ObservableInt(0)
+    private val dayCount = ObservableInt(0)
     val mCountry = ObservableField<String>("")
     val dateOfTime = ObservableField<String>("")
 
@@ -59,8 +59,59 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
 
     override fun initialize() {
         super.initialize()
+        rxEventFunctional()
         imageLiveData.postValue(Event(listOf()))
-        val imageDisposable = rxEventBus.travelCardImages
+        travelDataFetch()
+    }
+
+    private fun travelDataFetch() {
+        val disposable = travelLocalModel.getTravel()
+            .flatMap {
+                travel = it
+                writeCalendar.time = travel.startDate
+                prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING)
+            }
+            .subscribe({
+                val area = travel.area.first()
+                mCountry.set("${area.country}_${area.city}")
+                if (travel.travelKind == 2) {
+                    dayCount.set(1)
+                    dateOfTime.set(
+                        SimpleDateFormat(
+                            "a h:mm",
+                            Locale.getDefault()
+                        ).format(writeCalendar.time)
+                    )
+                } else {
+                    if (it && prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
+                        == prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()
+                    ) {
+                        dayCount.set(prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet())
+                        dateOfTime.set(
+                            String.format(
+                                resources.getString(R.string.travel_card_count),
+                                dayCount.get()
+                            )
+                        )
+                        mCountry.set(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
+                    } else {
+                        dayCount.set(1)
+                        dateOfTime.set(
+                            String.format(
+                                resources.getString(R.string.travel_card_count),
+                                dayCount.get()
+                            )
+                        )
+                    }
+                }
+            }) {
+                Timber.d(it)
+            }
+        addDisposable(disposable)
+    }
+
+    private fun rxEventFunctional() {
+        var disposable = rxEventBus.travelCardImages
             .subscribeOn(Schedulers.io())
             .subscribe {
                 imageLiveData.postValue(Event(it))
@@ -68,36 +119,8 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                 imageList.addAll(it)
                 validateForm()
             }
-        addDisposable(imageDisposable)
-
-        val disposable = travelLocalModel.getTravel()
-            .flatMap {
-                travel = it
-                calendar.time = travel.startDate
-                prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING)
-            }
-            .subscribe({
-                val area = travel.area.first()
-                mCountry.set("${area.country}_${area.city}")
-                if(travel.travelKind == 2) {
-                    dateOfTime.set(SimpleDateFormat("a h:mm", Locale.getDefault()).format(calendar.time))
-                } else {
-                    if(it && prefUtilService.getLong(AndroidPrefUtilService.Key.TRAVELING_ID).blockingGet()
-                        == prefUtilService.getLong(AndroidPrefUtilService.Key.SELECT_TRAVEL_ID).blockingGet()){
-                        dayCount.set(prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVELING_OF_DAY_COUNT).blockingGet())
-                        dateOfTime.set(String.format(resources.getString(R.string.travel_card_count), dayCount.get()))
-                        mCountry.set(prefUtilService.getString(AndroidPrefUtilService.Key.TRAVELING_LAST_COUNTRIES).blockingGet())
-                    } else{
-                        dayCount.set(1)
-                        dateOfTime.set(String.format(resources.getString(R.string.travel_card_count), dayCount.get()))
-                    }
-                }
-            }){
-                Timber.d(it)
-            }
         addDisposable(disposable)
-
-        val optionDisposable = rxEventBus.travelingOption.subscribe {
+        disposable = rxEventBus.travelingOption.subscribe {
             when(it){
                 is Area -> {
                     mCountry.set("${it.country}_${it.city}")
@@ -117,7 +140,11 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
                 }
             }
         }
-        addDisposable(optionDisposable)
+        addDisposable(disposable)
+        disposable = rxEventBus.travelingCalendar.subscribe {
+            writeCalendar.time = it.time
+        }
+        addDisposable(disposable)
     }
 
     private fun validateForm() {
@@ -144,13 +171,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
             travelLocalId = travel.localId
             travelServerId = travel.serverId
             date = Calendar.getInstance().time
-            time = if(travel.travelKind == 2) {
-                calendar.time
-            } else {
-                calendar.add(Calendar.DATE, dayCount.get() - 1)
-                calendar.time
-            }
-
+            time = writeCalendar.time
             country = mCountry.get() ?: ""
             travelOfDay = dayCount.get()
             theme = themeList
@@ -207,8 +228,8 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     }
 
     fun timeChange(hourOfDay: Int, minute: Int) {
-        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        calendar.set(Calendar.MINUTE, minute)
-        dateOfTime.set(SimpleDateFormat("a h:mm", Locale.getDefault()).format(calendar.time))
+        writeCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        writeCalendar.set(Calendar.MINUTE, minute)
+        dateOfTime.set(SimpleDateFormat("a h:mm", Locale.getDefault()).format(writeCalendar.time))
     }
 }

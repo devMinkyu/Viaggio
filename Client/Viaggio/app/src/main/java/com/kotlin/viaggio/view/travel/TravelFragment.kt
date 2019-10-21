@@ -176,7 +176,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                 }
             }
             view.domesticsName.setOnClickListener {
-                TravelingFinishActionDialogFragment().show(parentFragmentManager, TravelingFinishActionDialogFragment.TAG)
+                showDialog(TravelingFinishActionDialogFragment(), TravelingFinishActionDialogFragment.TAG)
             }
             container.addView(view)
             return view

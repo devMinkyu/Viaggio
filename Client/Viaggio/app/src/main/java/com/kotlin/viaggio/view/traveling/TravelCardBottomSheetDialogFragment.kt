@@ -44,5 +44,9 @@ class TravelCardBottomSheetDialogFragment : BaseBottomDialogFragment<TravelCardB
             getViewModel().delete()
             dismiss()
         }
+        fun calendarModify() {
+            getViewModel().modify(5)
+            dismiss()
+        }
     }
 }

@@ -109,7 +109,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
             val themeListView = inflater.inflate(R.layout.item_travel_card_theme, null)
             themeListView.themeName.text = resources.getString(R.string.theme_start)
             themeListView.themeName.setOnClickListener {
-                TravelingThemesActionDialogFragment().show(parentFragmentManager, TravelingThemesActionDialogFragment.TAG)
+                showDialog(TravelingThemesActionDialogFragment(), TravelingThemesActionDialogFragment.TAG)
             }
             main.addView(themeListView)
         }else{
@@ -118,7 +118,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                 val themeListView = inflater.inflate(R.layout.item_travel_card_theme, null)
                 themeListView.themeName.text = it
                 themeListView.themeName.setOnClickListener {
-                    TravelingThemesActionDialogFragment().show(parentFragmentManager, TravelingThemesActionDialogFragment.TAG)
+                    showDialog(TravelingThemesActionDialogFragment(), TravelingThemesActionDialogFragment.TAG)
                 }
                 themeListView.right = resources.getDimension(R.dimen.theme_traveling_card).toInt()
                 main.addView(themeListView)
@@ -137,12 +137,11 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
 
         fun changeCountry(){
             getViewModel().selectedCountry()
-            TravelingCitiesActionDialogFragment().show(parentFragmentManager, TravelingCitiesActionDialogFragment.TAG)
+            showDialog(TravelingCitiesActionDialogFragment(), TravelingCitiesActionDialogFragment.TAG)
         }
 
         fun changeDayCount(){
             if(getViewModel().travel.travelKind == 2) {
-
                 val listener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
                     getViewModel().timeChange(hourOfDay, minute)
                 }
@@ -154,7 +153,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
 
 
             } else {
-                TravelingDayCountActionDialogFragment().show(parentFragmentManager, TravelingDayCountActionDialogFragment.TAG)
+                showDialog(TravelingDayCountActionDialogFragment(),TravelingDayCountActionDialogFragment.TAG)
             }
         }
     }

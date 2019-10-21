@@ -18,13 +18,14 @@
         <View
                 android:id="@id/travelingCitiesActionPop"
                 android:layout_width="0dp"
-                android:layout_height="350dp"
+                android:layout_height="0dp"
                 app:bgCornerRadius="@{12f}"
                 android:background="@android:color/white"
+                android:layout_marginTop="@dimen/common_top"
                 android:layout_marginStart="@dimen/title_start"
                 android:layout_marginEnd="@dimen/title_start"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/confirmSpace"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
@@ -45,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="@{()->viewHandler.cancel()}"
-                app:icon="@drawable/ic_clear_black_24dp"
+                app:icon="@drawable/ic_close"
                 app:iconGravity="textEnd"
                 app:iconTint="@color/almost_black"
                 app:rippleColor="@color/rippleColor"
@@ -55,14 +56,40 @@
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@id/travelingDayCountActionList"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="@dimen/common_top"
                 android:layout_marginBottom="@dimen/common_top"
+                android:background="@color/colorPrimary"
                 app:layout_constraintStart_toStartOf="@id/travelingCitiesActionPop"
                 app:layout_constraintEnd_toEndOf="@id/travelingCitiesActionPop"
                 app:layout_constraintTop_toBottomOf="@id/travelingCitiesActionTitle"
-                app:layout_constraintBottom_toBottomOf="@id/travelingCitiesActionPop"
         />
+
+        <TimePicker
+                android:id="@id/travelingDayCountActionTimePicker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:headerBackground="@color/colorPrimary"
+                android:numbersBackgroundColor="@color/very_light_pink_five"
+                app:layout_constraintStart_toStartOf="@id/travelingCitiesActionPop"
+                app:layout_constraintEnd_toEndOf="@id/travelingCitiesActionPop"
+                app:layout_constraintTop_toBottomOf="@id/travelingDayCountActionList"
+                />
+        <com.google.android.material.button.MaterialButton
+                android:id="@+id/confirm"
+                android:text="@string/confirm"
+                style="@style/ViewStyle.Viaggio.Option"
+                android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:onClick="@{() -> viewHandler.confirm()}"
+                app:layout_constraintTop_toBottomOf="@id/travelingDayCountActionTimePicker"
+                app:layout_constraintStart_toStartOf="@id/travelingCitiesActionPop"
+                app:layout_constraintEnd_toEndOf="@id/travelingCitiesActionPop"
+                />
+        <Space
+                android:id="@+id/confirmSpace"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/common_top"
+                app:layout_constraintTop_toBottomOf="@id/confirm"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

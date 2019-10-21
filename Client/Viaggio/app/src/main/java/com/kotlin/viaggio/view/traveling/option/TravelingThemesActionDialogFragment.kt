@@ -58,12 +58,6 @@ class TravelingThemesActionDialogFragment:BaseDialogFragment<TravelingThemesActi
                 }
             }
         })
-
-        getViewModel().completeLiveDate.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {
-                dismiss()
-            }
-        })
     }
 
     inner class ViewHandler{
@@ -71,11 +65,11 @@ class TravelingThemesActionDialogFragment:BaseDialogFragment<TravelingThemesActi
             dismiss()
         }
         fun confirm(){
-            if(getViewModel().changeMode) {
-                getViewModel().change()
-            } else {
-                getViewModel().confirm()
-            }
+            getViewModel().confirm().observe(this@TravelingThemesActionDialogFragment, Observer {
+                it.getContentIfNotHandled()?.let {
+                    dismiss()
+                }
+            })
         }
     }
 

@@ -56,7 +56,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
                     view.snackbar(resources.getText(R.string.sync_check_done))
                 } else {
                     if (checkInternet()) {
-                        SyncActionDialogFragment().show(parentFragmentManager, SyncActionDialogFragment.TAG)
+                        showDialog(SyncActionDialogFragment(), SyncActionDialogFragment.TAG)
                     } else {
                         showNetWorkError()
                     }
@@ -98,7 +98,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         }
 
         fun imageSetting() {
-            SettingImageBottomSheetDialogFragment().show(parentFragmentManager, SettingImageBottomSheetDialogFragment.TAG)
+            showBottomDialog(SettingImageBottomSheetDialogFragment(), SettingImageBottomSheetDialogFragment.TAG)
         }
 
         fun lockSetting() {
@@ -107,7 +107,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
 
         fun autoUpload() {
             if (getViewModel().isLogin.get()) {
-                SettingAutoBottomSheetDialogFragment().show(parentFragmentManager, SettingAutoBottomSheetDialogFragment.TAG)
+                showBottomDialog(SettingAutoBottomSheetDialogFragment(), SettingAutoBottomSheetDialogFragment.TAG)
             } else {
 //                baseIntent("http://viaggio.kotlin.com/home/login/")
                 baseIntent("http://viaggio.kotlin.com/login/normal/")
@@ -132,7 +132,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
 
         fun logout() {
             if (checkInternet()) {
-                LogoutActionDialogFragment().show(parentFragmentManager, LogoutActionDialogFragment.TAG)
+                showDialog(LogoutActionDialogFragment(), LogoutActionDialogFragment.TAG)
             } else {
                 showNetWorkError()
             }
@@ -143,7 +143,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
                 if(getViewModel().getTraveling()) {
                      view?.snackbar("여행을 종료 해주시길 바랍니다.")
                 } else {
-                    UploadCheckActionDialogFragment().show(parentFragmentManager, UploadCheckActionDialogFragment.TAG)
+                    showDialog(UploadCheckActionDialogFragment(), UploadCheckActionDialogFragment.TAG)
                 }
             } else {
                 showNetWorkError()

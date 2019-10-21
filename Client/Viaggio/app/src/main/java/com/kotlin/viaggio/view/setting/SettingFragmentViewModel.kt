@@ -308,6 +308,7 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel() {
                                     content = travelCardBody.content,
                                     country = travelCardBody.country,
                                     date = dt.parse(travelCardBody.date),
+                                    time = dt.parse(travelCardBody.time),
                                     userExist = true,
                                     isDelete = travelCardBody.isDelete,
                                     imageNames = travelCardBody.imageNames,

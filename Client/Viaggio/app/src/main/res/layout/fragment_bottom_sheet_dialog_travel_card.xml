@@ -43,6 +43,18 @@
                 android:onClick="@{()->viewHandler.modify()}"
         />
         <com.google.android.material.chip.Chip
+                android:id="@id/travelOptionCalendar"
+                style="@style/ViewStyle.Viaggio.Travel.Option"
+                android:fontFamily="sans-serif-light"
+                android:text="@string/travel_option_calendar_time"
+                android:paddingStart="0dp"
+                android:paddingEnd="@dimen/common_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/travelOptionTitle"
+                android:onClick="@{()->viewHandler.calendarModify()}"
+        />
+        <com.google.android.material.chip.Chip
                 android:id="@id/travelOptionArea"
                 style="@style/ViewStyle.Viaggio.Travel.Option"
                 android:fontFamily="sans-serif-light"
@@ -51,7 +63,7 @@
                 android:paddingEnd="@dimen/common_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/travelOptionTitle"
+                app:layout_constraintTop_toBottomOf="@id/travelOptionCalendar"
                 android:onClick="@{()->viewHandler.areaModify()}"
         />
         <com.google.android.material.chip.Chip
