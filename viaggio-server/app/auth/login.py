@@ -28,7 +28,7 @@ def login():
             return jsonify({
                 'email': user.email,
                 'name': user.name,
-                'profileImageUrl': user.profileImageUrl,
+                'imageUrl': user.profileImageUrl,
                 'token': user.token,
                 'AWS_IdentityId': response['IdentityId'],
                 'AWS_Token': response['Token'] }), 200
@@ -45,6 +45,7 @@ def login():
                 'email': user.email,
                 'name': user.name,
                 'token': user.token,
+                'imageUrl': user.profileImageUrl,
                 'AWS_IdentityId': response['IdentityId'],
                 'AWS_Token': response['Token'] }), 200
 
@@ -78,6 +79,7 @@ def google_signin():
                     'email': user.email,
                     'name': user.name,
                     'token': user.token,
+                    'imageUrl': user.profileImageUrl,
                     'AWS_IdentityId': response['IdentityId'],
                     'AWS_Token': response['Token'],
                     'isGoogleId': True }), 200
@@ -94,6 +96,7 @@ def google_signin():
                     'email': user.email,
                     'name': user.name,
                     'token': user.token,
+                    'imageUrl': user.profileImageUrl,
                     'AWS_IdentityId': response['IdentityId'],
                     'AWS_Token': response['Token'] }), 200
         else:
@@ -111,6 +114,7 @@ def google_signin():
                 'email': user.email,
                 'name': user.name,
                 'token': user.token,
+                'imageUrl': user.profileImageUrl,
                 'AWS_IdentityId': response['IdentityId'],
                 'AWS_Token': response['Token'],
                 'isGoogleId': True }), 200
