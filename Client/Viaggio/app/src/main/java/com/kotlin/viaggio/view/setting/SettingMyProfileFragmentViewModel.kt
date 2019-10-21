@@ -131,12 +131,13 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
 
     private fun imageAwsSave(imageName:List<String>) =
         Single.create<String> { emitter ->
+            val userId = prefUtilService.getString(AndroidPrefUtilService.Key.USER_ID).blockingGet()
             prefUtilService.putString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE, imageName.first()).blockingAwait()
 
             val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
             val awsToken = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
             config.setInfo(awsId, awsToken)
-            val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "users/${imageName.first().split("/").last()}", File(imageName.first()))
+            val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "users/$userId/${imageName.first().split("/").last()}", File(imageName.first()))
             uploadObserver.setTransferListener(object : TransferListener {
                 override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
                 override fun onStateChanged(id: Int, state: TransferState?) {

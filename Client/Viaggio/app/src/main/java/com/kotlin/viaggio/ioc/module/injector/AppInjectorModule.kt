@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.ioc.module.injector
 
+import com.kotlin.viaggio.fcm.ViaggioFcmService
 import com.kotlin.viaggio.ioc.module.injector.activity.MainActivityInjectorModule
 import com.kotlin.viaggio.ioc.module.provider.AppProviderModule
 import com.kotlin.viaggio.view.main_activity.MainActivity
@@ -20,6 +21,9 @@ interface AppInjectorModule {
         ]
     )
     fun mainActivity(): MainActivity
+
+    @ContributesAndroidInjector
+    fun viaggioFcmService(): ViaggioFcmService
 
     @ContributesAndroidInjector
     fun timeCheckWorker():TimeCheckWorker

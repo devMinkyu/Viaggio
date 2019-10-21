@@ -71,8 +71,43 @@ class SettingProfileImageEnrollFragment : BaseFragment<SettingProfileImageEnroll
                 }
             }
         })
+        showBackToTopAnimation()
     }
+    private fun showBackToTopAnimation() {
+        val animator = backToTop.animate().setDuration(250)
+            .translationY(backToTop.height.toFloat() + 150f)
+        animator.start()
+        travelingOfDayEnrollImageList.addOnScrollListener(object :RecyclerView.OnScrollListener() {
+            var showBackToTop = false
+            var mNewState = 0
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if(mNewState == 1) {
+                    if(dy > 0 && showBackToTop.not()) {
+                        showBackToTop = true
+                        val animator1 = backToTop.animate().setDuration(250)
+                            .translationY(0f)
+                        animator1.start()
+                    }
+                }
+            }
 
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                this.mNewState = newState
+                try {
+                    if (travelingOfDayEnrollImageList.canScrollVertically(-1).not()) {
+                        showBackToTop = false
+                        val animator1 = backToTop.animate().setDuration(250)
+                            .translationY(backToTop.height.toFloat() + 150f)
+                        animator1.start()
+                    }
+                } catch (e: NullPointerException) {
+                    travelingOfDayEnrollImageList.scrollToPosition(0)
+                }
+            }
+        })
+    }
 
     inner class ViewHandler {
         fun back() {
@@ -82,6 +117,9 @@ class SettingProfileImageEnrollFragment : BaseFragment<SettingProfileImageEnroll
         fun confirm() {
             getViewModel().confirm()
             fragmentPopStack()
+        }
+        fun backToTop() {
+            travelingOfDayEnrollImageList.smoothScrollToPosition(0)
         }
     }
 

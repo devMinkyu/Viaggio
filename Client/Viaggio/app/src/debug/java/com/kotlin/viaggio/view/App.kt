@@ -28,7 +28,6 @@ class App : BaseApp() {
                 super.createStackElementTag(element) + " : " + element.lineNumber
 
         })
-
         MobileAds.initialize(applicationContext, OnInitializationCompleteListener {
 
         })

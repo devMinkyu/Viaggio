@@ -99,31 +99,48 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
             }
         })
 
-        countryList?.let {
-            countryList.setOnScrollChangeListener { _, _, _, _, _ ->
+        showBackToTopAnimation()
+    }
+    private fun showBackToTopAnimation() {
+        var showBackToTop = false
+        val animator = backToTop.animate().setDuration(0)
+            .translationY(backToTop.height.toFloat() + 150f)
+        animator.start()
+        countryList.addOnScrollListener(object :RecyclerView.OnScrollListener() {
+            var mNewState = 0
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if(mNewState == 1) {
+                    if(dy > 0 && showBackToTop.not()) {
+                        showBackToTop = true
+                        val animator1 = backToTop.animate().setDuration(250)
+                            .translationY(0f)
+                        animator1.start()
+                        val animator2 = auto.animate().setDuration(250)
+                            .alpha(0f)
+                        animator2.start()
+                    }
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                this.mNewState = newState
                 try {
                     if (countryList.canScrollVertically(-1).not()) {
+                        showBackToTop = false
                         val animator1 = backToTop.animate().setDuration(250)
                             .translationY(backToTop.height.toFloat() + 150f)
                         animator1.start()
-                        val animator2 = auto.animate().setDuration(350)
+                        val animator2 = auto.animate().setDuration(250)
                             .alpha(1f)
-                            .translationY(0f)
-                        animator2.start()
-                    } else {
-                        val animator1 = backToTop.animate().setDuration(250)
-                            .translationY(0f)
-                        animator1.start()
-                        val animator2 = auto.animate().setDuration(350)
-                            .alpha(0f)
-                            .translationY((auto.height.toFloat() + 150f) * -1)
                         animator2.start()
                     }
                 } catch (e: NullPointerException) {
                     countryList.scrollToPosition(0)
                 }
             }
-        }
+        })
     }
 
     inner class ViewHandler {

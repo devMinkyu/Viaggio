@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.view.popup
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,11 +44,6 @@ class BackActionDialogFragment:BaseDialogFragment<BackActionDialogFragmentViewMo
             }
         }
     }
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
-    }
-
     inner class ViewHandler{
         fun close() {
             dismiss()

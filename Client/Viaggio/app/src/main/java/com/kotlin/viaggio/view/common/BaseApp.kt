@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.ContentProvider
 import androidx.multidex.MultiDexApplication
 import androidx.work.Worker
+import com.google.firebase.messaging.FirebaseMessaging
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kotlin.viaggio.ioc.module.common.AndroidWorkerInjection
 import dagger.android.*
@@ -30,7 +31,13 @@ abstract class BaseApp : MultiDexApplication(), HasActivityInjector, HasServiceI
     override fun onCreate() {
         super.onCreate()
         AndroidThreeTen.init(this)
+        injectIfNecessary()
+        FirebaseMessaging.getInstance().isAutoInitEnabled = true
 
+
+    }
+
+    private fun injectIfNecessary() {
         if (needToInject) {
             synchronized(this) {
                 if (needToInject) {

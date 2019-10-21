@@ -22,16 +22,6 @@ import kotlinx.android.synthetic.main.item_traveling_of_day_image.view.*
 
 class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFragmentViewModel>() {
     lateinit var binding: FragmentTravelingCardImageEnrollBinding
-//    override fun onResume() {
-//        super.onResume()
-//        if (sliderInterface == null)
-//            sliderInterface = Slidr.replace(
-//                enroll_container, SlidrConfig.Builder()
-//                    .position(SlidrPosition.TOP)
-//                    .build()
-//            )
-//    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_card_image_enroll, container, false)
         binding.viewModel = getViewModel()
@@ -45,18 +35,6 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
         params.width = width
         params.height = width
         travelingOfDayEnrollImageView.layoutParams = params
-
-        travelingOfDayEnrollImageView.setOnTouchListener { _, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> enableSliding(false)
-                MotionEvent.ACTION_UP -> {
-                    if (travelingOfDayEnrollImageList.canScrollVertically(-1).not()) {
-                        enableSliding(true)
-                    }
-                }
-            }
-            false
-        }
 
         travelingOfDayEnrollImageList.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
         getViewModel().imagePathList.observe(this, Observer {
@@ -102,23 +80,51 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                 }
             }
         })
-        travelingOfDayEnrollImageList.setOnScrollChangeListener { _, _, _, _, _ ->
-            travelingOfDayEnrollImageList?.let {
-                if (travelingOfDayEnrollImageList.canScrollVertically(-1).not()) {
-                    enableSliding(true)
-                } else {
-                    enableSliding(false)
-                }
-            }
-        }
+        showBackToTopAnimation()
     }
 
+    private fun showBackToTopAnimation() {
+        val animator = backToTop.animate().setDuration(250)
+            .translationY(backToTop.height.toFloat() + 150f)
+        animator.start()
+        travelingOfDayEnrollImageList.addOnScrollListener(object :RecyclerView.OnScrollListener() {
+            var showBackToTop = false
+            var mNewState = 0
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if(mNewState == 1) {
+                    if(dy > 0 && showBackToTop.not()) {
+                        showBackToTop = true
+                        val animator1 = backToTop.animate().setDuration(250)
+                            .translationY(0f)
+                        animator1.start()
+                    }
+                }
+            }
 
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                this.mNewState = newState
+                try {
+                    if (travelingOfDayEnrollImageList.canScrollVertically(-1).not()) {
+                        showBackToTop = false
+                        val animator1 = backToTop.animate().setDuration(250)
+                            .translationY(backToTop.height.toFloat() + 150f)
+                        animator1.start()
+                    }
+                } catch (e: NullPointerException) {
+                    travelingOfDayEnrollImageList.scrollToPosition(0)
+                }
+            }
+        })
+    }
     inner class ViewHandler {
         fun back() {
             fragmentPopStack()
         }
-
+        fun backToTop() {
+            travelingOfDayEnrollImageList.smoothScrollToPosition(0)
+        }
         fun confirm() {
             if(getViewModel().imageChooseList.isNotEmpty()){
                 getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)

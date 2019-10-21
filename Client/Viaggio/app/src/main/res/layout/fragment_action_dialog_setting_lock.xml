@@ -165,8 +165,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="@{viewModel.isExistFingerPrint ? View.GONE:View.VISIBLE}"
-                app:constraint_referenced_ids="number, password4, password3, password2,
-                password1, lock_sub_title, lock_title"
+                app:constraint_referenced_ids="number,password4,password3,password2,password1,lock_sub_title,lock_title"
         />
 
         <com.airbnb.lottie.LottieAnimationView
@@ -214,7 +213,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:visibility="@{viewModel.isExistFingerPrint ? View.VISIBLE:View.GONE}"
-                app:constraint_referenced_ids="finger_print_anim, finger_print_anim_notice, password_btn"
+                app:constraint_referenced_ids="finger_print_anim,finger_print_anim_notice,password_btn"
                 tools:ignore="UnknownId"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

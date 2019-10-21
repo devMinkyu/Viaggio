@@ -1,7 +1,6 @@
 package com.kotlin.viaggio.view.setting
 
 import android.text.TextUtils
-import android.util.Log
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
@@ -12,8 +11,7 @@ import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.android.schedulers.AndroidSchedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -45,7 +43,7 @@ class SettingLockActionDialogFragmentViewModel @Inject constructor() : BaseViewM
         if (fingerPrint) {
             isExistFingerPrint.set(fingerPrint)
             val disposable = RxReprint.authenticate()
-                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     when (it.status) {
                         AuthenticationResult.Status.SUCCESS -> {
@@ -65,6 +63,7 @@ class SettingLockActionDialogFragmentViewModel @Inject constructor() : BaseViewM
             addDisposable(disposable)
         }
     }
+
     private fun settingPassword(){
         password.clear()
         currentPosition = 0

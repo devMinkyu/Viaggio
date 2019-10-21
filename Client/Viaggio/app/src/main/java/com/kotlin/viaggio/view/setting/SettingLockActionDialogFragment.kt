@@ -109,7 +109,6 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
             }
         })
     }
-
     override fun onResume() {
         super.onResume()
         if(getViewModel().fingerPrint != getViewModel().isExistFingerPrint.get() && getViewModel().enrollMode.get().not()){

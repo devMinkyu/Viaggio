@@ -60,6 +60,7 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
 
         if (travelCard.localId != 0L) {
             if (travelCard.imageNames.isNotEmpty()) {
+                val userId = prefUtilService.getString(AndroidPrefUtilService.Key.USER_ID).blockingGet()
                 userModel.getAws()
                     .flatMapCompletable {
                         val list = travelCard.imageNames.map {
@@ -68,7 +69,7 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
                                 val awsToken =
                                     prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
                                 config.setInfo(awsId, awsToken)
-                                val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "image/${it.split("/").last()}", File(it))
+                                val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "image/$userId/${it.split("/").last()}", File(it))
                                 uploadObserver.setTransferListener(object : TransferListener {
                                     override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
                                     override fun onStateChanged(id: Int, state: TransferState?) {

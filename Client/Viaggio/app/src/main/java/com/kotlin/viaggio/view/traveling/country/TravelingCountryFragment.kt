@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -116,11 +117,36 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
                 fragmentPopStack()
             }
         })
+        showBackToTopAnimation()
     }
 
+    private fun showBackToTopAnimation() {
+        var showBackToTop = false
+        val animator = backToTop.animate().setDuration(0)
+            .translationY(backToTop.height.toFloat() + 300f)
+        animator.start()
+        travelingCountryContainer.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            if(scrollY - oldScrollY > 0 && showBackToTop.not()) {
+                showBackToTop = true
+                val animator1 = backToTop.animate().setDuration(250)
+                    .translationY(0f)
+                animator1.start()
+            }
+
+            if(scrollY == 0 && showBackToTop) {
+                showBackToTop = false
+                val animator1 = backToTop.animate().setDuration(250)
+                    .translationY(backToTop.height.toFloat() + 150f)
+                animator1.start()
+            }
+        })
+    }
     inner class ViewHandler {
         fun back() {
             fragmentPopStack()
+        }
+        fun backToTop() {
+            travelingCountryContainer.smoothScrollTo(0,0)
         }
         fun confirm(){
             if(getViewModel().option){

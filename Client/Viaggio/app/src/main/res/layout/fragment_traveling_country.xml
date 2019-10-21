@@ -1,154 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <import type="android.view.View"/>
-        <import type="com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment.ViewHandler"/>
-        <import type="com.kotlin.viaggio.view.traveling.country.TravelingCountryFragmentViewModel"/>
 
-        <variable name="viewModel" type="com.kotlin.viaggio.view.traveling.country.TravelingCountryFragmentViewModel"/>
-        <variable name="viewHandler" type="ViewHandler"/>
+        <import type="android.view.View" />
+
+        <import type="com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment.ViewHandler" />
+
+        <import type="com.kotlin.viaggio.view.traveling.country.TravelingCountryFragmentViewModel" />
+
+        <variable
+                name="viewModel"
+                type="com.kotlin.viaggio.view.traveling.country.TravelingCountryFragmentViewModel" />
+
+        <variable
+                name="viewHandler"
+                type="ViewHandler" />
     </data>
+
     <FrameLayout
-            android:background="@android:color/transparent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <androidx.core.widget.NestedScrollView
-                android:id="@id/travelingCountryContainer"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true"
-                android:descendantFocusability="afterDescendants"
-                android:background="@color/white_three"
-        >
-            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                    android:id="@id/travelingCountryContainer"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@color/white_three"
+                    android:descendantFocusability="afterDescendants"
+                    android:fillViewport="true">
 
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@id/countryList"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/common_margin"
-                        android:layout_marginEnd="@dimen/common_margin"
-                        android:layout_marginTop="@dimen/common_top"
-                        android:scrollbarSize="5dp"
-                        android:scrollbarThumbVertical="@color/brown_grey"
-                        android:scrollbars="vertical"
-                        android:overScrollMode="never"
-                        app:layout_constraintTop_toBottomOf="@id/countrySpinner"
-                        app:layout_constraintBottom_toTopOf="@id/country_add"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                />
-
-                <TextView
-                        android:id="@+id/country_add"
+                <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/tool_bar_title"
-                        android:textSize="16dp"
-                        android:textColor="@color/very_light_pink"
-                        android:lineSpacingExtra="2.5sp"
-                        android:gravity="center"
-                        android:fontFamily="sans-serif-light"
-                        app:layout_constraintTop_toBottomOf="@id/countryList"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:text="@string/travel_country_add_notice"
-                        tools:ignore="SpUsage"/>
-                <androidx.recyclerview.widget.RecyclerView
-                        android:id="@id/selectedCityList"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/toolbar"
-                />
-                <View
-                        android:id="@+id/toolbar"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/tool_bar"
-                        android:background="@color/white_three"
-                        android:alpha="0.9"
-                        app:layout_constraintTop_toTopOf="parent"
-                />
-                <com.google.android.material.button.MaterialButton
-                        android:id="@+id/back"
-                        style="@style/ViewStyle.Viaggio.Back"
-                        android:layout_marginTop="0dp"
-                        android:onClick="@{()->viewHandler.back()}"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                />
-                <com.google.android.material.button.MaterialButton
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:id="@+id/confirm"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimary"
-                        android:text="@string/city_start"
-                        android:gravity="center"
-                        android:padding="@dimen/common_top"
-                        android:fontFamily="sans-serif-black"
-                        android:visibility="@{viewModel.chooseArea.size == 0 ? View.GONE:View.VISIBLE}"
-                        android:onClick="@{()->viewHandler.confirm()}"
-                        app:layout_constraintTop_toTopOf="@id/back"
-                        app:layout_constraintBottom_toBottomOf="@id/back"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:rippleColor="@color/rippleColor"
-                />
+                        android:layout_height="match_parent">
 
-                <TextView
-                        android:id="@+id/enroll_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.Viaggio.Navigation"
-                        android:layout_marginStart="31.7dp"
-                        android:layout_marginTop="@dimen/tool_bar_title"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:text="@string/travel_country_notice"
-                        tools:ignore="SpUsage"/>
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@id/countryList"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/common_margin"
+                            android:layout_marginTop="@dimen/common_top"
+                            android:layout_marginEnd="@dimen/common_margin"
+                            android:overScrollMode="never"
+                            android:scrollbarSize="5dp"
+                            android:scrollbarThumbVertical="@color/brown_grey"
+                            android:scrollbars="vertical"
+                            app:layout_constraintBottom_toTopOf="@id/country_add"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/countrySpinner" />
 
-                <Spinner
-                        android:id="@id/countrySpinner"
-                        android:layout_width="130dp"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/spinner_bg"
-                        android:backgroundTint="@color/white_three"
-                        app:layout_constraintTop_toBottomOf="@id/selectedCityList"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"/>
+                    <TextView
+                            android:id="@+id/country_add"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/tool_bar_title"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="center"
+                            android:lineSpacingExtra="2.5sp"
+                            android:text="@string/travel_country_add_notice"
+                            android:textColor="@color/very_light_pink"
+                            android:textSize="16dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/countryList"
+                            tools:ignore="SpUsage" />
 
-                <ProgressBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:visibility="@{viewModel.loadingData ? View.VISIBLE:View.GONE}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                />
+                    <androidx.recyclerview.widget.RecyclerView
+                            android:id="@id/selectedCityList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-                <com.google.android.material.button.MaterialButton
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimary"
-                        android:text="@string/travel_empty_data_btn"
-                        android:gravity="center"
-                        android:padding="@dimen/common_top"
-                        android:fontFamily="sans-serif-black"
-                        android:visibility="@{viewModel.isExistData ? View.GONE:View.VISIBLE}"
-                        android:onClick="@{()->viewHandler.fetchData()}"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:rippleColor="@color/rippleColor"
-                />
+                    <View
+                            android:id="@+id/toolbar"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/tool_bar"
+                            android:alpha="0.9"
+                            android:background="@color/white_three"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/back"
+                            style="@style/ViewStyle.Viaggio.Back"
+                            android:layout_marginTop="0dp"
+                            android:onClick="@{()->viewHandler.back()}"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                            android:id="@+id/confirm"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:gravity="center"
+                            android:onClick="@{()->viewHandler.confirm()}"
+                            android:padding="@dimen/common_top"
+                            android:text="@string/city_start"
+                            android:textColor="@color/colorPrimary"
+                            android:visibility="@{viewModel.chooseArea.size == 0 ? View.GONE:View.VISIBLE}"
+                            app:layout_constraintBottom_toBottomOf="@id/back"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/back"
+                            app:rippleColor="@color/rippleColor" />
+
+                    <TextView
+                            android:id="@+id/enroll_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="31.7dp"
+                            android:layout_marginTop="@dimen/tool_bar_title"
+                            android:text="@string/travel_country_notice"
+                            android:textAppearance="@style/TextAppearance.Viaggio.Navigation"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="SpUsage" />
+
+                    <Spinner
+                            android:id="@id/countrySpinner"
+                            android:layout_width="130dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/spinner_bg"
+                            android:backgroundTint="@color/white_three"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/selectedCityList" />
+
+                    <ProgressBar
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="@{viewModel.loadingData ? View.VISIBLE:View.GONE}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-black"
+                            android:gravity="center"
+                            android:onClick="@{()->viewHandler.fetchData()}"
+                            android:padding="@dimen/common_top"
+                            android:text="@string/travel_empty_data_btn"
+                            android:textColor="@color/colorPrimary"
+                            android:visibility="@{viewModel.isExistData ? View.GONE:View.VISIBLE}"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:rippleColor="@color/rippleColor" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@id/backToTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/common_margin"
+                    android:layout_marginBottom="30dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> viewHandler.backToTop()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:srcCompat="@drawable/icon_back_to_top" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
 </layout>

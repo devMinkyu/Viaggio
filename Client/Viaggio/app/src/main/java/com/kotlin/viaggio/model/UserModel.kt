@@ -1,17 +1,28 @@
 package com.kotlin.viaggio.model
 
+import android.content.Context
+import android.text.TextUtils
 import android.util.Log
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
+import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
 import com.kotlin.viaggio.data.obj.GoogleSignInBody
 import com.kotlin.viaggio.data.obj.ViaggioApiAWSAuth
 import com.kotlin.viaggio.data.obj.ViaggioApiAuth
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
+import com.kotlin.viaggio.data.source.LocalDataSource
 import com.kotlin.viaggio.data.source.ViaggioApiService
+import dagger.Lazy
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
+import java.io.File
+import java.lang.Exception
 import javax.inject.Inject
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -23,6 +34,10 @@ class UserModel @Inject constructor() :BaseModel(){
     lateinit var config: DeveloperAuthenticationProvider
     @Inject
     lateinit var pref: AndroidPrefUtilService
+    @field:[Inject Named("Application")]
+    lateinit var appCtx: Lazy<Context>
+    @Inject
+    lateinit var transferUtility: TransferUtility
 
     fun googleSignIn(idToken:String) : Single<Response<ViaggioApiAuth>> {
         return api.googleSignIn(GoogleSignInBody(idToken))
@@ -90,14 +105,45 @@ class UserModel @Inject constructor() :BaseModel(){
         .subscribeOn(Schedulers.io())
 
     private fun saveUserInformation(auth:ViaggioApiAuth) {
-        Completable.mergeArray(
+        val completableList = mutableListOf(
             pref.putString(AndroidPrefUtilService.Key.USER_ID, auth.email),
             pref.putString(AndroidPrefUtilService.Key.TOKEN_ID, auth.token),
             pref.putString(AndroidPrefUtilService.Key.USER_NAME, auth.name),
             pref.putBool(AndroidPrefUtilService.Key.GOOGLE_LOGIN, auth.isGoogleId),
             pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId),
             pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token),
-            pref.putBool(AndroidPrefUtilService.Key.NEW_AWS, true)
-        ).blockingAwait()
+            pref.putBool(AndroidPrefUtilService.Key.NEW_AWS, true),
+            pref.putString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE_URL, auth.imageUrl))
+        if(TextUtils.isEmpty(auth.imageUrl).not()) {
+            completableList.add(saveUserProfile(auth))
+        }
+        Completable.merge(completableList).blockingAwait()
+    }
+    private fun saveUserProfile(auth:ViaggioApiAuth): Completable {
+        val awsId = auth.AWS_IdentityId
+        val awsToken = auth.AWS_Token
+        config.setInfo(awsId, awsToken)
+
+        val imageDir = File(appCtx.get().filesDir, LocalDataSource.IMG_FOLDER)
+        if(!imageDir.exists()){
+            imageDir.mkdirs()
+        }
+        return Completable.create { emitter ->
+            val imageName = auth.imageUrl.split("/").last()
+            val file = File(imageDir, imageName)
+            val downloadObserver = transferUtility.download(BuildConfig.S3_UPLOAD_BUCKET, auth.imageUrl, file)
+            downloadObserver.setTransferListener(object : TransferListener {
+                override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
+                override fun onStateChanged(id: Int, state: TransferState?) {
+                    if(state == TransferState.COMPLETED) {
+                        pref.putString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE, file.absolutePath).blockingAwait()
+                        emitter.onComplete()
+                    }
+                }
+                override fun onError(id: Int, ex: Exception?) {
+                    emitter.onError(ex as Throwable)
+                }
+            })
+        }
     }
 }
