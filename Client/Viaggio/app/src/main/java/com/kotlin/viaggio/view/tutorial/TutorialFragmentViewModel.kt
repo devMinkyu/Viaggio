@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.tutorial
 
+import androidx.databinding.ObservableBoolean
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.obj.Tutorial
 import com.kotlin.viaggio.data.obj.TutorialList
@@ -12,6 +13,7 @@ class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val tutorialList: MutableLiveData<List<Tutorial>> = MutableLiveData()
 
+    val showButton = ObservableBoolean(false)
     override fun initialize() {
         super.initialize()
 
@@ -25,6 +27,6 @@ class TutorialFragmentViewModel @Inject constructor() : BaseViewModel() {
         tutorialList.value = list
     }
     fun tutorialEnd() {
-        prefUtilService.putBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK, true).subscribe()
+        prefUtilService.putBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK, true).blockingAwait()
     }
 }

@@ -1,19 +1,17 @@
 package com.kotlin.viaggio.view.common
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Rect
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
+import com.kotlin.viaggio.extenstions.showDialog
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.r0adkll.slidr.model.SlidrInterface
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -97,20 +95,11 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
             sliderInterface?.lock()
     }
 
-    fun baseIntent(uri:String){
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(uri)
-        )
-        intent.setPackage(BuildConfig.APPLICATION_ID)
-        startActivity(intent)
-    }
-
     fun fragmentPopStack(){
         parentFragmentManager.popBackStack()
     }
 
-    fun checkInternet():Boolean{
+    fun checkInternet():Boolean {
         val cm = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetworkInfo
         return activeNetwork != null
@@ -139,21 +128,9 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
         }
     }
     fun showNetWorkError(){
-        activity?.let {
-            (it as BaseActivity<*>).showNetWorkError()
-        }
+        showDialog(NetworkDialogFragment(), NetworkDialogFragment.TAG)
     }
 
-    fun showBottomDialog(frag:BaseBottomDialogFragment<*>, tag:String) {
-        activity?.let {
-            (it as BaseActivity<*>).showBottomDialog(frag, tag)
-        }
-    }
-    fun showDialog(frag: BaseDialogFragment<*>, tag: String) {
-        activity?.let {
-            (it as BaseActivity<*>).showDialog(frag, tag)
-        }
-    }
 
     // back interface
     override fun onBackPressed(): Boolean {

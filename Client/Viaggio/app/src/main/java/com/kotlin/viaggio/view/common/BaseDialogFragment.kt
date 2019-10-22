@@ -1,15 +1,14 @@
 package com.kotlin.viaggio.view.common
 
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.kotlin.viaggio.BuildConfig
+import com.kotlin.viaggio.extenstions.showDialog
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -57,15 +56,6 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
         return nonNullViewModelProviderVal
     }
 
-    fun baseIntent(uri:String){
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(uri)
-        )
-        intent.setPackage(BuildConfig.APPLICATION_ID)
-        startActivity(intent)
-    }
-
     fun showLoading() {
         activity?.let {
             (it as BaseActivity<*>).showLoading()
@@ -94,20 +84,9 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
         return activeNetwork != null
     }
     fun showNetWorkError(){
-        activity?.let {
-            (it as BaseActivity<*>).showNetWorkError()
-        }
+        showDialog(NetworkDialogFragment(), NetworkDialogFragment.TAG)
     }
-    fun showBottomDialog(frag:BaseBottomDialogFragment<*>, tag:String) {
-        activity?.let {
-            (it as BaseActivity<*>).showBottomDialog(frag, tag)
-        }
-    }
-    fun showDialog(frag: BaseDialogFragment<*>, tag: String) {
-        activity?.let {
-            (it as BaseActivity<*>).showDialog(frag, tag)
-        }
-    }
+
     // back interface
     override fun onBackPressed(): Boolean {
         return false

@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.SignError
+import com.kotlin.viaggio.extenstions.baseIntent
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig

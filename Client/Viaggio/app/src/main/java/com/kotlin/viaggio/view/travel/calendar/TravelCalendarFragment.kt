@@ -18,11 +18,9 @@ import com.kizitonwose.calendarview.ui.ViewContainer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.databinding.FragmentTravelCalendarBinding
+import com.kotlin.viaggio.extenstions.*
+import com.kotlin.viaggio.extenstions.setTextColorRes
 import com.kotlin.viaggio.view.common.BaseFragment
-import com.kotlin.viaggio.widget.daysOfWeekFromLocale
-import com.kotlin.viaggio.widget.makeInVisible
-import com.kotlin.viaggio.widget.makeVisible
-import com.kotlin.viaggio.widget.setTextColorRes
 import kotlinx.android.synthetic.main.calendar_day_legend.*
 import kotlinx.android.synthetic.main.fragment_travel_calendar.*
 import kotlinx.android.synthetic.main.item_calendar_day.view.*
@@ -241,18 +239,22 @@ class TravelCalendarFragment : BaseFragment<TravelCalendarFragmentViewModel>() {
 
         fun confirm() {
             if(getViewModel().option) {
-                showLoading()
-                val startDate = convertDate(getViewModel().startDate!!)
-                val endDate = convertDate(getViewModel().endDate!!)
-                getViewModel().modifyCalendar(startDate, endDate).observe(this@TravelCalendarFragment, androidx.lifecycle.Observer {
-                    stopLoading()
-                    if(it) {
-                        parentFragmentManager.popBackStack()
-                    } else {
-                        view?.snackbar("error")
-                        parentFragmentManager.popBackStack()
-                    }
-                })
+                if (checkInternet()) {
+                    showLoading()
+                    val startDate = convertDate(getViewModel().startDate!!)
+                    val endDate = convertDate(getViewModel().endDate!!)
+                    getViewModel().modifyCalendar(startDate, endDate).observe(this@TravelCalendarFragment, androidx.lifecycle.Observer {
+                        stopLoading()
+                        if(it) {
+                            parentFragmentManager.popBackStack()
+                        } else {
+                            view?.snackbar("error")
+                            parentFragmentManager.popBackStack()
+                        }
+                    })
+                } else {
+                    showNetWorkError()
+                }
             } else {
                 if (getViewModel().enrollMode) {
                     val startDate = convertDate(getViewModel().startDate!!)

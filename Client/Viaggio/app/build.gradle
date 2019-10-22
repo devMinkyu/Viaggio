@@ -225,7 +225,7 @@ dependencies {
     implementation 'com.github.curioustechizen.android-ago:library:1.4.0'
     implementation 'net.skoumal.fragmentback:fragment-back:0.2.3'
 
-    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.1'
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
     implementation 'com.github.hrskrs:InstaDotView:1.1'
 
     implementation 'com.github.kizitonwose:CalendarView:0.2.8'

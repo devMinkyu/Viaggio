@@ -18,9 +18,10 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.model.TravelModel
 import com.kotlin.viaggio.view.common.BaseViewModel
-import com.kotlin.viaggio.widget.getDrawableCompat
-import com.kotlin.viaggio.widget.setCornerRadius
+import com.kotlin.viaggio.extenstions.getDrawableCompat
+import com.kotlin.viaggio.extenstions.setCornerRadius
 import io.reactivex.Completable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.threeten.bp.LocalDate
@@ -28,7 +29,6 @@ import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -54,6 +54,7 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
     var endDate: LocalDate? = null
 
     var travel: Travel? = null
+    var travelCards = listOf<TravelCard>()
     private val headerDateFormatter = DateTimeFormatter.ofPattern("EEE'\n'MMM d")
     private val mContext: Context by lazy {
         return@lazy appCtx.get()
@@ -87,17 +88,8 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
         exFourEndDateColor.set(mContext.getColorStateList(R.color.light_grey))
         if (option) {
             traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
-            val disposable = travelLocalModel.getTravel()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    travel = it
-                    travelKind = it.travelKind
-                    bindSummaryViews()
-                    updateView.value = Event(Any())
-                }) {
-                    Timber.d(it)
-                }
-            addDisposable(disposable)
+            fetchTravel()
+            fetchTravelCards()
         } else {
             travelKind =
                 prefUtilService.getInt(AndroidPrefUtilService.Key.TRAVEL_KINDS).blockingGet()
@@ -105,7 +97,32 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
+    private fun fetchTravel() {
+        val disposable = travelLocalModel.getTravel()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                travel = it
+                travelKind = it.travelKind
+                bindSummaryViews()
+                updateView.value = Event(Any())
+            }) {
+                Timber.d(it)
+            }
+        addDisposable(disposable)
+    }
 
+    private fun fetchTravelCards() {
+        val disposable = travelLocalModel.getTravelCards()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                travelCards = it
+            }) {
+                Timber.d(it)
+            }
+        addDisposable(disposable)
+    }
 
     private var radiusUpdated = false
 
@@ -152,16 +169,19 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     fun modifyCalendar(startDate: Date, endDate: Date): LiveData<Boolean> {
         val result = MutableLiveData<Boolean>()
-        if(travel == null) {
+        if (travel == null) {
             result.value = false
         }
         travel?.let { mTravel ->
-            val mEndDate:Date? = if(traveling) null else endDate
+            val mEndDate: Date? = if (traveling) null else endDate
             mTravel.startDate = startDate
             mTravel.endDate = mEndDate
             mTravel.userExist = false
 
-            val disposable = Completable.mergeArray(updateTravelCard(startDate), travelLocalModel.updateTravel(mTravel))
+            val disposable = Completable.mergeArray(
+                updateTravelCard(startDate),
+                travelLocalModel.updateTravel(mTravel)
+            )
                 .subscribeOn(Schedulers.io())
                 .andThen {
                     val token = travelLocalModel.getToken()
@@ -174,7 +194,7 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
                     }
                 }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe ({
+                .subscribe({
                     rxEventBus.travelUpdate.onNext(Any())
                     result.value = true
                 }) {
@@ -188,13 +208,27 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     fun updateTravelCard(startDate: Date): Completable {
         var result: List<TravelCard>
-        return travelLocalModel.getTravelCards()
+        return if (travelCards.isNotEmpty()) {
+            Single.just(travelCards)
+        } else {
+            travelLocalModel.getTravelCards()
+        }
+            .subscribeOn(Schedulers.io())
             .flatMapCompletable {
-                result = it.map {travelCard ->
+                result = it.map { travelCard ->
                     val calendar = Calendar.getInstance()
                     calendar.time = startDate
                     calendar.add(Calendar.DAY_OF_MONTH, travelCard.travelOfDay - 1)
+                    calendar.set(
+                        Calendar.HOUR_OF_DAY,
+                        SimpleDateFormat("HH", Locale.getDefault()).format(travelCard.time).toInt()
+                    )
+                    calendar.set(
+                        Calendar.MINUTE,
+                        SimpleDateFormat("mm", Locale.getDefault()).format(travelCard.time).toInt()
+                    )
                     travelCard.time = calendar.time
+                    travelCard.userExist = false
                     travelCard
                 }
                 val completableList = mutableListOf<Completable>()
@@ -202,11 +236,11 @@ class TravelCalendarFragmentViewModel @Inject constructor() : BaseViewModel() {
 
                 val token = travelLocalModel.getToken()
                 val mode = travelLocalModel.getUploadMode()
-                val list =result.filter { travelCard ->
+                val list = result.filter { travelCard ->
                     travelCard.serverId != 0
                 }
                 if (TextUtils.isEmpty(token).not() && mode != 2 && list.isNotEmpty()) {
-                    completableList.add(travelModel.updateSyncTravelCards(list))
+                    completableList.add(travelModel.updateTravelCards(list))
                 }
                 Completable.merge(completableList)
             }

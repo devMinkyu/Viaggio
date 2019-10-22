@@ -194,4 +194,6 @@
     <string name="start_date">시작 날짜</string>
     <string name="end_date">종료 날짜</string>
     <string name="clear">초기화</string>
+    <string name="intro_contents">다녀온 여행\n기록을 한눈에!</string>
+    <string name="intro_btn_contents">LET’S START TO LEARN</string>
 </resources>

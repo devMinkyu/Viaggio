@@ -24,6 +24,8 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.Traveled
 import com.kotlin.viaggio.databinding.FragmentTravelBinding
+import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.showDialog
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import com.kotlin.viaggio.view.travel.option.TravelOptionBottomSheetDialogFragment
@@ -156,7 +158,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
 
 
             view.travelNonBack.setOnClickListener {
-                showBottomDialog(TravelKindsBottomSheetDialogFragment(), TravelKindsBottomSheetDialogFragment.TAG)
+                showDialog(TravelKindsBottomSheetDialogFragment(), TravelKindsBottomSheetDialogFragment.TAG)
             }
             view.travelBackground.setOnClickListener {
                 if (travelList.size > position) {
@@ -172,7 +174,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                 if (travelList.size > position) {
                     getViewModel().chooseNum = position
                     getViewModel().selectedTravelId(travelList[position].localId)
-                    showBottomDialog(TravelOptionBottomSheetDialogFragment(), TravelOptionBottomSheetDialogFragment.TAG)
+                    showDialog(TravelOptionBottomSheetDialogFragment(), TravelOptionBottomSheetDialogFragment.TAG)
                 }
             }
             view.domesticsName.setOnClickListener {

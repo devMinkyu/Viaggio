@@ -50,7 +50,9 @@
         <meta-data
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"
                 android:value="ocr" />
-        <meta-data android:name="preloaded_fonts" android:resource="@array/preloaded_fonts"/>
+        <meta-data
+                android:name="preloaded_fonts"
+                android:resource="@array/preloaded_fonts" />
         <meta-data
                 android:name="io.fabric.ApiKey"
                 android:value="863923097a741e0e5349ccecbc0ec8db14bd5144" />
@@ -86,6 +88,10 @@
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"
                         android:pathPattern="/home/main/"/>
+                <data
+                        android:scheme="http"
+                        android:host="viaggio.kotlin.com"
+                        android:pathPattern="/home/tutorial/"/>
                 <data
                         android:scheme="http"
                         android:host="viaggio.kotlin.com"

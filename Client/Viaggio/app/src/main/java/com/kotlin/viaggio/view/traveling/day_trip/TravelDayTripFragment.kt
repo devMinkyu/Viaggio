@@ -19,6 +19,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.obj.TravelCardValue
 import com.kotlin.viaggio.databinding.*
+import com.kotlin.viaggio.extenstions.baseIntent
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.traveling.TravelCardViewHandler
 import com.r0adkll.slidr.Slidr

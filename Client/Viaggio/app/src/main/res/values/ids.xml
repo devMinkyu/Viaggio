@@ -287,4 +287,5 @@
     <item name="travelingItemThemeBg1" type="id" />
     <item name="travelOptionCalendar" type="id" />
     <item name="travelingDayCountActionTimePicker" type="id" />
+    <item name="introContents" type="id" />
 </resources>

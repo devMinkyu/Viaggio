@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.PermissionError
+import com.kotlin.viaggio.extenstions.baseIntent
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig

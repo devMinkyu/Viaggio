@@ -11,6 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.showDialog
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
@@ -98,7 +100,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         }
 
         fun imageSetting() {
-            showBottomDialog(SettingImageBottomSheetDialogFragment(), SettingImageBottomSheetDialogFragment.TAG)
+            showDialog(SettingImageBottomSheetDialogFragment(), SettingImageBottomSheetDialogFragment.TAG)
         }
 
         fun lockSetting() {
@@ -107,7 +109,7 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
 
         fun autoUpload() {
             if (getViewModel().isLogin.get()) {
-                showBottomDialog(SettingAutoBottomSheetDialogFragment(), SettingAutoBottomSheetDialogFragment.TAG)
+                showDialog(SettingAutoBottomSheetDialogFragment(), SettingAutoBottomSheetDialogFragment.TAG)
             } else {
 //                baseIntent("http://viaggio.kotlin.com/home/login/")
                 baseIntent("http://viaggio.kotlin.com/login/normal/")

@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.extenstions.baseIntent
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_tutorial.*
 import kotlinx.android.synthetic.main.item_tutorial.view.*
@@ -30,7 +33,7 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
                 tutorialPager.adapter = object: RecyclerView.Adapter<RecyclerView.ViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
                         TutorialViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_tutorial, parent, false))
-                    override fun getItemCount() = list.size + 1
+                    override fun getItemCount() = list.size
                     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
                         holder as TutorialViewHolder
                         if(position < list.size){
@@ -42,9 +45,10 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
             tutorialPagerIndicator.setViewPager2(tutorialPager)
                 tutorialPager.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
                     override fun onPageSelected(position: Int) {
-                        if(position < list.size)
-                        else{
-                            tutorialPager.setCurrentItem(0, false)
+                        if (position == list.size - 1) {
+                            getViewModel().showButton.set(true)
+                        } else {
+                            getViewModel().showButton.set(false)
                         }
                     }
                 })
@@ -54,12 +58,13 @@ class TutorialFragment:BaseFragment<TutorialFragmentViewModel>() {
 
     inner class ViewHandler{
         fun skip(){
-            baseIntent("http://viaggio.kotlin.com/home/main/")
             getViewModel().tutorialEnd()
+            baseIntent("http://viaggio.kotlin.com/home/main/")
+            parentFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
         fun login(){
-            baseIntent("http://viaggio.kotlin.com/home/login/")
             getViewModel().tutorialEnd()
+            baseIntent("http://viaggio.kotlin.com/login/normal/")
         }
     }
 

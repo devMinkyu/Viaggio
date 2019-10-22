@@ -116,6 +116,13 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
         return result
     }
 
-    fun checkTutorial() = prefUtilService.getBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK).blockingGet() ?: false
+    fun checkTutorial():Boolean {
+        val tutorial =prefUtilService.getBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK, false).blockingGet() ?: false
+        if(tutorial.not()) {
+            prefUtilService.putBool(AndroidPrefUtilService.Key.TUTORIAL_CHECK, tutorial.not()).blockingAwait()
+        }
+        return tutorial
+    }
+
     fun getLock() = prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet() ?: false
 }

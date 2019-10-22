@@ -1,19 +1,22 @@
-package com.kotlin.viaggio.widget
+package com.kotlin.viaggio.extenstions
 
 import android.content.Context
-import android.content.res.Resources
+import android.content.Intent
 import android.graphics.drawable.GradientDrawable
-import android.util.TypedValue
-import android.view.LayoutInflater
+import android.net.Uri
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
-import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
+import com.kotlin.viaggio.BuildConfig
+import com.kotlin.viaggio.R
+import com.kotlin.viaggio.view.common.BaseActivity
+import com.kotlin.viaggio.view.common.BaseDialogFragment
+import com.kotlin.viaggio.view.common.BaseFragment
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.temporal.WeekFields
 import java.util.*
@@ -61,3 +64,41 @@ fun daysOfWeekFromLocale(): Array<DayOfWeek> {
     return daysOfWeek
 }
 
+fun AppCompatActivity.leftReplace(frag: BaseFragment<*>) {
+    supportFragmentManager.beginTransaction()
+        .setCustomAnimations(
+            R.anim.slide_in_right,
+            R.anim.slide_out_left,
+            R.anim.slide_in_left,
+            R.anim.slide_out_right
+        )
+        .addToBackStack(null)
+        .add(R.id.content_frame, frag, null).commit()
+}
+fun AppCompatActivity.topReplace(frag: BaseFragment<*>) {
+    supportFragmentManager.beginTransaction()
+        .setCustomAnimations(
+            R.anim.slide_in_up,
+            R.anim.fade_out,
+            R.anim.fade_in,
+            R.anim.slide_out_down
+        )
+        .addToBackStack(null)
+        .add(R.id.content_frame, frag, null).commit()
+}
+
+fun Fragment.baseIntent(uri:String) {
+    val intent = Intent(
+        Intent.ACTION_VIEW,
+        Uri.parse(uri)
+    )
+    intent.setPackage(BuildConfig.APPLICATION_ID)
+    startActivity(intent)
+}
+
+fun Fragment.showDialog(frag: DialogFragment, tag: String) {
+    val fragVal = parentFragmentManager.findFragmentByTag(tag)?.run {
+        return
+    }?:frag
+    fragVal.show(parentFragmentManager, tag)
+}

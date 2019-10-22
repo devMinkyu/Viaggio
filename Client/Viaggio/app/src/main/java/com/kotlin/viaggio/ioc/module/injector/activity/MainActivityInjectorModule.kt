@@ -35,11 +35,15 @@ import com.kotlin.viaggio.view.traveling.option.TravelingCitiesActionDialogFragm
 import com.kotlin.viaggio.view.traveling.option.TravelingDayCountActionDialogFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingThemesActionDialogFragment
 import com.kotlin.viaggio.view.tutorial.TutorialFragment
+import com.kotlin.viaggio.view.tutorial.intro.IntroFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
 interface MainActivityInjectorModule {
+    @ContributesAndroidInjector
+    fun introFragment(): IntroFragment
+
     @ContributesAndroidInjector
     fun tutorialFragment(): TutorialFragment
 

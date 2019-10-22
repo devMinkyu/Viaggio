@@ -15,6 +15,9 @@ import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.databinding.FragmentTravelCardImageModifyImageBinding
 import com.kotlin.viaggio.databinding.ItemTravelingCardModifyImgBinding
+import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.makeGone
+import com.kotlin.viaggio.extenstions.makeVisible
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_travel_card_image_modify_image.*
 import kotlinx.android.synthetic.main.item_traveling_card_modify_img.view.*
@@ -66,12 +69,12 @@ class TravelCardImageModifyFragment : BaseFragment<TravelCardImageModifyFragment
                     override fun onBindViewHolder(holder: TravelCardNewImageViewHolder, position: Int) {
                         holder.binding?.viewHandler = holder.TravelCardNewImageViewHandler()
                         if(position > 0){
-                            holder.itemView.travelingPagerImg.visibility = View.VISIBLE
-                            holder.itemView.travelingPagerImgDelete.visibility = View.GONE
+                            holder.itemView.travelingPagerImg.makeVisible()
+                            holder.itemView.travelingPagerImgDelete.makeGone()
                             holder.loadImage(getViewModel().imageList[position - 1])
                         }else{
-                            holder.itemView.travelingPagerImg.visibility = View.GONE
-                            holder.itemView.travelingPagerImgDelete.visibility = View.GONE
+                            holder.itemView.travelingPagerImg.makeGone()
+                            holder.itemView.travelingPagerImgDelete.makeGone()
                         }
                     }
                 }

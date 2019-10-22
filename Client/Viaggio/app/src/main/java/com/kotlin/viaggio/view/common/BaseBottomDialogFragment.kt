@@ -1,15 +1,12 @@
 package com.kotlin.viaggio.view.common
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.Rect
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.kotlin.viaggio.BuildConfig
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
@@ -66,15 +63,6 @@ abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialo
         return nonNullViewModelProviderVal
     }
 
-    fun baseIntent(uri:String){
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(uri)
-        )
-        intent.setPackage(BuildConfig.APPLICATION_ID)
-        startActivity(intent)
-    }
-
     fun showLoading() {
         activity?.let {
             (it as BaseActivity<*>).showLoading()
@@ -95,16 +83,6 @@ abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialo
     fun hideKeyBoard(view: View) {
         activity?.let {
             (it as BaseActivity<*>).hideKeyBoard(view)
-        }
-    }
-    fun showBottomDialog(frag:BaseBottomDialogFragment<*>, tag:String) {
-        activity?.let {
-            (it as BaseActivity<*>).showBottomDialog(frag, tag)
-        }
-    }
-    fun showDialog(frag: BaseDialogFragment<*>, tag: String) {
-        activity?.let {
-            (it as BaseActivity<*>).showDialog(frag, tag)
         }
     }
 }

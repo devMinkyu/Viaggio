@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <import type="android.view.View"/>
         <import type="com.kotlin.viaggio.view.tutorial.TutorialFragment.ViewHandler"/>
@@ -14,17 +15,18 @@
             android:background="@color/white_three"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
         <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
                 android:id="@id/tutorialPagerIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="33dp"
-                app:dotsColor="#558cb9a1"
+                app:dotsColor="#555DDFD3"
                 app:dotsCornerRadius="8dp"
                 app:dotsSize="5.5dp"
                 app:dotsSpacing="3.8dp"
                 app:dotsWidthFactor="3.3"
-                app:selectedDotColor="@color/pale_teal_two"
+                app:selectedDotColor="@color/colorPrimary"
                 app:progressMode="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -38,54 +40,43 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/skipBtn"
         />
-        <com.kotlin.viaggio.widget.PageIndicatorView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                app:layout_constraintStart_toStartOf="@id/tutorialPager"
-                app:layout_constraintEnd_toEndOf="@id/tutorialPager"
-                app:layout_constraintBottom_toBottomOf="@id/tutorialPager"
-                android:layout_marginBottom="30dp"
-        />
         <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:id="@id/skipBtn"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                style="@style/ViewStyle.Viaggio.Option"
+                android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_height="70dp"
                 android:layout_marginBottom="30dp"
                 android:text="@string/tutorial_skip"
                 android:gravity="center"
-                app:strokeColor="@color/pinkish_grey"
-                app:strokeWidth="1dp"
-                app:cornerRadius="10dp"
-                app:rippleColor="@color/rippleColor"
-                android:textColor="@color/pinkish_grey"
+                android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewHandler.skip()}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/loginBtn"
                 app:layout_constraintHorizontal_chainStyle="packed"
-                android:layout_marginEnd="@dimen/common_margin"
-                android:layout_marginStart="@dimen/common_margin"
         />
         <com.google.android.material.button.MaterialButton
-                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:id="@id/loginBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:text="@string/tutorial_login"
-                android:gravity="center"
-                android:background="@drawable/tutorial_login_btn_bg"
-                app:cornerRadius="10dp"
+                android:layout_height="70dp"
                 app:backgroundTint="@color/colorPrimary"
-                app:rippleColor="@color/rippleColor"
-                android:textColor="@color/sign_click_color"
-                android:visibility="gone"
+                android:textColor="@android:color/white"
+                style="@style/ViewStyle.Viaggio.Option"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="@dimen/common_margin"
+                android:text="@string/tutorial_login"
+                android:background="?attr/selectableItemBackground"
                 android:onClick="@{() -> viewHandler.login()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/skipBtn"
                 app:layout_constraintBottom_toBottomOf="@id/skipBtn"
                 app:layout_constraintStart_toEndOf="@id/skipBtn"
         />
+        <androidx.constraintlayout.widget.Group
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="@{viewModel.showButton ? View.VISIBLE:View.INVISIBLE}"
+                app:constraint_referenced_ids="skipBtn,loginBtn"
+                tools:ignore="UnknownId" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

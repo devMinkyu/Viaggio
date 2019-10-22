@@ -22,8 +22,10 @@ class TravelModel @Inject constructor() : BaseModel() {
     lateinit var api: ViaggioApiService
     @Inject
     lateinit var gson: Gson
+    @Inject
+    lateinit var travelLocalModel: TravelLocalModel
 
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.ENGLISH)
+    private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
     private fun travelOfTravelBodyConvert(travel: Travel): TravelBody {
         val dateFormated = dateFormat.format(travel.startDate)
         val endDateFormated = travel.endDate?.let {
@@ -145,7 +147,24 @@ class TravelModel @Inject constructor() : BaseModel() {
             }
 
     }
-
+    fun updateTravelCards(travelCards: List<TravelCard>): Completable {
+        val result = travelCards.map {
+            travelCardOfTravelCardBodyConvert(it)
+        }
+        val data = TravelCardBodyList(result)
+        return api.updateTravelCards(data).subscribeOn(Schedulers.io())
+            .flatMapCompletable {
+                if(it.isSuccessful) {
+                    val list = travelCards.map {travelCard ->
+                        travelCard.userExist = true
+                        travelCard
+                    }
+                    travelLocalModel.updateTravelCards(list)
+                } else {
+                    Completable.error(NetworkErrorException("Data sync error"))
+                }
+            }
+    }
 
 
     fun createSyncTravelCards(travelCards: List<TravelCard>): Completable {

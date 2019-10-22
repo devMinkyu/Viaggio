@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.extenstions.baseIntent
 import com.kotlin.viaggio.view.common.BaseBottomDialogFragment
 import org.jetbrains.anko.design.snackbar
 

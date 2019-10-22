@@ -13,6 +13,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
+import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.showDialog
 import com.kotlin.viaggio.view.common.BaseDialogFragment
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragment
@@ -202,7 +204,7 @@ class TravelingDetailFragment : BaseFragment<TravelingDetailFragmentViewModel>()
             val location = IntArray(2)
             travelingDetailDayTravelCardList.getLocationOnScreen(location)
             getViewModel().modifyLocation = location
-            showBottomDialog(
+            showDialog(
                 TravelCardBottomSheetDialogFragment(),
                 TravelCardBottomSheetDialogFragment.TAG
             )

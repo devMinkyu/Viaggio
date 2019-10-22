@@ -16,6 +16,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.databinding.FragmentTravelingCardEnrollBinding
+import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.makeGone
+import com.kotlin.viaggio.extenstions.makeVisible
+import com.kotlin.viaggio.extenstions.showDialog
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingCitiesActionDialogFragment
 import com.kotlin.viaggio.view.traveling.option.TravelingDayCountActionDialogFragment
@@ -68,10 +72,10 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                     override fun onBindViewHolder(holder: TravelCardEnrollViewHolder, position: Int) {
                         holder.binding?.viewHandler = holder.TravelCardEnrollViewHandler()
                         if(position > 0){
-                            holder.itemView.travelingPagerImg.visibility = View.VISIBLE
+                            holder.itemView.travelingPagerImg.makeVisible()
                             holder.loadImage(getViewModel().imageList[position - 1])
                         }else{
-                            holder.itemView.travelingPagerImg.visibility = View.GONE
+                            holder.itemView.travelingPagerImg.makeGone()
                         }
                     }
                 }

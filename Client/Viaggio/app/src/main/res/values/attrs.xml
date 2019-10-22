@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <declare-styleable name="PageIndicatorView">
-        <attr name="imgSrc" format="reference"/>
-        <attr name="spacing" format="dimension"/>
-    </declare-styleable>
-</resources>

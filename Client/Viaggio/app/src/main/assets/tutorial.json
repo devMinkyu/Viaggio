@@ -16,10 +16,12 @@
       "contents": "Four pager is best"
     },
     {
-      "animRes":"lottie/tutorial_five.json",
+      "animRes":"lottie/tutorial_four.json",
       "title": "Five",
       "contents": "Five pager is best"
     }
   ]
 }
+
+
 

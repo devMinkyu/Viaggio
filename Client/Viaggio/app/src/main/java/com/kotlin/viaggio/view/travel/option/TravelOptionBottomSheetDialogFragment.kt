@@ -8,6 +8,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
+import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.showDialog
 import com.kotlin.viaggio.view.common.BaseBottomDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingDeleteActionDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
@@ -55,7 +57,7 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
             dismiss()
         }
         fun changeTitle(){
-            showBottomDialog(TravelTitleBottomSheetDialogFragment(), TravelTitleBottomSheetDialogFragment.TAG)
+            showDialog(TravelTitleBottomSheetDialogFragment(), TravelTitleBottomSheetDialogFragment.TAG)
             dismiss()
         }
         fun addCountry(){

@@ -4,6 +4,12 @@
     <color name="greyish_brown">#424242</color>
     <color name="white">#ffffff</color>
     <color name="white_two_25">#40f8f8f8</color>
+    <color name="white_three_10">#19ffffff</color>
+    <color name="white_three_80">#80ffffff</color>
+    <color name="white_three_40">#66ffffff</color>
+    <color name="white_six">#f4f4f4</color>
+    <color name="white_seven">#eeeeee</color>
+    <color name="white_two_30">#4df8f8f8</color>
     <color name="pinkish_grey">#bdbdbd</color>
     <color name="warm_grey">#9e9e9e</color>
     <color name="apple_green">#90db2a</color>
@@ -36,6 +42,10 @@
     <color name="almost_black">#0f2322</color>
     <color name="charcoal">#0f1010</color>
     <color name="charcoal_two">#101111</color>
+    <color name="black_40">#66000000</color>
+    <color name="black_60">#99000000</color>
+    <color name="black_75">#bf000000</color>
+    <color name="black_85">#d9000000</color>
     <color name="battleship_grey">#717575</color>
     <color name="ice_blue">#eceeee</color>
     <color name="ice">#eff8f6</color>

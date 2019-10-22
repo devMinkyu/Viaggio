@@ -11,7 +11,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.PermissionError
 import com.kotlin.viaggio.data.obj.TravelingError
 import com.kotlin.viaggio.databinding.FragmentTravelEnrollBinding
-import com.kotlin.viaggio.databinding.FragmentTravelEnrollBindingImpl
+import com.kotlin.viaggio.extenstions.baseIntent
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
