@@ -23,7 +23,8 @@ def create_travelCard(travelId):
                             content=request.json.get('content'),
                             imageName=request.json.get('imageNames'),
                             imageUrl=request.json.get('imageUrl'),
-                            date=request.json.get('date'))
+                            date=request.json.get('date'),
+                            time=request.json.get('time'))
 
     try:
         db.session.add(travelCard)
@@ -68,6 +69,18 @@ def update_travelCard(travelCardId):
     travelCard = TravelCard.query.filter_by(id=travelCardId).first_or_404()
     if request.json.get('content') is not None:
         travelCard.content = request.json.get('content')
+    if request.json.get('country') is not None:
+        travelCard.country = request.json.get('country')
+    if request.json.get('theme') is not None:
+        travelCard.theme = request.json.get('theme')
+    if request.json.get('imageNames') is not None:
+        travelCard.imageName = request.json.get('imageNames')
+    if request.json.get('imageUrl') is not None:
+        travelCard.imageUrl = request.json.get('imageUrl')
+    if request.json.get('date') is not None:
+        travelCard.date = request.json.get('date')
+    if request.json.get('time') is not None:
+        travelCard.time = request.json.get('time')
     db.session.commit()
     return jsonify({ 'result': 'Travel card is updated.' })
 
