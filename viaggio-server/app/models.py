@@ -106,6 +106,7 @@ class TravelCard(db.Model):
     imageName = db.Column(db.PickleType)
     imageUrl = db.Column(db.PickleType)
     date = db.Column(db.DateTime)
+    time = db.Column(db.DateTime)
     isDelete = db.Column(db.Boolean, default=False)
 
     def __init__(self, **kwargs):
@@ -113,7 +114,7 @@ class TravelCard(db.Model):
 
     def __repr__(self):
         return '<TravelCard %r' % self.travelId, self.travelOfDay, self.country, \
-            self.content, self.imageName, self.imageUrl, self.date
+            self.content, self.imageName, self.imageUrl, self.date, self.time
 
     def as_dict(self):
         return {x.name: getattr(self, x.name) for x in self.__table__.columns}
@@ -130,7 +131,8 @@ class TravelCard(db.Model):
             'content': self.content,
             'imageNames': self.imageName,
             'imageUrl': self.imageUrl,
-            'date': self.date
+            'date': self.date,
+            'time': self.time
         }
         return json_travelCard
 
