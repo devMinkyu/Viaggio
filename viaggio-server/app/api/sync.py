@@ -56,8 +56,12 @@ def update_travels():
             travel.title = reqTravel['title']
         if reqTravel['area'] is not None:
             travel.area = reqTravel['area']
+        if reqTravel['startDate'] is not None:
+            travel.startDate = reqTravel['startDate']
         if reqTravel['endDate'] is not None:
             travel.endDate = reqTravel['endDate']
+        if reqTravel['travelKind'] is not None:
+            travel.travelKind = reqTravel['travelKind']
         if reqTravel['theme'] is not None:
             travel.theme = reqTravel['theme']
         if reqTravel['imageName'] is not None:
@@ -119,6 +123,18 @@ def update_travelcards():
         travelCard = TravelCard.query.get(reqTravelCard['serverId'])
         if reqTravelCard.get('content') is not None:
             travelCard.content = reqTravelCard.get('content')
+        if request.json.get('country') is not None:
+            travelCard.country = request.json.get('country')
+        if request.json.get('theme') is not None:
+            travelCard.theme = request.json.get('theme')
+        if request.json.get('imageNames') is not None:
+            travelCard.imageName = request.json.get('imageNames')
+        if request.json.get('imageUrl') is not None:
+            travelCard.imageUrl = request.json.get('imageUrl')
+        if request.json.get('date') is not None:
+            travelCard.date = request.json.get('date')
+        if request.json.get('time') is not None:
+            travelCard.time = request.json.get('time')
     
     try:
         db.session.commit()
