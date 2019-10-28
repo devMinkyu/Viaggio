@@ -1,19 +1,24 @@
 package com.kotlin.viaggio.view.setting
 
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.extenstions.showDialog
 import com.kotlin.viaggio.view.common.BaseFragment
+import com.kotlin.viaggio.worker.SynchronizeDataFetchWorker
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
@@ -51,6 +56,29 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
                 showLoading()
             }
         })
+        getViewModel().synchronizedStart.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {
+                showLoading()
+                if (getViewModel().localSync.not()) {
+                    context?.let { mContext ->
+                        val con = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+                        val work = OneTimeWorkRequestBuilder<SynchronizeDataFetchWorker>()
+                            .setConstraints(con)
+                            .build()
+                        WorkManager.getInstance(mContext).let {wm ->
+                            wm.enqueue(work)
+                            wm.getWorkInfoByIdLiveData(work.id).observe(this, androidx.lifecycle.Observer { workinfo ->
+                                if (workinfo != null && workinfo.state.isFinished) {
+                                    syncFunctional()
+                                }
+                            })
+                        }
+                    }
+                } else {
+                    syncFunctional()
+                }
+            }
+        })
         getViewModel().checkLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { value ->
                 stopLoading()
@@ -67,27 +95,38 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         })
         getViewModel().imageName.observe(this, Observer {
             it.getContentIfNotHandled()?.let {image ->
-                val drawable = context?.getDrawable(R.drawable.oval_bg) as GradientDrawable
-                settingProfileImg.background = drawable
-                settingProfileImg.clipToOutline = true
-                if(TextUtils.isEmpty(image)) {
-                    Glide.with(settingProfileImg)
-                        .load(ResourcesCompat.getDrawable(resources, R.drawable.icon_profile, null))
-                        .into(settingProfileImg)
-                } else {
-                    Glide.with(settingProfileImg)
-                        .load(image)
-                        .into(settingProfileImg)
-                }
+//                val drawable = context?.getDrawable(R.drawable.oval_bg) as GradientDrawable
+//                settingProfileImg.background = drawable
+//                settingProfileImg.clipToOutline = true
+//                if(TextUtils.isEmpty(image)) {
+//                    Glide.with(settingProfileImg)
+//                        .load(ResourcesCompat.getDrawable(resources, R.drawable.icon_profile, null))
+//                        .into(settingProfileImg)
+//                } else {
+//                    Glide.with(settingProfileImg)
+//                        .load(context!!.imageName(image))
+//                        .into(settingProfileImg)
+//                }
+                Glide.with(settingProfileImg)
+                    .setDefaultRequestOptions(
+                        RequestOptions().placeholder(R.drawable.icon_profile)
+                    )
+                    .load(context!!.imageName(image))
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(settingProfileImg)
             }
         })
-        getViewModel().completeLiveData.observe(this, Observer {
+    }
+
+    private fun syncFunctional() {
+        getViewModel().downData().observe(this, Observer {
             it.getContentIfNotHandled()?.let {
                 stopLoading()
-                view.snackbar("완료 되었습니다.")
+                view?.snackbar("완료 되었습니다.")
             }
         })
-
     }
     inner class ViewHandler {
         fun cancel() {

@@ -14,11 +14,13 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.data.source.LocalDataSource
 import com.kotlin.viaggio.view.common.BaseActivity
 import com.kotlin.viaggio.view.common.BaseDialogFragment
 import com.kotlin.viaggio.view.common.BaseFragment
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.temporal.WeekFields
+import java.io.File
 import java.util.*
 
 
@@ -102,3 +104,14 @@ fun Fragment.showDialog(frag: DialogFragment, tag: String) {
     }?:frag
     fragVal.show(parentFragmentManager, tag)
 }
+
+fun Context.imageName(imageName:String) :String {
+    val image = imageName.split("/").last()
+    val imageDir = File(filesDir, LocalDataSource.IMG_FOLDER)
+    if(imageDir.exists().not()) {
+        imageDir.mkdir()
+    }
+    return "$imageDir/$image"
+}
+
+

@@ -39,4 +39,7 @@ interface AppInjectorModule {
 
     @ContributesAndroidInjector
     fun dataFetchWorker():DataFetchWorker
+
+    @ContributesAndroidInjector
+    fun synchronizeDataFetchWorker():SynchronizeDataFetchWorker
 }

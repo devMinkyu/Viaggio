@@ -62,7 +62,11 @@ class TravelModel @Inject constructor() : BaseModel() {
         return api.updateTravels(data).subscribeOn(Schedulers.io())
             .flatMapCompletable {
                 if(it.isSuccessful) {
-                    Completable.complete()
+                    val list = travels.map {travel ->
+                        travel.userExist = true
+                        travel
+                    }
+                    travelLocalModel.updateTravel(*list.toTypedArray())
                 } else {
                     Completable.error(NetworkErrorException("Data sync error"))
                 }
@@ -147,6 +151,7 @@ class TravelModel @Inject constructor() : BaseModel() {
             }
 
     }
+
     fun updateTravelCards(travelCards: List<TravelCard>): Completable {
         val result = travelCards.map {
             travelCardOfTravelCardBodyConvert(it)
@@ -175,7 +180,19 @@ class TravelModel @Inject constructor() : BaseModel() {
         return api.createTravelCards(data).subscribeOn(Schedulers.io())
             .flatMapCompletable {
                 if(it.isSuccessful) {
-                    Completable.complete()
+                    val travelCardList = it.body()!!.travelCards.mapNotNull {
+                        travelCards.firstOrNull { travelCard ->
+                            travelCard.localId == it.localId
+                        }?.let { travelCard ->
+                            travelCard.userExist = true
+                            travelCard.localId = it.localId
+                            travelCard.serverId = it.serverId
+                            travelCard.travelLocalId = it.travelLocalId
+                            travelCard.travelServerId = it.travelServerId
+                            travelCard
+                        }
+                    }
+                    travelLocalModel.updateTravelCards(travelCardList)
                 } else {
                     Completable.error(NetworkErrorException("Data sync error"))
                 }
@@ -189,7 +206,11 @@ class TravelModel @Inject constructor() : BaseModel() {
         return api.updateTravelCards(data).subscribeOn(Schedulers.io())
             .flatMapCompletable {
                 if(it.isSuccessful) {
-                    Completable.complete()
+                    val list = travelCards.map { travelCard ->
+                        travelCard.userExist = true
+                        travelCard
+                    }
+                    travelLocalModel.updateTravelCards(list)
                 } else {
                     Completable.error(NetworkErrorException("Data sync error"))
                 }

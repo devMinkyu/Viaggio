@@ -6,7 +6,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +13,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.view.common.BaseDialogFragment
 import kotlinx.android.synthetic.main.fragment_action_dialog_traveling_image_detail.*
 import kotlinx.android.synthetic.main.item_detail_image.view.*
@@ -51,7 +51,7 @@ class TravelingImageDetailActionDialogFragment:BaseDialogFragment<TravelingImage
                         imageNames[position].let { themeImageName ->
                             if (TextUtils.isEmpty(themeImageName).not()) {
                                 Glide.with(holder.itemView.travelCardImg)
-                                    .load(themeImageName)
+                                    .load(context!!.imageName(themeImageName))
                                     .into(holder.itemView.travelCardImg)
                             }
                         }

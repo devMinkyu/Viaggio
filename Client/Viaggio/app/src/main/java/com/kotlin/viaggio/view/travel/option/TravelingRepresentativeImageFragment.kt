@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_representative_image.*
 import kotlinx.android.synthetic.main.item_traveling_representative_image.view.*
@@ -38,7 +39,7 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
                             params.height = width
                         }
                         Glide.with(travelingRepresentativeImage)
-                            .load(imageNames[0])
+                            .load(context!!.imageName(imageNames[0]))
                             .into(travelingRepresentativeImage)
                         getViewModel().choose[0].set(true)
                         getViewModel().chooseIndex = 0
@@ -89,8 +90,6 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
     inner class TravelingRepresentativeImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = DataBindingUtil.bind<com.kotlin.viaggio.databinding.ItemTravelingRepresentativeImageBinding>(view)
         private lateinit var fileNamePath: String
-        private val imgDir = File(context?.filesDir, "images/")
-
         fun imageBinding(string: String) {
             fileNamePath = string
             val layoutParams = itemView.travelingRepresentativeContainer.layoutParams
@@ -99,7 +98,7 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
             itemView.travelingRepresentativeContainer.layoutParams = layoutParams
 
             Glide.with(itemView.travelingRepresentativeListImage)
-                .load(string)
+                .load(context!!.imageName(string))
                 .into(itemView.travelingRepresentativeListImage)
 
         }
@@ -113,7 +112,7 @@ class TravelingRepresentativeImageFragment : BaseFragment<TravelingRepresentativ
                     getViewModel().chooseIndex = index
 
                     Glide.with(travelingRepresentativeImage)
-                        .load(fileNamePath)
+                        .load(context!!.imageName(fileNamePath))
                         .into(travelingRepresentativeImage)
 
                 }

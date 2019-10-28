@@ -103,6 +103,7 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
         }
         fun googleSingIn() {
             showLoading()
+            getViewModel().googleSignInClient.signOut()
             val signInIntent = getViewModel().googleSignInClient.signInIntent
             startActivityForResult(signInIntent, GOOGLE_SIGN_CODE)
         }
@@ -121,9 +122,7 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
                 if(it.isSuccessful) {
                     getViewModel().handleSignInResult(task.result)
                 } else {
-                    val e = it.exception
-                    Timber.tag(TAG).d(e)
-                    throw e as Throwable
+                    Timber.tag(TAG).d(it.exception)
                 }
             }
         }

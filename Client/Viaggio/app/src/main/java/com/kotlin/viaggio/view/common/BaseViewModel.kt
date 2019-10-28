@@ -3,7 +3,6 @@ package com.kotlin.viaggio.view.common
 import android.content.Context
 import android.content.res.Resources
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.work.*
 import com.google.gson.Gson
@@ -12,10 +11,7 @@ import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.RxEventBus
-import com.kotlin.viaggio.worker.DataFetchWorker
-import com.kotlin.viaggio.worker.DeleteTravelWorker
-import com.kotlin.viaggio.worker.UpdateTravelWorker
-import com.kotlin.viaggio.worker.UploadTravelWorker
+import com.kotlin.viaggio.worker.*
 import dagger.Lazy
 import io.reactivex.disposables.Disposable
 import java.util.concurrent.TimeUnit

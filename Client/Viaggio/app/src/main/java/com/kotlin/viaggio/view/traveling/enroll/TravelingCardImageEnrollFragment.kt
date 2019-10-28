@@ -1,7 +1,9 @@
 package com.kotlin.viaggio.view.traveling.enroll
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
@@ -13,9 +15,6 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.databinding.FragmentTravelingCardImageEnrollBinding
 import com.kotlin.viaggio.databinding.ItemTravelingOfDayImageBinding
 import com.kotlin.viaggio.view.common.BaseFragment
-import com.r0adkll.slidr.Slidr
-import com.r0adkll.slidr.model.SlidrConfig
-import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_card_image_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_of_day_image.view.*
 

@@ -96,6 +96,11 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
             db.get().travelDao().updateTravel(travel)
         }.subscribeOn(Schedulers.io())
     }
+    fun updateTravel(vararg travel: Travel):Completable {
+        return Completable.fromAction {
+            db.get().travelDao().updateTravel(*travel)
+        }.subscribeOn(Schedulers.io())
+    }
 
     fun createTravelCard(vararg travelCard: TravelCard): Completable {
         return Completable.fromAction {
@@ -149,33 +154,4 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
         Completable.fromAction {
             db.get().clearAllTables()
         }.subscribeOn(Schedulers.io())
-
-    fun saveAwsImageToLocal(travelCards: List<TravelCard>):Completable {
-        val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
-        val awsToken = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
-        config.setInfo(awsId, awsToken)
-        val list = travelCards.filter { travelCard ->
-            travelCard.imageNames.isNotEmpty()
-        }.map {travelCard ->
-            val filePath = travelCard.imageNames.first().split("/").dropLast(1).joinToString("/")
-            travelCard.imageUrl.map {url ->
-                Completable.create { emitter ->
-                    val imageName = url.split("/").last()
-                    val downloadObserver = transferUtility.download(BuildConfig.S3_UPLOAD_BUCKET, url, File("$filePath/$imageName"))
-                    downloadObserver.setTransferListener(object : TransferListener {
-                        override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
-                        override fun onStateChanged(id: Int, state: TransferState?) {
-                            if (state == TransferState.COMPLETED) {
-                                emitter.onComplete()
-                            }
-                        }
-                        override fun onError(id: Int, ex: Exception?) {
-                        }
-                    })
-                }
-            }
-        }.flatten()
-        return Completable.merge(list)
-    }
-
 }

@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
@@ -85,7 +86,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
             }
         })
     }
-
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount == 0) {

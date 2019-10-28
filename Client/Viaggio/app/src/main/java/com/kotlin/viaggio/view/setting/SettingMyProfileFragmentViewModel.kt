@@ -15,6 +15,7 @@ import com.kotlin.viaggio.data.obj.Error
 import com.kotlin.viaggio.data.obj.PermissionError
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
 import io.reactivex.Single
@@ -49,6 +50,7 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
 
     var imageName = ""
     val imageNameLiveData = MutableLiveData<Event<String>>()
+    val selectedImageNameLiveData = MutableLiveData<Event<String>>()
     override fun initialize() {
         super.initialize()
         email.set(prefUtilService.getString(AndroidPrefUtilService.Key.USER_ID).blockingGet())
@@ -59,7 +61,7 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
         val imageDisposable = rxEventBus.userImage
             .subscribe {
                 imageName = it
-                imageNameLiveData.value = Event(imageName)
+                selectedImageNameLiveData.value = Event(imageName)
             }
         addDisposable(imageDisposable)
     }
@@ -98,7 +100,11 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
                     } else {
                         userModel.getAws()
                             .flatMap {
-                                imageAwsSave(imageName)
+                                if(it.isSuccessful) {
+                                    imageAwsSave(imageName)
+                                } else {
+                                    Single.just("")
+                                }
                             }
                     }
                     .subscribeOn(Schedulers.io())
@@ -131,13 +137,9 @@ class SettingMyProfileFragmentViewModel @Inject constructor() : BaseViewModel() 
 
     private fun imageAwsSave(imageName:List<String>) =
         Single.create<String> { emitter ->
-            val userId = prefUtilService.getString(AndroidPrefUtilService.Key.USER_ID).blockingGet()
             prefUtilService.putString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE, imageName.first()).blockingAwait()
-
-            val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
-            val awsToken = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
-            config.setInfo(awsId, awsToken)
-            val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "users/$userId/${imageName.first().split("/").last()}", File(imageName.first()))
+            config.setInfo(userModel.getAwsId(), userModel.getAwsToken())
+            val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "users/${userModel.getUserId()}/${imageName.first().split("/").last()}", File(appCtx.get().imageName(imageName.first())))
             uploadObserver.setTransferListener(object : TransferListener {
                 override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
                 override fun onStateChanged(id: Int, state: TransferState?) {

@@ -11,9 +11,12 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.PermissionError
 import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
@@ -69,18 +72,28 @@ class SettingMyProfileFragment : BaseFragment<SettingMyProfileFragmentViewModel>
         })
         getViewModel().imageNameLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {image ->
-                val drawable = context?.getDrawable(R.drawable.oval_bg) as GradientDrawable
-                profileImage.background = drawable
-                profileImage.clipToOutline = true
-                if(TextUtils.isEmpty(image)) {
-                    Glide.with(profileImage)
-                        .load(ResourcesCompat.getDrawable(resources, R.drawable.icon_profile, null))
-                        .into(profileImage)
-                } else {
-                    Glide.with(profileImage)
-                        .load(image)
-                        .into(profileImage)
-                }
+                Glide.with(profileImage)
+                    .setDefaultRequestOptions(
+                        RequestOptions().placeholder(R.drawable.icon_profile)
+                    )
+                    .load(context!!.imageName(image))
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(profileImage)
+            }
+        })
+        getViewModel().selectedImageNameLiveData.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {image ->
+                Glide.with(profileImage)
+                    .setDefaultRequestOptions(
+                        RequestOptions().placeholder(R.drawable.icon_profile)
+                    )
+                    .load(image)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(profileImage)
             }
         })
     }

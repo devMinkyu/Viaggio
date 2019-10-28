@@ -24,7 +24,7 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
     var imageBitmapChooseList: MutableList<Bitmap> = mutableListOf()
     val emptyImageNotice = ObservableField<String>()
 
-    var imageLimitCount = 20
+    var imageLimitCount = 10
 
     override fun initialize() {
         super.initialize()

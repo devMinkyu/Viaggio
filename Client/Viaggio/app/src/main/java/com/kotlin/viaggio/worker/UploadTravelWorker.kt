@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.worker
 
 import android.content.Context
+import android.text.TextUtils
 import androidx.work.WorkerParameters
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
@@ -60,50 +61,46 @@ class UploadTravelWorker @Inject constructor(context: Context, params: WorkerPar
 
         if (travelCard.localId != 0L) {
             if (travelCard.imageNames.isNotEmpty()) {
-                val userId = prefUtilService.getString(AndroidPrefUtilService.Key.USER_ID).blockingGet()
                 userModel.getAws()
-                    .flatMapCompletable {
-                        val list = travelCard.imageNames.map {
-                            Single.create<String> { emitter ->
-                                val awsId = prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
-                                val awsToken =
-                                    prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
-                                config.setInfo(awsId, awsToken)
-                                val uploadObserver = transferUtility.upload(BuildConfig.S3_UPLOAD_BUCKET, "image/$userId/${it.split("/").last()}", File(it))
-                                uploadObserver.setTransferListener(object : TransferListener {
-                                    override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
-                                    override fun onStateChanged(id: Int, state: TransferState?) {
-                                        if (state == TransferState.COMPLETED) {
-                                            emitter.onSuccess(uploadObserver.key)
-                                        }
-                                    }
-                                    override fun onError(id: Int, ex: Exception?) {
-                                        emitter.onError(ex as Throwable)
-                                    }
-                                })
-                            }.subscribeOn(Schedulers.io())
-                        }
-                        val resultList = mutableListOf<String>()
-
-                        Single.merge(list)
-                            .map {
-                                resultList.add(it)
-                            }.lastOrError()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(Schedulers.io())
-                            .flatMapCompletable {
-                                travelCard.imageUrl = resultList
-                                travelModel.uploadTravelCard(travelCard)
-                                    .flatMapCompletable {
-                                        if (it.isSuccessful) {
-                                            travelCard.userExist = true
-                                            travelCard.serverId = it.body()?.id ?: 0
-                                            travelLocalModel.updateTravelCard(travelCard)
-                                        } else {
-                                            Completable.complete()
-                                        }
-                                    }
+                    .flatMapCompletable { response ->
+                        if(response.isSuccessful) {
+                            val list = travelCard.imageNames.map { imageName ->
+                                userModel.putAwsImage(imageName)
                             }
+                            val resultList = mutableListOf<String>()
+                            val newImageNames = travelCard.imageNames.map { it }
+                            travelCard.newImageNames = newImageNames.toMutableList()
+                            Single.merge(list)
+                                .filter{
+                                    TextUtils.isEmpty(it).not()
+                                }.map { imageUrl ->
+                                    val imageName = imageUrl.split("/").last()
+                                    val index = travelCard.newImageNames.indexOfFirst {newImageName ->
+                                        newImageName.split("/").last() == imageName
+                                    }
+                                    if (index >= 0) {
+                                        travelCard.newImageNames.removeAt(index)
+                                    }
+                                    resultList.add(imageUrl)
+                                }.lastOrError()
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(Schedulers.io())
+                                .flatMapCompletable {
+                                    travelCard.imageUrl = resultList
+                                    travelModel.uploadTravelCard(travelCard)
+                                        .flatMapCompletable {
+                                            if (it.isSuccessful) {
+                                                travelCard.userExist = travelCard.newImageNames.isEmpty()
+                                                travelCard.serverId = it.body()?.id ?: 0
+                                                travelLocalModel.updateTravelCard(travelCard)
+                                            } else {
+                                                Completable.complete()
+                                            }
+                                        }
+                                }
+                        } else {
+                            Completable.complete()
+                        }
                     }
             } else {
                 travelModel.uploadTravelCard(travelCard)

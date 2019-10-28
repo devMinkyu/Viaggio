@@ -21,6 +21,7 @@ import com.kotlin.viaggio.data.obj.TravelCardValue
 import com.kotlin.viaggio.databinding.ItemTravelingBinding
 import com.kotlin.viaggio.databinding.ItemTravelingDayCountBinding
 import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
@@ -154,7 +155,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         fun loadImage(imageName: String?) {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
-                    .load(imageName)
+                    .load(context!!.imageName(imageName!!))
                     .into(itemView.travelingItemThemeImg)
             } else{
                 Glide.with(itemView)
@@ -189,7 +190,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         fun loadImage(imageName: String?) {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
-                    .load(imageName)
+                    .load(context!!.imageName(imageName!!))
                     .into(itemView.travelingItemThemeImg)
             } else{
                 Glide.with(itemView)

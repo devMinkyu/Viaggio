@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/nav_graph"
+        app:startDestination="@id/travelFragment">
+    <fragment
+            android:id="@+id/travelFragment"
+            android:name="com.kotlin.viaggio.view.travel.TravelFragment"
+            android:label="TravelFragment">
+        <action
+                android:id="@+id/action_travelFragment_to_introFragment"
+                app:destination="@id/introFragment" />
+        <action
+                android:id="@+id/action_travelFragment_to_setting_navigation"
+                app:destination="@id/setting_navigation"
+                app:enterAnim="@anim/slide_in_up"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_down" />
+        <action
+                android:id="@+id/action_travelFragment_to_travelingFragment"
+                app:destination="@id/travelingFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+        <action
+                android:id="@+id/action_travelFragment_to_travelDayTripFragment"
+                app:destination="@id/travelDayTripFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+        <action
+                android:id="@+id/action_travelFragment_to_travelKindsBottomSheetDialogFragment"
+                app:destination="@id/travelKindsBottomSheetDialogFragment" />
+        <action
+                android:id="@+id/action_travelFragment_to_travelOptionBottomSheetDialogFragment"
+                app:destination="@id/travelOptionBottomSheetDialogFragment" />
+    </fragment>
+    <fragment
+            android:id="@+id/travelingFragment"
+            android:name="com.kotlin.viaggio.view.traveling.TravelingFragment"
+            android:label="TravelingFragment" />
+    <fragment
+            android:id="@+id/travelDayTripFragment"
+            android:name="com.kotlin.viaggio.view.traveling.day_trip.TravelDayTripFragment"
+            android:label="TravelDayTripFragment"/>
+    <fragment
+            android:id="@+id/travelKindsBottomSheetDialogFragment"
+            android:name="com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment"
+            android:label="TravelKindsBottomSheetDialogFragment">
+
+        <action
+                android:id="@+id/action_travelKindsBottomSheetDialogFragment_to_travelEnrollFragment"
+                app:destination="@id/travelEnrollFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpTo="@id/travelKindsBottomSheetDialogFragment"
+                app:popUpToInclusive="true"/>
+        <action
+                android:id="@+id/action_travelKindsBottomSheetDialogFragment_to_travelCalendarFragment"
+                app:destination="@id/travelCalendarFragment"
+                app:enterAnim="@anim/slide_in_up"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_down"
+                app:popUpTo="@id/travelKindsBottomSheetDialogFragment"
+                app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+            android:id="@+id/travelCalendarFragment"
+            android:name="com.kotlin.viaggio.view.travel.calendar.TravelCalendarFragment"
+            android:label="TravelCalendarFragment" >
+        <action
+                android:id="@+id/action_travelCalendarFragment_to_travelEnrollFragment"
+                app:destination="@id/travelEnrollFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpTo="@id/travelCalendarFragment"
+                app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+            android:id="@+id/travelEnrollFragment"
+            android:name="com.kotlin.viaggio.view.travel.enroll.TravelEnrollFragment"
+            android:label="TravelEnrollFragment">
+        <action
+                android:id="@+id/action_travelEnrollFragment_to_themeFragment"
+                app:destination="@id/themeFragment"
+                app:enterAnim="@anim/slide_in_up"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_down"/>
+        <action
+                android:id="@+id/action_travelEnrollFragment_to_travelCalendarFragment"
+                app:destination="@id/travelCalendarFragment"
+                app:enterAnim="@anim/slide_in_up"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_down"/>
+        <action
+                android:id="@+id/action_travelEnrollFragment_to_travelingDomesticsCountryFragment"
+                app:destination="@id/travelingDomesticsCountryFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"/>
+        <action
+                android:id="@+id/action_travelEnrollFragment_to_travelingCountryFragment"
+                app:destination="@id/travelingCountryFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"/>
+
+    </fragment>
+    <fragment
+            android:id="@+id/themeFragment"
+            android:name="com.kotlin.viaggio.view.theme.ThemeFragment"
+            android:label="ThemeFragment" />
+    <fragment
+            android:id="@+id/travelingDomesticsCountryFragment"
+            android:name="com.kotlin.viaggio.view.traveling.country.TravelingDomesticsCountryFragment"
+            android:label="TravelingDomesticsCountryFragment"/>
+    <fragment
+            android:id="@+id/travelingCountryFragment"
+            android:name="com.kotlin.viaggio.view.traveling.country.TravelingCountryFragment"
+            android:label="TravelingCountryFragment" >
+
+        <action
+                android:id="@+id/action_travelingCountryFragment_to_travelingCityFragment"
+                app:destination="@id/travelingCityFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+            android:id="@+id/travelingCityFragment"
+            android:name="com.kotlin.viaggio.view.traveling.country.TravelingCityFragment"
+            android:label="TravelingCityFragment"/>
+    <fragment
+            android:id="@+id/travelOptionBottomSheetDialogFragment"
+            android:name="com.kotlin.viaggio.view.travel.option.TravelOptionBottomSheetDialogFragment"
+            android:label="TravelOptionBottomSheetDialogFragment" >
+
+        <action
+                android:id="@+id/action_travelOptionBottomSheetDialogFragment_to_travelTitleBottomSheetDialogFragment"
+                app:destination="@id/travelTitleBottomSheetDialogFragment" />
+        <action
+                android:id="@+id/action_travelOptionBottomSheetDialogFragment_to_travelingFinishActionDialogFragment"
+                app:destination="@id/travelingFinishActionDialogFragment" />
+        <action
+                android:id="@+id/action_travelOptionBottomSheetDialogFragment_to_travelCalendarFragment"
+                app:destination="@id/travelCalendarFragment"
+                app:enterAnim="@anim/slide_in_up"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_down"
+                app:popUpTo="@id/travelOptionBottomSheetDialogFragment"
+                app:popUpToInclusive="true"/>
+        <action
+                android:id="@+id/action_travelOptionBottomSheetDialogFragment_to_themeFragment"
+                app:destination="@id/themeFragment"
+                app:enterAnim="@anim/slide_in_up"
+                app:exitAnim="@anim/fade_out"
+                app:popEnterAnim="@anim/fade_in"
+                app:popExitAnim="@anim/slide_out_down"
+                app:popUpTo="@id/travelOptionBottomSheetDialogFragment"
+                app:popUpToInclusive="true"/>
+        <action
+                android:id="@+id/action_travelOptionBottomSheetDialogFragment_to_travelingDomesticsCountryFragment"
+                app:destination="@id/travelingDomesticsCountryFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpTo="@id/travelOptionBottomSheetDialogFragment"
+                app:popUpToInclusive="true"/>
+        <action
+                android:id="@+id/action_travelOptionBottomSheetDialogFragment_to_travelingCountryFragment"
+                app:destination="@id/travelingCountryFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpTo="@id/travelOptionBottomSheetDialogFragment"
+                app:popUpToInclusive="true"/>
+        <action
+                android:id="@+id/action_travelOptionBottomSheetDialogFragment_to_travelingInstagramShareFragment"
+                app:destination="@id/travelingInstagramShareFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpTo="@id/travelOptionBottomSheetDialogFragment"
+                app:popUpToInclusive="true" />
+
+        <action
+                android:id="@+id/action_travelOptionBottomSheetDialogFragment_to_travelingRepresentativeImageFragment"
+                app:destination="@id/travelingRepresentativeImageFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right"
+                app:popUpTo="@id/travelOptionBottomSheetDialogFragment"
+                app:popUpToInclusive="true" />
+
+    </fragment>
+    <fragment
+            android:id="@+id/travelTitleBottomSheetDialogFragment"
+            android:name="com.kotlin.viaggio.view.travel.option.TravelTitleBottomSheetDialogFragment"
+            android:label="TravelTitleBottomSheetDialogFragment"/>
+    <fragment
+            android:id="@+id/travelingInstagramShareFragment"
+            android:name="com.kotlin.viaggio.view.travel.option.TravelingInstagramShareFragment"
+            android:label="TravelingInstagramShareFragment" />
+    <fragment
+            android:id="@+id/travelingRepresentativeImageFragment"
+            android:name="com.kotlin.viaggio.view.travel.option.TravelingRepresentativeImageFragment"
+            android:label="TravelingRepresentativeImageFragment" />
+    <fragment
+            android:id="@+id/travelingFinishActionDialogFragment"
+            android:name="com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment"
+            android:label="TravelingFinishActionDialogFragment"/>
+    <!--    global Action-->
+    <fragment
+            android:id="@+id/backActionDialogFragment"
+            android:name="com.kotlin.viaggio.view.popup.BackActionDialogFragment"
+            android:label="BackActionDialogFragment"/>
+    <fragment
+            android:id="@+id/loadingDialogFragment"
+            android:name="com.kotlin.viaggio.view.common.LoadingDialogFragment"
+            android:label="LoadingDialogFragment"/>
+    <fragment
+            android:id="@+id/settingLockActionDialogFragment"
+            android:name="com.kotlin.viaggio.view.setting.SettingLockActionDialogFragment"
+            android:label="SettingLockActionDialogFragment" />
+    <fragment
+            android:id="@+id/networkDialogFragment"
+            android:name="com.kotlin.viaggio.view.common.NetworkDialogFragment"
+            android:label="NetworkDialogFragment"/>
+    <fragment
+            android:id="@+id/reviewActionDialogFragment"
+            android:name="com.kotlin.viaggio.view.popup.ReviewActionDialogFragment"
+            android:label="ReviewActionDialogFragment" />
+
+<!--    traveling detail 부분-->
+    <fragment
+            android:id="@+id/travelingThemesActionDialogFragment"
+            android:name="com.kotlin.viaggio.view.traveling.option.TravelingThemesActionDialogFragment"
+            android:label="TravelingThemesActionDialogFragment"/>
+    <fragment
+            android:id="@+id/travelingImageDetailActionDialogFragment"
+            android:name="com.kotlin.viaggio.view.traveling.detail.TravelingImageDetailActionDialogFragment"
+            android:label="TravelingImageDetailActionDialogFragment"/>
+    <fragment
+            android:id="@+id/travelCardImageModifyFragment"
+            android:name="com.kotlin.viaggio.view.traveling.image.TravelCardImageModifyFragment"
+            android:label="TravelCardImageModifyFragment"/>
+    <fragment
+            android:id="@+id/travelingCardImageEnrollFragment"
+            android:name="com.kotlin.viaggio.view.traveling.enroll.TravelingCardImageEnrollFragment"
+            android:label="TravelingCardImageEnrollFragment" />
+    <fragment
+            android:id="@+id/travelingCardEnrollFragment"
+            android:name="com.kotlin.viaggio.view.traveling.enroll.TravelingCardEnrollFragment"
+            android:label="TravelingCardEnrollFragment"/>
+
+
+    <fragment
+            android:id="@+id/travelingDeleteActionDialogFragment"
+            android:name="com.kotlin.viaggio.view.traveling.TravelingDeleteActionDialogFragment"
+            android:label="TravelingDeleteActionDialogFragment"/>
+    <fragment
+            android:id="@+id/travelingDayCountActionDialogFragment"
+            android:name="com.kotlin.viaggio.view.traveling.option.TravelingDayCountActionDialogFragment"
+            android:label="TravelingDayCountActionDialogFragment" />
+    <fragment
+            android:id="@+id/travelingDetailFragment"
+            android:name="com.kotlin.viaggio.view.traveling.detail.TravelingDetailFragment"
+            android:label="TravelingDetailFragment"/>
+
+    <fragment
+            android:id="@+id/travelingDetailActionDialogFragment"
+            android:name="com.kotlin.viaggio.view.traveling.detail.TravelingDetailActionDialogFragment"
+            android:label="TravelingDetailActionDialogFragment"/>
+    <fragment
+            android:id="@+id/travelCardBottomSheetDialogFragment"
+            android:name="com.kotlin.viaggio.view.traveling.TravelCardBottomSheetDialogFragment"
+            android:label="TravelCardBottomSheetDialogFragment"/>
+
+    <fragment
+            android:id="@+id/travelingCitiesActionDialogFragment"
+            android:name="com.kotlin.viaggio.view.traveling.option.TravelingCitiesActionDialogFragment"
+            android:label="TravelingCitiesActionDialogFragment"/>
+    <navigation
+            android:id="@+id/setting_navigation"
+            app:startDestination="@id/settingFragment" >
+        <fragment
+                android:id="@+id/logoutActionDialogFragment"
+                android:name="com.kotlin.viaggio.view.setting.LogoutActionDialogFragment"
+                android:label="LogoutActionDialogFragment" />
+        <fragment
+                android:id="@+id/settingProfileImageEnrollFragment"
+                android:name="com.kotlin.viaggio.view.setting.SettingProfileImageEnrollFragment"
+                android:label="SettingProfileImageEnrollFragment" />
+        <fragment
+                android:id="@+id/syncActionDialogFragment"
+                android:name="com.kotlin.viaggio.view.setting.SyncActionDialogFragment"
+                android:label="SyncActionDialogFragment"/>
+
+        <fragment
+                android:id="@+id/settingFragment"
+                android:name="com.kotlin.viaggio.view.setting.SettingFragment"
+                android:label="SettingFragment" >
+            <action
+                    android:id="@+id/action_settingFragment_to_logoutActionDialogFragment"
+                    app:destination="@id/logoutActionDialogFragment" />
+            <action
+                    android:id="@+id/action_settingFragment_to_settingImageBottomSheetDialogFragment"
+                    app:destination="@id/settingImageBottomSheetDialogFragment" />
+            <action
+                    android:id="@+id/action_settingFragment_to_settingAutoBottomSheetDialogFragment2"
+                    app:destination="@id/settingAutoBottomSheetDialogFragment" />
+            <action
+                    android:id="@+id/action_settingFragment_to_uploadCheckActionDialogFragment"
+                    app:destination="@id/uploadCheckActionDialogFragment" />
+            <action
+                    android:id="@+id/action_settingFragment_to_syncActionDialogFragment"
+                    app:destination="@id/syncActionDialogFragment" />
+            <action
+                    android:id="@+id/action_settingFragment_to_settingPasswordFragment"
+                    app:destination="@id/settingPasswordFragment"
+                    app:enterAnim="@anim/slide_in_right"
+                    app:exitAnim="@anim/slide_out_left"
+                    app:popEnterAnim="@anim/slide_in_left"
+                    app:popExitAnim="@anim/slide_out_right" />
+            <action
+                    android:id="@+id/action_settingFragment_to_settingLockFragment"
+                    app:destination="@id/settingLockFragment"
+                    app:enterAnim="@anim/slide_in_right"
+                    app:exitAnim="@anim/slide_out_left"
+                    app:popEnterAnim="@anim/slide_in_left"
+                    app:popExitAnim="@anim/slide_out_right" />
+            <action
+                    android:id="@+id/action_settingFragment_to_settingMyProfileFragment"
+                    app:destination="@id/settingMyProfileFragment"
+                    app:enterAnim="@anim/slide_in_right"
+                    app:exitAnim="@anim/slide_out_left"
+                    app:popEnterAnim="@anim/slide_in_left"
+                    app:popExitAnim="@anim/slide_out_right"/>
+        </fragment>
+        <fragment
+                android:id="@+id/settingImageBottomSheetDialogFragment"
+                android:name="com.kotlin.viaggio.view.setting.SettingImageBottomSheetDialogFragment"
+                android:label="SettingImageBottomSheetDialogFragment" />
+        <fragment
+                android:id="@+id/settingPasswordFragment"
+                android:name="com.kotlin.viaggio.view.setting.SettingPasswordFragment"
+                android:label="SettingPasswordFragment" />
+        <fragment
+                android:id="@+id/settingMyProfileFragment"
+                android:name="com.kotlin.viaggio.view.setting.SettingMyProfileFragment"
+                android:label="SettingMyProfileFragment">
+            <action
+                    android:id="@+id/action_settingMyProfileFragment_to_settingProfileImageEnrollFragment"
+                    app:destination="@id/settingProfileImageEnrollFragment"
+                    app:enterAnim="@anim/slide_in_right"
+                    app:exitAnim="@anim/slide_out_left"
+                    app:popEnterAnim="@anim/slide_in_left"
+                    app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+                android:id="@+id/settingAutoBottomSheetDialogFragment"
+                android:name="com.kotlin.viaggio.view.setting.SettingAutoBottomSheetDialogFragment"
+                android:label="SettingAutoBottomSheetDialogFragment" />
+        <fragment
+                android:id="@+id/uploadCheckActionDialogFragment"
+                android:name="com.kotlin.viaggio.view.setting.UploadCheckActionDialogFragment"
+                android:label="UploadCheckActionDialogFragment" />
+        <fragment
+                android:id="@+id/settingLockFragment"
+                android:name="com.kotlin.viaggio.view.setting.SettingLockFragment"
+                android:label="SettingLockFragment"/>
+    </navigation>
+    <action
+            android:id="@+id/action_global_travelFragment"
+            app:destination="@id/travelFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popUpTo="@id/travelFragment"
+            app:popUpToInclusive="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:launchSingleTop="true" />
+    <action
+            android:id="@+id/action_global_signInFragment"
+            app:destination="@id/sign_navigation"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    <fragment
+            android:id="@+id/introFragment"
+            android:name="com.kotlin.viaggio.view.tutorial.intro.IntroFragment"
+            android:label="IntroFragment">
+        <action
+                android:id="@+id/action_introFragment_to_tutorialFragment"
+                app:destination="@id/tutorialFragment"
+                app:enterAnim="@anim/slide_in_right"
+                app:exitAnim="@anim/slide_out_left"
+                app:popEnterAnim="@anim/slide_in_left"
+                app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+            android:id="@+id/tutorialFragment"
+            android:name="com.kotlin.viaggio.view.tutorial.TutorialFragment"
+            android:label="TutorialFragment"/>
+    <navigation
+            android:id="@+id/sign_navigation"
+            app:startDestination="@id/signInFragment" >
+        <fragment
+                android:id="@+id/signInFragment"
+                android:name="com.kotlin.viaggio.view.sign.SignInFragment"
+                android:label="SignInFragment">
+            <action
+                    android:id="@+id/action_signInFragment_to_signUpFragment"
+                    app:destination="@id/signUpFragment"
+                    app:enterAnim="@anim/slide_in_right"
+                    app:exitAnim="@anim/slide_out_left"
+                    app:popEnterAnim="@anim/slide_in_left"
+                    app:popExitAnim="@anim/slide_out_right" />
+        </fragment>
+        <fragment
+                android:id="@+id/signUpFragment"
+                android:name="com.kotlin.viaggio.view.sign.SignUpFragment"
+                android:label="SignUpFragment" />
+    </navigation>
+</navigation>

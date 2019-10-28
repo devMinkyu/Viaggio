@@ -9,11 +9,13 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
 import com.kotlin.viaggio.data.obj.GoogleSignInBody
+import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.obj.ViaggioApiAWSAuth
 import com.kotlin.viaggio.data.obj.ViaggioApiAuth
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.LocalDataSource
 import com.kotlin.viaggio.data.source.ViaggioApiService
+import com.kotlin.viaggio.extenstions.imageName
 import dagger.Lazy
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -38,6 +40,10 @@ class UserModel @Inject constructor() :BaseModel(){
     lateinit var appCtx: Lazy<Context>
     @Inject
     lateinit var transferUtility: TransferUtility
+
+    fun getAwsId():String = pref.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
+    fun getAwsToken(): String = pref.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
+    fun getUserId(): String = pref.getString(AndroidPrefUtilService.Key.USER_ID).blockingGet()
 
     fun googleSignIn(idToken:String) : Single<Response<ViaggioApiAuth>> {
         return api.googleSignIn(GoogleSignInBody(idToken))
@@ -113,7 +119,7 @@ class UserModel @Inject constructor() :BaseModel(){
             pref.putString(AndroidPrefUtilService.Key.AWS_ID, auth.AWS_IdentityId),
             pref.putString(AndroidPrefUtilService.Key.AWS_TOKEN, auth.AWS_Token),
             pref.putBool(AndroidPrefUtilService.Key.NEW_AWS, true),
-            pref.putString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE_URL, auth.imageUrl))
+            pref.putString(AndroidPrefUtilService.Key.USER_IMAGE_PROFILE_URL, if(TextUtils.isEmpty(auth.imageUrl)) "" else auth.imageUrl))
         if(TextUtils.isEmpty(auth.imageUrl).not()) {
             completableList.add(saveUserProfile(auth))
         }
@@ -145,5 +151,51 @@ class UserModel @Inject constructor() :BaseModel(){
                 }
             })
         }
+    }
+    fun saveAwsImageToLocal(travelCards: List<TravelCard>):Completable {
+        config.setInfo(getAwsId(), getAwsToken())
+        val list = travelCards.filter { travelCard ->
+            travelCard.imageNames.isNotEmpty()
+        }.map {travelCard ->
+            travelCard.imageUrl.map {url ->
+                Completable.create { emitter ->
+                    val imageName = url.split("/").last()
+                    val downloadObserver = transferUtility.download(BuildConfig.S3_UPLOAD_BUCKET, url, File(appCtx.get().imageName(imageName)))
+                    downloadObserver.setTransferListener(object : TransferListener {
+                        override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
+                        override fun onStateChanged(id: Int, state: TransferState?) {
+                            if (state == TransferState.COMPLETED) {
+                                emitter.onComplete()
+                            }
+                        }
+                        override fun onError(id: Int, ex: Exception?) {
+                            emitter.onError(ex as Throwable)
+                        }
+                    })
+                }
+            }
+        }.flatten()
+        return Completable.merge(list)
+    }
+    fun putAwsImage(imageName: String): Single<String> {
+        return Single.create<String> { emitter ->
+            config.setInfo(getAwsId(), getAwsToken())
+            val uploadObserver = transferUtility.upload(
+                BuildConfig.S3_UPLOAD_BUCKET,
+                "image/${getUserId()}/${imageName.split("/").last()}",
+                File(appCtx.get().imageName(imageName))
+            )
+            uploadObserver.setTransferListener(object : TransferListener {
+                override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
+                override fun onStateChanged(id: Int, state: TransferState?) {
+                    if (state == TransferState.COMPLETED) {
+                        emitter.onSuccess(uploadObserver.key)
+                    }
+                }
+                override fun onError(id: Int, ex: Exception?) {
+                    emitter.onSuccess("")
+                }
+            })
+        }.subscribeOn(Schedulers.io())
     }
 }

@@ -296,7 +296,7 @@ class LocalDataSource @Inject constructor() {
                             if (compressImg.compress(Bitmap.CompressFormat.JPEG, 100, out)) {
                                 out.flush()
                                 out.close()
-                                imageListUri.add(localFile.absolutePath)
+                                imageListUri.add(localFile.absolutePath.split("/").last())
 
                                 compressImg.recycle()
                             }

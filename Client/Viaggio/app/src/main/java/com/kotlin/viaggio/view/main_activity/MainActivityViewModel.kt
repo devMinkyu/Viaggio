@@ -3,10 +3,15 @@ package com.kotlin.viaggio.view.main_activity
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.UserModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import com.kotlin.viaggio.worker.SynchronizeDataFetchWorker
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -44,6 +49,10 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
             }
         addDisposable(disposable)
         fetchDay()
+        if(prefUtilService.getBool(AndroidPrefUtilService.Key.FIRST_SYNC, true).blockingGet()) {
+            fetchSynchronize()
+            prefUtilService.putBool(AndroidPrefUtilService.Key.FIRST_SYNC, false).blockingAwait()
+        }
         if(prefUtilService.getBool(AndroidPrefUtilService.Key.FIRST_LOGIN, true).blockingGet()) {
             Completable.mergeArray(
                 prefUtilService.putBool(AndroidPrefUtilService.Key.FIRST_LOGIN, false),
@@ -125,4 +134,15 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
     }
 
     fun getLock() = prefUtilService.getBool(AndroidPrefUtilService.Key.LOCK_APP).blockingGet() ?: false
+
+    private fun fetchSynchronize() {
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(true)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+        val synchronizeDataFetchWorker = PeriodicWorkRequestBuilder<SynchronizeDataFetchWorker>(1, TimeUnit.DAYS)
+            .setConstraints(constraints)
+            .build()
+        WorkManager.getInstance(appCtx.get()).enqueue(synchronizeDataFetchWorker)
+    }
 }

@@ -1,17 +1,13 @@
 package com.kotlin.viaggio.view.travel
 
 import android.content.Context
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.SpannableStringBuilder
-import android.text.Spanned
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableBoolean
@@ -25,12 +21,12 @@ import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.Traveled
 import com.kotlin.viaggio.databinding.FragmentTravelBinding
 import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.extenstions.showDialog
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.travel.kinds.TravelKindsBottomSheetDialogFragment
 import com.kotlin.viaggio.view.travel.option.TravelOptionBottomSheetDialogFragment
 import com.kotlin.viaggio.view.traveling.TravelingFinishActionDialogFragment
-import com.kotlin.viaggio.widget.CustomTypefaceSpan
 import kotlinx.android.synthetic.main.fragment_travel.*
 import kotlinx.android.synthetic.main.item_travel.view.*
 import java.text.SimpleDateFormat
@@ -147,10 +143,12 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                         .centerCrop()
                         .into(view.travelBackground)
                 } else {
-                    Glide.with(view.travelBackground)
-                        .load(travelList[position].imageName)
-                        .centerCrop()
-                        .into(view.travelBackground)
+                    if(imageDir.exists()) {
+                        Glide.with(view.travelBackground)
+                            .load(context!!.imageName(travelList[position].imageName))
+                            .centerCrop()
+                            .into(view.travelBackground)
+                    }
                 }
             } else {
                 binding.data = null
@@ -187,23 +185,23 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
             container.removeView(`object` as View)
         }
-        private fun noticeHighlight(textView: TextView) {
-            val notice:String = resources.getString(R.string.non_travel_notice)
-            val firstIndex = notice.indexOf("%&!&%", 0)
-            val lastIndex = notice.indexOf("%&!&%", firstIndex + 1) - 5
-
-            val msg = notice.replace("%&!&%", "")
-            if(firstIndex != -1) {
-                val spannableBuilder = SpannableStringBuilder(msg)
-                context?.let { contextVal ->
-                    val font = ResourcesCompat.getFont(contextVal, Typeface.BOLD)
-                    spannableBuilder.setSpan(CustomTypefaceSpan("", font!!), firstIndex + 1, lastIndex + 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
-                    textView.text = spannableBuilder
-                }
-            } else {
-                textView.text = msg
-            }
-        }
+//        private fun noticeHighlight(textView: TextView) {
+//            val notice:String = resources.getString(R.string.non_travel_notice)
+//            val firstIndex = notice.indexOf("%&!&%", 0)
+//            val lastIndex = notice.indexOf("%&!&%", firstIndex + 1) - 5
+//
+//            val msg = notice.replace("%&!&%", "")
+//            if(firstIndex != -1) {
+//                val spannableBuilder = SpannableStringBuilder(msg)
+//                context?.let { contextVal ->
+//                    val font = ResourcesCompat.getFont(contextVal, Typeface.BOLD)
+//                    spannableBuilder.setSpan(CustomTypefaceSpan("", font!!), firstIndex + 1, lastIndex + 5, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+//                    textView.text = spannableBuilder
+//                }
+//            } else {
+//                textView.text = msg
+//            }
+//        }
     }
 
     inner class ViewHandler {

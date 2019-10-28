@@ -4,13 +4,13 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
+import com.kotlin.viaggio.data.source.LocalDataSource
 import com.kotlin.viaggio.extenstions.showDialog
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.r0adkll.slidr.model.SlidrInterface
@@ -19,6 +19,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import net.skoumal.fragmentback.BackFragment
+import java.io.File
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
@@ -35,6 +36,9 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
     var sliderInterface: SlidrInterface? = null
 
     var width:Int = 0
+    val imageDir by lazy {
+        return@lazy File(context!!.filesDir, LocalDataSource.IMG_FOLDER)
+    }
     override fun supportFragmentInjector() = fragmentInjector
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)

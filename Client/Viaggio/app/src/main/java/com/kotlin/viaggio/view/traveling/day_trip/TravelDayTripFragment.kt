@@ -7,7 +7,6 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.paging.PagedListAdapter
@@ -18,8 +17,11 @@ import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.data.obj.TravelCard
 import com.kotlin.viaggio.data.obj.TravelCardValue
-import com.kotlin.viaggio.databinding.*
+import com.kotlin.viaggio.databinding.FragmentTravelDayTripBinding
+import com.kotlin.viaggio.databinding.ItemTravelDayTripLeftBinding
+import com.kotlin.viaggio.databinding.ItemTravelDayTripRightBinding
 import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.view.common.BaseFragment
 import com.kotlin.viaggio.view.traveling.TravelCardViewHandler
 import com.r0adkll.slidr.Slidr
@@ -135,7 +137,7 @@ class TravelDayTripFragment : BaseFragment<TravelDayTripFragmentViewModel>() {
         fun loadImage(imageName: String?) {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
-                    .load(imageName)
+                    .load(context!!.imageName(imageName!!))
                     .into(itemView.travelingItemThemeImg)
                 itemView.TravelingItemTheme.visibility = View.GONE
                 itemView.travelingItemInfo.visibility = View.GONE
@@ -160,7 +162,7 @@ class TravelDayTripFragment : BaseFragment<TravelDayTripFragmentViewModel>() {
         fun loadImage(imageName: String?) {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
-                    .load(imageName)
+                    .load(context!!.imageName(imageName!!))
                     .into(itemView.travelingItemThemeImg1)
                 itemView.TravelingItemTheme1.visibility = View.GONE
                 itemView.travelingItemInfo1.visibility = View.GONE

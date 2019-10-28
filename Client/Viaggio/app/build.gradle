@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: "kotlin-kapt"
 apply plugin: 'com.amazonaws.appsync'
 apply plugin: 'io.fabric'
-//apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion rootProject.targetSdkVersion
@@ -46,6 +46,12 @@ android {
 
         resValue("string", "viaggio_abmob_banner_api_key", "${viaggio_admob_banner}")
         multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.expandProjection":"true"]
+            }
+        }
     }
     buildTypes {
         debug {
@@ -153,9 +159,9 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
     //firebase
-    implementation 'com.google.firebase:firebase-core:17.2.0'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.0'
-    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
     releaseImplementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
     implementation 'com.google.android.gms:play-services-ads:18.2.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
@@ -180,10 +186,10 @@ dependencies {
 
     def room_version = '2.2.0-alpha01'
     // room
-    implementation 'androidx.room:room-runtime:2.2.0'
+    implementation 'androidx.room:room-runtime:2.2.1'
     kapt "androidx.room:room-compiler:$room_version"
-    implementation 'androidx.room:room-ktx:2.2.0'
-    implementation 'androidx.room:room-rxjava2:2.2.0'
+    implementation 'androidx.room:room-ktx:2.2.1'
+    implementation 'androidx.room:room-rxjava2:2.2.1'
     testImplementation "androidx.room:room-testing:$room_version"
 
     // paging
@@ -219,8 +225,6 @@ dependencies {
 
     implementation 'com.github.ajalt.reprint:core:3.3.2@aar'
     implementation 'com.github.ajalt.reprint:rxjava2:3.3.2@aar'
-    implementation 'co.infinum:goldfinger:2.0.0-RC2'
-    implementation 'co.infinum:goldfinger-rx:2.0.0-RC2'
 
     implementation 'com.github.curioustechizen.android-ago:library:1.4.0'
     implementation 'net.skoumal.fragmentback:fragment-back:0.2.3'

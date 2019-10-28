@@ -16,6 +16,7 @@ import com.kotlin.viaggio.R
 import com.kotlin.viaggio.databinding.FragmentTravelCardImageModifyImageBinding
 import com.kotlin.viaggio.databinding.ItemTravelingCardModifyImgBinding
 import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.extenstions.makeGone
 import com.kotlin.viaggio.extenstions.makeVisible
 import com.kotlin.viaggio.view.common.BaseFragment
@@ -107,7 +108,7 @@ class TravelCardImageModifyFragment : BaseFragment<TravelCardImageModifyFragment
         fun imageBinding(string: String) {
             fileNamePath = string
             Glide.with(itemView.travelingPagerImg)
-                .load(string)
+                .load(context!!.imageName(string))
                 .into(itemView.travelingPagerImg)
 
         }

@@ -1,12 +1,10 @@
 package com.kotlin.viaggio.view.setting
 
-import android.accounts.NetworkErrorException
 import android.text.TextUtils
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
@@ -23,7 +21,6 @@ import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -49,7 +46,7 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val checkLiveData: MutableLiveData<Event<Boolean>> = MutableLiveData()
     val showDialogLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
-    val completeLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
+    val synchronizedStart: MutableLiveData<Event<Any>> = MutableLiveData()
 
     val travels = mutableListOf<Travel>()
     val travelCards = mutableListOf<TravelCard>()
@@ -87,8 +84,7 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel() {
         val syncDisposable = rxEventBus.sync
             .subscribe {
                 if (it) {
-                    showDialogLiveData.value = Event(Any())
-                    sync()
+                    synchronizedStart.value = Event(Any())
                 }
             }
         addDisposable(syncDisposable)
@@ -145,97 +141,17 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel() {
         addDisposable(disposable)
     }
 
-    fun sync() {
-        prefUtilService.putBool(AndroidPrefUtilService.Key.SYNCING, true).blockingAwait()
-        if (localSync) {
-            val disposable = downloadData()
-                .subscribe({
-                    completeLiveData.postValue(Event(Any()))
-                    rxEventBus.travelUpdate.onNext(Any())
-                }) {
-                    Timber.d(it)
-                }
-            addDisposable(disposable)
-        } else {
-            val completables = mutableListOf<Completable>()
-            val travelCardMap = travelCards.groupBy { it.travelLocalId }
-            val createTravelList = travels
-                .filter { it.userExist.not() && it.serverId == 0 }
-            val createTravelCardsExistImageList = travelCards
-                .filter {
-                    it.userExist.not() && it.serverId == 0 && it.travelServerId != 0 && it.imageNames.isNotEmpty()
-                }
-            val createTravelCardsNotImageList = travelCards
-                .filter {
-                    it.userExist.not() && it.serverId == 0 && it.travelServerId != 0 && it.imageNames.isEmpty()
-                }
-            if (createTravelCardsExistImageList.isNotEmpty()) {
-                val c4 = createTravelCard(createTravelCardsExistImageList)
-                completables.add(c4)
+    fun downData(): LiveData<Event<Any>> {
+    val completeLiveData: MutableLiveData<Event<Any>> = MutableLiveData()
+        val disposable = downloadData()
+            .subscribe({
+                completeLiveData.postValue(Event(Any()))
+                rxEventBus.travelUpdate.onNext(Any())
+            }) {
+                Timber.d(it)
             }
-            if(createTravelCardsNotImageList.isNotEmpty()) {
-                val c3 = travelModel.createSyncTravelCards(createTravelCardsNotImageList)
-                completables.add(c3)
-            }
-            val updateTravelList = travels
-                .filter { it.userExist.not() && it.serverId != 0 }
-            val updateTravelCardList = travelCards
-                .filter { it.userExist.not() && it.serverId != 0 }
-
-            if (updateTravelList.isNotEmpty()) {
-                val c1 = travelModel.updateSyncTravels(updateTravelList)
-                completables.add(c1)
-            }
-            if (updateTravelCardList.isNotEmpty()) {
-                val c2 = travelModel.updateSyncTravelCards(updateTravelCardList)
-                completables.add(c2)
-            }
-
-
-            // 로컬부터 데이터 다 올려야 함
-            val disposable = travelModel.createSyncTravels(createTravelList)
-                .flatMapCompletable {
-                    if (it.isSuccessful) {
-                        val createTravelCardList = it.body()!!.travels.map { data ->
-                            if (travelCardMap.containsKey(data.localId)) {
-                                travelCardMap.getValue(data.localId).map { travelCardVal ->
-                                    travelCardVal.travelServerId = data.serverId
-                                }
-                                travelCardMap.getValue(data.localId)
-                            } else {
-                                null
-                            }
-                        }.filterNotNull().flatten()
-                        val completables2 = mutableListOf<Completable>()
-
-                        val createTravelCardExistImageList = createTravelCardList.filter { it.imageNames.isNotEmpty() }
-                        val createTravelCardNNotImageList = createTravelCardList.filter { it.imageNames.isNotEmpty() }
-                        if (createTravelCardNNotImageList.isNotEmpty()) {
-                            completables2.add(travelModel.createSyncTravelCards(createTravelCardList))
-                        }
-                        if(createTravelCardExistImageList.isNotEmpty()) {
-                            completables2.add(createTravelCard(createTravelCardExistImageList))
-                        }
-                        Completable.merge(completables2)
-                    } else {
-                        Completable.error(NetworkErrorException("Data sync error"))
-                    }
-                }
-                .andThen {
-                    Completable.merge(completables).blockingAwait()
-                    it.onComplete()
-                }.andThen {
-                    downloadData().blockingAwait()
-                    it.onComplete()
-                }
-                .subscribe({
-                    completeLiveData.postValue(Event(Any()))
-                    rxEventBus.travelUpdate.onNext(Any())
-                }) {
-                    Timber.d(it)
-                }
-            addDisposable(disposable)
-        }
+        addDisposable(disposable)
+    return completeLiveData
     }
 
     private fun downloadData(): Completable {
@@ -308,7 +224,7 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel() {
                                     content = travelCardBody.content,
                                     country = travelCardBody.country,
                                     date = dt.parse(travelCardBody.date),
-                                    time = dt.parse(travelCardBody.time),
+                                    time = dt.parse(if(TextUtils.isEmpty(travelCardBody.time)) travelCardBody.date else travelCardBody.time),
                                     userExist = true,
                                     isDelete = travelCardBody.isDelete,
                                     imageNames = travelCardBody.imageNames,
@@ -320,7 +236,7 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel() {
                             listOf()
                         }
                         if (list2.isNotEmpty()) {
-                            val c0 = travelLocalModel.saveAwsImageToLocal(list2)
+                            val c0 = userModel.saveAwsImageToLocal(list2)
                             val c2 = travelLocalModel.createTravelCard(*list2.toTypedArray())
                             Completable.merge(listOf(c0, c2))
                         } else {
@@ -328,60 +244,6 @@ class SettingFragmentViewModel @Inject constructor() : BaseViewModel() {
                         }
                     }.blockingAwait()
                 it.onComplete()
-            }
-    }
-
-    private fun createTravelCard(createTravelCardsExistImageList:List<TravelCard>): Completable {
-        return userModel.getAws()
-            .flatMapCompletable {
-                val completableList = createTravelCardsExistImageList.map { travelCard ->
-                    val list = travelCard.imageNames.map {
-                        Single.create<String> { emitter ->
-                            val awsId =
-                                prefUtilService.getString(AndroidPrefUtilService.Key.AWS_ID).blockingGet()
-                            val awsToken =
-                                prefUtilService.getString(AndroidPrefUtilService.Key.AWS_TOKEN).blockingGet()
-                            config.setInfo(awsId, awsToken)
-                            val uploadObserver = transferUtility.upload(
-                                BuildConfig.S3_UPLOAD_BUCKET,
-                                "image/${it.split("/").last()}",
-                                File(it)
-                            )
-                            uploadObserver.setTransferListener(object : TransferListener {
-                                override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
-                                override fun onStateChanged(id: Int, state: TransferState?) {
-                                    if (state == TransferState.COMPLETED) {
-                                        emitter.onSuccess(uploadObserver.key)
-                                    }
-                                }
-
-                                override fun onError(id: Int, ex: Exception?) {
-                                }
-                            })
-                        }.subscribeOn(Schedulers.io())
-                    }
-
-                    val resultList = mutableListOf<String>()
-
-                    Single.merge(list)
-                        .map {
-                            resultList.add(it)
-                        }.lastOrError()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io())
-                        .flatMapCompletable {
-                            travelCard.imageUrl = resultList
-                            travelModel.uploadTravelCard(travelCard)
-                                .flatMapCompletable {
-                                    if (it.isSuccessful) {
-                                        Completable.complete()
-                                    } else {
-                                        Completable.complete()
-                                    }
-                                }
-                        }
-                }
-                Completable.merge(completableList)
             }
     }
 

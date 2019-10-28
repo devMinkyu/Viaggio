@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.android.ArgName
 import com.kotlin.viaggio.extenstions.baseIntent
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.extenstions.showDialog
 import com.kotlin.viaggio.view.common.BaseDialogFragment
 import com.kotlin.viaggio.view.common.BaseFragment
@@ -96,7 +97,7 @@ class TravelingDetailFragment : BaseFragment<TravelingDetailFragmentViewModel>()
                         ) {
                             if (TextUtils.isEmpty(imageNames[position]).not()) {
                                 Glide.with(holder.itemView.travelingPagerImg)
-                                    .load(imageNames[position])
+                                    .load(context!!.imageName(imageNames[position]))
                                     .into(holder.itemView.travelingPagerImg)
                             }
                             holder.itemView.travelingPagerImg.setOnClickListener {

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.kotlin.viaggio.R
 import com.kotlin.viaggio.databinding.FragmentTravelingInstagramShareBinding
+import com.kotlin.viaggio.extenstions.imageName
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_representative_image.*
 import kotlinx.android.synthetic.main.item_traveling_representative_image.view.*
@@ -52,7 +53,7 @@ class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFrag
                             parms.height = width
                         }
                         Glide.with(travelingRepresentativeImage)
-                            .load(imageNames[0])
+                            .load(context!!.imageName(imageNames[0]))
                             .into(travelingRepresentativeImage)
                         getViewModel().choose[0].set(true)
                         getViewModel().chooseIndex = 0
@@ -91,44 +92,52 @@ class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFrag
 
     inner class ViewHandler {
         fun feed() {
-            context?.let { context ->
-                context.packageManager.getLaunchIntentForPackage(INSTAGRAM_PACKAGE)?.let {
-                    val type = IMAGE_TYPE
-                    val mediaPath = getViewModel().list[getViewModel().chooseIndex]
-                    val share = Intent(Intent.ACTION_SEND)
-                    share.type = type
-                    val media = File(mediaPath)
-                    val uri = FileProvider.getUriForFile(
-                        context,
-                        FILE_PROVIDER_AUTHORITY,
-                        media)
-                    share.putExtra(Intent.EXTRA_STREAM, uri)
-                    startActivity(Intent.createChooser(share, SHARE_TO))
-                }?:view?.snackbar(getString(R.string.travel_instagram_not_install))
+            if(checkInternet()) {
+                context?.let { context ->
+                    context.packageManager.getLaunchIntentForPackage(INSTAGRAM_PACKAGE)?.let {
+                        val type = IMAGE_TYPE
+                        val mediaPath = context.imageName(getViewModel().list[getViewModel().chooseIndex])
+                        val share = Intent(Intent.ACTION_SEND)
+                        share.type = type
+                        val media = File(mediaPath)
+                        val uri = FileProvider.getUriForFile(
+                            context,
+                            FILE_PROVIDER_AUTHORITY,
+                            media)
+                        share.putExtra(Intent.EXTRA_STREAM, uri)
+                        startActivity(Intent.createChooser(share, SHARE_TO))
+                    }?:view?.snackbar(getString(R.string.travel_instagram_not_install))
+                }
+            } else {
+                showNetWorkError()
             }
         }
         fun story() {
-            context?.let { context ->
-                context.packageManager.getLaunchIntentForPackage(INSTAGRAM_PACKAGE)?.let {
-                    val mediaPath = getViewModel().list[getViewModel().chooseIndex]
-                    val media = File(mediaPath)
-                    val stickerAssetUri:Uri = FileProvider.getUriForFile(
-                        context,
-                        FILE_PROVIDER_AUTHORITY,
-                        media)
+            if(checkInternet()) {
+                context?.let { context ->
+                    context.packageManager.getLaunchIntentForPackage(INSTAGRAM_PACKAGE)?.let {
+                        val mediaPath = context.imageName(getViewModel().list[getViewModel().chooseIndex])
+                        val media = File(mediaPath)
+                        val stickerAssetUri:Uri = FileProvider.getUriForFile(
+                            context,
+                            FILE_PROVIDER_AUTHORITY,
+                            media)
 //            val attributionLinkUrl = "https://www.my-aweseome-app.com/p/BhzbIOUBval/"
-                    val intent = Intent(ADD_TO_STORY)
-                    intent.type = MEDIA_TYPE_JPEG
-                    intent.putExtra(INTERACTIVE_ASSET_URI, stickerAssetUri)
+                        val intent = Intent(ADD_TO_STORY)
+                        intent.type = MEDIA_TYPE_JPEG
+                        intent.putExtra(INTERACTIVE_ASSET_URI, stickerAssetUri)
 //            intent.putExtra("content_url", attributionLinkUrl)
 
-                    activity?.let {
-                        it.grantUriPermission(INSTAGRAM_PACKAGE,stickerAssetUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                        if(it.packageManager.resolveActivity(intent, 0) != null) {
-                            it.startActivityForResult(intent, 0)
+                        activity?.let {
+                            it.grantUriPermission(INSTAGRAM_PACKAGE,stickerAssetUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            if(it.packageManager.resolveActivity(intent, 0) != null) {
+                                it.startActivityForResult(intent, 0)
+                            }
                         }
-                    }
-                }?:view?.snackbar(getString(R.string.travel_instagram_not_install))
+                    }?:view?.snackbar(getString(R.string.travel_instagram_not_install))
+                }
+            } else {
+                showNetWorkError()
             }
         }
         fun back() {
@@ -160,7 +169,7 @@ class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFrag
             itemView.travelingRepresentativeContainer.layoutParams = layoutParams
 
             Glide.with(itemView.travelingRepresentativeListImage)
-                .load(string)
+                .load(context!!.imageName(string))
                 .into(itemView.travelingRepresentativeListImage)
         }
 
@@ -173,7 +182,7 @@ class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFrag
                     getViewModel().chooseIndex = index
 
                     Glide.with(travelingRepresentativeImage)
-                        .load(fileNamePath)
+                        .load(context!!.imageName(fileNamePath))
                         .into(travelingRepresentativeImage)
 
                 }

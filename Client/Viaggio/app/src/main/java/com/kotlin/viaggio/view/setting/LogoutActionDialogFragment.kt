@@ -25,10 +25,6 @@ class LogoutActionDialogFragment:BaseDialogFragment<LogoutActionDialogFragmentVi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         containerPop.setOnClickListener { dismiss() }
-
-        getViewModel().completeLiveDate.observe(this, Observer {
-            dismiss()
-        })
     }
 
     inner class ViewHandler{
@@ -37,7 +33,9 @@ class LogoutActionDialogFragment:BaseDialogFragment<LogoutActionDialogFragmentVi
         }
         fun logout(){
             if(checkInternet()) {
-                getViewModel().logout()
+                getViewModel().logout().observe(this@LogoutActionDialogFragment, Observer {
+                    dismiss()
+                })
             } else {
                 showNetWorkError()
             }

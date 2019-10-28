@@ -1,5 +1,6 @@
 package com.kotlin.viaggio.view.setting
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.event.Event
@@ -13,10 +14,9 @@ class LogoutActionDialogFragmentViewModel @Inject constructor() : BaseViewModel(
     @Inject
     lateinit var userModel: UserModel
 
-    val completeLiveDate: MutableLiveData<Event<Any>> = MutableLiveData()
-    fun logout() {
+    fun logout(): LiveData<Any> {
+        val completeLiveDate = MutableLiveData<Any>()
         val completables = mutableListOf<Completable>()
-
         val disposable = userModel.logOut()
             .flatMapCompletable {
                 completables.add(Completable.complete())
@@ -36,5 +36,6 @@ class LogoutActionDialogFragmentViewModel @Inject constructor() : BaseViewModel(
             Timber.d(it)
         }
         addDisposable(disposable)
+        return completeLiveDate
     }
 }
