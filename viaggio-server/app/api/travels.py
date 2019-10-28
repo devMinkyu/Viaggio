@@ -64,6 +64,8 @@ def update_travel(id):
         travel.startDate = request.json.get('startDate')
     if request.json.get('endDate') is not None:
         travel.endDate = request.json.get('endDate')
+    if request.json.get('travelKind') is not None:
+        travel.travelKind = request.json.get('travelKind')
     if request.json.get('theme') is not None:
         tempTheme = list(request.json.get('theme'))
         travel.theme = tempTheme

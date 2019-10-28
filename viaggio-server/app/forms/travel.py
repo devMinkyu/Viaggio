@@ -7,8 +7,8 @@ from ..models import Travel
 class CreateTravelForm(Form):
     localId = IntegerField('LocalId', validators=[DataRequired()])
     startDate = DateTimeField('StartDate', validators=[DataRequired()])
-    travelKind = SelectField('TravelKind', coerce=int, choices=[(0, 'foreign'),
-                                                                (1, 'domestic')])
+    # travelKind = SelectField('TravelKind', coerce=int, choices=[(0, 'foreign'),
+    #                                                             (1, 'domestic')])
 
     def validate_localId(self, field):
         if Travel.query.filter_by(localId=field.data).first():
