@@ -110,6 +110,7 @@ class SignInFragmentViewModel @Inject constructor():BaseViewModel() {
                         val errorMsg: Error = gson.fromJson(it.errorBody()?.string(), Error::class.java)
                         when(errorMsg.message){
                             400 -> googleErrorMsg.value = Event(resources.getString(R.string.err_exist_email))
+                            else -> googleErrorMsg.value = Event("${errorMsg.message}")
                         }
                     }
                 }) {

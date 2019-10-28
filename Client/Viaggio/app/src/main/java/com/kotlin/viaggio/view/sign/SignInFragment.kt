@@ -19,7 +19,6 @@ import com.r0adkll.slidr.model.SlidrConfig
 import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import org.jetbrains.anko.design.snackbar
-import org.jetbrains.anko.support.v4.toast
 import timber.log.Timber
 
 class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
@@ -53,14 +52,14 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewModel().complete.observe(this, Observer {
+        getViewModel().complete.observe(this.viewLifecycleOwner, Observer {
             stopLoading()
             it.getContentIfNotHandled()?.let {
                 baseIntent("http://viaggio.kotlin.com/home/main/")
                 parentFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             }
         })
-        getViewModel().error.observe(this, Observer {
+        getViewModel().error.observe(this.viewLifecycleOwner, Observer {
             stopLoading()
             it.getContentIfNotHandled()?.let { signError ->
                 signInEmailEdit.setErrorTextColor(ResourcesCompat.getColorStateList(resources, R.color.light_red,null))
@@ -85,8 +84,9 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
                 }
             }
         })
-        getViewModel().googleErrorMsg.observe(this, Observer {
+        getViewModel().googleErrorMsg.observe(this.viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { string ->
+                stopLoading()
                 view.snackbar(string)
             }
         })

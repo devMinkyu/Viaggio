@@ -1,12 +1,11 @@
 package com.kotlin.viaggio.view
 
 import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.answers.Answers
 import com.kotlin.viaggio.ioc.component.DaggerAppComponent
 import com.kotlin.viaggio.view.common.BaseApp
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
-import com.crashlytics.android.answers.Answers
-
 
 
 class App : BaseApp() {
