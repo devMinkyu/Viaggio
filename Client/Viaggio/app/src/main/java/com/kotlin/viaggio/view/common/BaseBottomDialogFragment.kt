@@ -30,7 +30,6 @@ abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         (getViewModel() as BaseViewModel).initialize()
     }
 

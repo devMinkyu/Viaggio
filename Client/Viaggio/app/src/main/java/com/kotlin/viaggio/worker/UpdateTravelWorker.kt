@@ -40,15 +40,23 @@ class UpdateTravelWorker @Inject constructor(context: Context, params: WorkerPar
 
     override fun doWork(): Result {
         super.doWork()
+        updateTravel()
+        return Result.success()
+    }
+
+    private fun updateTravel() {
         val toJson = inputData.getString(WorkerName.TRAVEL.name) ?: ""
-        val travel = gson.fromJson(toJson, Travel::class.java) ?: Travel()
+        var travel = gson.fromJson(toJson, Travel::class.java) ?: Travel()
 
         val toJson1 = inputData.getString(WorkerName.TRAVEL_CARD.name) ?: ""
         val travelCard = gson.fromJson(toJson1, TravelCard::class.java) ?: TravelCard()
 
         if(travel.localId != 0L){
-            travelModel.updateTravel(travel)
-                .flatMapCompletable {
+            travelLocalModel.getTravel(travelId = travel.localId)
+                .flatMap { mTravel ->
+                    travel = mTravel
+                    travelModel.updateTravel(travel)
+                }.flatMapCompletable {
                     if(it.isSuccessful){
                         travel.userExist = true
                         travelLocalModel.updateTravel(travel)
@@ -59,74 +67,83 @@ class UpdateTravelWorker @Inject constructor(context: Context, params: WorkerPar
         }
 
         if(travelCard.localId != 0L){
-            if (travelCard.newImageNames.isNotEmpty()) {
-                userModel.getAws()
-                    .flatMapCompletable { response ->
-                        if(response.isSuccessful) {
-                            val list = travelCard.newImageNames.map {
-                                userModel.putAwsImage(it)
-                            }
-                            val resultList = mutableListOf<String>()
-                            Single.merge(list)
-                                .filter {
-                                    TextUtils.isEmpty(it).not()
-                                }.map { imageUrl ->
-                                    val imageName = imageUrl.split("/").last()
-                                    val index = travelCard.newImageNames.indexOfFirst {newImageName ->
-                                        newImageName.split("/").last() == imageName
-                                    }
-                                    if (index >= 0) {
-                                        travelCard.newImageNames.removeAt(index)
-                                    }
-                                    resultList.add(imageUrl)
-                                }.lastOrError()
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(Schedulers.io())
-                                .flatMapCompletable {
-                                    travelCard.imageUrl.addAll(resultList)
-                                    travelCard.imageUrl.distinctBy {
-                                        it.split("/").last()
-                                    }.let { distinctList ->
-                                        val finalList = travelCard.imageNames.mapNotNull {
-                                            val checkImageName = it.split("/").last()
-                                            if(distinctList.contains("image/${userModel.getUserId()}/$checkImageName")) {
-                                                "image/${userModel.getUserId()}/$checkImageName"
-                                            } else {
-                                                null
-                                            }
-                                        }
-                                        travelCard.imageUrl.clear()
-                                        travelCard.imageUrl = finalList.toMutableList()
-                                    }
-
-                                    travelModel.updateTravelCard(travelCard)
-                                        .flatMapCompletable {
-                                            if (it.isSuccessful) {
-                                                travelCard.userExist = travelCard.newImageNames.isEmpty()
-                                                travelLocalModel.updateTravelCard(travelCard)
-                                            } else {
-                                                Completable.complete()
-                                            }
-                                        }
-                                }
-                        } else {
-                            Completable.complete()
-                        }
+            travelLocalModel.getTravelCard(travelCard.localId)
+                .flatMapCompletable { travelCards ->
+                    if(travelCards.isNotEmpty()) {
+                        updateTravelCard(travelCards.first())
+                    } else {
+                        updateTravelCard(travelCard)
                     }
-
-            } else {
-                travelModel.updateTravelCard(travelCard)
-                    .flatMapCompletable {
-                        if(it.isSuccessful){
-                            travelCard.userExist = true
-                            travelLocalModel.updateTravelCard(travelCard)
-                        }else{
-                            Completable.complete()
-                        }
-                    }
-            }.blockingAwait()
+                }.blockingAwait()
         }
+    }
 
-        return Result.success()
+    private fun updateTravelCard(travelCard: TravelCard): Completable {
+        return if (travelCard.newImageNames.isNotEmpty()) {
+            userModel.getAws()
+                .flatMapCompletable { response ->
+                    if(response.isSuccessful) {
+                        val list = travelCard.newImageNames.map {
+                            userModel.putAwsImage(it)
+                        }
+                        val resultList = mutableListOf<String>()
+                        Single.merge(list)
+                            .filter {
+                                TextUtils.isEmpty(it).not()
+                            }.map { imageUrl ->
+                                val imageName = imageUrl.split("/").last()
+                                val index = travelCard.newImageNames.indexOfFirst {newImageName ->
+                                    newImageName.split("/").last() == imageName
+                                }
+                                if (index >= 0) {
+                                    travelCard.newImageNames.removeAt(index)
+                                }
+                                resultList.add(imageUrl)
+                            }.lastOrError()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(Schedulers.io())
+                            .flatMapCompletable {
+                                travelCard.imageUrl.addAll(resultList)
+                                travelCard.imageUrl.distinctBy {
+                                    it.split("/").last()
+                                }.let { distinctList ->
+                                    val finalList = travelCard.imageNames.mapNotNull {
+                                        val checkImageName = it.split("/").last()
+                                        if(distinctList.contains("image/${userModel.getUserId()}/$checkImageName")) {
+                                            "image/${userModel.getUserId()}/$checkImageName"
+                                        } else {
+                                            null
+                                        }
+                                    }
+                                    travelCard.imageUrl.clear()
+                                    travelCard.imageUrl = finalList.toMutableList()
+                                }
+
+                                travelModel.updateTravelCard(travelCard)
+                                    .flatMapCompletable {
+                                        if (it.isSuccessful) {
+                                            travelCard.userExist = travelCard.newImageNames.isEmpty()
+                                            travelLocalModel.updateTravelCard(travelCard)
+                                        } else {
+                                            Completable.complete()
+                                        }
+                                    }
+                            }
+                    } else {
+                        Completable.complete()
+                    }
+                }
+
+        } else {
+            travelModel.updateTravelCard(travelCard)
+                .flatMapCompletable {
+                    if(it.isSuccessful){
+                        travelCard.userExist = true
+                        travelLocalModel.updateTravelCard(travelCard)
+                    }else{
+                        Completable.complete()
+                    }
+                }
+        }
     }
 }

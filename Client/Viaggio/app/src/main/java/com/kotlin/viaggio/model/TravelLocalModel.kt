@@ -149,6 +149,10 @@ class TravelLocalModel @Inject constructor() : BaseModel() {
         return db.get().travelDao().getTravelCard(getSelectedTravelingCardId().blockingGet())
             .subscribeOn(Schedulers.io())
     }
+    fun getTravelCard(travelCardId:Long): Single<List<TravelCard>> {
+        return db.get().travelDao().getTravelCard(travelCardId)
+            .subscribeOn(Schedulers.io())
+    }
 
     fun clearTravel() =
         Completable.fromAction {

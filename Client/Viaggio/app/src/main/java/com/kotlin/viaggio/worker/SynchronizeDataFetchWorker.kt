@@ -50,17 +50,19 @@ class SynchronizeDataFetchWorker @Inject constructor(context: Context, params: W
         val travelSingle = travelLocalModel.getNotUploadTravels()
         val travelCardSingle = travelLocalModel.getNotUploadTravelCards()
         var travelCardMap:Map<Long, List<TravelCard>> = mapOf()
+        var travelOfServerId = mapOf<Long, Int>()
         Single.zip(travelSingle, travelCardSingle, BiFunction
         <List<Travel>, MutableList<TravelCard>, List<Travel>>
         { travels, travelCards ->
             travelCardMap = travelCards.filter { it.travelServerId == 0 }.groupBy { it.travelLocalId }
+            travelOfServerId = travels.associate { it.localId to it.serverId }
             // update
             val updateTravelList = travels
                 .filter { it.userExist.not() && it.serverId != 0 }
             val updateTravelCardExistImageList = travelCards
-                .filter { it.userExist.not() && it.serverId != 0 && it.newImageNames.isNotEmpty()}
+                .filter { it.userExist.not() && it.serverId != 0 && it.travelServerId != 0 && it.newImageNames.isNotEmpty()}
             val updateTravelCardNotImageList = travelCards
-                .filter { it.userExist.not() && it.serverId != 0 && it.newImageNames.isEmpty()}
+                .filter { it.userExist.not() && it.serverId != 0 && it.travelServerId != 0 && it.newImageNames.isEmpty()}
             if (updateTravelList.isNotEmpty()) {
                 val c1 = travelModel.updateSyncTravels(updateTravelList)
                 completables.add(c1)
@@ -85,6 +87,19 @@ class SynchronizeDataFetchWorker @Inject constructor(context: Context, params: W
                 .filter {
                     it.userExist.not() && it.serverId == 0 && it.travelServerId != 0 && it.imageNames.isEmpty()
                 }
+            val createTravelCardsNoneTravelIdExistImageList = travelCards.filter {
+                it.userExist.not() && it.serverId == 0 && it.travelServerId == 0 && travelOfServerId[it.travelLocalId] != 0 && it.imageNames.isNotEmpty()
+            }.map {
+                it.travelServerId = travelOfServerId[it.travelLocalId]?:0
+                it
+            }
+            val createTravelCardsNoneTravelIdNotImageList = travelCards.filter {
+                it.userExist.not() && it.serverId == 0 && it.travelServerId == 0 && travelOfServerId[it.travelLocalId] != 0 && it.imageNames.isEmpty()
+            }.map {
+                it.travelServerId = travelOfServerId[it.travelLocalId]?:0
+                it
+            }
+
             if (createTravelCardsExistImageList.isNotEmpty()) {
                 val c4 = createTravelCard(createTravelCardsExistImageList)
                 completables.add(c4)
@@ -92,6 +107,14 @@ class SynchronizeDataFetchWorker @Inject constructor(context: Context, params: W
             if(createTravelCardsNotImageList.isNotEmpty()) {
                 val c3 = travelModel.createSyncTravelCards(createTravelCardsNotImageList)
                 completables.add(c3)
+            }
+            if (createTravelCardsNoneTravelIdExistImageList.isNotEmpty()) {
+                val c5 = createTravelCard(createTravelCardsNoneTravelIdExistImageList)
+                completables.add(c5)
+            }
+            if(createTravelCardsNoneTravelIdNotImageList.isNotEmpty()) {
+                val c6 = travelModel.createSyncTravelCards(createTravelCardsNoneTravelIdNotImageList)
+                completables.add(c6)
             }
             createTravelList
         }).subscribeOn(Schedulers.io())
