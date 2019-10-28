@@ -30,9 +30,10 @@
 }
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
--keepattributes InnerClasses
+-keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
+-keepattributes InnerClasses
 
 
 -keepattributes RuntimeVisibleAnnotations
@@ -88,7 +89,6 @@
 
 -keep class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
--printmapping mapping.txt
 
 -keep public class com.google.** {*;}
 
@@ -159,16 +159,12 @@
 }
 
 #Viaggio Customization
--keep public class * extends java.lang.Exception
 -keep enum com.kotlin.viaggio.**$** {*;}
 -keep class com.kotlin.viaggio.data.obj.**$** {*;}
 -keep class com.kotlin.viaggio.data.obj.Theme {*;}
 -keep class com.kotlin.viaggio.data.obj.Country {*;}
 -keep class com.kotlin.viaggio.data.obj.Travel {*;}
 -keep class com.kotlin.viaggio.data.obj.TravelCard {*;}
--keep class com.kotlin.viaggio.data.obj.ViaggioApiCountry {*;}
--keep class com.kotlin.viaggio.data.obj.ViaggioApiTheme {*;}
--keep class com.kotlin.viaggio.data.obj.ViaggioApiDomestics {*;}
 
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelsData {*;}
 -keep class com.kotlin.viaggio.data.obj.ViaggioApiTravelCardsData {*;}
@@ -184,3 +180,9 @@
 -keep class com.kotlin.viaggio.data.obj.TravelCardBody {*;}
 -keep class com.kotlin.viaggio.data.obj.TravelBodyList {*;}
 -keep class com.kotlin.viaggio.data.obj.TravelCardBodyList {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiCountry {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiTheme {*;}
+-keep class com.kotlin.viaggio.data.obj.ViaggioApiDomestics {*;}
+-keep class com.kotlin.viaggio.data.obj.GoogleSignInBody {*;}
+
+-keep class com.kotlin.viaggio.data.obj.Error {*;}
