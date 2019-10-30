@@ -31,15 +31,15 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
         val TAG: String = SettingFragment::class.java.simpleName
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (sliderInterface == null)
-            sliderInterface = Slidr.replace(
-                setting_container, SlidrConfig.Builder()
-                    .position(SlidrPosition.TOP)
-                    .build()
-            )
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        if (sliderInterface == null)
+//            sliderInterface = Slidr.replace(
+//                setting_container, SlidrConfig.Builder()
+//                    .position(SlidrPosition.TOP)
+//                    .build()
+//            )
+//    }
 
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSettingBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

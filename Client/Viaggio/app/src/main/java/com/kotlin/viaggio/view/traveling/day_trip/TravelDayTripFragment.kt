@@ -40,15 +40,15 @@ class TravelDayTripFragment : BaseFragment<TravelDayTripFragmentViewModel>() {
         val TAG: String = TravelDayTripFragment::class.java.simpleName
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (sliderInterface == null)
-            sliderInterface = Slidr.replace(
-                travelingContainer, SlidrConfig.Builder()
-                    .position(SlidrPosition.LEFT)
-                    .build()
-            )
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        if (sliderInterface == null)
+//            sliderInterface = Slidr.replace(
+//                travelingContainer, SlidrConfig.Builder()
+//                    .position(SlidrPosition.LEFT)
+//                    .build()
+//            )
+//    }
 
     lateinit var binding: FragmentTravelDayTripBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

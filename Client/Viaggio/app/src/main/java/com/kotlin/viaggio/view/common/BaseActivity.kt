@@ -13,8 +13,13 @@ import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import dagger.android.AndroidInjection
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
+import io.reactivex.exceptions.UndeliverableException
+import io.reactivex.plugins.RxJavaPlugins
 import net.skoumal.fragmentback.BackFragmentHelper
+import timber.log.Timber
+import java.io.IOException
 import java.lang.ref.WeakReference
+import java.net.SocketException
 import javax.inject.Inject
 
 abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasSupportFragmentInjector{
@@ -32,6 +37,38 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasSupportFrag
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         (getViewModel() as BaseViewModel).initialize()
+
+        rxErrorHandler()
+    }
+
+    private fun rxErrorHandler() {
+        RxJavaPlugins.setErrorHandler { e ->
+            var error = e
+            if (error is UndeliverableException) {
+                error = e.cause
+            }
+            if (error is IOException || error is SocketException) {
+                // fine, irrelevant network problem or API that throws on cancellation
+                return@setErrorHandler
+            }
+            if (error is InterruptedException) {
+                // fine, some blocking code was interrupted by a dispose call
+                return@setErrorHandler
+            }
+            if (error is NullPointerException || error is IllegalArgumentException) {
+                // that's likely a bug in the application
+                Thread.currentThread().uncaughtExceptionHandler
+                    .uncaughtException(Thread.currentThread(), error)
+                return@setErrorHandler
+            }
+            if (error is IllegalStateException) {
+                // that's a bug in RxJava or in a custom operator
+                Thread.currentThread().uncaughtExceptionHandler
+                    .uncaughtException(Thread.currentThread(), error)
+                return@setErrorHandler
+            }
+            Timber.w("Undeliverable exception received, not sure what to do", error)
+        }
     }
 
     override fun supportFragmentInjector() = fragmentInjector

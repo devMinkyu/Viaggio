@@ -23,15 +23,15 @@ import kotlinx.android.synthetic.main.item_profile_image.view.*
 
 class SettingProfileImageEnrollFragment : BaseFragment<SettingProfileImageEnrollFragmentViewModel>() {
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentProfileImageEnrollBinding
-    override fun onResume() {
-        super.onResume()
-        if (sliderInterface == null)
-            sliderInterface = Slidr.replace(
-                enroll_container, SlidrConfig.Builder()
-                    .position(SlidrPosition.LEFT)
-                    .build()
-            )
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        if (sliderInterface == null)
+//            sliderInterface = Slidr.replace(
+//                enroll_container, SlidrConfig.Builder()
+//                    .position(SlidrPosition.LEFT)
+//                    .build()
+//            )
+//    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_profile_image_enroll, container, false)
         binding.viewModel = getViewModel()

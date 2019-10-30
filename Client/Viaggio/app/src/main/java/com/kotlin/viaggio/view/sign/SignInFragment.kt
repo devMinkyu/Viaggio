@@ -29,12 +29,12 @@ class SignInFragment : BaseFragment<SignInFragmentViewModel>() {
     override fun onResume() {
         super.onResume()
         activity?.window?.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorPrimary, null)
-        if (sliderInterface == null)
-            sliderInterface = Slidr.replace(
-                sign_container, SlidrConfig.Builder()
-                    .position(SlidrPosition.LEFT)
-                    .build()
-            )
+//        if (sliderInterface == null)
+//            sliderInterface = Slidr.replace(
+//                sign_container, SlidrConfig.Builder()
+//                    .position(SlidrPosition.LEFT)
+//                    .build()
+//            )
     }
 
     override fun onStop() {

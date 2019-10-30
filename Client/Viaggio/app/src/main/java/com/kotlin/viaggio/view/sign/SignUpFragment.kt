@@ -18,15 +18,15 @@ import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_sign_up.*
 
 class SignUpFragment : BaseFragment<SignUpFragmentViewModel>() {
-    override fun onResume() {
-        super.onResume()
-        if (sliderInterface == null)
-            sliderInterface = Slidr.replace(
-                sign_container, SlidrConfig.Builder()
-                    .position(SlidrPosition.LEFT)
-                    .build()
-            )
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        if (sliderInterface == null)
+//            sliderInterface = Slidr.replace(
+//                sign_container, SlidrConfig.Builder()
+//                    .position(SlidrPosition.LEFT)
+//                    .build()
+//            )
+//    }
 
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSignUpBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -33,15 +33,15 @@ import java.io.File
 
 class TravelingDetailFragment : BaseFragment<TravelingDetailFragmentViewModel>() {
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingDetailBinding
-    override fun onResume() {
-        super.onResume()
-        if (sliderInterface == null)
-            sliderInterface = Slidr.replace(
-                travelingDetailLayout, SlidrConfig.Builder()
-                    .position(SlidrPosition.LEFT)
-                    .build()
-            )
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        if (sliderInterface == null)
+//            sliderInterface = Slidr.replace(
+//                travelingDetailLayout, SlidrConfig.Builder()
+//                    .position(SlidrPosition.LEFT)
+//                    .build()
+//            )
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

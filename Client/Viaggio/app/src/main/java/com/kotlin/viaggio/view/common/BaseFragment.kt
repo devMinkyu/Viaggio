@@ -7,11 +7,13 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.LocalDataSource
 import com.kotlin.viaggio.extenstions.showDialog
+import com.kotlin.viaggio.view.travel.TravelFragmentViewModel
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.r0adkll.slidr.model.SlidrInterface
 import com.tbruyelle.rxpermissions2.RxPermissions

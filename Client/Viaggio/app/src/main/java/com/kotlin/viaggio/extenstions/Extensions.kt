@@ -70,12 +70,12 @@ fun AppCompatActivity.leftReplace(frag: BaseFragment<*>) {
     supportFragmentManager.beginTransaction()
         .setCustomAnimations(
             R.anim.slide_in_right,
-            R.anim.slide_out_left,
-            R.anim.slide_in_left,
+            R.anim.fade_out,
+            R.anim.fade_in,
             R.anim.slide_out_right
         )
         .addToBackStack(null)
-        .add(R.id.content_frame, frag, null).commit()
+        .replace(R.id.content_frame, frag, null).commit()
 }
 fun AppCompatActivity.topReplace(frag: BaseFragment<*>) {
     supportFragmentManager.beginTransaction()
@@ -86,7 +86,7 @@ fun AppCompatActivity.topReplace(frag: BaseFragment<*>) {
             R.anim.slide_out_down
         )
         .addToBackStack(null)
-        .add(R.id.content_frame, frag, null).commit()
+        .replace(R.id.content_frame, frag, null).commit()
 }
 
 fun Fragment.baseIntent(uri:String) {

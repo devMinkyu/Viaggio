@@ -30,15 +30,15 @@ class SettingMyProfileFragment : BaseFragment<SettingMyProfileFragmentViewModel>
         val TAG: String = SettingMyProfileFragment::class.java.simpleName
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (sliderInterface == null)
-            sliderInterface = Slidr.replace(
-                setting_profile_container, SlidrConfig.Builder()
-                    .position(SlidrPosition.LEFT)
-                    .build()
-            )
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        if (sliderInterface == null)
+//            sliderInterface = Slidr.replace(
+//                setting_profile_container, SlidrConfig.Builder()
+//                    .position(SlidrPosition.LEFT)
+//                    .build()
+//            )
+//    }
 
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentSettingMyProfileBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

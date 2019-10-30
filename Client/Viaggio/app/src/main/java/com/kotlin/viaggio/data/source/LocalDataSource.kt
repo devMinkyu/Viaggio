@@ -293,7 +293,7 @@ class LocalDataSource @Inject constructor() {
                             localFile.createNewFile()
 
                             val out = FileOutputStream(localFile)
-                            if (compressImg.compress(Bitmap.CompressFormat.JPEG, 100, out)) {
+                            if (compressImg.compress(Bitmap.CompressFormat.JPEG, 80, out)) {
                                 out.flush()
                                 out.close()
                                 imageListUri.add(localFile.absolutePath.split("/").last())

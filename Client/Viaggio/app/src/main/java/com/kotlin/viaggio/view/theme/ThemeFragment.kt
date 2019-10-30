@@ -76,7 +76,7 @@ class ThemeFragment:BaseFragment<ThemeFragmentViewModel>() {
                             holder.itemView.themeName.setOnCloseIconClickListener {
                                 val index = getViewModel().themeList.indexOf(holder.binding!!.data)
                                 if(index < adapter.itemCount) {
-                                    getViewModel().removeCustomTheme(getViewModel().themeList[index], index)
+                                    getViewModel().removeClickControl.onNext(index)
                                 }
 
                             }

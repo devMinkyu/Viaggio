@@ -12,7 +12,12 @@ import com.kotlin.viaggio.event.Event
 import com.kotlin.viaggio.model.ThemeModel
 import com.kotlin.viaggio.model.TravelLocalModel
 import com.kotlin.viaggio.view.common.BaseViewModel
+import io.reactivex.Observable
+import io.reactivex.Single
+import io.reactivex.subjects.CompletableSubject
+import io.reactivex.subjects.PublishSubject
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
@@ -35,9 +40,21 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
 
     val isExistData = ObservableBoolean(false)
     val loadingData = ObservableBoolean(false)
+    val removeClickControl = PublishSubject.create<Int>()
     override fun initialize() {
         super.initialize()
         themeDataFetch()
+
+        val disposable = removeClickControl.throttleFirst(
+            1000, TimeUnit.MILLISECONDS
+        ).subscribe ({ index ->
+            if(index >= 0) {
+                removeCustomTheme(themeList[index], index)
+            }
+        }) {
+            Timber.d(it)
+        }
+        addDisposable(disposable)
     }
 
     fun themeDataFetch() {
@@ -110,7 +127,7 @@ class ThemeFragmentViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    fun removeCustomTheme(data: ThemeData, index: Int) {
+    private fun removeCustomTheme(data: ThemeData, index: Int) {
         val item = Theme(theme = data.theme, authority = data.authority)
         val disposable = themeModel.deleteTheme(item)
             .subscribe({

@@ -38,18 +38,17 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
         travelingOfDayEnrollImageList.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
         getViewModel().imagePathList.observe(this, Observer {
             it.getContentIfNotHandled()?.let { list ->
-                travelingOfDayEnrollImageList.adapter = object : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                travelingOfDayEnrollImageList.adapter = object : RecyclerView.Adapter<TravelingOfDayImgViewHolder>() {
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
                         TravelingOfDayImgViewHolder(
-                            LayoutInflater.from(parent.context).inflate(
+                            layoutInflater.inflate(
                                 R.layout.item_traveling_of_day_image,
                                 parent,
                                 false
                             )
                         )
                     override fun getItemCount() = list.size
-                    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-                        holder as TravelingOfDayImgViewHolder
+                    override fun onBindViewHolder(holder: TravelingOfDayImgViewHolder, position: Int) {
                         holder.imageBinding(list[position].imageName)
                         holder.binding?.viewHandler = holder.TravelingOfDayImgViewHandler()
                         holder.binding?.chooseCount = list[position].chooseCountList
@@ -61,6 +60,7 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
             } else {
                 travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageAllList.first().imageName)
             }
+            showBackToTopAnimation()
         })
 
         getViewModel().folderNameListLiveData.observe(this, Observer {
@@ -79,7 +79,6 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                 }
             }
         })
-        showBackToTopAnimation()
     }
 
     private fun showBackToTopAnimation() {

@@ -53,32 +53,32 @@ class TravelOptionBottomSheetDialogFragment : BaseBottomDialogFragment<TravelOpt
             dismiss()
         }
         fun modifyCalendar() {
-            baseIntent("http://viaggio.kotlin.com/option/calendar/")
             dismiss()
+            baseIntent("http://viaggio.kotlin.com/option/calendar/")
         }
         fun changeTitle(){
-            showDialog(TravelTitleBottomSheetDialogFragment(), TravelTitleBottomSheetDialogFragment.TAG)
             dismiss()
+            showDialog(TravelTitleBottomSheetDialogFragment(), TravelTitleBottomSheetDialogFragment.TAG)
         }
         fun addCountry(){
+            dismiss()
             if(getViewModel().travel.travelKind == 0){
                 baseIntent("http://viaggio.kotlin.com/option/country/")
             }else{
                 baseIntent("http://viaggio.kotlin.com/option/domestics/")
             }
-            dismiss()
         }
         fun addTheme(){
-            baseIntent("http://viaggio.kotlin.com/option/theme/")
             dismiss()
+            baseIntent("http://viaggio.kotlin.com/option/theme/")
         }
         fun changeRepresentativeImage() {
-            baseIntent("http://viaggio.kotlin.com/option/image/")
             dismiss()
+            baseIntent("http://viaggio.kotlin.com/option/image/")
         }
         fun instagramShare() {
-            baseIntent("http://viaggio.kotlin.com/option/instagram/share/")
             dismiss()
+            baseIntent("http://viaggio.kotlin.com/option/instagram/share/")
         }
         fun travelDelete() {
             getViewModel().checkTraveling().observe(this@TravelOptionBottomSheetDialogFragment, Observer {

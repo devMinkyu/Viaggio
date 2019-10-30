@@ -3,10 +3,7 @@ package com.kotlin.viaggio.model
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.paging.DataSource
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
-import com.kotlin.viaggio.BuildConfig
 import com.kotlin.viaggio.aws.DeveloperAuthenticationProvider
 import com.kotlin.viaggio.data.obj.Travel
 import com.kotlin.viaggio.data.obj.TravelCard
@@ -17,7 +14,6 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers
-import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 

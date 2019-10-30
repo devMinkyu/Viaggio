@@ -81,11 +81,11 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
             }
         })
 
-        context?.let { mContext ->
-            MobileAds.initialize(mContext)
-            val adRequest = AdRequest.Builder().build()
-            adView.loadAd(adRequest)
-        }
+//        context?.let { mContext ->
+//            MobileAds.initialize(mContext)
+//            val adRequest = AdRequest.Builder().build()
+//            adView.loadAd(adRequest)
+//        }
     }
 
     override fun onStart() {

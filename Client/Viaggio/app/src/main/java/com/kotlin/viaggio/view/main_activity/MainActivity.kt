@@ -5,6 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentFactory
 import androidx.lifecycle.Observer
 import androidx.navigation.Navigation
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -44,6 +46,7 @@ import com.kotlin.viaggio.view.tutorial.intro.IntroFragment
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.longSnackbar
 import org.jetbrains.anko.design.snackbar
+import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainActivityViewModel>() {
     companion object {
@@ -54,7 +57,6 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
     private var appUpdateManager:AppUpdateManager? = null
     private var listener:InstallStateUpdatedListener? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -71,7 +73,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
         getViewModel().finishActivity.observe(this, Observer {
             it.getContentIfNotHandled()?.let {
-                BackActionDialogFragment().show(supportFragmentManager, BackActionDialogFragment.TAG)
+                finish()
             }
         })
         getViewModel().showToast.observe(this, Observer {
@@ -89,8 +91,8 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
 
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount == 0) {
-            BackActionDialogFragment().show(supportFragmentManager, BackActionDialogFragment.TAG)
-//            getViewModel().backButtonSubject.onNext(System.currentTimeMillis())
+//            BackActionDialogFragment().show(supportFragmentManager, BackActionDialogFragment.TAG)
+            getViewModel().backButtonSubject.onNext(System.currentTimeMillis())
         } else {
             super.onBackPressed()
         }
@@ -207,7 +209,7 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         val arg = Bundle()
         arg.putBoolean(ArgName.TRAVEL_OPTION.name, true)
         frag.arguments = arg
-        leftReplace(frag)
+        topReplace(frag)
     }
 
     private fun showIntro() {
@@ -292,3 +294,9 @@ class MainActivity : BaseActivity<MainActivityViewModel>() {
         }
     }
 }
+//
+//class MyFragmentFactory(): FragmentFactory() {
+//    override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
+//        return super.instantiate(classLoader, className)
+//    }
+//}

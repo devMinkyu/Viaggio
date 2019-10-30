@@ -36,15 +36,15 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         val TAG: String = TravelingFragment::class.java.simpleName
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (sliderInterface == null)
-            sliderInterface = Slidr.replace(
-                travelingContainer, SlidrConfig.Builder()
-                    .position(SlidrPosition.LEFT)
-                    .build()
-            )
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        if (sliderInterface == null)
+//            sliderInterface = Slidr.replace(
+//                travelingContainer, SlidrConfig.Builder()
+//                    .position(SlidrPosition.LEFT)
+//                    .build()
+//            )
+//    }
 
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

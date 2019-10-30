@@ -35,17 +35,16 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (sliderInterface == null)
-            sliderInterface = Slidr.replace(
-                travelingCountryContainer, SlidrConfig.Builder().position(
-                    SlidrPosition.LEFT
-                )
-                    .build()
-            )
-
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        if (sliderInterface == null)
+//            sliderInterface = Slidr.replace(
+//                travelingCountryContainer, SlidrConfig.Builder().position(
+//                    SlidrPosition.LEFT
+//                )
+//                    .build()
+//            )
+//    }
 
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentTravelingDomesticsCountryBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
