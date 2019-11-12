@@ -65,8 +65,7 @@ class TravelingDetailFragment : BaseFragment<TravelingDetailFragmentViewModel>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         travelingDetailDayImg.isNestedScrollingEnabled = false
-//        val imgDir = File(context?.filesDir, "images/")
-        getViewModel().travelOfDayCardImageListLiveData.observe(this, Observer {
+        getViewModel().travelOfDayCardImageListLiveData.observe(this.viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { imageNames ->
                 instaDotView.noOfPages = imageNames.size
                 if (imageNames.isNotEmpty()) {
@@ -187,6 +186,21 @@ class TravelingDetailFragment : BaseFragment<TravelingDetailFragmentViewModel>()
                 }
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if(getViewModel().reloadingImage) {
+            getViewModel().initialize()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if(getViewModel().reloadingImage.not()){
+            getViewModel().reloadingImage = true
+        }
+
     }
 
     private fun optionTraveling(frag: BaseDialogFragment<*>, tag: String, key: String) {

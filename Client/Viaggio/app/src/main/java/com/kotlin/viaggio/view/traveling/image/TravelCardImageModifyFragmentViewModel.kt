@@ -56,7 +56,12 @@ class TravelCardImageModifyFragmentViewModel @Inject constructor() : BaseViewMod
                     travelCard = it
                     list.addAll(item.imageNames)
                 }
-                imageRemainderCount.set(String.format(appCtx.get().getString(R.string.travel_card_image_modify_total_count), 10 - list.size))
+                val remain = if(10 - list.size < 0) {
+                    0
+                } else {
+                    10 - list.size
+                }
+                imageRemainderCount.set(String.format(appCtx.get().getString(R.string.travel_card_image_modify_total_count), remain))
                 imageCount.set("0")
                 imageNamesListLiveDate.postValue(Event(list))
             }){
@@ -85,7 +90,12 @@ class TravelCardImageModifyFragmentViewModel @Inject constructor() : BaseViewMod
         if(index >= 0) {
             list.removeAt(index)
         }
-        imageRemainderCount.set(String.format(appCtx.get().getString(R.string.travel_card_image_modify_total_count), 10 - list.size))
+        val remain = if(10 - list.size < 0) {
+            0
+        } else {
+            10 - list.size
+        }
+        imageRemainderCount.set(String.format(appCtx.get().getString(R.string.travel_card_image_modify_total_count), remain))
 
         result.value = index
         return result

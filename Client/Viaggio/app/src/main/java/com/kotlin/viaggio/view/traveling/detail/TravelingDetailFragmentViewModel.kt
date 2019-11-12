@@ -25,6 +25,7 @@ class TravelingDetailFragmentViewModel @Inject constructor() : BaseViewModel() {
     @Inject
     lateinit var travelLocalModel: TravelLocalModel
 
+    var reloadingImage: Boolean = false
     val dayCount = ObservableInt(0)
     val content = ObservableField("")
     val country = ObservableField("")
