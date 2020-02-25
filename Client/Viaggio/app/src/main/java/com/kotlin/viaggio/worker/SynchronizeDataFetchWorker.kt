@@ -50,7 +50,7 @@ class SynchronizeDataFetchWorker @Inject constructor(context: Context, params: W
         val travelSingle = travelLocalModel.getNotUploadTravels()
         val travelCardSingle = travelLocalModel.getNotUploadTravelCards()
         var travelCardMap:Map<Long, List<TravelCard>> = mapOf()
-        var travelOfServerId = mapOf<Long, Int>()
+        var travelOfServerId: Map<Long, Int>
         Single.zip(travelSingle, travelCardSingle, BiFunction
         <List<Travel>, MutableList<TravelCard>, List<Travel>>
         { travels, travelCards ->

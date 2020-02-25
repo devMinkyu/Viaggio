@@ -5,7 +5,7 @@ package com.kotlin.viaggio.ioc.module.provider
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
@@ -20,7 +20,6 @@ import com.kotlin.viaggio.data.source.*
 import com.kotlin.viaggio.view.App
 import dagger.Module
 import dagger.Provides
-import java.util.*
 import javax.inject.Named
 import javax.inject.Singleton
 

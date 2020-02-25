@@ -17,6 +17,7 @@ import com.kotlin.viaggio.databinding.ItemTravelingOfDayImageBinding
 import com.kotlin.viaggio.view.common.BaseFragment
 import kotlinx.android.synthetic.main.fragment_traveling_card_image_enroll.*
 import kotlinx.android.synthetic.main.item_traveling_of_day_image.view.*
+import timber.log.Timber
 
 
 class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFragmentViewModel>() {
@@ -83,7 +84,7 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
 
     private fun showBackToTopAnimation() {
         val animator = backToTop.animate().setDuration(250)
-            .translationY(backToTop.height.toFloat() + 150f)
+            .translationY(backToTop.height.toFloat() + 250f)
         animator.start()
         travelingOfDayEnrollImageList.addOnScrollListener(object :RecyclerView.OnScrollListener() {
             var showBackToTop = false
@@ -107,11 +108,11 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                     if (travelingOfDayEnrollImageList.canScrollVertically(-1).not()) {
                         showBackToTop = false
                         val animator1 = backToTop.animate().setDuration(250)
-                            .translationY(backToTop.height.toFloat() + 150f)
+                            .translationY(backToTop.height.toFloat() + 250f)
                         animator1.start()
                     }
                 } catch (e: NullPointerException) {
-                    travelingOfDayEnrollImageList.scrollToPosition(0)
+                    Timber.d(e)
                 }
             }
         })

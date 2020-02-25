@@ -124,7 +124,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
     private fun showBackToTopAnimation() {
         var showBackToTop = false
         val animator = backToTop.animate().setDuration(0)
-            .translationY(backToTop.height.toFloat() + 300f)
+            .translationY(backToTop.height.toFloat() + 250f)
         animator.start()
         travelingCountryContainer.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if(scrollY - oldScrollY > 0 && showBackToTop.not()) {
@@ -137,7 +137,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
             if(scrollY == 0 && showBackToTop) {
                 showBackToTop = false
                 val animator1 = backToTop.animate().setDuration(250)
-                    .translationY(backToTop.height.toFloat() + 150f)
+                    .translationY(backToTop.height.toFloat() + 250f)
                 animator1.start()
             }
         })
