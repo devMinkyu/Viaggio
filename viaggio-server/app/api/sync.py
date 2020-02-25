@@ -58,8 +58,7 @@ def update_travels():
             travel.area = reqTravel['area']
         if reqTravel['startDate'] is not None:
             travel.startDate = reqTravel['startDate']
-        if reqTravel['endDate'] is not None:
-            travel.endDate = reqTravel['endDate']
+        travel.endDate = reqTravel['endDate']
         if reqTravel['travelKind'] is not None:
             travel.travelKind = reqTravel['travelKind']
         if reqTravel['theme'] is not None:
