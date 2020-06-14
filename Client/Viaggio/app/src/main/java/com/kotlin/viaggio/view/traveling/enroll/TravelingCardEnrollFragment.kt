@@ -170,7 +170,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
             when (image) {
                 is Bitmap -> {
                     selectedImage = image
-                    Glide.with(context!!)
+                    Glide.with(requireContext())
                         .load(image)
                         .into(itemView.travelingPagerImg)
                 }

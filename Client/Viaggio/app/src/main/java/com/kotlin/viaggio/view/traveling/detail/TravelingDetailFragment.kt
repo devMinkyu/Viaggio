@@ -96,7 +96,7 @@ class TravelingDetailFragment : BaseFragment<TravelingDetailFragmentViewModel>()
                         ) {
                             if (TextUtils.isEmpty(imageNames[position]).not()) {
                                 Glide.with(holder.itemView.travelingPagerImg)
-                                    .load(context!!.imageName(imageNames[position]))
+                                    .load(requireContext().imageName(imageNames[position]))
                                     .into(holder.itemView.travelingPagerImg)
                             }
                             holder.itemView.travelingPagerImg.setOnClickListener {

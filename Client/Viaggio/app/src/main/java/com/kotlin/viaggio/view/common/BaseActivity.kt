@@ -5,26 +5,24 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import io.reactivex.exceptions.UndeliverableException
 import io.reactivex.plugins.RxJavaPlugins
 import net.skoumal.fragmentback.BackFragmentHelper
-import timber.log.Timber
 import java.io.IOException
 import java.lang.ref.WeakReference
 import java.net.SocketException
 import javax.inject.Inject
 
-abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasSupportFragmentInjector{
+abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasAndroidInjector {
     @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var frameworkActivityInjector: DispatchingAndroidInjector<Any>
     @Inject
     internal lateinit var viewModel: E
     @Inject
@@ -67,11 +65,13 @@ abstract class BaseActivity<E : ViewModel> : AppCompatActivity(), HasSupportFrag
                     .uncaughtException(Thread.currentThread(), error)
                 return@setErrorHandler
             }
-            Timber.w("Undeliverable exception received, not sure what to do", error)
         }
     }
 
-    override fun supportFragmentInjector() = fragmentInjector
+    override fun androidInjector(): AndroidInjector<Any> {
+        return frameworkActivityInjector
+    }
+
     fun getViewModel(): E =
         viewModelProvider.let { vmpRef ->
             vmpRef?.get()?.let {

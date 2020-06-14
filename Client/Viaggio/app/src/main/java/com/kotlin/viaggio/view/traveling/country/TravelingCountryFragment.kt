@@ -58,7 +58,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         super.onViewCreated(view, savedInstanceState)
         countryList.layoutManager = GridLayoutManager(context,2)
 
-        val width = context!!.resources.displayMetrics.widthPixels - dip(59)
+        val width = requireContext().resources.displayMetrics.widthPixels - dip(59)
 
         getViewModel().countryLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let {list ->
@@ -85,7 +85,7 @@ class TravelingCountryFragment : BaseFragment<TravelingCountryFragmentViewModel>
         })
 
         getViewModel().continentLiveData.observe(this, Observer {
-            val spinnerAdapter = ArrayAdapter(context!!, R.layout.spinner_continent_item, getViewModel().continentList)
+            val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.spinner_continent_item, getViewModel().continentList)
             spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
 
             countrySpinner.adapter = spinnerAdapter

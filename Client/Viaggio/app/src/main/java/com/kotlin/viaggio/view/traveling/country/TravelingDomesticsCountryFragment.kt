@@ -73,7 +73,7 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
                         holder.cityCreateView(item)
                     }
                 }
-                val adapter = ArrayAdapter(context!!, R.layout.spinner_dropdown_auto_item, getViewModel().autoSearchList)
+                val adapter = ArrayAdapter(requireContext(), R.layout.spinner_dropdown_auto_item, getViewModel().autoSearchList)
                 autoCompleteTextView.setAdapter(adapter)
                 autoCompleteTextView.onItemClickListener = AdapterView.OnItemClickListener { p0, _, p2, _ ->
                     val item = p0.getItemAtPosition(p2).toString()

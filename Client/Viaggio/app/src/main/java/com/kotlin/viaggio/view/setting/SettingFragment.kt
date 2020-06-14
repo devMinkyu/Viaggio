@@ -104,14 +104,14 @@ class SettingFragment : BaseFragment<SettingFragmentViewModel>() {
 //                        .into(settingProfileImg)
 //                } else {
 //                    Glide.with(settingProfileImg)
-//                        .load(context!!.imageName(image))
+//                        .load(requireContext().imageName(image))
 //                        .into(settingProfileImg)
 //                }
                 Glide.with(settingProfileImg)
                     .setDefaultRequestOptions(
                         RequestOptions().placeholder(R.drawable.icon_profile)
                     )
-                    .load(context!!.imageName(image))
+                    .load(requireContext().imageName(image))
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .apply(RequestOptions.circleCropTransform())

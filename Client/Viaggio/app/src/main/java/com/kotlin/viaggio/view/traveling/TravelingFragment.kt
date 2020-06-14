@@ -155,7 +155,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         fun loadImage(imageName: String?) {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
-                    .load(context!!.imageName(imageName!!))
+                    .load(requireContext().imageName(imageName!!))
                     .into(itemView.travelingItemThemeImg)
             } else{
                 Glide.with(itemView)
@@ -190,7 +190,7 @@ class TravelingFragment : BaseFragment<TravelingFragmentViewModel>() {
         fun loadImage(imageName: String?) {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
-                    .load(context!!.imageName(imageName!!))
+                    .load(requireContext().imageName(imageName!!))
                     .into(itemView.travelingItemThemeImg)
             } else{
                 Glide.with(itemView)

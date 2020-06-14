@@ -1,29 +1,21 @@
 package com.kotlin.viaggio.view.common
 
-import android.app.Activity
-import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.ContentProvider
 import androidx.multidex.MultiDexApplication
-import androidx.work.Worker
+import androidx.work.ListenableWorker
 import com.google.firebase.messaging.FirebaseMessaging
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.kotlin.viaggio.ioc.module.common.AndroidWorkerInjection
-import dagger.android.*
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
-abstract class BaseApp : MultiDexApplication(), HasActivityInjector, HasServiceInjector,
-    HasBroadcastReceiverInjector, HasContentProviderInjector, AndroidWorkerInjection.HasWorkerInjector {
+abstract class BaseApp : MultiDexApplication(), HasAndroidInjector, AndroidWorkerInjection.HasWorkerInjector {
     @Inject
-    lateinit var activityInjector: DispatchingAndroidInjector<Activity>
+    lateinit var workerInjector: DispatchingAndroidInjector<ListenableWorker>
+
     @Inject
-    lateinit var serviceInjector: DispatchingAndroidInjector<Service>
-    @Inject
-    lateinit var broadcastReceiverInjector: DispatchingAndroidInjector<BroadcastReceiver>
-    @Inject
-    lateinit var contentProviderInjector: DispatchingAndroidInjector<ContentProvider>
-    @Inject
-    lateinit var workerInjector: DispatchingAndroidInjector<Worker>
+    lateinit var daggerAndroidInjector: DispatchingAndroidInjector<Any>
 
     private var needToInject: Boolean = true
 
@@ -55,9 +47,10 @@ abstract class BaseApp : MultiDexApplication(), HasActivityInjector, HasServiceI
         needToInject = false
     }
 
-    override fun activityInjector() = activityInjector
-    override fun serviceInjector() = serviceInjector
-    override fun broadcastReceiverInjector() = broadcastReceiverInjector
-    override fun contentProviderInjector() = contentProviderInjector
-    override fun workerInjector() = workerInjector
+    override fun androidInjector(): AndroidInjector<Any> {
+        return daggerAndroidInjector
+    }
+    override fun workerInjector(): AndroidInjector<ListenableWorker> {
+        return workerInjector
+    }
 }

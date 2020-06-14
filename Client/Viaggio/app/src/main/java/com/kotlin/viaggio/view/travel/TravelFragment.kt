@@ -51,7 +51,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val spinnerAdapter =
-            ArrayAdapter(context!!, R.layout.spinner_continent_item, getViewModel().travelOption)
+            ArrayAdapter(requireContext(), R.layout.spinner_continent_item, getViewModel().travelOption)
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
 
         travelSpinner.adapter = spinnerAdapter
@@ -145,7 +145,7 @@ class TravelFragment : BaseFragment<TravelFragmentViewModel>() {
                 } else {
                     if(imageDir.exists()) {
                         Glide.with(view.travelBackground)
-                            .load(context!!.imageName(travelList[position].imageName))
+                            .load(requireContext().imageName(travelList[position].imageName))
                             .centerCrop()
                             .into(view.travelBackground)
                     }

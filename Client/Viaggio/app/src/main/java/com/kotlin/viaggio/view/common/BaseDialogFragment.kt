@@ -4,26 +4,29 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.kotlin.viaggio.extenstions.showDialog
+import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
 import net.skoumal.fragmentback.BackFragment
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(), HasSupportFragmentInjector, BackFragment {
+abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(), HasAndroidInjector, BackFragment {
     @Inject
     internal lateinit var viewModel: E
     @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var frameworkActivityInjector: DispatchingAndroidInjector<Any>
+
+    override fun androidInjector(): AndroidInjector<Any> {
+        return frameworkActivityInjector
+    }
+
 
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
-    override fun supportFragmentInjector() = fragmentInjector
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
@@ -79,7 +82,7 @@ abstract class BaseDialogFragment<E : ViewModel> : AbstractBaseDialogFragment(),
         }
     }
     fun checkInternet():Boolean{
-        val cm = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetworkInfo
         return activeNetwork != null
     }

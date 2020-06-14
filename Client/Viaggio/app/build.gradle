@@ -191,7 +191,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
     implementation 'androidx.room:room-ktx:2.2.5'
     implementation 'androidx.room:room-rxjava2:2.2.5'
-    testImplementation "androidx.room:room-testing:$room_version"
+    testImplementation "androidx.room:room-testing:2.2.5"
 
     // paging
     def paging_version = "2.1.2"

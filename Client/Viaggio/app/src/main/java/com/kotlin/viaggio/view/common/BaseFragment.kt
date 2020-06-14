@@ -7,31 +7,35 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.kotlin.viaggio.data.source.AndroidPrefUtilService
 import com.kotlin.viaggio.data.source.LocalDataSource
 import com.kotlin.viaggio.extenstions.showDialog
-import com.kotlin.viaggio.view.travel.TravelFragmentViewModel
 import com.kotlin.viaggio.worker.TimeCheckWorker
 import com.r0adkll.slidr.model.SlidrInterface
 import com.tbruyelle.rxpermissions2.RxPermissions
+import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
 import net.skoumal.fragmentback.BackFragment
 import java.io.File
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
-abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjector, BackFragment {
+abstract class BaseFragment<E : ViewModel> : Fragment(), HasAndroidInjector, BackFragment {
     @Inject
     internal lateinit var viewModel: E
     @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-    @Inject
     lateinit var prefUtilService: AndroidPrefUtilService
+    @Inject
+    lateinit var frameworkActivityInjector: DispatchingAndroidInjector<Any>
+
+    override fun androidInjector(): AndroidInjector<Any> {
+        return frameworkActivityInjector
+    }
+
 
     lateinit var rxPermission: RxPermissions
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
@@ -39,9 +43,8 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
 
     var width:Int = 0
     val imageDir by lazy {
-        return@lazy File(context!!.filesDir, LocalDataSource.IMG_FOLDER)
+        return@lazy File(requireContext().filesDir, LocalDataSource.IMG_FOLDER)
     }
-    override fun supportFragmentInjector() = fragmentInjector
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
@@ -51,7 +54,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
         super.onCreate(savedInstanceState)
         rxPermission = RxPermissions(this)
         (getViewModel() as BaseViewModel).initialize()
-        width = context!!.resources.displayMetrics.widthPixels
+        width = requireContext().resources.displayMetrics.widthPixels
     }
 
     override fun onStart() {
@@ -59,7 +62,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
         val traveling = prefUtilService.getBool(AndroidPrefUtilService.Key.TRAVELING).blockingGet()
         if (traveling) {
             val timeCheckWorker = OneTimeWorkRequestBuilder<TimeCheckWorker>().build()
-            WorkManager.getInstance(context!!).enqueue(timeCheckWorker)
+            WorkManager.getInstance(requireContext()).enqueue(timeCheckWorker)
         }
     }
     override fun onStop() {
@@ -106,7 +109,7 @@ abstract class BaseFragment<E : ViewModel> : Fragment(), HasSupportFragmentInjec
     }
 
     fun checkInternet():Boolean {
-        val cm = context!!.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val cm = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork = cm.activeNetworkInfo
         return activeNetwork != null
     }

@@ -59,7 +59,7 @@ class SettingProfileImageEnrollFragment : BaseFragment<SettingProfileImageEnroll
         getViewModel().folderNameListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { list ->
                 val spinnerAdapter =
-                    ArrayAdapter(context!!, R.layout.spinner_continent_item, list)
+                    ArrayAdapter(requireContext(), R.layout.spinner_continent_item, list)
                 spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
 
                 travelingOfDayEnrollSpinner.adapter = spinnerAdapter

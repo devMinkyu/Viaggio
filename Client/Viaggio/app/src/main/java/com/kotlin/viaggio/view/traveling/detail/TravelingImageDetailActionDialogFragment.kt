@@ -51,7 +51,7 @@ class TravelingImageDetailActionDialogFragment:BaseDialogFragment<TravelingImage
                         imageNames[position].let { themeImageName ->
                             if (TextUtils.isEmpty(themeImageName).not()) {
                                 Glide.with(holder.itemView.travelCardImg)
-                                    .load(context!!.imageName(themeImageName))
+                                    .load(requireContext().imageName(themeImageName))
                                     .into(holder.itemView.travelCardImg)
                             }
                         }
