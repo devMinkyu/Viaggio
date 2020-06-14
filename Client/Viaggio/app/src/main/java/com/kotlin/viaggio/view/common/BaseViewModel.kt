@@ -82,30 +82,30 @@ abstract class BaseViewModel:ViewModel() {
     }
 
     fun deleteWork(data: Any) {
-        val workData = loadData(data)
-        val travelWork = OneTimeWorkRequestBuilder<DeleteTravelWorker>()
-            .setConstraints(constraints)
-            .setInputData(workData)
-            .build()
-        WorkManager.getInstance(appCtx.get()).enqueue(travelWork)
+//        val workData = loadData(data)
+//        val travelWork = OneTimeWorkRequestBuilder<DeleteTravelWorker>()
+//            .setConstraints(constraints)
+//            .setInputData(workData)
+//            .build()
+//        WorkManager.getInstance(appCtx.get()).enqueue(travelWork)
     }
 
     fun updateWork(data: Any) {
-        val workData = loadData(data)
-        val travelWork = OneTimeWorkRequestBuilder<UpdateTravelWorker>()
-            .setConstraints(constraints)
-            .setInputData(workData)
-            .build()
-        WorkManager.getInstance(appCtx.get()).enqueue(travelWork)
+//        val workData = loadData(data)
+//        val travelWork = OneTimeWorkRequestBuilder<UpdateTravelWorker>()
+//            .setConstraints(constraints)
+//            .setInputData(workData)
+//            .build()
+//        WorkManager.getInstance(appCtx.get()).enqueue(travelWork)
     }
 
     fun uploadWork(data: Any) {
-        val workData = loadData(data)
-        val travelWork = OneTimeWorkRequestBuilder<UploadTravelWorker>()
-            .setConstraints(constraints)
-            .setInputData(workData)
-            .build()
-        WorkManager.getInstance(appCtx.get()).enqueue(travelWork)
+//        val workData = loadData(data)
+//        val travelWork = OneTimeWorkRequestBuilder<UploadTravelWorker>()
+//            .setConstraints(constraints)
+//            .setInputData(workData)
+//            .build()
+//        WorkManager.getInstance(appCtx.get()).enqueue(travelWork)
     }
 
     private fun loadData(data: Any): Data{

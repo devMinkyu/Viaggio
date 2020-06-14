@@ -62,8 +62,8 @@
 -keep class org.apache.james.mime4j.** { *; }
 -keep class javax.inject.** { *; }
 -keep class javax.xml.stream.** { *; }
--keep class retrofit.** { *; }
 -keep class com.google.appengine.** { *; }
+-keep class retrofit.** { *; }
 
 -dontwarn afu.org.checkerframework.**
 -dontwarn androidx.work.**
