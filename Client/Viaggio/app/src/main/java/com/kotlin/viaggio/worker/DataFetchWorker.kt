@@ -64,11 +64,11 @@ class DataFetchWorker @Inject constructor(context: Context, params: WorkerParame
         val countries: ViaggioApiCountry =
             gson.fromJson(countryInputStream, ViaggioApiCountry::class.java)
         val list: MutableList<Country> = mutableListOf()
-        for (datum in countries.contries) {
+        for (datum in countries.countries) {
             list.add(datum)
         }
 
-        val domesticsInputStream = InputStreamReader(applicationContext.assets.open("country.json"))
+        val domesticsInputStream = InputStreamReader(applicationContext.assets.open("domestics.json"))
         val domestics: ViaggioApiDomestics =
             gson.fromJson(domesticsInputStream, ViaggioApiDomestics::class.java)
         val domesticsList = domestics.domestics.map {
