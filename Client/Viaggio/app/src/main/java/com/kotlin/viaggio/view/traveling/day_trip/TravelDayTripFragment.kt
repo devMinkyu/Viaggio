@@ -137,7 +137,7 @@ class TravelDayTripFragment : BaseFragment<TravelDayTripFragmentViewModel>() {
         fun loadImage(imageName: String?) {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
-                    .load(context!!.imageName(imageName!!))
+                    .load(requireContext().imageName(imageName!!))
                     .into(itemView.travelingItemThemeImg)
                 itemView.TravelingItemTheme.visibility = View.GONE
                 itemView.travelingItemInfo.visibility = View.GONE
@@ -162,7 +162,7 @@ class TravelDayTripFragment : BaseFragment<TravelDayTripFragmentViewModel>() {
         fun loadImage(imageName: String?) {
             if (TextUtils.isEmpty(imageName).not()) {
                 Glide.with(itemView)
-                    .load(context!!.imageName(imageName!!))
+                    .load(requireContext().imageName(imageName!!))
                     .into(itemView.travelingItemThemeImg1)
                 itemView.TravelingItemTheme1.visibility = View.GONE
                 itemView.travelingItemInfo1.visibility = View.GONE

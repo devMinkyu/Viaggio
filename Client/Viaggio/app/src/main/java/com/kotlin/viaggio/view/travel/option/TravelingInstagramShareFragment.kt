@@ -53,7 +53,7 @@ class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFrag
                             parms.height = width
                         }
                         Glide.with(travelingRepresentativeImage)
-                            .load(context!!.imageName(imageNames[0]))
+                            .load(requireContext().imageName(imageNames[0]))
                             .into(travelingRepresentativeImage)
                         getViewModel().choose[0].set(true)
                         getViewModel().chooseIndex = 0
@@ -169,7 +169,7 @@ class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFrag
             itemView.travelingRepresentativeContainer.layoutParams = layoutParams
 
             Glide.with(itemView.travelingRepresentativeListImage)
-                .load(context!!.imageName(string))
+                .load(requireContext().imageName(string))
                 .into(itemView.travelingRepresentativeListImage)
         }
 
@@ -182,7 +182,7 @@ class TravelingInstagramShareFragment : BaseFragment<TravelingInstagramShareFrag
                     getViewModel().chooseIndex = index
 
                     Glide.with(travelingRepresentativeImage)
-                        .load(context!!.imageName(fileNamePath))
+                        .load(requireContext().imageName(fileNamePath))
                         .into(travelingRepresentativeImage)
 
                 }

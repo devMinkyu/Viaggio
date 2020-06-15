@@ -43,7 +43,7 @@ class CountryModel @Inject constructor() : BaseModel() {
             .flatMap {
                 if (it.isSuccessful) {
                     it.body()?.let {body ->
-                        Single.just(body.contries)
+                        Single.just(body.countries)
                     }?:Single.just(listOf())
                 } else {
                     Single.just(listOf())

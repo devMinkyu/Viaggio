@@ -25,6 +25,7 @@ import com.r0adkll.slidr.model.SlidrPosition
 import kotlinx.android.synthetic.main.fragment_traveling_domestics_country.*
 import kotlinx.android.synthetic.main.item_domestics.view.*
 import org.jetbrains.anko.design.snackbar
+import timber.log.Timber
 
 
 class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountryFragmentViewModel>() {
@@ -72,7 +73,7 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
                         holder.cityCreateView(item)
                     }
                 }
-                val adapter = ArrayAdapter(context!!, R.layout.spinner_dropdown_auto_item, getViewModel().autoSearchList)
+                val adapter = ArrayAdapter(requireContext(), R.layout.spinner_dropdown_auto_item, getViewModel().autoSearchList)
                 autoCompleteTextView.setAdapter(adapter)
                 autoCompleteTextView.onItemClickListener = AdapterView.OnItemClickListener { p0, _, p2, _ ->
                     val item = p0.getItemAtPosition(p2).toString()
@@ -129,14 +130,14 @@ class TravelingDomesticsCountryFragment : BaseFragment<TravelingDomesticsCountry
                     if (countryList.canScrollVertically(-1).not()) {
                         showBackToTop = false
                         val animator1 = backToTop.animate().setDuration(250)
-                            .translationY(backToTop.height.toFloat() + 150f)
+                            .translationY(backToTop.height.toFloat() + 250f)
                         animator1.start()
                         val animator2 = auto.animate().setDuration(250)
                             .alpha(1f)
                         animator2.start()
                     }
                 } catch (e: NullPointerException) {
-                    countryList.scrollToPosition(0)
+                    Timber.d(e)
                 }
             }
         })

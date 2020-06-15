@@ -180,22 +180,27 @@ class UserModel @Inject constructor() :BaseModel(){
     fun putAwsImage(imageName: String): Single<String> {
         return Single.create<String> { emitter ->
             config.setInfo(getAwsId(), getAwsToken())
-            val uploadObserver = transferUtility.upload(
-                BuildConfig.S3_UPLOAD_BUCKET,
-                "image/${getUserId()}/${imageName.split("/").last()}",
-                File(appCtx.get().imageName(imageName))
-            )
-            uploadObserver.setTransferListener(object : TransferListener {
-                override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
-                override fun onStateChanged(id: Int, state: TransferState?) {
-                    if (state == TransferState.COMPLETED) {
-                        emitter.onSuccess(uploadObserver.key)
+            val file = File(appCtx.get().imageName(imageName))
+            if(file.exists()) {
+                val uploadObserver = transferUtility.upload(
+                    BuildConfig.S3_UPLOAD_BUCKET,
+                    "image/${getUserId()}/${imageName.split("/").last()}",
+                    File(appCtx.get().imageName(imageName))
+                )
+                uploadObserver.setTransferListener(object : TransferListener {
+                    override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {}
+                    override fun onStateChanged(id: Int, state: TransferState?) {
+                        if (state == TransferState.COMPLETED) {
+                            emitter.onSuccess(uploadObserver.key)
+                        }
                     }
-                }
-                override fun onError(id: Int, ex: Exception?) {
-                    emitter.onSuccess("")
-                }
-            })
+                    override fun onError(id: Int, ex: Exception?) {
+                        emitter.onSuccess("")
+                    }
+                })
+            } else {
+                emitter.onSuccess("")
+            }
         }.subscribeOn(Schedulers.io())
     }
 }

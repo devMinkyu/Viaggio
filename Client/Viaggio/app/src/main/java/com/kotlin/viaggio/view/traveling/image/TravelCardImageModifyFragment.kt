@@ -108,7 +108,7 @@ class TravelCardImageModifyFragment : BaseFragment<TravelCardImageModifyFragment
         fun imageBinding(string: String) {
             fileNamePath = string
             Glide.with(itemView.travelingPagerImg)
-                .load(context!!.imageName(string))
+                .load(requireContext().imageName(string))
                 .into(itemView.travelingPagerImg)
 
         }
@@ -128,7 +128,7 @@ class TravelCardImageModifyFragment : BaseFragment<TravelCardImageModifyFragment
         fun loadImage(image:Any){
             when (image) {
                 is Bitmap -> {
-                    Glide.with(context!!)
+                    Glide.with(requireContext())
                         .load(image)
                         .into(itemView.travelingPagerImg)
                 }

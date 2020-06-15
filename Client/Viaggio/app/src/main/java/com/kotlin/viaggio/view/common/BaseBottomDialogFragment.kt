@@ -3,26 +3,27 @@ package com.kotlin.viaggio.view.common
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 abstract class BaseBottomDialogFragment<E : ViewModel> : AbstractBaseBottomDialogFragment(),
-    HasSupportFragmentInjector {
+    HasAndroidInjector {
     @Inject
     internal lateinit var viewModel: E
     @Inject
-    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var frameworkActivityInjector: DispatchingAndroidInjector<Any>
+
+    override fun androidInjector(): AndroidInjector<Any> {
+        return frameworkActivityInjector
+    }
 
     var viewModelProvider: WeakReference<ViewModelProvider>? = null
-
-    override fun supportFragmentInjector() = fragmentInjector
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)

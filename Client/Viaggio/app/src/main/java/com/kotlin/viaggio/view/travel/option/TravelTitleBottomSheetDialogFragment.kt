@@ -24,13 +24,13 @@ class TravelTitleBottomSheetDialogFragment : BaseBottomDialogFragment<TravelTitl
     lateinit var binding: com.kotlin.viaggio.databinding.FragmentBottomSheetDialogTravelTitleBinding
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
-        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
     }
 
     override fun onStop() {
         super.onStop()
-        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bottom_sheet_dialog_travel_title, container, false)

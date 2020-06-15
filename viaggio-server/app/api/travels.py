@@ -62,8 +62,7 @@ def update_travel(id):
         travel.area = tempArea
     if request.json.get('startDate') is not None:
         travel.startDate = request.json.get('startDate')
-    if request.json.get('endDate') is not None:
-        travel.endDate = request.json.get('endDate')
+    travel.endDate = request.json.get('endDate')
     if request.json.get('travelKind') is not None:
         travel.travelKind = request.json.get('travelKind')
     if request.json.get('theme') is not None:

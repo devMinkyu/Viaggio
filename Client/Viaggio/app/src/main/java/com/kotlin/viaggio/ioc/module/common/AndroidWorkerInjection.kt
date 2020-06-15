@@ -1,6 +1,7 @@
 package com.kotlin.viaggio.ioc.module.common
 
 import android.app.Activity
+import androidx.work.ListenableWorker
 import androidx.work.Worker
 import dagger.android.AndroidInjector
 
@@ -20,6 +21,6 @@ object AndroidWorkerInjection {
 
     interface HasWorkerInjector {
         /** Returns an [AndroidInjector] of [Activity]s.  */
-        fun workerInjector(): AndroidInjector<Worker>
+        fun workerInjector(): AndroidInjector<ListenableWorker>
     }
 }

@@ -41,7 +41,7 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
         dialog?.setOnKeyListener { _, keyCode, _ ->
             if(keyCode == KeyEvent.KEYCODE_BACK){
                 if(getViewModel().enrollMode.get().not()){
-                    activity!!.finish()
+                    requireActivity().finish()
                     false
                 } else {
                     dismiss()
@@ -54,7 +54,7 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
         getViewModel().completeLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { value ->
                 if(value) {
-                    (activity!! as MainActivity).settingLockActionDialogFragment = null
+                    (requireActivity() as MainActivity).settingLockActionDialogFragment = null
                     dismiss()
                 } else{
                     var animator = password1.animate()
@@ -92,7 +92,7 @@ class SettingLockActionDialogFragment:BaseDialogFragment<SettingLockActionDialog
                     finger_print_anim.addAnimatorListener(object : Animator.AnimatorListener{
                         override fun onAnimationRepeat(animation: Animator?) {}
                         override fun onAnimationEnd(animation: Animator?) {
-                            (activity!! as MainActivity).settingLockActionDialogFragment = null
+                            (requireActivity() as MainActivity).settingLockActionDialogFragment = null
                             dismiss()
                         }
                         override fun onAnimationCancel(animation: Animator?) {}

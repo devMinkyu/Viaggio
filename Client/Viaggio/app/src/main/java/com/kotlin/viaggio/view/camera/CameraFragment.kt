@@ -40,7 +40,7 @@ class CameraFragment : BaseFragment<CameraFragmentViewModel>() {
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
         fotoapparat = Fotoapparat
-            .with(context!!)
+            .with(requireContext())
             .into(binding.cameraView)           // view which will draw the camera preview
             .previewScaleType(ScaleType.CenterCrop)  // we want the preview to fill the view
             .photoResolution(highestResolution())   // we want to have the biggest photo possible

@@ -59,7 +59,7 @@ class SettingProfileImageEnrollFragment : BaseFragment<SettingProfileImageEnroll
         getViewModel().folderNameListLiveData.observe(this, Observer {
             it.getContentIfNotHandled()?.let { list ->
                 val spinnerAdapter =
-                    ArrayAdapter(context!!, R.layout.spinner_continent_item, list)
+                    ArrayAdapter(requireContext(), R.layout.spinner_continent_item, list)
                 spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
 
                 travelingOfDayEnrollSpinner.adapter = spinnerAdapter
@@ -75,7 +75,7 @@ class SettingProfileImageEnrollFragment : BaseFragment<SettingProfileImageEnroll
     }
     private fun showBackToTopAnimation() {
         val animator = backToTop.animate().setDuration(250)
-            .translationY(backToTop.height.toFloat() + 150f)
+            .translationY(backToTop.height.toFloat() + 250f)
         animator.start()
         travelingOfDayEnrollImageList.addOnScrollListener(object :RecyclerView.OnScrollListener() {
             var showBackToTop = false
@@ -99,7 +99,7 @@ class SettingProfileImageEnrollFragment : BaseFragment<SettingProfileImageEnroll
                     if (travelingOfDayEnrollImageList.canScrollVertically(-1).not()) {
                         showBackToTop = false
                         val animator1 = backToTop.animate().setDuration(250)
-                            .translationY(backToTop.height.toFloat() + 150f)
+                            .translationY(backToTop.height.toFloat() + 250f)
                         animator1.start()
                     }
                 } catch (e: NullPointerException) {

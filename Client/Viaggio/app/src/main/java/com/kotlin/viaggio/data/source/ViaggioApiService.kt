@@ -18,7 +18,8 @@ interface ViaggioApiService {
 
     @POST("api/v1/auth/googlesignin")
     @Headers("No-Authentication: true")
-    fun googleSignIn(@Body body: GoogleSignInBody
+    fun googleSignIn(
+        @Body body: GoogleSignInBody
     ): Single<Response<ViaggioApiAuth>>
 
     @POST("api/v1/auth/signup")
@@ -127,10 +128,12 @@ interface ViaggioApiService {
     @GET("api/v1/commons/countries")
     @Headers("No-Authentication: true")
     fun getCountries(): Single<Response<ViaggioApiCountry>>
+
     // domestics
     @GET("api/v1/commons/domestics")
     @Headers("No-Authentication: true")
     fun getDomestics(): Single<Response<ViaggioApiDomestics>>
+
     // theme
     @GET("api/v1/commons/themes")
     @Headers("No-Authentication: true")

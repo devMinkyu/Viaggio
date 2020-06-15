@@ -32,7 +32,7 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
             .subscribe {
                 if(it.isNotEmpty()){
                     imageAllList = it
-                    imagePathList.value = Event(imageAllList)
+//                    imagePathList.value = Event(imageAllList)
                     val result = imageAllList.filter { imageDataVal ->
                         imageDataVal.chooseCountList.get() != 0
                     }.sortedBy { imageDataVal ->
@@ -73,9 +73,11 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
         imageAllFetch()
     }
 
+
+
+    var folderName = listOf<String>()
     private fun folderName() {
-        val folderName = travelLocalModel.folderName()
-        folderName.add(0, appCtx.get().getString(R.string.total_image))
+        folderName = travelLocalModel.folderName()
         folderNameListLiveData.value = Event(folderName)
     }
     private fun imageAllFetch() {
@@ -88,7 +90,8 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
             if(imageAllList.isNotEmpty()) {
 //                imageChooseList.add(imageAllList[0].imageName)
 //                imageAllList[0].chooseCountList.set(1)
-                imagePathList.value = Event(imageAllList)
+//                imagePathList.value = Event(imageAllList)
+                fetchImage(folderName.first())
                 emptyImageNotice.set("")
             } else {
                 emptyImageNotice.set(appCtx.get().resources.getString(R.string.empty_image))
@@ -102,22 +105,21 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
         rxEventBus.travelCacheImages.onNext(imageAllList)
     }
 
+    fun backImage() {
+        rxEventBus.travelCardImages.onNext(rxEventBus.travelCardImages.value?: listOf())
+    }
+
     fun fetchImage(folder: String) {
         emptyImageNotice.set("")
-        if(folder == appCtx.get().getString(R.string.total_image)) {
-            imageAllFetch()
-            imagePathList.value = Event(imageAllList)
-        } else {
-            val list = imageAllList.filter {
-                it.imageName.contains(folder)
-            }
-
-            if(list.isNullOrEmpty()) {
-                emptyImageNotice.set(appCtx.get().resources.getString(R.string.empty_image))
-            } else {
-                emptyImageNotice.set("")
-            }
-            imagePathList.value = Event(list)
+        val list = imageAllList.filter {
+            it.imageName.contains(folder)
         }
+
+        if(list.isNullOrEmpty()) {
+            emptyImageNotice.set(appCtx.get().resources.getString(R.string.empty_image))
+        } else {
+            emptyImageNotice.set("")
+        }
+        imagePathList.value = Event(list)
     }
 }

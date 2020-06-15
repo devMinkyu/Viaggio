@@ -113,9 +113,8 @@
                         android:layout_height="0dp"
                         android:visibility="@{viewModel.isImageMake ? View.GONE:View.VISIBLE}"
                         android:elevation="5dp"
-                        app:constraint_referenced_ids="
-                    cameraViewShutter, cameraViewClose, cameraViewImage"
-                        tools:ignore="NotSibling"/>
+                        app:constraint_referenced_ids="cameraViewShutter,cameraViewClose,cameraViewImage"
+                        tools:ignore="NotSibling,UnknownId"/>
 
                 <ImageView
                         android:id="@id/ocrRetake"
