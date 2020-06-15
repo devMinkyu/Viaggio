@@ -183,30 +183,27 @@ class LocalDataSource @Inject constructor() {
     fun imageAllPath(): MutableList<String> {
         val list: MutableList<String> = mutableListOf()
         val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        val projection = arrayOf(MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME)
-
-        var lastIndex: Int
-        appCtx.get().contentResolver?.query(
+        val projection = arrayOf(MediaStore.MediaColumns._ID, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.DATE_TAKEN)
+        val sortOrder = "${MediaStore.Files.FileColumns.DATE_TAKEN} DESC"
+        val cursor = appCtx.get().contentResolver?.query(
             uri,
             projection,
             null,
             null,
-            MediaStore.MediaColumns.DATE_ADDED + " desc"
-        )?.let {cursor ->
-            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
-            val columnDisplayName = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
+            sortOrder
+        )
+        cursor?.use {
+            val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)
             while (cursor.moveToNext()) {
-                val absolutePathOfImage = cursor.getString(columnIndex)
-                val nameOfFile = cursor.getString(columnDisplayName)
-                lastIndex = absolutePathOfImage.lastIndexOf(nameOfFile)
-                lastIndex = if (lastIndex >= 0) lastIndex else nameOfFile.length - 1
-
-                if (TextUtils.isEmpty(absolutePathOfImage).not()) {
-                    list.add(absolutePathOfImage)
-                }
+                val id = cursor.getLong(idColumn)
+                val contentUri = Uri.withAppendedPath(
+                    uri,
+                    id.toString()
+                )
+                list.add(contentUri.toString())
             }
-            cursor.close()
         }
+        cursor?.close()
         return list
     }
 
