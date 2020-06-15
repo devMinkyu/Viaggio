@@ -19,8 +19,8 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        activity!!.window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
-        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         arguments?.let {
             getViewModel().location = it.getIntArray(ArgName.TRAVEL_CARD_LOCATION.name)
         }
@@ -87,7 +87,7 @@ class TravelingDetailActionDialogFragment:BaseDialogFragment<TravelingDetailActi
     }
     override fun onStop() {
         super.onStop()
-        activity!!.window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN)
     }
     inner class ViewHandler{
         fun close(){

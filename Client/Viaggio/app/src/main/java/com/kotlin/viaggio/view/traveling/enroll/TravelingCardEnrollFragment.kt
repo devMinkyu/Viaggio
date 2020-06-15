@@ -36,7 +36,6 @@ import java.util.*
 
 class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentViewModel>() {
     lateinit var binding: FragmentTravelingCardEnrollBinding
-    lateinit var adapter: RecyclerView.Adapter<TravelCardEnrollViewHolder>
     override fun onResume() {
         super.onResume()
         if(sliderInterface == null)
@@ -46,7 +45,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_card_enroll, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
@@ -55,7 +54,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewModel().complete.observe(this, Observer {
+        getViewModel().complete.observe(this.viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 stopLoading()
                 fragmentPopStack()
@@ -63,9 +62,9 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         })
 
         travelCardEnrollImageList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        getViewModel().imageLiveData.observe(this, Observer {
+        getViewModel().imageLiveData.observe(this.viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
-                adapter = object : RecyclerView.Adapter<TravelCardEnrollViewHolder>(){
+                travelCardEnrollImageList.adapter = object : RecyclerView.Adapter<TravelCardEnrollViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
                         TravelCardEnrollViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_card_img, parent, false))
                     override fun getItemCount() = getViewModel().imageList.size + 1
@@ -79,8 +78,6 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                         }
                     }
                 }
-
-                travelCardEnrollImageList.adapter = adapter
             }
         })
 
@@ -95,7 +92,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         }
         loadView()
 
-        getViewModel().themeLiveData.observe(this, Observer {
+        getViewModel().themeLiveData.observe(this.viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 loadView()
             }
@@ -179,6 +176,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
                         .load(image)
                         .into(itemView.travelingPagerImg)
                 }
+
                 else -> { }
             }
         }
