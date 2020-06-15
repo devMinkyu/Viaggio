@@ -46,7 +46,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        activity!!.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_card_enroll, container, false)
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
@@ -55,7 +55,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewModel().complete.observe(this, Observer {
+        getViewModel().complete.observe(this.viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 stopLoading()
                 fragmentPopStack()
@@ -63,7 +63,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         })
 
         travelCardEnrollImageList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-        getViewModel().imageLiveData.observe(this, Observer {
+        getViewModel().imageLiveData.observe(this.viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 adapter = object : RecyclerView.Adapter<TravelCardEnrollViewHolder>(){
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
