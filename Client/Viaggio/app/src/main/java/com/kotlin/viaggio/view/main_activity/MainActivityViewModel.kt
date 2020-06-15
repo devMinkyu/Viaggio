@@ -60,7 +60,8 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel() {
                 prefUtilService.putInt(AndroidPrefUtilService.Key.UPLOAD_MODE, 0)
             )
             .blockingAwait()
-            dataFetch()
+            reDataFetch()
+//            dataFetch()
         }
     }
 
