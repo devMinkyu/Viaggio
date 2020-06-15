@@ -73,6 +73,8 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
         imageAllFetch()
     }
 
+
+
     var folderName = listOf<String>()
     private fun folderName() {
         folderName = travelLocalModel.folderName()
@@ -101,6 +103,10 @@ class TravelingCardImageEnrollFragmentViewModel @Inject constructor() : BaseView
         rxEventBus.travelCardImageModifyCount.onNext(0)
         rxEventBus.travelCardImages.onNext(imageBitmapChooseList)
         rxEventBus.travelCacheImages.onNext(imageAllList)
+    }
+
+    fun backImage() {
+        rxEventBus.travelCardImages.onNext(rxEventBus.travelCardImages.value?: listOf())
     }
 
     fun fetchImage(folder: String) {

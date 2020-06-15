@@ -139,8 +139,14 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
         })
     }
 
+    override fun onBackPressed(): Boolean {
+        getViewModel().backImage()
+        return super.onBackPressed()
+    }
+
     inner class ViewHandler {
         fun back() {
+            getViewModel().backImage()
             fragmentPopStack()
         }
 
