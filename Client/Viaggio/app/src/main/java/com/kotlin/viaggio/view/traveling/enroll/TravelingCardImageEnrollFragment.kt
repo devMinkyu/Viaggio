@@ -22,8 +22,17 @@ import timber.log.Timber
 
 class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFragmentViewModel>() {
     lateinit var binding: FragmentTravelingCardImageEnrollBinding
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_traveling_card_image_enroll, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_traveling_card_image_enroll,
+            container,
+            false
+        )
         binding.viewModel = getViewModel()
         binding.viewHandler = ViewHandler()
         return binding.root
@@ -36,27 +45,33 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
         params.height = width
         travelingOfDayEnrollImageView.layoutParams = params
 
-        travelingOfDayEnrollImageList.layoutManager = GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
-        getViewModel().imagePathList.observe(this, Observer {
+        travelingOfDayEnrollImageList.layoutManager =
+            GridLayoutManager(context, 4, RecyclerView.VERTICAL, false)
+        getViewModel().imagePathList.observe(this.viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { list ->
-                travelingOfDayEnrollImageList.adapter = object : RecyclerView.Adapter<TravelingOfDayImgViewHolder>() {
-                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                        TravelingOfDayImgViewHolder(
-                            layoutInflater.inflate(
-                                R.layout.item_traveling_of_day_image,
-                                parent,
-                                false
+                travelingOfDayEnrollImageList.adapter =
+                    object : RecyclerView.Adapter<TravelingOfDayImgViewHolder>() {
+                        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                            TravelingOfDayImgViewHolder(
+                                layoutInflater.inflate(
+                                    R.layout.item_traveling_of_day_image,
+                                    parent,
+                                    false
+                                )
                             )
-                        )
-                    override fun getItemCount() = list.size
-                    override fun onBindViewHolder(holder: TravelingOfDayImgViewHolder, position: Int) {
-                        holder.imageBinding(list[position].imageName)
-                        holder.binding?.viewHandler = holder.TravelingOfDayImgViewHandler()
-                        holder.binding?.chooseCount = list[position].chooseCountList
+
+                        override fun getItemCount() = list.size
+                        override fun onBindViewHolder(
+                            holder: TravelingOfDayImgViewHolder,
+                            position: Int
+                        ) {
+                            holder.imageBinding(list[position].imageName)
+                            holder.binding?.viewHandler = holder.TravelingOfDayImgViewHandler()
+                            holder.binding?.chooseCount = list[position].chooseCountList
+                        }
                     }
-                }
             }
-            if(getViewModel().imageChooseList.isNotEmpty()) {
+            if (getViewModel().imageChooseList.isNotEmpty()) {
                 travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
             } else {
                 travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageAllList.first().imageName)
@@ -64,7 +79,7 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
             showBackToTopAnimation()
         })
 
-        getViewModel().folderNameListLiveData.observe(this, Observer {
+        getViewModel().folderNameListLiveData.observe(this.viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { list ->
 
                 val spinnerAdapter =
@@ -72,12 +87,18 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                 spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_continent_item)
 
                 travelingOfDayEnrollSpinner.adapter = spinnerAdapter
-                travelingOfDayEnrollSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        getViewModel().fetchImage(list[position])
+                travelingOfDayEnrollSpinner.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onNothingSelected(parent: AdapterView<*>?) {}
+                        override fun onItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            getViewModel().fetchImage(list[position])
+                        }
                     }
-                }
             }
         })
     }
@@ -86,13 +107,13 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
         val animator = backToTop.animate().setDuration(250)
             .translationY(backToTop.height.toFloat() + 250f)
         animator.start()
-        travelingOfDayEnrollImageList.addOnScrollListener(object :RecyclerView.OnScrollListener() {
+        travelingOfDayEnrollImageList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             var showBackToTop = false
             var mNewState = 0
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if(mNewState == 1) {
-                    if(dy > 0 && showBackToTop.not()) {
+                if (mNewState == 1) {
+                    if (dy > 0 && showBackToTop.not()) {
                         showBackToTop = true
                         val animator1 = backToTop.animate().setDuration(250)
                             .translationY(0f)
@@ -117,21 +138,24 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
             }
         })
     }
+
     inner class ViewHandler {
         fun back() {
             fragmentPopStack()
         }
+
         fun backToTop() {
             travelingOfDayEnrollImageList.smoothScrollToPosition(0)
         }
+
         fun confirm() {
-            if(getViewModel().imageChooseList.isNotEmpty()){
+            if (getViewModel().imageChooseList.isNotEmpty()) {
                 getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
                 if (getViewModel().imageChooseList.size == getViewModel().imageBitmapChooseList.size) {
                     getViewModel().selectImage()
                     fragmentPopStack()
                 }
-            }else {
+            } else {
                 getViewModel().imageBitmapChooseList.clear()
                 getViewModel().selectImage()
                 fragmentPopStack()
@@ -161,7 +185,7 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
             fun imagePicker() {
                 if (binding?.chooseCount?.get() == 0) {
                     if (getViewModel().entireChooseCount < getViewModel().imageLimitCount) {
-                        if(getViewModel().imageChooseList.isNotEmpty()){
+                        if (getViewModel().imageChooseList.isNotEmpty()) {
                             getViewModel().imageBitmapChooseList.add(travelingOfDayEnrollImageView.croppedImage)
                         }
                         travelingOfDayEnrollImageView.resetDisplay()
@@ -186,11 +210,12 @@ class TravelingCardImageEnrollFragment : BaseFragment<TravelingCardImageEnrollFr
                         val item = getViewModel().imageAllList.firstOrNull {
                             it.imageName == s
                         }
-                        item?.chooseCountList?.set(i+1)
+                        item?.chooseCountList?.set(i + 1)
                     }
                     if (getViewModel().imageChooseList.isNotEmpty()) {
                         travelingOfDayEnrollImageView.setImageFilePath(getViewModel().imageChooseList.last())
-                        cancelIndex = getViewModel().imageChooseList.indexOf(getViewModel().imageChooseList.last())
+                        cancelIndex =
+                            getViewModel().imageChooseList.indexOf(getViewModel().imageChooseList.last())
                         if (getViewModel().imageBitmapChooseList.size > cancelIndex) {
                             val bitmap = getViewModel().imageBitmapChooseList[cancelIndex]
                             getViewModel().imageBitmapChooseList.remove(bitmap)

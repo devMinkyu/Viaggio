@@ -38,7 +38,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     private val writeCalendar = Calendar.getInstance()!!
 
     val complete: MutableLiveData<Event<Any>> = MutableLiveData()
-    val imageLiveData:MutableLiveData<List<Any>> = MutableLiveData()
+    val imageLiveData:MutableLiveData<Event<List<Any>>> = MutableLiveData()
     val themeLiveData:MutableLiveData<Event<Any>> = MutableLiveData()
 
     val contents = ObservableField<String>("").apply {
@@ -60,7 +60,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
     override fun initialize() {
         super.initialize()
         rxEventFunctional()
-        imageLiveData.postValue(listOf())
+        imageLiveData.postValue(Event(listOf()))
         travelDataFetch()
     }
 
@@ -114,7 +114,7 @@ class TravelingCardEnrollFragmentViewModel @Inject constructor() : BaseViewModel
         var disposable = rxEventBus.travelCardImages
             .subscribeOn(Schedulers.io())
             .subscribe {
-                imageLiveData.postValue(it)
+                imageLiveData.postValue(Event(it))
                 imageList.clear()
                 imageList.addAll(it)
                 validateForm()

@@ -36,7 +36,6 @@ import java.util.*
 
 class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentViewModel>() {
     lateinit var binding: FragmentTravelingCardEnrollBinding
-    lateinit var adapter: RecyclerView.Adapter<TravelCardEnrollViewHolder>
     override fun onResume() {
         super.onResume()
         if(sliderInterface == null)
@@ -64,22 +63,22 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
 
         travelCardEnrollImageList.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         getViewModel().imageLiveData.observe(this.viewLifecycleOwner, Observer {
-            adapter = object : RecyclerView.Adapter<TravelCardEnrollViewHolder>(){
-                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                    TravelCardEnrollViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_card_img, parent, false))
-                override fun getItemCount() = getViewModel().imageList.size + 1
-                override fun onBindViewHolder(holder: TravelCardEnrollViewHolder, position: Int) {
-                    holder.binding?.viewHandler = holder.TravelCardEnrollViewHandler()
-                    if(position > 0){
-                        holder.itemView.travelingPagerImg.makeVisible()
-                        holder.loadImage(getViewModel().imageList[position - 1])
-                    }else{
-                        holder.itemView.travelingPagerImg.makeGone()
+            it.getContentIfNotHandled()?.let {
+                travelCardEnrollImageList.adapter = object : RecyclerView.Adapter<TravelCardEnrollViewHolder>(){
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                        TravelCardEnrollViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_traveling_card_img, parent, false))
+                    override fun getItemCount() = getViewModel().imageList.size + 1
+                    override fun onBindViewHolder(holder: TravelCardEnrollViewHolder, position: Int) {
+                        holder.binding?.viewHandler = holder.TravelCardEnrollViewHandler()
+                        if(position > 0){
+                            holder.itemView.travelingPagerImg.makeVisible()
+                            holder.loadImage(getViewModel().imageList[position - 1])
+                        }else{
+                            holder.itemView.travelingPagerImg.makeGone()
+                        }
                     }
                 }
             }
-
-            travelCardEnrollImageList.adapter = adapter
         })
 
         travelCardEnrollImageList.setOnScrollChangeListener { _, _, _, _, _ ->
@@ -93,7 +92,7 @@ class TravelingCardEnrollFragment : BaseFragment<TravelingCardEnrollFragmentView
         }
         loadView()
 
-        getViewModel().themeLiveData.observe(this, Observer {
+        getViewModel().themeLiveData.observe(this.viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 loadView()
             }
